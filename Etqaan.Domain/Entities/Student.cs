@@ -1,4 +1,5 @@
 ﻿using Etqaan.Domain.Entities.Auth;
+using Etqaan.Domain.Enums;
 
 namespace Etqaan.Domain.Entities
 {
@@ -11,14 +12,14 @@ namespace Etqaan.Domain.Entities
         public string Id { get; set; }
         public string AppUserId { get; set; }
         public string SchoolId { get; set; }
-        public int GradeId { get; set; }
+        public int SchoolGradeId { get; set; }
         public int SchoolClassId { get; set; }
-        public int StudentCategory { get; set; }//
-        public int LearningSystem { get; set; }//
+        public StudentCategory StudentCategory { get; set; }
+        public LearningSystem LearningSystem { get; set; }
         public string ParentId { get; set; }
         public string StudentIdInSchool { get; set; }
-        public string StudentAbility { get; set; }
-        public string Accomodation { get; set; }
+        public StudentAbility StudentAbility { get; set; }
+        public Accomodation Accomodation { get; set; }
         public decimal V { get; set; }
         public decimal Q { get; set; }
         public decimal NV { get; set; }
@@ -27,6 +28,11 @@ namespace Etqaan.Domain.Entities
 
         public virtual ICollection<AboutStudent> AboutStudents { get; set; }
         public virtual AppUser AppUser { get; set; }
+        public virtual School School { get; set; }
+        public virtual SchoolGrade SchoolGrade { get; set; }
+        public virtual SchoolClass SchoolClass { get; set; }
+        public virtual Parent Parent { get; set; }
+
 
 
     }
