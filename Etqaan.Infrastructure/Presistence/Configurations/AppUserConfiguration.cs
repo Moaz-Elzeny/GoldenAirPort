@@ -27,15 +27,15 @@ namespace Etqaan.Infrastructure.Presistence.Configurations
                     .HasMaxLength(100);
 
                 builder.Property(u => u.DateOfBirth)
-                    .IsRequired();
+                    ;
 
                 builder.Property(u => u.NationalIdNumber)
                     .IsRequired()
                     .HasMaxLength(20);
 
                 builder.Property(u => u.AddressDetails)
-                    .IsRequired()
-                    .HasMaxLength(100);
+                 
+                    .HasMaxLength(250);
 
                 builder.Property(u => u.ProfilePicture)
                     .HasMaxLength(100);
@@ -56,7 +56,7 @@ namespace Etqaan.Infrastructure.Presistence.Configurations
 
 
                 builder.Property(u => u.Religion)
-                    .IsRequired();
+                    ;
 
 
                 builder.Property(u => u.UserType)

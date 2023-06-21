@@ -1,34 +1,29 @@
-﻿
-using global::Etqaan.Domain.Entities;
+﻿using Etqaan.Domain.Entities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace Etqaan.Infrastructure.Presistence.Configurations
 {
-
-
-
-    public class NationalityConfiguration : IEntityTypeConfiguration<Nationality>
+    public class SubscriptionConfiguration : IEntityTypeConfiguration<Subscription>
     {
-        public void Configure(EntityTypeBuilder<Nationality> builder)
+        public void Configure(EntityTypeBuilder<Subscription> builder)
         {
-            builder.ToTable("Nationalities");
+            builder.ToTable("Subscriptions");
 
-            // Configure primary key
-            builder.HasKey(n => n.Id);
+            builder.HasKey(s => s.Id);
 
-            // Configure properties
-            builder.Property(n => n.NameAr)
-                .IsRequired()
-                .HasMaxLength(50);
+            builder.Property(s => s.Id)
+                .IsRequired();
 
-            builder.Property(n => n.NameEn)
-                .HasMaxLength(50);
+            builder.Property(s => s.NameAr)
+                .HasMaxLength(255)
+                .IsRequired();
 
-            builder.Property(n => n.Icon)
-                .HasMaxLength(200);
+            builder.Property(s => s.NameEn)
+                .HasMaxLength(255);
 
             builder.Property(a => a.Deleted).HasDefaultValue(false);
+            builder.Property(a => a.Active).HasDefaultValue(true);
             builder.HasQueryFilter(a => !a.Deleted);
             builder.Property(a => a.CreatedById).HasMaxLength(50).IsRequired();
             builder.Property(b => b.CreationDate).HasColumnType("DATETIME").HasDefaultValueSql("GETDATE()").IsRequired();
@@ -37,6 +32,4 @@ namespace Etqaan.Infrastructure.Presistence.Configurations
 
         }
     }
-
-
 }
