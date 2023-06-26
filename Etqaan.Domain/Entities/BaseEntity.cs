@@ -1,9 +1,13 @@
-﻿namespace Etqaan.Domain.Entities
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace Etqaan.Domain.Entities
 {
     public partial class BaseEntity
     {
+        [MaxLength(450)]
         public string CreatedById { get; set; }
         public DateTime CreationDate { get; set; }
+        [MaxLength(450)]
         public string? ModifiedById { get; set; }
         public DateTime? ModificationDate { get; set; }
         public bool Deleted { get; set; }
@@ -13,8 +17,10 @@
 
     public partial class BaseEntity2
     {
+        [MaxLength(450)]
         public string CreatedById { get; set; }
         public DateTime CreationDate { get; set; }
+        [MaxLength(450)]
         public string? ModifiedById { get; set; }
         public DateTime? ModificationDate { get; set; }
         public bool Deleted { get; set; }

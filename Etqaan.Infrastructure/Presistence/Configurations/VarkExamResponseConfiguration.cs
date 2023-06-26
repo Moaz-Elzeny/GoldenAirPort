@@ -9,7 +9,6 @@ namespace Etqaan.Domain.Entities
         {
             builder.ToTable("VarkExamResponses");
             builder.HasKey(e => e.Id);
-            builder.Property(e => e.StudentId).IsRequired();
             builder.Property(e => e.SubmissionDate).IsRequired();
             builder.Property(e => e.TotalVarkScore).IsRequired();
 

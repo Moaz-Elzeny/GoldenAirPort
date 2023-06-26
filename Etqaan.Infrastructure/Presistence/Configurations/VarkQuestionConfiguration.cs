@@ -10,7 +10,7 @@ namespace Etqaan.Domain.Entities
             builder.ToTable("VarkQuestions");
             builder.HasKey(q => q.Id);
             builder.Property(q => q.QuestionHead).IsRequired();
-            builder.Property(q => q.QuestionBody).IsRequired();
+
 
             builder.HasOne(q => q.VarkExam)
                 .WithMany(exam => exam.VarkQuestions)
