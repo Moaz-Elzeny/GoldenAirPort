@@ -10,6 +10,7 @@
         public int VarkExamId { get; set; }
         public string QuestionHead { get; set; }
         public string QuestionBody { get; set; }
+        public virtual VarkExam VarkExam { get; set; }
         public virtual ICollection<VarkQuestionChoice> VarkQuestionChoices { get; set; }
     }
 }
