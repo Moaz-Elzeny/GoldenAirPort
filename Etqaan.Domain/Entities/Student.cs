@@ -36,6 +36,7 @@ namespace Etqaan.Domain.Entities
         public virtual SchoolGrade SchoolGrade { get; set; }
         public virtual SchoolClass SchoolClass { get; set; }
         public virtual Parent Parent { get; set; }
+        public virtual VarkExamResponse VarkExamResponse { get; set; }
         public virtual ICollection<StudentSubject> StudentSubjects { get; set; }
         public virtual ICollection<MissionStudents> MissionStudents { get; set; }
         public virtual ICollection<StudentGroup> StudentGroups { get; set; }

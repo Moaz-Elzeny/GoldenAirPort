@@ -18,11 +18,8 @@ namespace Etqaan.Infrastructure.Persistence.Configurations
             builder.Property(sa => sa.QuestionId)
                 .IsRequired();
 
-            builder.Property(sa => sa.StudentId)
 
-                .IsRequired();
-
-            builder.Property(sa => sa.Answer)
+            builder.Property(sa => sa.Answer).HasMaxLength(2000)
                 .IsRequired();
 
             builder.HasOne(sa => sa.Question)

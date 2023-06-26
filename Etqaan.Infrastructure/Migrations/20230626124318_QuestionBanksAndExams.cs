@@ -1,5 +1,4 @@
-﻿using System;
-using Microsoft.EntityFrameworkCore.Migrations;
+﻿using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
@@ -183,7 +182,6 @@ namespace Etqaan.Infrastructure.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     GroupId = table.Column<int>(type: "int", nullable: false),
                     StudentId = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    StudentId1 = table.Column<string>(type: "nvarchar(450)", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -200,11 +198,7 @@ namespace Etqaan.Infrastructure.Migrations
                         principalTable: "Students",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_StudentGroups_Students_StudentId1",
-                        column: x => x.StudentId1,
-                        principalTable: "Students",
-                        principalColumn: "Id");
+
                 });
 
             migrationBuilder.CreateTable(
@@ -454,7 +448,6 @@ namespace Etqaan.Infrastructure.Migrations
                     QuestionId = table.Column<int>(type: "int", nullable: false),
                     StudentId = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     Answer = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    StudentId1 = table.Column<string>(type: "nvarchar(450)", nullable: true),
                     CreatedById = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
                     CreationDate = table.Column<DateTime>(type: "DATETIME", nullable: false, defaultValueSql: "GETDATE()"),
                     ModifiedById = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: true),
@@ -477,11 +470,7 @@ namespace Etqaan.Infrastructure.Migrations
                         principalTable: "Students",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_StudentAnswers_Students_StudentId1",
-                        column: x => x.StudentId1,
-                        principalTable: "Students",
-                        principalColumn: "Id");
+
                 });
 
             migrationBuilder.CreateIndex(
@@ -619,10 +608,7 @@ namespace Etqaan.Infrastructure.Migrations
                 table: "StudentAnswers",
                 column: "StudentId");
 
-            migrationBuilder.CreateIndex(
-                name: "IX_StudentAnswers_StudentId1",
-                table: "StudentAnswers",
-                column: "StudentId1");
+
 
             migrationBuilder.CreateIndex(
                 name: "IX_StudentGroups_GroupId",
@@ -634,10 +620,6 @@ namespace Etqaan.Infrastructure.Migrations
                 table: "StudentGroups",
                 column: "StudentId");
 
-            migrationBuilder.CreateIndex(
-                name: "IX_StudentGroups_StudentId1",
-                table: "StudentGroups",
-                column: "StudentId1");
 
             migrationBuilder.AddForeignKey(
                 name: "FK_Skills_QuestionsBanks_QuestionsBankId",

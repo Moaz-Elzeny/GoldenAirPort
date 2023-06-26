@@ -18,9 +18,7 @@ namespace Etqaan.Infrastructure.Persistence.Configurations
             builder.Property(sg => sg.GroupId)
                 .IsRequired();
 
-            builder.Property(sg => sg.StudentId)
 
-                .IsRequired();
 
             builder.HasOne(sg => sg.Group)
                 .WithMany(g => g.StudentGroups)
