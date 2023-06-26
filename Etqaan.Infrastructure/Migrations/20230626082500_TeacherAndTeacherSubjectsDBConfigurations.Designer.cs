@@ -4,6 +4,7 @@ using Etqaan.Infrastructure.Presistence;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Etqaan.Infrastructure.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230626082500_TeacherAndTeacherSubjectsDBConfigurations")]
+    partial class TeacherAndTeacherSubjectsDBConfigurations
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -267,60 +270,6 @@ namespace Etqaan.Infrastructure.Migrations
                     b.ToTable("AppUsers", (string)null);
                 });
 
-            modelBuilder.Entity("Etqaan.Domain.Entities.Axis", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<bool>("Active")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("bit")
-                        .HasDefaultValue(true);
-
-                    b.Property<string>("CreatedById")
-                        .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
-
-                    b.Property<DateTime>("CreationDate")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("DATETIME")
-                        .HasDefaultValueSql("GETDATE()");
-
-                    b.Property<bool>("Deleted")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("bit")
-                        .HasDefaultValue(false);
-
-                    b.Property<DateTime?>("ModificationDate")
-                        .HasColumnType("DATETIME");
-
-                    b.Property<string>("ModifiedById")
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
-
-                    b.Property<string>("NameAr")
-                        .IsRequired()
-                        .HasMaxLength(256)
-                        .HasColumnType("nvarchar(256)");
-
-                    b.Property<string>("NameEn")
-                        .HasMaxLength(256)
-                        .HasColumnType("nvarchar(256)");
-
-                    b.Property<int>("SkillId")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("SkillId");
-
-                    b.ToTable("Axes", (string)null);
-                });
-
             modelBuilder.Entity("Etqaan.Domain.Entities.Bank", b =>
                 {
                     b.Property<int>("Id")
@@ -559,100 +508,6 @@ namespace Etqaan.Infrastructure.Migrations
                     b.ToTable("Employees", (string)null);
                 });
 
-            modelBuilder.Entity("Etqaan.Domain.Entities.ExternalExam", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<bool>("Active")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("bit")
-                        .HasDefaultValue(true);
-
-                    b.Property<bool>("CanShowResult")
-                        .HasColumnType("bit");
-
-                    b.Property<string>("CreatedById")
-                        .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
-
-                    b.Property<DateTime>("CreationDate")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("DATETIME")
-                        .HasDefaultValueSql("GETDATE()");
-
-                    b.Property<bool>("Deleted")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("bit")
-                        .HasDefaultValue(false);
-
-                    b.Property<TimeSpan>("Duration")
-                        .HasColumnType("time");
-
-                    b.Property<int>("ExamType")
-                        .HasColumnType("int");
-
-                    b.Property<int>("GradeId")
-                        .HasColumnType("int");
-
-                    b.Property<DateTime?>("ModificationDate")
-                        .HasColumnType("DATETIME");
-
-                    b.Property<string>("ModifiedById")
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
-
-                    b.Property<string>("NameAr")
-                        .IsRequired()
-                        .HasMaxLength(256)
-                        .HasColumnType("nvarchar(256)");
-
-                    b.Property<string>("NameEn")
-                        .HasMaxLength(256)
-                        .HasColumnType("nvarchar(256)");
-
-                    b.Property<bool>("NotifyParentAndStudent")
-                        .HasColumnType("bit");
-
-                    b.Property<int>("SubjectId")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("GradeId");
-
-                    b.HasIndex("SubjectId");
-
-                    b.ToTable("ExternalExams", (string)null);
-                });
-
-            modelBuilder.Entity("Etqaan.Domain.Entities.ExternalExamSkills", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<int>("ExternalExamId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("SkillId")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("ExternalExamId");
-
-                    b.HasIndex("SkillId");
-
-                    b.ToTable("ExternalExamSkills", (string)null);
-                });
-
             modelBuilder.Entity("Etqaan.Domain.Entities.Grade", b =>
                 {
                     b.Property<int>("Id")
@@ -753,108 +608,6 @@ namespace Etqaan.Infrastructure.Migrations
                     b.ToTable("GradeSubjects", (string)null);
                 });
 
-            modelBuilder.Entity("Etqaan.Domain.Entities.Group", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<bool>("Active")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("bit")
-                        .HasDefaultValue(true);
-
-                    b.Property<string>("CreatedById")
-                        .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
-
-                    b.Property<DateTime>("CreationDate")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("DATETIME")
-                        .HasDefaultValueSql("GETDATE()");
-
-                    b.Property<bool>("Deleted")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("bit")
-                        .HasDefaultValue(false);
-
-                    b.Property<DateTime?>("ModificationDate")
-                        .HasColumnType("DATETIME");
-
-                    b.Property<string>("ModifiedById")
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
-
-                    b.Property<string>("NameAr")
-                        .IsRequired()
-                        .HasMaxLength(256)
-                        .HasColumnType("nvarchar(256)");
-
-                    b.Property<string>("NameEn")
-                        .HasMaxLength(256)
-                        .HasColumnType("nvarchar(256)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Groups", (string)null);
-                });
-
-            modelBuilder.Entity("Etqaan.Domain.Entities.LearningOutcome", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<bool>("Active")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("bit")
-                        .HasDefaultValue(true);
-
-                    b.Property<string>("CreatedById")
-                        .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
-
-                    b.Property<DateTime>("CreationDate")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("DATETIME")
-                        .HasDefaultValueSql("GETDATE()");
-
-                    b.Property<bool>("Deleted")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("bit")
-                        .HasDefaultValue(false);
-
-                    b.Property<string>("Description")
-                        .IsRequired()
-                        .HasMaxLength(1000)
-                        .HasColumnType("nvarchar(1000)");
-
-                    b.Property<DateTime?>("ModificationDate")
-                        .HasColumnType("DATETIME");
-
-                    b.Property<string>("ModifiedById")
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
-
-                    b.Property<decimal>("Number")
-                        .HasColumnType("decimal(18,2)");
-
-                    b.Property<int>("StandardId")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("StandardId");
-
-                    b.ToTable("LearningOutcomes", (string)null);
-                });
-
             modelBuilder.Entity("Etqaan.Domain.Entities.LearningResource", b =>
                 {
                     b.Property<int>("Id")
@@ -928,187 +681,6 @@ namespace Etqaan.Infrastructure.Migrations
                     b.HasIndex("SubjectId");
 
                     b.ToTable("LearningResources", (string)null);
-                });
-
-            modelBuilder.Entity("Etqaan.Domain.Entities.Mission", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<bool>("Active")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("bit")
-                        .HasDefaultValue(true);
-
-                    b.Property<bool>("CanShowResult")
-                        .HasColumnType("bit");
-
-                    b.Property<string>("CreatedById")
-                        .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
-
-                    b.Property<DateTime>("CreationDate")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("DATETIME")
-                        .HasDefaultValueSql("GETDATE()");
-
-                    b.Property<bool>("Deleted")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("bit")
-                        .HasDefaultValue(false);
-
-                    b.Property<TimeSpan>("Duration")
-                        .HasColumnType("time");
-
-                    b.Property<DateTime>("EndDateTime")
-                        .HasColumnType("datetime2");
-
-                    b.Property<int>("ExamType")
-                        .HasColumnType("int");
-
-                    b.Property<int>("GradeId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("MissionType")
-                        .HasColumnType("int");
-
-                    b.Property<DateTime?>("ModificationDate")
-                        .HasColumnType("DATETIME");
-
-                    b.Property<string>("ModifiedById")
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
-
-                    b.Property<string>("NameAr")
-                        .IsRequired()
-                        .HasMaxLength(256)
-                        .HasColumnType("nvarchar(256)");
-
-                    b.Property<string>("NameEn")
-                        .HasMaxLength(256)
-                        .HasColumnType("nvarchar(256)");
-
-                    b.Property<bool>("NotifyParentAndStudent")
-                        .HasColumnType("bit");
-
-                    b.Property<string>("Password")
-                        .IsRequired()
-                        .HasMaxLength(256)
-                        .HasColumnType("nvarchar(256)");
-
-                    b.Property<DateTime>("StartDateTime")
-                        .HasColumnType("datetime2");
-
-                    b.Property<int>("StudentCategory")
-                        .HasColumnType("int");
-
-                    b.Property<int>("SubjectId")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("GradeId");
-
-                    b.HasIndex("SubjectId");
-
-                    b.ToTable("Missions", (string)null);
-                });
-
-            modelBuilder.Entity("Etqaan.Domain.Entities.MissionClasses", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<int>("MissionId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("SchoolClassId")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("MissionId");
-
-                    b.HasIndex("SchoolClassId");
-
-                    b.ToTable("MissionClasses", (string)null);
-                });
-
-            modelBuilder.Entity("Etqaan.Domain.Entities.MissionGroup", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<int>("GroupId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("MissionId")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("GroupId");
-
-                    b.HasIndex("MissionId");
-
-                    b.ToTable("MissionGroups", (string)null);
-                });
-
-            modelBuilder.Entity("Etqaan.Domain.Entities.MissionSkills", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<int>("MissionId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("SkillId")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("MissionId");
-
-                    b.HasIndex("SkillId");
-
-                    b.ToTable("MissionSkills", (string)null);
-                });
-
-            modelBuilder.Entity("Etqaan.Domain.Entities.MissionStudents", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<int>("MissionId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("StudentId")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(450)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("MissionId");
-
-                    b.HasIndex("StudentId");
-
-                    b.ToTable("MissionStudents", (string)null);
                 });
 
             modelBuilder.Entity("Etqaan.Domain.Entities.Nationality", b =>
@@ -1208,269 +780,6 @@ namespace Etqaan.Infrastructure.Migrations
                         .IsUnique();
 
                     b.ToTable("Parents", (string)null);
-                });
-
-            modelBuilder.Entity("Etqaan.Domain.Entities.Question", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<bool>("Active")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("bit")
-                        .HasDefaultValue(true);
-
-                    b.Property<string>("ChoicesVoiceRecord")
-                        .HasMaxLength(256)
-                        .HasColumnType("nvarchar(256)");
-
-                    b.Property<string>("CorrectAnswer")
-                        .HasMaxLength(256)
-                        .HasColumnType("nvarchar(256)");
-
-                    b.Property<string>("CreatedById")
-                        .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
-
-                    b.Property<DateTime>("CreationDate")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("DATETIME")
-                        .HasDefaultValueSql("GETDATE()");
-
-                    b.Property<bool>("Deleted")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("bit")
-                        .HasDefaultValue(false);
-
-                    b.Property<int?>("ExternalExamId")
-                        .IsRequired()
-                        .HasColumnType("int");
-
-                    b.Property<string>("LessonName")
-                        .HasMaxLength(256)
-                        .HasColumnType("nvarchar(256)");
-
-                    b.Property<int?>("MissionId")
-                        .IsRequired()
-                        .HasColumnType("int");
-
-                    b.Property<DateTime?>("ModificationDate")
-                        .HasColumnType("DATETIME");
-
-                    b.Property<string>("ModifiedById")
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
-
-                    b.Property<int?>("QuestionBankId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("QuestionHead")
-                        .HasMaxLength(256)
-                        .HasColumnType("nvarchar(256)");
-
-                    b.Property<string>("QuestionHeadImageIcon")
-                        .HasMaxLength(256)
-                        .HasColumnType("nvarchar(256)");
-
-                    b.Property<string>("QuestionHeadVoiceRecord")
-                        .HasMaxLength(256)
-                        .HasColumnType("nvarchar(256)");
-
-                    b.Property<byte>("QuestionNumber")
-                        .HasColumnType("tinyint");
-
-                    b.Property<int>("QuestionType")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("ExternalExamId");
-
-                    b.HasIndex("MissionId");
-
-                    b.HasIndex("QuestionBankId");
-
-                    b.ToTable("Questions", (string)null);
-                });
-
-            modelBuilder.Entity("Etqaan.Domain.Entities.QuestionChoice", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<bool>("Active")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("bit")
-                        .HasDefaultValue(true);
-
-                    b.Property<string>("ChoiceText")
-                        .HasMaxLength(256)
-                        .HasColumnType("nvarchar(256)");
-
-                    b.Property<string>("CreatedById")
-                        .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
-
-                    b.Property<DateTime>("CreationDate")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("DATETIME")
-                        .HasDefaultValueSql("GETDATE()");
-
-                    b.Property<bool>("Deleted")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("bit")
-                        .HasDefaultValue(false);
-
-                    b.Property<string>("ImageIcon")
-                        .HasMaxLength(256)
-                        .HasColumnType("nvarchar(256)");
-
-                    b.Property<bool>("IsCorrect")
-                        .HasColumnType("bit");
-
-                    b.Property<DateTime?>("ModificationDate")
-                        .HasColumnType("DATETIME");
-
-                    b.Property<string>("ModifiedById")
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
-
-                    b.Property<int>("QuestionId")
-                        .HasColumnType("int");
-
-                    b.Property<byte>("SortIndex")
-                        .HasColumnType("tinyint");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("QuestionId");
-
-                    b.ToTable("QuestionChoices", (string)null);
-                });
-
-            modelBuilder.Entity("Etqaan.Domain.Entities.QuestionLearningOutCome", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<int>("LearningOutcomeId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("QuestionId")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("LearningOutcomeId");
-
-                    b.HasIndex("QuestionId");
-
-                    b.ToTable("QuestionLearningOutComes", (string)null);
-                });
-
-            modelBuilder.Entity("Etqaan.Domain.Entities.QuestionSkill", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<int>("QuestionId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("SkillId")
-                        .HasColumnType("int");
-
-                    b.Property<int?>("SkillId1")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("QuestionId");
-
-                    b.HasIndex("SkillId");
-
-                    b.HasIndex("SkillId1");
-
-                    b.ToTable("QuestionSkills", (string)null);
-                });
-
-            modelBuilder.Entity("Etqaan.Domain.Entities.QuestionsBank", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<bool>("Active")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("bit")
-                        .HasDefaultValue(true);
-
-                    b.Property<string>("CreatedById")
-                        .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
-
-                    b.Property<DateTime>("CreationDate")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("DATETIME")
-                        .HasDefaultValueSql("GETDATE()");
-
-                    b.Property<bool>("Deleted")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("bit")
-                        .HasDefaultValue(false);
-
-                    b.Property<int>("ExamType")
-                        .HasColumnType("int");
-
-                    b.Property<int>("GradeId")
-                        .HasColumnType("int");
-
-                    b.Property<DateTime?>("ModificationDate")
-                        .HasColumnType("DATETIME");
-
-                    b.Property<string>("ModifiedById")
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
-
-                    b.Property<string>("NameAr")
-                        .IsRequired()
-                        .HasMaxLength(256)
-                        .HasColumnType("nvarchar(256)");
-
-                    b.Property<string>("NameEn")
-                        .HasMaxLength(256)
-                        .HasColumnType("nvarchar(256)");
-
-                    b.Property<int>("QuestionsBankType")
-                        .HasColumnType("int");
-
-                    b.Property<int>("StudentCategory")
-                        .HasColumnType("int");
-
-                    b.Property<int>("SubjectId")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("SubjectId");
-
-                    b.ToTable("QuestionsBanks", (string)null);
                 });
 
             modelBuilder.Entity("Etqaan.Domain.Entities.School", b =>
@@ -1739,119 +1048,6 @@ namespace Etqaan.Infrastructure.Migrations
                     b.ToTable("SchoolGrades", (string)null);
                 });
 
-            modelBuilder.Entity("Etqaan.Domain.Entities.Skill", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<bool>("Active")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("bit")
-                        .HasDefaultValue(true);
-
-                    b.Property<string>("CreatedById")
-                        .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
-
-                    b.Property<DateTime>("CreationDate")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("DATETIME")
-                        .HasDefaultValueSql("GETDATE()");
-
-                    b.Property<bool>("Deleted")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("bit")
-                        .HasDefaultValue(false);
-
-                    b.Property<DateTime?>("ModificationDate")
-                        .HasColumnType("DATETIME");
-
-                    b.Property<string>("ModifiedById")
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
-
-                    b.Property<string>("NameAr")
-                        .IsRequired()
-                        .HasMaxLength(256)
-                        .HasColumnType("nvarchar(256)");
-
-                    b.Property<string>("NameEn")
-                        .HasMaxLength(256)
-                        .HasColumnType("nvarchar(256)");
-
-                    b.Property<int?>("QuestionsBankId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("SubjectId")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("QuestionsBankId");
-
-                    b.HasIndex("SubjectId");
-
-                    b.ToTable("Skills", (string)null);
-                });
-
-            modelBuilder.Entity("Etqaan.Domain.Entities.Standard", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<bool>("Active")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("bit")
-                        .HasDefaultValue(true);
-
-                    b.Property<int>("AxisId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("CreatedById")
-                        .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
-
-                    b.Property<DateTime>("CreationDate")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("DATETIME")
-                        .HasDefaultValueSql("GETDATE()");
-
-                    b.Property<bool>("Deleted")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("bit")
-                        .HasDefaultValue(false);
-
-                    b.Property<DateTime?>("ModificationDate")
-                        .HasColumnType("DATETIME");
-
-                    b.Property<string>("ModifiedById")
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
-
-                    b.Property<string>("NameAr")
-                        .IsRequired()
-                        .HasMaxLength(256)
-                        .HasColumnType("nvarchar(256)");
-
-                    b.Property<string>("NameEn")
-                        .HasMaxLength(256)
-                        .HasColumnType("nvarchar(256)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("AxisId");
-
-                    b.ToTable("Standards", (string)null);
-                });
-
             modelBuilder.Entity("Etqaan.Domain.Entities.Student", b =>
                 {
                     b.Property<string>("Id")
@@ -1964,66 +1160,6 @@ namespace Etqaan.Infrastructure.Migrations
                     b.ToTable("Students", (string)null);
                 });
 
-            modelBuilder.Entity("Etqaan.Domain.Entities.StudentAnswer", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<bool>("Active")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("bit")
-                        .HasDefaultValue(true);
-
-                    b.Property<string>("Answer")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("CreatedById")
-                        .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
-
-                    b.Property<DateTime>("CreationDate")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("DATETIME")
-                        .HasDefaultValueSql("GETDATE()");
-
-                    b.Property<bool>("Deleted")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("bit")
-                        .HasDefaultValue(false);
-
-                    b.Property<DateTime?>("ModificationDate")
-                        .HasColumnType("DATETIME");
-
-                    b.Property<string>("ModifiedById")
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
-
-                    b.Property<int>("QuestionId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("StudentId")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<string>("StudentId1")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("QuestionId");
-
-                    b.HasIndex("StudentId");
-
-                    b.HasIndex("StudentId1");
-
-                    b.ToTable("StudentAnswers", (string)null);
-                });
-
             modelBuilder.Entity("Etqaan.Domain.Entities.StudentCapacity", b =>
                 {
                     b.Property<int>("Id")
@@ -2040,35 +1176,6 @@ namespace Etqaan.Infrastructure.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("StudentCapacities", (string)null);
-                });
-
-            modelBuilder.Entity("Etqaan.Domain.Entities.StudentGroup", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<int>("GroupId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("StudentId")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<string>("StudentId1")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("GroupId");
-
-                    b.HasIndex("StudentId");
-
-                    b.HasIndex("StudentId1");
-
-                    b.ToTable("StudentGroups", (string)null);
                 });
 
             modelBuilder.Entity("Etqaan.Domain.Entities.StudentSubject", b =>
@@ -2547,17 +1654,6 @@ namespace Etqaan.Infrastructure.Migrations
                     b.Navigation("Nationality");
                 });
 
-            modelBuilder.Entity("Etqaan.Domain.Entities.Axis", b =>
-                {
-                    b.HasOne("Etqaan.Domain.Entities.Skill", "Skill")
-                        .WithMany("Axes")
-                        .HasForeignKey("SkillId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Skill");
-                });
-
             modelBuilder.Entity("Etqaan.Domain.Entities.Employee", b =>
                 {
                     b.HasOne("Etqaan.Domain.Entities.Auth.AppUser", "AppUser")
@@ -2575,44 +1671,6 @@ namespace Etqaan.Infrastructure.Migrations
                     b.Navigation("AppUser");
 
                     b.Navigation("Bank");
-                });
-
-            modelBuilder.Entity("Etqaan.Domain.Entities.ExternalExam", b =>
-                {
-                    b.HasOne("Etqaan.Domain.Entities.Grade", "Grade")
-                        .WithMany("ExternalExams")
-                        .HasForeignKey("GradeId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.HasOne("Etqaan.Domain.Entities.Subject", "Subject")
-                        .WithMany("ExternalExams")
-                        .HasForeignKey("SubjectId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.Navigation("Grade");
-
-                    b.Navigation("Subject");
-                });
-
-            modelBuilder.Entity("Etqaan.Domain.Entities.ExternalExamSkills", b =>
-                {
-                    b.HasOne("Etqaan.Domain.Entities.ExternalExam", "ExternalExam")
-                        .WithMany("ExternalExamSkills")
-                        .HasForeignKey("ExternalExamId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("Etqaan.Domain.Entities.Skill", "Skill")
-                        .WithMany("ExternalExamSkills")
-                        .HasForeignKey("SkillId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("ExternalExam");
-
-                    b.Navigation("Skill");
                 });
 
             modelBuilder.Entity("Etqaan.Domain.Entities.GradeSubject", b =>
@@ -2634,17 +1692,6 @@ namespace Etqaan.Infrastructure.Migrations
                     b.Navigation("Subject");
                 });
 
-            modelBuilder.Entity("Etqaan.Domain.Entities.LearningOutcome", b =>
-                {
-                    b.HasOne("Etqaan.Domain.Entities.Standard", "Standard")
-                        .WithMany("LearningOutcomes")
-                        .HasForeignKey("StandardId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Standard");
-                });
-
             modelBuilder.Entity("Etqaan.Domain.Entities.LearningResource", b =>
                 {
                     b.HasOne("Etqaan.Domain.Entities.Grade", "Grade")
@@ -2664,101 +1711,6 @@ namespace Etqaan.Infrastructure.Migrations
                     b.Navigation("Subject");
                 });
 
-            modelBuilder.Entity("Etqaan.Domain.Entities.Mission", b =>
-                {
-                    b.HasOne("Etqaan.Domain.Entities.Grade", "Grade")
-                        .WithMany("Missions")
-                        .HasForeignKey("GradeId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("Etqaan.Domain.Entities.Subject", "Subject")
-                        .WithMany("Missions")
-                        .HasForeignKey("SubjectId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Grade");
-
-                    b.Navigation("Subject");
-                });
-
-            modelBuilder.Entity("Etqaan.Domain.Entities.MissionClasses", b =>
-                {
-                    b.HasOne("Etqaan.Domain.Entities.Mission", "Mission")
-                        .WithMany("MissionClasses")
-                        .HasForeignKey("MissionId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("Etqaan.Domain.Entities.SchoolClass", "SchoolClass")
-                        .WithMany("MissionClasses")
-                        .HasForeignKey("SchoolClassId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Mission");
-
-                    b.Navigation("SchoolClass");
-                });
-
-            modelBuilder.Entity("Etqaan.Domain.Entities.MissionGroup", b =>
-                {
-                    b.HasOne("Etqaan.Domain.Entities.Group", "Group")
-                        .WithMany("MissionGroups")
-                        .HasForeignKey("GroupId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("Etqaan.Domain.Entities.Mission", "Mission")
-                        .WithMany("MissionGroups")
-                        .HasForeignKey("MissionId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Group");
-
-                    b.Navigation("Mission");
-                });
-
-            modelBuilder.Entity("Etqaan.Domain.Entities.MissionSkills", b =>
-                {
-                    b.HasOne("Etqaan.Domain.Entities.Mission", "Mission")
-                        .WithMany("MissionSkills")
-                        .HasForeignKey("MissionId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("Etqaan.Domain.Entities.Skill", "Skill")
-                        .WithMany("MissionSkills")
-                        .HasForeignKey("SkillId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Mission");
-
-                    b.Navigation("Skill");
-                });
-
-            modelBuilder.Entity("Etqaan.Domain.Entities.MissionStudents", b =>
-                {
-                    b.HasOne("Etqaan.Domain.Entities.Mission", "Mission")
-                        .WithMany("MissionStudents")
-                        .HasForeignKey("MissionId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("Etqaan.Domain.Entities.Student", "Student")
-                        .WithMany("MissionStudents")
-                        .HasForeignKey("StudentId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Mission");
-
-                    b.Navigation("Student");
-                });
-
             modelBuilder.Entity("Etqaan.Domain.Entities.Parent", b =>
                 {
                     b.HasOne("Etqaan.Domain.Entities.Auth.AppUser", "AppUser")
@@ -2768,96 +1720,6 @@ namespace Etqaan.Infrastructure.Migrations
                         .IsRequired();
 
                     b.Navigation("AppUser");
-                });
-
-            modelBuilder.Entity("Etqaan.Domain.Entities.Question", b =>
-                {
-                    b.HasOne("Etqaan.Domain.Entities.ExternalExam", "ExternalExam")
-                        .WithMany("Questions")
-                        .HasForeignKey("ExternalExamId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.HasOne("Etqaan.Domain.Entities.Mission", "Mission")
-                        .WithMany("Questions")
-                        .HasForeignKey("MissionId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.HasOne("Etqaan.Domain.Entities.QuestionsBank", "QuestionsBank")
-                        .WithMany("Questions")
-                        .HasForeignKey("QuestionBankId")
-                        .OnDelete(DeleteBehavior.Cascade);
-
-                    b.Navigation("ExternalExam");
-
-                    b.Navigation("Mission");
-
-                    b.Navigation("QuestionsBank");
-                });
-
-            modelBuilder.Entity("Etqaan.Domain.Entities.QuestionChoice", b =>
-                {
-                    b.HasOne("Etqaan.Domain.Entities.Question", "Question")
-                        .WithMany("QuestionChoices")
-                        .HasForeignKey("QuestionId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Question");
-                });
-
-            modelBuilder.Entity("Etqaan.Domain.Entities.QuestionLearningOutCome", b =>
-                {
-                    b.HasOne("Etqaan.Domain.Entities.LearningOutcome", "LearningOutcome")
-                        .WithMany("QuestionLearningOutComes")
-                        .HasForeignKey("LearningOutcomeId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("Etqaan.Domain.Entities.Question", "Question")
-                        .WithMany("QuestionLearningOutComes")
-                        .HasForeignKey("QuestionId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("LearningOutcome");
-
-                    b.Navigation("Question");
-                });
-
-            modelBuilder.Entity("Etqaan.Domain.Entities.QuestionSkill", b =>
-                {
-                    b.HasOne("Etqaan.Domain.Entities.Question", "Question")
-                        .WithMany("QuestionSkills")
-                        .HasForeignKey("QuestionId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("Etqaan.Domain.Entities.Skill", "Skill")
-                        .WithMany()
-                        .HasForeignKey("SkillId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("Etqaan.Domain.Entities.Skill", null)
-                        .WithMany("QuestionSkills")
-                        .HasForeignKey("SkillId1");
-
-                    b.Navigation("Question");
-
-                    b.Navigation("Skill");
-                });
-
-            modelBuilder.Entity("Etqaan.Domain.Entities.QuestionsBank", b =>
-                {
-                    b.HasOne("Etqaan.Domain.Entities.Subject", "Subject")
-                        .WithMany()
-                        .HasForeignKey("SubjectId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Subject");
                 });
 
             modelBuilder.Entity("Etqaan.Domain.Entities.School", b =>
@@ -2976,32 +1838,6 @@ namespace Etqaan.Infrastructure.Migrations
                     b.Navigation("School");
                 });
 
-            modelBuilder.Entity("Etqaan.Domain.Entities.Skill", b =>
-                {
-                    b.HasOne("Etqaan.Domain.Entities.QuestionsBank", null)
-                        .WithMany("Skills")
-                        .HasForeignKey("QuestionsBankId");
-
-                    b.HasOne("Etqaan.Domain.Entities.Subject", "Subject")
-                        .WithMany("Skills")
-                        .HasForeignKey("SubjectId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.Navigation("Subject");
-                });
-
-            modelBuilder.Entity("Etqaan.Domain.Entities.Standard", b =>
-                {
-                    b.HasOne("Etqaan.Domain.Entities.Axis", "Axis")
-                        .WithMany("Standards")
-                        .HasForeignKey("AxisId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Axis");
-                });
-
             modelBuilder.Entity("Etqaan.Domain.Entities.Student", b =>
                 {
                     b.HasOne("Etqaan.Domain.Entities.Auth.AppUser", "AppUser")
@@ -3055,52 +1891,6 @@ namespace Etqaan.Infrastructure.Migrations
                     b.Navigation("SchoolClass");
 
                     b.Navigation("SchoolGrade");
-                });
-
-            modelBuilder.Entity("Etqaan.Domain.Entities.StudentAnswer", b =>
-                {
-                    b.HasOne("Etqaan.Domain.Entities.Question", "Question")
-                        .WithMany("StudentAnswers")
-                        .HasForeignKey("QuestionId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("Etqaan.Domain.Entities.Student", "Student")
-                        .WithMany()
-                        .HasForeignKey("StudentId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("Etqaan.Domain.Entities.Student", null)
-                        .WithMany("StudentAnswers")
-                        .HasForeignKey("StudentId1");
-
-                    b.Navigation("Question");
-
-                    b.Navigation("Student");
-                });
-
-            modelBuilder.Entity("Etqaan.Domain.Entities.StudentGroup", b =>
-                {
-                    b.HasOne("Etqaan.Domain.Entities.Group", "Group")
-                        .WithMany("StudentGroups")
-                        .HasForeignKey("GroupId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("Etqaan.Domain.Entities.Student", "Student")
-                        .WithMany()
-                        .HasForeignKey("StudentId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("Etqaan.Domain.Entities.Student", null)
-                        .WithMany("StudentGroups")
-                        .HasForeignKey("StudentId1");
-
-                    b.Navigation("Group");
-
-                    b.Navigation("Student");
                 });
 
             modelBuilder.Entity("Etqaan.Domain.Entities.StudentSubject", b =>
@@ -3261,11 +2051,6 @@ namespace Etqaan.Infrastructure.Migrations
                     b.Navigation("UserActivities");
                 });
 
-            modelBuilder.Entity("Etqaan.Domain.Entities.Axis", b =>
-                {
-                    b.Navigation("Standards");
-                });
-
             modelBuilder.Entity("Etqaan.Domain.Entities.Bank", b =>
                 {
                     b.Navigation("Employees");
@@ -3276,51 +2061,15 @@ namespace Etqaan.Infrastructure.Migrations
                     b.Navigation("Schools");
                 });
 
-            modelBuilder.Entity("Etqaan.Domain.Entities.ExternalExam", b =>
-                {
-                    b.Navigation("ExternalExamSkills");
-
-                    b.Navigation("Questions");
-                });
-
             modelBuilder.Entity("Etqaan.Domain.Entities.Grade", b =>
                 {
-                    b.Navigation("ExternalExams");
-
                     b.Navigation("GradeSubjects");
 
                     b.Navigation("LearningResources");
 
-                    b.Navigation("Missions");
-
                     b.Navigation("SchoolGrades");
 
                     b.Navigation("StudentSubjects");
-                });
-
-            modelBuilder.Entity("Etqaan.Domain.Entities.Group", b =>
-                {
-                    b.Navigation("MissionGroups");
-
-                    b.Navigation("StudentGroups");
-                });
-
-            modelBuilder.Entity("Etqaan.Domain.Entities.LearningOutcome", b =>
-                {
-                    b.Navigation("QuestionLearningOutComes");
-                });
-
-            modelBuilder.Entity("Etqaan.Domain.Entities.Mission", b =>
-                {
-                    b.Navigation("MissionClasses");
-
-                    b.Navigation("MissionGroups");
-
-                    b.Navigation("MissionSkills");
-
-                    b.Navigation("MissionStudents");
-
-                    b.Navigation("Questions");
                 });
 
             modelBuilder.Entity("Etqaan.Domain.Entities.Nationality", b =>
@@ -3331,24 +2080,6 @@ namespace Etqaan.Infrastructure.Migrations
             modelBuilder.Entity("Etqaan.Domain.Entities.Parent", b =>
                 {
                     b.Navigation("Students");
-                });
-
-            modelBuilder.Entity("Etqaan.Domain.Entities.Question", b =>
-                {
-                    b.Navigation("QuestionChoices");
-
-                    b.Navigation("QuestionLearningOutComes");
-
-                    b.Navigation("QuestionSkills");
-
-                    b.Navigation("StudentAnswers");
-                });
-
-            modelBuilder.Entity("Etqaan.Domain.Entities.QuestionsBank", b =>
-                {
-                    b.Navigation("Questions");
-
-                    b.Navigation("Skills");
                 });
 
             modelBuilder.Entity("Etqaan.Domain.Entities.School", b =>
@@ -3364,8 +2095,6 @@ namespace Etqaan.Infrastructure.Migrations
 
             modelBuilder.Entity("Etqaan.Domain.Entities.SchoolClass", b =>
                 {
-                    b.Navigation("MissionClasses");
-
                     b.Navigation("SchoolClassSubjects");
 
                     b.Navigation("StudentSubjects");
@@ -3373,48 +2102,20 @@ namespace Etqaan.Infrastructure.Migrations
                     b.Navigation("Students");
                 });
 
-            modelBuilder.Entity("Etqaan.Domain.Entities.Skill", b =>
-                {
-                    b.Navigation("Axes");
-
-                    b.Navigation("ExternalExamSkills");
-
-                    b.Navigation("MissionSkills");
-
-                    b.Navigation("QuestionSkills");
-                });
-
-            modelBuilder.Entity("Etqaan.Domain.Entities.Standard", b =>
-                {
-                    b.Navigation("LearningOutcomes");
-                });
-
             modelBuilder.Entity("Etqaan.Domain.Entities.Student", b =>
                 {
                     b.Navigation("AboutStudents");
-
-                    b.Navigation("MissionStudents");
-
-                    b.Navigation("StudentAnswers");
-
-                    b.Navigation("StudentGroups");
 
                     b.Navigation("StudentSubjects");
                 });
 
             modelBuilder.Entity("Etqaan.Domain.Entities.Subject", b =>
                 {
-                    b.Navigation("ExternalExams");
-
                     b.Navigation("GradeSubjects");
 
                     b.Navigation("LearningResources");
 
-                    b.Navigation("Missions");
-
                     b.Navigation("SchoolClassSubjects");
-
-                    b.Navigation("Skills");
 
                     b.Navigation("StudentSubjects");
 

@@ -4,33 +4,29 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace Etqaan.Infrastructure.Presistence.Configurations
 {
-    public class SchoolGradeConfiguration : IEntityTypeConfiguration<SchoolGrade>
+    public class AxisConfiguration : IEntityTypeConfiguration<Axis>
     {
-        public void Configure(EntityTypeBuilder<SchoolGrade> builder)
+        public void Configure(EntityTypeBuilder<Axis> builder)
         {
-            builder.ToTable("SchoolGrades");
+            builder.ToTable("Axes");
 
-            builder.HasKey(sg => sg.Id);
+            builder.HasKey(a => a.Id);
 
-            builder.Property(sg => sg.Id)
+            builder.Property(a => a.Id)
                 .IsRequired();
 
-            builder.Property(sg => sg.SchoolId)
+            builder.Property(a => a.NameAr).HasMaxLength(256)
                 .IsRequired();
 
-            builder.Property(sg => sg.GradeId)
+            builder.Property(a => a.NameEn).HasMaxLength(256);
+
+            builder.Property(a => a.SkillId)
                 .IsRequired();
 
-            builder.HasOne(sg => sg.School)
-                .WithMany(s => s.SchoolGrades)
-                .HasForeignKey(sg => sg.SchoolId)
-                .OnDelete(DeleteBehavior.Restrict);
-
-            builder.HasOne(sg => sg.Grade)
-                .WithMany()
-                .HasForeignKey(sg => sg.GradeId)
-                .OnDelete(DeleteBehavior.Restrict);
-
+            builder.HasOne(a => a.Skill)
+                .WithMany(s => s.Axes)
+                .HasForeignKey(a => a.SkillId)
+                .OnDelete(DeleteBehavior.Cascade);
 
             builder.Property(a => a.Deleted).HasDefaultValue(false);
             builder.Property(a => a.Active).HasDefaultValue(true);
@@ -39,7 +35,6 @@ namespace Etqaan.Infrastructure.Presistence.Configurations
             builder.Property(b => b.CreationDate).HasColumnType("DATETIME").HasDefaultValueSql("GETDATE()").IsRequired();
             builder.Property(b => b.ModificationDate).HasColumnType("DATETIME");
             builder.Property(a => a.ModifiedById).HasMaxLength(50);
-
         }
     }
 }

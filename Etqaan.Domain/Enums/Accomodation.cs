@@ -8,6 +8,8 @@ namespace Etqaan.Domain.Enums
         [Description("لا")]
         [Display(Name = "No")]
         No = 1,
+
+
         [Description("15 %")]
         [Display(Name = "15 %")]
         FifteenPercent = 2,

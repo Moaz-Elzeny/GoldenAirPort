@@ -4,33 +4,29 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace Etqaan.Infrastructure.Presistence.Configurations
 {
-    public class SchoolGradeConfiguration : IEntityTypeConfiguration<SchoolGrade>
+    public class SkillConfiguration : IEntityTypeConfiguration<Skill>
     {
-        public void Configure(EntityTypeBuilder<SchoolGrade> builder)
+        public void Configure(EntityTypeBuilder<Skill> builder)
         {
-            builder.ToTable("SchoolGrades");
+            builder.ToTable("Skills");
 
-            builder.HasKey(sg => sg.Id);
+            builder.HasKey(s => s.Id);
 
-            builder.Property(sg => sg.Id)
+            builder.Property(s => s.Id)
                 .IsRequired();
 
-            builder.Property(sg => sg.SchoolId)
+            builder.Property(s => s.NameAr).HasMaxLength(256)
                 .IsRequired();
 
-            builder.Property(sg => sg.GradeId)
+            builder.Property(s => s.NameEn).HasMaxLength(256);
+
+            builder.Property(s => s.SubjectId)
                 .IsRequired();
 
-            builder.HasOne(sg => sg.School)
-                .WithMany(s => s.SchoolGrades)
-                .HasForeignKey(sg => sg.SchoolId)
+            builder.HasOne(s => s.Subject)
+                .WithMany(sub => sub.Skills)
+                .HasForeignKey(s => s.SubjectId)
                 .OnDelete(DeleteBehavior.Restrict);
-
-            builder.HasOne(sg => sg.Grade)
-                .WithMany()
-                .HasForeignKey(sg => sg.GradeId)
-                .OnDelete(DeleteBehavior.Restrict);
-
 
             builder.Property(a => a.Deleted).HasDefaultValue(false);
             builder.Property(a => a.Active).HasDefaultValue(true);
@@ -39,7 +35,6 @@ namespace Etqaan.Infrastructure.Presistence.Configurations
             builder.Property(b => b.CreationDate).HasColumnType("DATETIME").HasDefaultValueSql("GETDATE()").IsRequired();
             builder.Property(b => b.ModificationDate).HasColumnType("DATETIME");
             builder.Property(a => a.ModifiedById).HasMaxLength(50);
-
         }
     }
 }

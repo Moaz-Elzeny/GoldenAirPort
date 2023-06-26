@@ -8,6 +8,7 @@ namespace Etqaan.Domain.Entities
         public School()
         {
             Students = new HashSet<Student>();
+            Teachers = new HashSet<Teacher>();
             SchoolClasses = new HashSet<SchoolClass>();
             SchoolGrades = new HashSet<SchoolGrade>();
         }
@@ -35,6 +36,7 @@ namespace Etqaan.Domain.Entities
         public virtual Subscription Subscription { get; set; }
         public virtual SubscriptionPeriod SubscriptionPeriod { get; set; }
         public virtual ICollection<Student> Students { get; set; }
+        public virtual ICollection<Teacher> Teachers { get; set; }
         public virtual ICollection<SchoolClass> SchoolClasses { get; set; }
         public virtual ICollection<SchoolGrade> SchoolGrades { get; set; }
 

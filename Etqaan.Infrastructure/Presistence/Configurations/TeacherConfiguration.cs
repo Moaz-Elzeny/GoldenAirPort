@@ -4,33 +4,35 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace Etqaan.Infrastructure.Presistence.Configurations
 {
-    public class SchoolGradeConfiguration : IEntityTypeConfiguration<SchoolGrade>
+    public class TeacherConfiguration : IEntityTypeConfiguration<Teacher>
     {
-        public void Configure(EntityTypeBuilder<SchoolGrade> builder)
+        public void Configure(EntityTypeBuilder<Teacher> builder)
         {
-            builder.ToTable("SchoolGrades");
+            builder.ToTable("Teachers");
 
-            builder.HasKey(sg => sg.Id);
+            builder.HasKey(t => t.Id);
 
-            builder.Property(sg => sg.Id)
+            builder.Property(t => t.Id)
                 .IsRequired();
 
-            builder.Property(sg => sg.SchoolId)
+            builder.Property(t => t.YearsOfExperience)
                 .IsRequired();
 
-            builder.Property(sg => sg.GradeId)
+            builder.Property(t => t.AppUserId)
                 .IsRequired();
 
-            builder.HasOne(sg => sg.School)
-                .WithMany(s => s.SchoolGrades)
-                .HasForeignKey(sg => sg.SchoolId)
+            builder.Property(t => t.SchoolId)
+                .IsRequired();
+
+            builder.HasOne(t => t.School)
+                .WithMany(s => s.Teachers)
+                .HasForeignKey(t => t.SchoolId)
                 .OnDelete(DeleteBehavior.Restrict);
 
-            builder.HasOne(sg => sg.Grade)
-                .WithMany()
-                .HasForeignKey(sg => sg.GradeId)
-                .OnDelete(DeleteBehavior.Restrict);
-
+            builder.HasOne(t => t.AppUser)
+                .WithOne()
+                .HasForeignKey<Teacher>(t => t.AppUserId)
+                .OnDelete(DeleteBehavior.Cascade);
 
             builder.Property(a => a.Deleted).HasDefaultValue(false);
             builder.Property(a => a.Active).HasDefaultValue(true);
@@ -39,7 +41,6 @@ namespace Etqaan.Infrastructure.Presistence.Configurations
             builder.Property(b => b.CreationDate).HasColumnType("DATETIME").HasDefaultValueSql("GETDATE()").IsRequired();
             builder.Property(b => b.ModificationDate).HasColumnType("DATETIME");
             builder.Property(a => a.ModifiedById).HasMaxLength(50);
-
         }
     }
 }

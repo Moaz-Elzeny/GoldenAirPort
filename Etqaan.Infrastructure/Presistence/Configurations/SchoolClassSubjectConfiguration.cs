@@ -4,33 +4,26 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace Etqaan.Infrastructure.Presistence.Configurations
 {
-    public class SchoolGradeConfiguration : IEntityTypeConfiguration<SchoolGrade>
+    public class SchoolClassSubjectConfiguration : IEntityTypeConfiguration<SchoolClassSubject>
     {
-        public void Configure(EntityTypeBuilder<SchoolGrade> builder)
+        public void Configure(EntityTypeBuilder<SchoolClassSubject> builder)
         {
-            builder.ToTable("SchoolGrades");
+            builder.ToTable("SchoolClassSubjects");
 
-            builder.HasKey(sg => sg.Id);
+            builder.HasKey(scs => scs.Id);
 
-            builder.Property(sg => sg.Id)
+            builder.Property(scs => scs.Id)
                 .IsRequired();
 
-            builder.Property(sg => sg.SchoolId)
-                .IsRequired();
-
-            builder.Property(sg => sg.GradeId)
-                .IsRequired();
-
-            builder.HasOne(sg => sg.School)
-                .WithMany(s => s.SchoolGrades)
-                .HasForeignKey(sg => sg.SchoolId)
+            builder.HasOne(scs => scs.SchoolClass)
+                .WithMany(sc => sc.SchoolClassSubjects)
+                .HasForeignKey(scs => scs.SchoolClassId)
                 .OnDelete(DeleteBehavior.Restrict);
 
-            builder.HasOne(sg => sg.Grade)
-                .WithMany()
-                .HasForeignKey(sg => sg.GradeId)
+            builder.HasOne(scs => scs.Subject)
+                .WithMany(sub => sub.SchoolClassSubjects)
+                .HasForeignKey(scs => scs.SubjectId)
                 .OnDelete(DeleteBehavior.Restrict);
-
 
             builder.Property(a => a.Deleted).HasDefaultValue(false);
             builder.Property(a => a.Active).HasDefaultValue(true);
@@ -39,7 +32,6 @@ namespace Etqaan.Infrastructure.Presistence.Configurations
             builder.Property(b => b.CreationDate).HasColumnType("DATETIME").HasDefaultValueSql("GETDATE()").IsRequired();
             builder.Property(b => b.ModificationDate).HasColumnType("DATETIME");
             builder.Property(a => a.ModifiedById).HasMaxLength(50);
-
         }
     }
 }

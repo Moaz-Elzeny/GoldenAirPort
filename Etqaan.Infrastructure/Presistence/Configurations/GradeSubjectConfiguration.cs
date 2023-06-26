@@ -4,31 +4,25 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace Etqaan.Infrastructure.Presistence.Configurations
 {
-    public class SchoolGradeConfiguration : IEntityTypeConfiguration<SchoolGrade>
+    public class GradeSubjectConfiguration : IEntityTypeConfiguration<GradeSubject>
     {
-        public void Configure(EntityTypeBuilder<SchoolGrade> builder)
+        public void Configure(EntityTypeBuilder<GradeSubject> builder)
         {
-            builder.ToTable("SchoolGrades");
+            builder.ToTable("GradeSubjects");
 
-            builder.HasKey(sg => sg.Id);
+            builder.HasKey(gs => gs.Id);
 
-            builder.Property(sg => sg.Id)
+            builder.Property(gs => gs.Id)
                 .IsRequired();
 
-            builder.Property(sg => sg.SchoolId)
-                .IsRequired();
-
-            builder.Property(sg => sg.GradeId)
-                .IsRequired();
-
-            builder.HasOne(sg => sg.School)
-                .WithMany(s => s.SchoolGrades)
-                .HasForeignKey(sg => sg.SchoolId)
+            builder.HasOne(gs => gs.Grade)
+                .WithMany(g => g.GradeSubjects)
+                .HasForeignKey(gs => gs.GradeId)
                 .OnDelete(DeleteBehavior.Restrict);
 
-            builder.HasOne(sg => sg.Grade)
-                .WithMany()
-                .HasForeignKey(sg => sg.GradeId)
+            builder.HasOne(gs => gs.Subject)
+                .WithMany(sub => sub.GradeSubjects)
+                .HasForeignKey(gs => gs.SubjectId)
                 .OnDelete(DeleteBehavior.Restrict);
 
 

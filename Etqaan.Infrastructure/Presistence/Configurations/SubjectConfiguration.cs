@@ -4,33 +4,24 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace Etqaan.Infrastructure.Presistence.Configurations
 {
-    public class SchoolGradeConfiguration : IEntityTypeConfiguration<SchoolGrade>
+    public class SubjectConfiguration : IEntityTypeConfiguration<Subject>
     {
-        public void Configure(EntityTypeBuilder<SchoolGrade> builder)
+        public void Configure(EntityTypeBuilder<Subject> builder)
         {
-            builder.ToTable("SchoolGrades");
+            builder.ToTable("Subjects");
 
-            builder.HasKey(sg => sg.Id);
+            builder.HasKey(s => s.Id);
 
-            builder.Property(sg => sg.Id)
+            builder.Property(s => s.Id)
                 .IsRequired();
 
-            builder.Property(sg => sg.SchoolId)
+            builder.Property(s => s.NameAr)
+                .HasMaxLength(255)
                 .IsRequired();
 
-            builder.Property(sg => sg.GradeId)
+            builder.Property(s => s.NameEn)
+                .HasMaxLength(255)
                 .IsRequired();
-
-            builder.HasOne(sg => sg.School)
-                .WithMany(s => s.SchoolGrades)
-                .HasForeignKey(sg => sg.SchoolId)
-                .OnDelete(DeleteBehavior.Restrict);
-
-            builder.HasOne(sg => sg.Grade)
-                .WithMany()
-                .HasForeignKey(sg => sg.GradeId)
-                .OnDelete(DeleteBehavior.Restrict);
-
 
             builder.Property(a => a.Deleted).HasDefaultValue(false);
             builder.Property(a => a.Active).HasDefaultValue(true);
@@ -39,7 +30,6 @@ namespace Etqaan.Infrastructure.Presistence.Configurations
             builder.Property(b => b.CreationDate).HasColumnType("DATETIME").HasDefaultValueSql("GETDATE()").IsRequired();
             builder.Property(b => b.ModificationDate).HasColumnType("DATETIME");
             builder.Property(a => a.ModifiedById).HasMaxLength(50);
-
         }
     }
 }

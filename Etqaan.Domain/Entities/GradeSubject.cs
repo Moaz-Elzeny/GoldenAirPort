@@ -1,12 +1,11 @@
 ﻿namespace Etqaan.Domain.Entities
 {
-    public class SchoolGrade : BaseEntity
+    public class GradeSubject : BaseEntity
     {
         public int Id { get; set; }
-        public string SchoolId { get; set; }
         public int GradeId { get; set; }
-        public virtual School School { get; set; }
+        public int SubjectId { get; set; }
         public virtual Grade Grade { get; set; }
-
+        public virtual Subject Subject { get; set; }
     }
 }
