@@ -24,6 +24,7 @@ namespace Etqaan.Application.Interfaces
         DbSet<Nationality> Nationalities { get; set; }
         DbSet<UserActivity> UserActivities { get; set; }
         DbSet<Activity> Activities { get; set; }
+        DbSet<Employee> Employees { get; set; }
         #endregion
 
 

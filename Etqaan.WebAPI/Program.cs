@@ -26,6 +26,7 @@ builder.Services.AddDbContext<ApplicationDbContext>(
     dbContextOptions => dbContextOptions.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"))
     );
 builder.Services.Configure<JWTSettings>(builder.Configuration.GetSection("JWT"));
+
 builder.Services.AddIdentity<AppUser, IdentityRole>().AddEntityFrameworkStores<ApplicationDbContext>().AddDefaultUI();
 builder.Services.AddAuthentication(options =>
 {

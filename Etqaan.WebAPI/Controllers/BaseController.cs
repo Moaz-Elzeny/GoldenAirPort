@@ -1,6 +1,7 @@
 ﻿using Etqaan.Application.Interfaces;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
+using System.Security.Claims;
 
 namespace Etqaan.WebAPI.Controllers
 {
@@ -14,9 +15,8 @@ namespace Etqaan.WebAPI.Controllers
         private IApplicationDbContext _ctx;
         protected IApplicationDbContext _context => _ctx ?? (_ctx = HttpContext.RequestServices.GetService<IApplicationDbContext>());
         protected IMediator Mediator => _mediator ?? (_mediator = HttpContext.RequestServices.GetService<IMediator>());
-        protected string UserId => User.Claims.FirstOrDefault(c => c.Type == "uid")?.Value;
-
-
+        protected string CurrentUserId => User.Claims.FirstOrDefault(c => c.Type == "uid")?.Value;
+        protected string CurrentUserName => User.FindFirstValue(ClaimTypes.NameIdentifier);
         #endregion
 
 

@@ -10,6 +10,7 @@
     <PackageReference Include="FluentValidation" Version="11.4.0" />
     <PackageReference Include="MediatR" Version="10.0.1" />
     <PackageReference Include="MediatR.Extensions.Microsoft.DependencyInjection" Version="10.0.1" />
+    <PackageReference Include="Microsoft.AspNetCore.Authentication.Cookies" Version="2.2.0" />
     <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="7.0.7" />
     <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="7.0.7" />
     <PackageReference Include="Microsoft.AspNetCore.Identity.UI" Version="7.0.7" />
@@ -26,6 +27,9 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="Auth\Commands\" />
+    <Folder Include="Employees\DTOs\" />
+    <Folder Include="Employees\Queries\" />
     <Folder Include="Logs\Commands\" />
   </ItemGroup>
 
