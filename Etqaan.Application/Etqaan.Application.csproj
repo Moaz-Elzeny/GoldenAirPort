@@ -28,8 +28,6 @@
 
   <ItemGroup>
     <Folder Include="Auth\Commands\" />
-    <Folder Include="Employees\DTOs\" />
-    <Folder Include="Employees\Queries\" />
     <Folder Include="Logs\Commands\" />
   </ItemGroup>
 

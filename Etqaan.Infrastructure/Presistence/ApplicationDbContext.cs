@@ -25,6 +25,7 @@ namespace Etqaan.Infrastructure.Presistence
         public DbSet<UserActivity> UserActivities { get; set; }
         public DbSet<Activity> Activities { get; set; }
         public DbSet<Employee> Employees { get; set; }
+        public DbSet<Student> Students { get; set; }
         #endregion
         public override DatabaseFacade Database => base.Database;
         public override ChangeTracker ChangeTracker => base.ChangeTracker;

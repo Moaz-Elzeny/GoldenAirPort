@@ -6,6 +6,10 @@ using Etqaan.Domain.Enums;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.IdentityModel.Tokens;
+using System.IdentityModel.Tokens.Jwt;
+using System.Security.Claims;
+using System.Text;
 
 namespace Etqaan.Application.Users.Commands.CreateUser
 {
@@ -65,7 +69,9 @@ namespace Etqaan.Application.Users.Commands.CreateUser
                 {
                     await _userManager.AddToRoleAsync(user, request.UserType.ToString());
 
-                    var token = JWTHelper.GenerateToken(user.Id, user.UserName, new string[] { request.UserType.ToString() });
+                    var jwtSecurityToken = await CreateJwtToken(user);
+                    var token = new JwtSecurityTokenHandler().WriteToken(jwtSecurityToken);
+
                     var userId = user.Id;
                     var userToken = new UserTokenDto { UserId = userId, Token = token };
 
@@ -76,6 +82,43 @@ namespace Etqaan.Application.Users.Commands.CreateUser
                     return ResultDto<UserTokenDto>.Failure("Failed to create user");
                 }
             }
+
+            private async Task<JwtSecurityToken> CreateJwtToken(AppUser user)
+            {
+                var userClaims = await _userManager.GetClaimsAsync(user);
+                var roles = await _userManager.GetRolesAsync(user);
+                var roleClaims = new List<Claim>();
+
+                foreach (var role in roles)
+                    roleClaims.Add(new Claim(ClaimTypes.Role, role));
+
+                var claims = new[]
+                {
+            new Claim(JwtRegisteredClaimNames.Sub, user.UserName),
+            new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
+            new Claim(JwtRegisteredClaimNames.Email, user.Email),
+            new Claim("uid", user.Id)
+        }
+                .Union(userClaims)
+                .Union(roleClaims);
+
+                var symmetricSecurityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("lG0rDWELYD0jPtoLNlc/sMVREJMh8laXd5bvVEZzUeg="));
+                var signingCredentials = new SigningCredentials(symmetricSecurityKey, SecurityAlgorithms.HmacSha256);
+
+                var jwtSecurityToken = new JwtSecurityToken(
+                    issuer: "SecureApi",
+                    audience: "SecureApiUser",
+                    claims: claims,
+                    expires: DateTime.Now.AddDays(30),
+                    signingCredentials: signingCredentials);
+
+                return jwtSecurityToken;
+
+
+
+
+            }
+
         }
     }
 }
