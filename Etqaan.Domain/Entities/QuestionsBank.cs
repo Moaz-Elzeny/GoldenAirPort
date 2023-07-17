@@ -18,6 +18,7 @@ namespace Etqaan.Domain.Entities
         public int GradeId { get; set; }
         public ExamType ExamType { get; set; }
         public virtual Subject Subject { get; set; }
+        public virtual Grade Grade { get; set; }
         public virtual ICollection<Skill> Skills { get; set; }
         public virtual ICollection<Question> Questions { get; set; }
 
