@@ -5,7 +5,7 @@ using Etqaan.Application.Employees.DTOs;
 using Etqaan.Application.Employees.Queries;
 using Microsoft.AspNetCore.Mvc;
 
-namespace Etqaan.WebAPI.Controllers
+namespace Etqaan.WebAPI.Controllers.Admin
 {
 
     [ApiController]

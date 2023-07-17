@@ -20,8 +20,6 @@
         public virtual ICollection<StudentSubject> StudentSubjects { get; set; }
         public virtual ICollection<MissionClasses> MissionClasses { get; set; }
 
-
-
     }
 }
 

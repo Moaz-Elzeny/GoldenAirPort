@@ -58,7 +58,7 @@ public class UpdateStudentCommand : IRequest<ResultDto<string>>
                 return ResultDto<string>.Failure("Student not found.");
             }
 
-            // Update User Of Employee
+            // Update User Of Student
             var editUserCommand = new EditUserCommand
             {
                 UserId = student.AppUserId,

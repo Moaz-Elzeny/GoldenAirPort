@@ -14,18 +14,15 @@ namespace Etqaan.Application.Interfaces
 
         #endregion
 
-
-
-
-
-
-
         #region Etqaan Entities
         DbSet<Nationality> Nationalities { get; set; }
         DbSet<UserActivity> UserActivities { get; set; }
         DbSet<Activity> Activities { get; set; }
         DbSet<Employee> Employees { get; set; }
         DbSet<Student> Students { get; set; }
+        DbSet<School> Schools { get; set; }
+        DbSet<Teacher> Teachers { get; set; }
+        DbSet<SchoolClassSubject> SchoolClassSubjects { get; set; }
         #endregion
 
 

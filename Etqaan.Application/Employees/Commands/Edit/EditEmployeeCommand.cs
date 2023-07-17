@@ -93,6 +93,9 @@ public class EditEmployeeCommand : IRequest<ResultDto<string>>
             if (request.IBAN != null)
                 employee.IBAN = request.IBAN;
 
+            employee.ModifiedById = request.CurrentUserId;
+            employee.ModificationDate = DateTime.Now;
+
             await _dbContext.SaveChangesAsync(cancellationToken);
 
             return ResultDto<string>.Success("Employee Updated Successfully!");
