@@ -20,7 +20,7 @@ namespace Etqaan.Infrastructure.Presistence.Configurations
                 .HasMaxLength(100);
 
             builder.Property(sc => sc.NameEn)
-               
+
                 .HasMaxLength(100);
 
             builder.Property(sc => sc.SchoolId)
@@ -29,20 +29,6 @@ namespace Etqaan.Infrastructure.Presistence.Configurations
             builder.Property(sc => sc.SchoolGradeId)
                 .IsRequired();
 
-            builder.HasOne(sc => sc.School)
-                .WithMany(s => s.SchoolClasses)
-                .HasForeignKey(sc => sc.SchoolId)
-                .OnDelete(DeleteBehavior.Restrict);
-
-            builder.HasOne(sc => sc.SchoolGrade)
-                .WithMany()
-                .HasForeignKey(sc => sc.SchoolGradeId)
-                .OnDelete(DeleteBehavior.Restrict);
-
-            builder.HasMany(sc => sc.Students)
-                .WithOne(s => s.SchoolClass)
-                .HasForeignKey(s => s.SchoolClassId)
-                .OnDelete(DeleteBehavior.Restrict);
 
 
             builder.Property(a => a.Deleted).HasDefaultValue(false);

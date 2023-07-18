@@ -27,10 +27,7 @@ namespace Etqaan.Infrastructure.Persistence.Configurations
             builder.Property(qc => qc.IsCorrect)
                 .IsRequired();
 
-            builder.HasOne(qc => qc.Question)
-                .WithMany(q => q.QuestionChoices)
-                .HasForeignKey(qc => qc.QuestionId)
-                .OnDelete(DeleteBehavior.Cascade);
+
 
             builder.Property(a => a.Deleted).HasDefaultValue(false);
             builder.Property(a => a.Active).HasDefaultValue(true);

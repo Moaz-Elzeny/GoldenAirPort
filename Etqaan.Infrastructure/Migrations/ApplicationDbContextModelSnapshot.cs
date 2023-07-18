@@ -1208,8 +1208,7 @@ namespace Etqaan.Infrastructure.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("AppUserId")
-                        .IsUnique();
+                    b.HasIndex("AppUserId");
 
                     b.ToTable("Parents", (string)null);
                 });
@@ -1251,7 +1250,6 @@ namespace Etqaan.Infrastructure.Migrations
                         .HasDefaultValue(false);
 
                     b.Property<int?>("ExternalExamId")
-                        .IsRequired()
                         .HasColumnType("int");
 
                     b.Property<string>("LessonName")
@@ -1259,7 +1257,6 @@ namespace Etqaan.Infrastructure.Migrations
                         .HasColumnType("nvarchar(256)");
 
                     b.Property<int?>("MissionId")
-                        .IsRequired()
                         .HasColumnType("int");
 
                     b.Property<DateTime?>("ModificationDate")
@@ -1290,13 +1287,16 @@ namespace Etqaan.Infrastructure.Migrations
                     b.Property<int>("QuestionType")
                         .HasColumnType("int");
 
+                    b.Property<int>("QuestionsBankId")
+                        .HasColumnType("int");
+
                     b.HasKey("Id");
 
                     b.HasIndex("ExternalExamId");
 
                     b.HasIndex("MissionId");
 
-                    b.HasIndex("QuestionBankId");
+                    b.HasIndex("QuestionsBankId");
 
                     b.ToTable("Questions", (string)null);
                 });
@@ -1397,16 +1397,11 @@ namespace Etqaan.Infrastructure.Migrations
                     b.Property<int>("SkillId")
                         .HasColumnType("int");
 
-                    b.Property<int?>("SkillId1")
-                        .HasColumnType("int");
-
                     b.HasKey("Id");
 
                     b.HasIndex("QuestionId");
 
                     b.HasIndex("SkillId");
-
-                    b.HasIndex("SkillId1");
 
                     b.ToTable("QuestionSkills", (string)null);
                 });
@@ -1494,9 +1489,6 @@ namespace Etqaan.Infrastructure.Migrations
                     b.Property<int>("CityId")
                         .HasColumnType("int");
 
-                    b.Property<int?>("CityId1")
-                        .HasColumnType("int");
-
                     b.Property<int>("ClassesCount")
                         .HasColumnType("int");
 
@@ -1566,8 +1558,6 @@ namespace Etqaan.Infrastructure.Migrations
                         .IsUnique();
 
                     b.HasIndex("CityId");
-
-                    b.HasIndex("CityId1");
 
                     b.HasIndex("CountryId");
 
@@ -1722,9 +1712,6 @@ namespace Etqaan.Infrastructure.Migrations
                     b.Property<int>("GradeId")
                         .HasColumnType("int");
 
-                    b.Property<int?>("GradeId1")
-                        .HasColumnType("int");
-
                     b.Property<DateTime?>("ModificationDate")
                         .HasColumnType("DATETIME");
 
@@ -1739,8 +1726,6 @@ namespace Etqaan.Infrastructure.Migrations
                     b.HasKey("Id");
 
                     b.HasIndex("GradeId");
-
-                    b.HasIndex("GradeId1");
 
                     b.HasIndex("SchoolId");
 
@@ -1912,9 +1897,6 @@ namespace Etqaan.Infrastructure.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(450)");
 
-                    b.Property<string>("ParentId1")
-                        .HasColumnType("nvarchar(450)");
-
                     b.Property<decimal>("Q")
                         .HasColumnType("decimal(18,2)");
 
@@ -1924,17 +1906,11 @@ namespace Etqaan.Infrastructure.Migrations
                     b.Property<int>("SchoolClassId")
                         .HasColumnType("int");
 
-                    b.Property<int?>("SchoolClassId1")
-                        .HasColumnType("int");
-
                     b.Property<int>("SchoolGradeId")
                         .HasColumnType("int");
 
                     b.Property<string>("SchoolId")
                         .IsRequired()
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<string>("SchoolId1")
                         .HasColumnType("nvarchar(450)");
 
                     b.Property<int>("StudentAbility")
@@ -1952,22 +1928,15 @@ namespace Etqaan.Infrastructure.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("AppUserId")
-                        .IsUnique();
+                    b.HasIndex("AppUserId");
 
                     b.HasIndex("ParentId");
 
-                    b.HasIndex("ParentId1");
-
                     b.HasIndex("SchoolClassId");
-
-                    b.HasIndex("SchoolClassId1");
 
                     b.HasIndex("SchoolGradeId");
 
                     b.HasIndex("SchoolId");
-
-                    b.HasIndex("SchoolId1");
 
                     b.ToTable("Students", (string)null);
                 });
@@ -2019,16 +1988,11 @@ namespace Etqaan.Infrastructure.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(450)");
 
-                    b.Property<string>("StudentId1")
-                        .HasColumnType("nvarchar(450)");
-
                     b.HasKey("Id");
 
                     b.HasIndex("QuestionId");
 
                     b.HasIndex("StudentId");
-
-                    b.HasIndex("StudentId1");
 
                     b.ToTable("StudentAnswers", (string)null);
                 });
@@ -2066,16 +2030,11 @@ namespace Etqaan.Infrastructure.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(450)");
 
-                    b.Property<string>("StudentId1")
-                        .HasColumnType("nvarchar(450)");
-
                     b.HasKey("Id");
 
                     b.HasIndex("GroupId");
 
                     b.HasIndex("StudentId");
-
-                    b.HasIndex("StudentId1");
 
                     b.ToTable("StudentGroups", (string)null);
                 });
@@ -2465,9 +2424,6 @@ namespace Etqaan.Infrastructure.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(450)");
 
-                    b.Property<string>("StudentId1")
-                        .HasColumnType("nvarchar(450)");
-
                     b.Property<DateTime>("SubmissionDate")
                         .HasColumnType("datetime2");
 
@@ -2479,11 +2435,8 @@ namespace Etqaan.Infrastructure.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("StudentId");
-
-                    b.HasIndex("StudentId1")
-                        .IsUnique()
-                        .HasFilter("[StudentId1] IS NOT NULL");
+                    b.HasIndex("StudentId")
+                        .IsUnique();
 
                     b.HasIndex("VarkExamId");
 
@@ -2718,7 +2671,7 @@ namespace Etqaan.Infrastructure.Migrations
                     b.HasOne("Etqaan.Domain.Entities.About", "About")
                         .WithMany("AboutStudents")
                         .HasForeignKey("AboutId")
-                        .OnDelete(DeleteBehavior.Restrict)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("Etqaan.Domain.Entities.Student", "Student")
@@ -2765,7 +2718,7 @@ namespace Etqaan.Infrastructure.Migrations
                     b.HasOne("Etqaan.Domain.Entities.Bank", "Bank")
                         .WithMany("Employees")
                         .HasForeignKey("BankId")
-                        .OnDelete(DeleteBehavior.Restrict)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("AppUser");
@@ -2778,7 +2731,7 @@ namespace Etqaan.Infrastructure.Migrations
                     b.HasOne("Etqaan.Domain.Entities.Grade", "Grade")
                         .WithMany("ExternalExams")
                         .HasForeignKey("GradeId")
-                        .OnDelete(DeleteBehavior.Restrict)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("Etqaan.Domain.Entities.Subject", "Subject")
@@ -2816,13 +2769,13 @@ namespace Etqaan.Infrastructure.Migrations
                     b.HasOne("Etqaan.Domain.Entities.Grade", "Grade")
                         .WithMany("GradeSubjects")
                         .HasForeignKey("GradeId")
-                        .OnDelete(DeleteBehavior.Restrict)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("Etqaan.Domain.Entities.Subject", "Subject")
                         .WithMany("GradeSubjects")
                         .HasForeignKey("SubjectId")
-                        .OnDelete(DeleteBehavior.Restrict)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("Grade");
@@ -2846,13 +2799,13 @@ namespace Etqaan.Infrastructure.Migrations
                     b.HasOne("Etqaan.Domain.Entities.Grade", "Grade")
                         .WithMany("LearningResources")
                         .HasForeignKey("GradeId")
-                        .OnDelete(DeleteBehavior.Restrict)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("Etqaan.Domain.Entities.Subject", "Subject")
                         .WithMany("LearningResources")
                         .HasForeignKey("SubjectId")
-                        .OnDelete(DeleteBehavior.Restrict)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("Grade");
@@ -2958,8 +2911,8 @@ namespace Etqaan.Infrastructure.Migrations
             modelBuilder.Entity("Etqaan.Domain.Entities.Parent", b =>
                 {
                     b.HasOne("Etqaan.Domain.Entities.Auth.AppUser", "AppUser")
-                        .WithOne()
-                        .HasForeignKey("Etqaan.Domain.Entities.Parent", "AppUserId")
+                        .WithMany()
+                        .HasForeignKey("AppUserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -2970,20 +2923,17 @@ namespace Etqaan.Infrastructure.Migrations
                 {
                     b.HasOne("Etqaan.Domain.Entities.ExternalExam", "ExternalExam")
                         .WithMany("Questions")
-                        .HasForeignKey("ExternalExamId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
+                        .HasForeignKey("ExternalExamId");
 
                     b.HasOne("Etqaan.Domain.Entities.Mission", "Mission")
                         .WithMany("Questions")
-                        .HasForeignKey("MissionId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
+                        .HasForeignKey("MissionId");
 
                     b.HasOne("Etqaan.Domain.Entities.QuestionsBank", "QuestionsBank")
                         .WithMany("Questions")
-                        .HasForeignKey("QuestionBankId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .HasForeignKey("QuestionsBankId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("ExternalExam");
 
@@ -3031,14 +2981,10 @@ namespace Etqaan.Infrastructure.Migrations
                         .IsRequired();
 
                     b.HasOne("Etqaan.Domain.Entities.Skill", "Skill")
-                        .WithMany()
+                        .WithMany("QuestionSkills")
                         .HasForeignKey("SkillId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-
-                    b.HasOne("Etqaan.Domain.Entities.Skill", null)
-                        .WithMany("QuestionSkills")
-                        .HasForeignKey("SkillId1");
 
                     b.Navigation("Question");
 
@@ -3073,37 +3019,33 @@ namespace Etqaan.Infrastructure.Migrations
                         .IsRequired();
 
                     b.HasOne("Etqaan.Domain.Entities.City", "City")
-                        .WithMany()
-                        .HasForeignKey("CityId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.HasOne("Etqaan.Domain.Entities.City", null)
                         .WithMany("Schools")
-                        .HasForeignKey("CityId1");
+                        .HasForeignKey("CityId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.HasOne("Etqaan.Domain.Entities.Country", "Country")
                         .WithMany()
                         .HasForeignKey("CountryId")
-                        .OnDelete(DeleteBehavior.Restrict)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("Etqaan.Domain.Entities.StudentCapacity", "StudentCapacity")
                         .WithMany()
                         .HasForeignKey("StudentCapacityId")
-                        .OnDelete(DeleteBehavior.Restrict)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("Etqaan.Domain.Entities.Subscription", "Subscription")
                         .WithMany()
                         .HasForeignKey("SubscriptionId")
-                        .OnDelete(DeleteBehavior.Restrict)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("Etqaan.Domain.Entities.SubscriptionPeriod", "SubscriptionPeriod")
                         .WithMany()
                         .HasForeignKey("SubscriptionPeriodId")
-                        .OnDelete(DeleteBehavior.Restrict)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("AppUser");
@@ -3124,13 +3066,13 @@ namespace Etqaan.Infrastructure.Migrations
                     b.HasOne("Etqaan.Domain.Entities.SchoolGrade", "SchoolGrade")
                         .WithMany()
                         .HasForeignKey("SchoolGradeId")
-                        .OnDelete(DeleteBehavior.Restrict)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("Etqaan.Domain.Entities.School", "School")
                         .WithMany("SchoolClasses")
                         .HasForeignKey("SchoolId")
-                        .OnDelete(DeleteBehavior.Restrict)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("School");
@@ -3143,13 +3085,13 @@ namespace Etqaan.Infrastructure.Migrations
                     b.HasOne("Etqaan.Domain.Entities.SchoolClass", "SchoolClass")
                         .WithMany("SchoolClassSubjects")
                         .HasForeignKey("SchoolClassId")
-                        .OnDelete(DeleteBehavior.Restrict)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("Etqaan.Domain.Entities.Subject", "Subject")
                         .WithMany("SchoolClassSubjects")
                         .HasForeignKey("SubjectId")
-                        .OnDelete(DeleteBehavior.Restrict)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("SchoolClass");
@@ -3160,19 +3102,15 @@ namespace Etqaan.Infrastructure.Migrations
             modelBuilder.Entity("Etqaan.Domain.Entities.SchoolGrade", b =>
                 {
                     b.HasOne("Etqaan.Domain.Entities.Grade", "Grade")
-                        .WithMany()
-                        .HasForeignKey("GradeId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.HasOne("Etqaan.Domain.Entities.Grade", null)
                         .WithMany("SchoolGrades")
-                        .HasForeignKey("GradeId1");
+                        .HasForeignKey("GradeId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.HasOne("Etqaan.Domain.Entities.School", "School")
                         .WithMany("SchoolGrades")
                         .HasForeignKey("SchoolId")
-                        .OnDelete(DeleteBehavior.Restrict)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("Grade");
@@ -3189,7 +3127,7 @@ namespace Etqaan.Infrastructure.Migrations
                     b.HasOne("Etqaan.Domain.Entities.Subject", "Subject")
                         .WithMany("Skills")
                         .HasForeignKey("SubjectId")
-                        .OnDelete(DeleteBehavior.Restrict)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("Subject");
@@ -3209,46 +3147,34 @@ namespace Etqaan.Infrastructure.Migrations
             modelBuilder.Entity("Etqaan.Domain.Entities.Student", b =>
                 {
                     b.HasOne("Etqaan.Domain.Entities.Auth.AppUser", "AppUser")
-                        .WithOne()
-                        .HasForeignKey("Etqaan.Domain.Entities.Student", "AppUserId")
-                        .OnDelete(DeleteBehavior.Restrict)
+                        .WithMany()
+                        .HasForeignKey("AppUserId")
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("Etqaan.Domain.Entities.Parent", "Parent")
-                        .WithMany()
-                        .HasForeignKey("ParentId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.HasOne("Etqaan.Domain.Entities.Parent", null)
                         .WithMany("Students")
-                        .HasForeignKey("ParentId1");
+                        .HasForeignKey("ParentId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.HasOne("Etqaan.Domain.Entities.SchoolClass", "SchoolClass")
-                        .WithMany()
-                        .HasForeignKey("SchoolClassId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.HasOne("Etqaan.Domain.Entities.SchoolClass", null)
                         .WithMany("Students")
-                        .HasForeignKey("SchoolClassId1");
+                        .HasForeignKey("SchoolClassId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.HasOne("Etqaan.Domain.Entities.SchoolGrade", "SchoolGrade")
                         .WithMany()
                         .HasForeignKey("SchoolGradeId")
-                        .OnDelete(DeleteBehavior.Restrict)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("Etqaan.Domain.Entities.School", "School")
-                        .WithMany()
-                        .HasForeignKey("SchoolId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.HasOne("Etqaan.Domain.Entities.School", null)
                         .WithMany("Students")
-                        .HasForeignKey("SchoolId1");
+                        .HasForeignKey("SchoolId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("AppUser");
 
@@ -3270,14 +3196,10 @@ namespace Etqaan.Infrastructure.Migrations
                         .IsRequired();
 
                     b.HasOne("Etqaan.Domain.Entities.Student", "Student")
-                        .WithMany()
+                        .WithMany("StudentAnswers")
                         .HasForeignKey("StudentId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-
-                    b.HasOne("Etqaan.Domain.Entities.Student", null)
-                        .WithMany("StudentAnswers")
-                        .HasForeignKey("StudentId1");
 
                     b.Navigation("Question");
 
@@ -3293,14 +3215,10 @@ namespace Etqaan.Infrastructure.Migrations
                         .IsRequired();
 
                     b.HasOne("Etqaan.Domain.Entities.Student", "Student")
-                        .WithMany()
+                        .WithMany("StudentGroups")
                         .HasForeignKey("StudentId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-
-                    b.HasOne("Etqaan.Domain.Entities.Student", null)
-                        .WithMany("StudentGroups")
-                        .HasForeignKey("StudentId1");
 
                     b.Navigation("Group");
 
@@ -3312,25 +3230,25 @@ namespace Etqaan.Infrastructure.Migrations
                     b.HasOne("Etqaan.Domain.Entities.Grade", "Grade")
                         .WithMany("StudentSubjects")
                         .HasForeignKey("GradeId")
-                        .OnDelete(DeleteBehavior.Restrict)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("Etqaan.Domain.Entities.SchoolClass", "SchoolClass")
                         .WithMany("StudentSubjects")
                         .HasForeignKey("SchoolClassId")
-                        .OnDelete(DeleteBehavior.Restrict)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("Etqaan.Domain.Entities.Student", "Student")
                         .WithMany("StudentSubjects")
                         .HasForeignKey("StudentId")
-                        .OnDelete(DeleteBehavior.Restrict)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("Etqaan.Domain.Entities.Subject", "Subject")
                         .WithMany("StudentSubjects")
                         .HasForeignKey("SubjectId")
-                        .OnDelete(DeleteBehavior.Restrict)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("Grade");
@@ -3353,7 +3271,7 @@ namespace Etqaan.Infrastructure.Migrations
                     b.HasOne("Etqaan.Domain.Entities.School", "School")
                         .WithMany("Teachers")
                         .HasForeignKey("SchoolId")
-                        .OnDelete(DeleteBehavior.Restrict)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("AppUser");
@@ -3366,13 +3284,13 @@ namespace Etqaan.Infrastructure.Migrations
                     b.HasOne("Etqaan.Domain.Entities.Subject", "Subject")
                         .WithMany("TeacherSubjects")
                         .HasForeignKey("SubjectId")
-                        .OnDelete(DeleteBehavior.Restrict)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("Etqaan.Domain.Entities.Teacher", "Teacher")
                         .WithMany("TeacherSubjects")
                         .HasForeignKey("TeacherId")
-                        .OnDelete(DeleteBehavior.Restrict)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("Subject");
@@ -3385,7 +3303,7 @@ namespace Etqaan.Infrastructure.Migrations
                     b.HasOne("Etqaan.Domain.Entities.Activity", "Activity")
                         .WithMany("UserActivities")
                         .HasForeignKey("ActivityId")
-                        .OnDelete(DeleteBehavior.Restrict)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("Etqaan.Domain.Entities.Auth.AppUser", "AppUser")
@@ -3402,14 +3320,10 @@ namespace Etqaan.Infrastructure.Migrations
             modelBuilder.Entity("Etqaan.Domain.Entities.VarkExamResponse", b =>
                 {
                     b.HasOne("Etqaan.Domain.Entities.Student", "Student")
-                        .WithMany()
-                        .HasForeignKey("StudentId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.HasOne("Etqaan.Domain.Entities.Student", null)
                         .WithOne("VarkExamResponse")
-                        .HasForeignKey("Etqaan.Domain.Entities.VarkExamResponse", "StudentId1");
+                        .HasForeignKey("Etqaan.Domain.Entities.VarkExamResponse", "StudentId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.HasOne("Etqaan.Domain.Entities.VarkExam", "VarkExam")
                         .WithMany("VarkExamResponses")

@@ -15,25 +15,7 @@ namespace Etqaan.Infrastructure.Presistence.Configurations
             builder.Property(s => s.Id)
                 .IsRequired();
 
-            builder.HasOne(s => s.SchoolClass)
-                .WithMany(sc => sc.StudentSubjects)
-                .HasForeignKey(s => s.SchoolClassId)
-                .OnDelete(DeleteBehavior.Restrict);
 
-            builder.HasOne(s => s.Grade)
-                .WithMany(g => g.StudentSubjects)
-                .HasForeignKey(s => s.GradeId)
-                .OnDelete(DeleteBehavior.Restrict);
-
-            builder.HasOne(s => s.Student)
-                .WithMany(st => st.StudentSubjects)
-                .HasForeignKey(s => s.StudentId)
-                .OnDelete(DeleteBehavior.Restrict);
-
-            builder.HasOne(s => s.Subject)
-                .WithMany(sub => sub.StudentSubjects)
-                .HasForeignKey(s => s.SubjectId)
-                .OnDelete(DeleteBehavior.Restrict);
 
 
 

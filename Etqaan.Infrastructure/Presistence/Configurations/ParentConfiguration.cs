@@ -21,15 +21,7 @@ namespace Etqaan.Infrastructure.Presistence.Configurations
             builder.Property(p => p.JobTitle).HasMaxLength(250)
                 .IsRequired();
 
-            builder.HasOne(p => p.AppUser)
-                .WithOne()
-                .HasForeignKey<Parent>(p => p.AppUserId)
-                .OnDelete(DeleteBehavior.Cascade);
 
-            builder.HasMany(p => p.Students)
-                .WithOne(s => s.Parent)
-                .HasForeignKey(s => s.ParentId)
-                .OnDelete(DeleteBehavior.Restrict);
 
 
             builder.Property(a => a.Deleted).HasDefaultValue(false);

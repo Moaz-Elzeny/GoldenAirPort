@@ -21,15 +21,6 @@ namespace Etqaan.Infrastructure.Persistence.Configurations
             builder.Property(qs => qs.SkillId)
                 .IsRequired();
 
-            builder.HasOne(qs => qs.Question)
-                .WithMany(q => q.QuestionSkills)
-                .HasForeignKey(qs => qs.QuestionId)
-                .OnDelete(DeleteBehavior.Cascade);
-
-            builder.HasOne(qs => qs.Skill)
-                .WithMany()
-                .HasForeignKey(qs => qs.SkillId)
-                .OnDelete(DeleteBehavior.Cascade);
 
 
         }

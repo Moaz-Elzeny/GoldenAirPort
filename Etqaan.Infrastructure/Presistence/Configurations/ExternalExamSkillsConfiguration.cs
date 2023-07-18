@@ -21,15 +21,7 @@ namespace Etqaan.Infrastructure.Presistence.Configurations
             builder.Property(ees => ees.SkillId)
                 .IsRequired();
 
-            builder.HasOne(ees => ees.ExternalExam)
-                .WithMany(ee => ee.ExternalExamSkills)
-                .HasForeignKey(ees => ees.ExternalExamId)
-                .OnDelete(DeleteBehavior.Cascade);
 
-            builder.HasOne(ees => ees.Skill)
-                .WithMany(s => s.ExternalExamSkills)
-                .HasForeignKey(ees => ees.SkillId)
-                .OnDelete(DeleteBehavior.Cascade);
 
 
         }

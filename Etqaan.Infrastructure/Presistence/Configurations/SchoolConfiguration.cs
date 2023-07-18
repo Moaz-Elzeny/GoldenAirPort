@@ -1,6 +1,4 @@
 ﻿using Etqaan.Domain.Entities;
-using Etqaan.Domain.Entities.Auth;
-using Etqaan.Domain.Enums;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
@@ -65,45 +63,11 @@ namespace Etqaan.Infrastructure.Presistence.Configurations
                 .HasForeignKey<School>(s => s.AppUserId)
                 .OnDelete(DeleteBehavior.Restrict);
 
-            builder.HasOne(s => s.City)
-                .WithMany()
-                .HasForeignKey(s => s.CityId)
-                .OnDelete(DeleteBehavior.Restrict);
 
-            builder.HasOne(s => s.Country)
-                .WithMany()
-                .HasForeignKey(s => s.CountryId)
-                .OnDelete(DeleteBehavior.Restrict);
 
-            builder.HasOne(s => s.StudentCapacity)
-                .WithMany()
-                .HasForeignKey(s => s.StudentCapacityId)
-                .OnDelete(DeleteBehavior.Restrict);
 
-            builder.HasOne(s => s.Subscription)
-                .WithMany()
-                .HasForeignKey(s => s.SubscriptionId)
-                .OnDelete(DeleteBehavior.Restrict);
 
-            builder.HasOne(s => s.SubscriptionPeriod)
-                .WithMany()
-                .HasForeignKey(s => s.SubscriptionPeriodId)
-                .OnDelete(DeleteBehavior.Restrict);
 
-            builder.HasMany(s => s.Students)
-                .WithOne(s => s.School)
-                .HasForeignKey(s => s.SchoolId)
-                .OnDelete(DeleteBehavior.Restrict);
-
-            builder.HasMany(s => s.SchoolClasses)
-                .WithOne(sc => sc.School)
-                .HasForeignKey(sc => sc.SchoolId)
-                .OnDelete(DeleteBehavior.Restrict);
-
-            builder.HasMany(s => s.SchoolGrades)
-                .WithOne(sg => sg.School)
-                .HasForeignKey(sg => sg.SchoolId)
-                .OnDelete(DeleteBehavior.Restrict);
         }
     }
 }

@@ -25,10 +25,6 @@ namespace Etqaan.Infrastructure.Presistence.Configurations
             builder.Property(s => s.AxisId)
                 .IsRequired();
 
-            builder.HasOne(s => s.Axis)
-                .WithMany(a => a.Standards)
-                .HasForeignKey(s => s.AxisId)
-                .OnDelete(DeleteBehavior.Cascade);
 
             builder.Property(s => s.Deleted).HasDefaultValue(false);
             builder.Property(s => s.Active).HasDefaultValue(true);

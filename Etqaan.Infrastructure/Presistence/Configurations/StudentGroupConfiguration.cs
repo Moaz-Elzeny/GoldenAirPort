@@ -20,15 +20,6 @@ namespace Etqaan.Infrastructure.Persistence.Configurations
 
 
 
-            builder.HasOne(sg => sg.Group)
-                .WithMany(g => g.StudentGroups)
-                .HasForeignKey(sg => sg.GroupId)
-                .OnDelete(DeleteBehavior.Cascade);
-
-            builder.HasOne(sg => sg.Student)
-                .WithMany()
-                .HasForeignKey(sg => sg.StudentId)
-                .OnDelete(DeleteBehavior.Cascade);
 
 
         }

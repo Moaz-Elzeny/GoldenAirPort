@@ -22,15 +22,7 @@ namespace Etqaan.Infrastructure.Persistence.Configurations
             builder.Property(sa => sa.Answer).HasMaxLength(2000)
                 .IsRequired();
 
-            builder.HasOne(sa => sa.Question)
-                .WithMany(q => q.StudentAnswers)
-                .HasForeignKey(sa => sa.QuestionId)
-                .OnDelete(DeleteBehavior.Cascade);
 
-            builder.HasOne(sa => sa.Student)
-                .WithMany()
-                .HasForeignKey(sa => sa.StudentId)
-                .OnDelete(DeleteBehavior.Cascade);
 
             builder.Property(sa => sa.Deleted).HasDefaultValue(false);
             builder.Property(sa => sa.Active).HasDefaultValue(true);

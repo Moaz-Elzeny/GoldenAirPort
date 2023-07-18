@@ -26,11 +26,7 @@ namespace Etqaan.Infrastructure.Presistence.Configurations
             builder.Property(b => b.Icon)
                 .HasMaxLength(255);
 
-            // Configure the relationship with Employee entity
-            builder.HasMany(b => b.Employees)
-                .WithOne(e => e.Bank)
-                .HasForeignKey(e => e.BankId)
-                .OnDelete(DeleteBehavior.Restrict);
+
 
 
             builder.Property(a => a.Deleted).HasDefaultValue(false);
