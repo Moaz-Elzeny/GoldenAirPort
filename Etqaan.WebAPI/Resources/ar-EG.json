@@ -1,20 +1,3 @@
-﻿[
-  {
-    "key": "Welcome",
-    "type": 1,
-    "ar": "مرحبا",
-    "en": "Welcome"
-  },
-  {
-    "key": "aaaa",
-    "type": 1,
-    "ar": "اااا",
-    "en": "aaaa"
-  },
-  {
-    "key": "aaaa",
-    "type": 1,
-    "ar": "ااااااااااااااااااا",
-    "en": "aaaaaaaaaaaaa"
-  }
-]
+﻿{
+  "School class not found.": "عفوا الفصل غير موجود"
+}

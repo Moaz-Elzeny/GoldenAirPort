@@ -23,6 +23,9 @@ namespace Etqaan.Application.Interfaces
         DbSet<School> Schools { get; set; }
         DbSet<Teacher> Teachers { get; set; }
         DbSet<SchoolClassSubject> SchoolClassSubjects { get; set; }
+        DbSet<SchoolClass> SchoolClasses { get; set; }
+        DbSet<SchoolGrade> SchoolGrades { get; set; }
+        DbSet<Subject> Subjects { get; set; }
         #endregion
 
 

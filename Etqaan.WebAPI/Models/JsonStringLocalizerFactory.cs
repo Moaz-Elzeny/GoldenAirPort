@@ -1,17 +1,15 @@
-﻿using Microsoft.Extensions.Localization;
+﻿using Etqaan.WebAPI.Models;
+using Microsoft.Extensions.Localization;
 
-namespace Etqaan.WebAPI.Models
+public class JsonStringLocalizerFactory : IStringLocalizerFactory
 {
-    public class JsonStringLocalizerFactory : IStringLocalizerFactory
+    public IStringLocalizer Create(Type resourceSource)
     {
-        public IStringLocalizer Create(Type resourceSource)
-        {
-            return new JsonStringLocalizer();
-        }
+        return new JsonStringLocalizer();
+    }
 
-        public IStringLocalizer Create(string baseName, string location)
-        {
-            return new JsonStringLocalizer();
-        }
+    public IStringLocalizer Create(string baseName, string location)
+    {
+        return new JsonStringLocalizer();
     }
 }
