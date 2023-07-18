@@ -29,6 +29,7 @@ namespace Etqaan.Infrastructure.Presistence
         public DbSet<School> Schools { get; set; }
         public DbSet<Teacher> Teachers { get; set; }
         public DbSet<SchoolClassSubject> SchoolClassSubjects { get; set; }
+        public DbSet<LearningResource> LearningResources { get; set; }
 
 
 

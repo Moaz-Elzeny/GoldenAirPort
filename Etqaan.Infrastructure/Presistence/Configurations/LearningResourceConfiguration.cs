@@ -38,6 +38,8 @@ namespace Etqaan.Infrastructure.Presistence.Configurations
             builder.Property(lr => lr.CoverImagePath).HasMaxLength(200)
                ;
 
+            builder.Property(lr => lr.Size).HasMaxLength(15);
+
             builder.Property(lr => lr.SubjectId)
                 .IsRequired();
 
