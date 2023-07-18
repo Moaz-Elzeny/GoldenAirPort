@@ -45,10 +45,7 @@ namespace Etqaan.Infrastructure.Presistence.Configurations
             builder.Property(ee => ee.GradeId)
                 .IsRequired();
 
-            builder.HasOne(ee => ee.Grade)
-                .WithMany(g => g.ExternalExams)
-                .HasForeignKey(ee => ee.GradeId)
-                .OnDelete(DeleteBehavior.Restrict);
+
 
             builder.Property(ee => ee.Deleted).HasDefaultValue(false);
             builder.Property(ee => ee.Active).HasDefaultValue(true);

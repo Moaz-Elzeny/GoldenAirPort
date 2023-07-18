@@ -12,15 +12,7 @@ namespace Etqaan.Domain.Entities
             builder.Property(e => e.SubmissionDate).IsRequired();
             builder.Property(e => e.TotalVarkScore).IsRequired();
 
-            builder.HasOne(e => e.VarkExam)
-                .WithMany(exam => exam.VarkExamResponses)
-                .HasForeignKey(e => e.VarkExamId)
-                .OnDelete(DeleteBehavior.Cascade);
 
-            builder.HasOne(e => e.Student)
-                .WithMany()
-                .HasForeignKey(e => e.StudentId)
-                .OnDelete(DeleteBehavior.Restrict);
         }
     }
 }

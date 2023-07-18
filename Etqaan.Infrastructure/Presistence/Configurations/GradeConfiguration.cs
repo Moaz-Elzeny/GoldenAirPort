@@ -22,11 +22,7 @@ namespace Etqaan.Domain.EntityConfigurations
             builder.Property(g => g.NameEn)
                 .HasMaxLength(100);
 
-           
-            builder.HasMany(g => g.SchoolGrades)
-                .WithOne(sg => sg.Grade)
-                .HasForeignKey(sg => sg.GradeId)
-                .OnDelete(DeleteBehavior.Restrict);
+
 
             builder.Property(a => a.Deleted).HasDefaultValue(false);
             builder.Property(a => a.Active).HasDefaultValue(true);

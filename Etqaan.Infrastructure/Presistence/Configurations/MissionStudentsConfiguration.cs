@@ -21,15 +21,7 @@ namespace Etqaan.Infrastructure.Presistence.Configurations
             builder.Property(ms => ms.MissionId)
                 .IsRequired();
 
-            builder.HasOne(ms => ms.Mission)
-                .WithMany(m => m.MissionStudents)
-                .HasForeignKey(ms => ms.MissionId)
-                .OnDelete(DeleteBehavior.Cascade);
 
-            builder.HasOne(ms => ms.Student)
-                .WithMany(s => s.MissionStudents)
-                .HasForeignKey(ms => ms.StudentId)
-                .OnDelete(DeleteBehavior.Cascade);
 
         }
     }

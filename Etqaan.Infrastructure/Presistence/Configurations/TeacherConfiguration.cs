@@ -24,10 +24,6 @@ namespace Etqaan.Infrastructure.Presistence.Configurations
             builder.Property(t => t.SchoolId)
                 .IsRequired();
 
-            builder.HasOne(t => t.School)
-                .WithMany(s => s.Teachers)
-                .HasForeignKey(t => t.SchoolId)
-                .OnDelete(DeleteBehavior.Restrict);
 
             builder.HasOne(t => t.AppUser)
                 .WithOne()

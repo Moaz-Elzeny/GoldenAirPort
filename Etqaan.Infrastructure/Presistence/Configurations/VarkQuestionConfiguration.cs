@@ -12,15 +12,7 @@ namespace Etqaan.Domain.Entities
             builder.Property(q => q.QuestionHead).IsRequired();
 
 
-            builder.HasOne(q => q.VarkExam)
-                .WithMany(exam => exam.VarkQuestions)
-                .HasForeignKey(q => q.VarkExamId)
-                .OnDelete(DeleteBehavior.Cascade);
 
-            builder.HasMany(q => q.VarkQuestionChoices)
-                .WithOne(choice => choice.VarkQuestion)
-                .HasForeignKey(choice => choice.VarkQuestionId)
-                .OnDelete(DeleteBehavior.Cascade);
         }
     }
 }

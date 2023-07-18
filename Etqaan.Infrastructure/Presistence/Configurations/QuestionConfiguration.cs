@@ -39,20 +39,6 @@ namespace Etqaan.Infrastructure.Persistence.Configurations
             builder.Property(q => q.CorrectAnswer)
                 .HasMaxLength(256);
 
-            builder.HasOne(q => q.QuestionsBank)
-                .WithMany(qb => qb.Questions)
-                .HasForeignKey(q => q.QuestionBankId)
-                .OnDelete(DeleteBehavior.Restrict);
-
-            builder.HasOne(q => q.ExternalExam)
-                .WithMany(e => e.Questions)
-                .HasForeignKey(q => q.ExternalExamId)
-                .OnDelete(DeleteBehavior.Restrict);
-
-            builder.HasOne(q => q.Mission)
-                .WithMany(m => m.Questions)
-                .HasForeignKey(q => q.MissionId)
-                .OnDelete(DeleteBehavior.Restrict);
 
             builder.Property(a => a.Deleted).HasDefaultValue(false);
             builder.Property(a => a.Active).HasDefaultValue(true);

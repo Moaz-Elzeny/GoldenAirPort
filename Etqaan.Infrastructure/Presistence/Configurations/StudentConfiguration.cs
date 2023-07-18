@@ -61,30 +61,8 @@ namespace Etqaan.Infrastructure.Presistence.Configurations
                 .HasForeignKey(a => a.StudentId)
                 .OnDelete(DeleteBehavior.Restrict);
 
-            builder.HasOne(s => s.AppUser)
-                .WithOne()
-                .HasForeignKey<Student>(s => s.AppUserId)
-                .OnDelete(DeleteBehavior.Restrict);
 
-            builder.HasOne(s => s.School)
-                .WithMany()
-                .HasForeignKey(s => s.SchoolId)
-                .OnDelete(DeleteBehavior.Restrict);
 
-            builder.HasOne(s => s.SchoolGrade)
-                .WithMany()
-                .HasForeignKey(s => s.SchoolGradeId)
-                .OnDelete(DeleteBehavior.Restrict);
-
-            builder.HasOne(s => s.SchoolClass)
-                .WithMany()
-                .HasForeignKey(s => s.SchoolClassId)
-                .OnDelete(DeleteBehavior.Restrict);
-
-            builder.HasOne(s => s.Parent)
-                .WithMany()
-                .HasForeignKey(s => s.ParentId)
-                .OnDelete(DeleteBehavior.Restrict);
 
 
             builder.Property(a => a.Deleted).HasDefaultValue(false);

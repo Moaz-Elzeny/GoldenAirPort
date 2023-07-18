@@ -15,17 +15,6 @@ namespace Etqaan.Infrastructure.Presistence.Configurations
             builder.Property(gs => gs.Id)
                 .IsRequired();
 
-            builder.HasOne(gs => gs.Grade)
-                .WithMany(g => g.GradeSubjects)
-                .HasForeignKey(gs => gs.GradeId)
-                .OnDelete(DeleteBehavior.Restrict);
-
-            builder.HasOne(gs => gs.Subject)
-                .WithMany(sub => sub.GradeSubjects)
-                .HasForeignKey(gs => gs.SubjectId)
-                .OnDelete(DeleteBehavior.Restrict);
-
-
             builder.Property(a => a.Deleted).HasDefaultValue(false);
             builder.Property(a => a.Active).HasDefaultValue(true);
             builder.HasQueryFilter(a => !a.Deleted);

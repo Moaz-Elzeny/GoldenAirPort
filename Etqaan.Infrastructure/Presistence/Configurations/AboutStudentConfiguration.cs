@@ -12,15 +12,7 @@ namespace Etqaan.Infrastructure.Presistence.Configurations
 
             builder.HasKey(a => a.Id);
 
-            builder.HasOne(a => a.Student)
-                .WithMany(a => a.AboutStudents)
-                .HasForeignKey(a => a.StudentId)
-                .OnDelete(DeleteBehavior.Restrict);
 
-            builder.HasOne(a => a.About)
-                .WithMany(a => a.AboutStudents)
-                .HasForeignKey(a => a.AboutId)
-                .OnDelete(DeleteBehavior.Restrict);
         }
     }
 }

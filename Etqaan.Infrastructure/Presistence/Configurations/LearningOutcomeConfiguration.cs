@@ -25,10 +25,6 @@ namespace Etqaan.Infrastructure.Presistence.Configurations
             builder.Property(lo => lo.StandardId)
                 .IsRequired();
 
-            builder.HasOne(lo => lo.Standard)
-                .WithMany(s => s.LearningOutcomes)
-                .HasForeignKey(lo => lo.StandardId)
-                .OnDelete(DeleteBehavior.Cascade);
 
             builder.Property(lo => lo.Deleted).HasDefaultValue(false);
             builder.Property(lo => lo.Active).HasDefaultValue(true);

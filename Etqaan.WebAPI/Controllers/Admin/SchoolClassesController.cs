@@ -1,5 +1,4 @@
 ﻿using Etqaan.Application.Common.Models;
-using Etqaan.Application.Helpers;
 using Etqaan.Application.SchoolClasses.Commands.Create;
 using Etqaan.Application.SchoolClasses.Commands.CreateSchoolClass;
 using Etqaan.Application.SchoolClasses.Commands.Delete;
@@ -14,12 +13,12 @@ namespace Etqaan.WebAPI.Controllers.Admin
     public class SchoolClassesController : BaseController<SchoolClassesController>
     {
 
-        [HttpGet("GetAllClasses")]
-        public async Task<ActionResult<ResultDto<PaginatedList<GradeClassesDto>>>> GetAllSchoolClasses([FromQuery] GetAllSchoolClassesQuery query)
-        {
-            var result = await Mediator.Send(query);
-            return Ok(result);
-        }
+        //[HttpGet("GetAllClasses")]
+        //public async Task<ActionResult<ResultDto<PaginatedList<GradeClassesDto>>>> GetAllSchoolClasses([FromQuery] GetAllSchoolClassesQuery query)
+        //{
+        //    var result = await Mediator.Send(query);
+        //    return Ok(result);
+        //}
 
 
 

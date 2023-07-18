@@ -23,10 +23,7 @@ namespace Etqaan.Infrastructure.Presistence.Configurations
             builder.Property(s => s.SubjectId)
                 .IsRequired();
 
-            builder.HasOne(s => s.Subject)
-                .WithMany(sub => sub.Skills)
-                .HasForeignKey(s => s.SubjectId)
-                .OnDelete(DeleteBehavior.Restrict);
+
 
             builder.Property(a => a.Deleted).HasDefaultValue(false);
             builder.Property(a => a.Active).HasDefaultValue(true);

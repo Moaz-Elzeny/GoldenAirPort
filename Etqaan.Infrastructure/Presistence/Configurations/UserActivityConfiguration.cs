@@ -26,16 +26,7 @@ namespace Etqaan.Infrastructure.Presistence.Configurations
             builder.Property(ua => ua.Duration)
                 .IsRequired();
 
-            // Configure foreign key relationships
-            builder.HasOne(ua => ua.AppUser)
-                .WithMany(u => u.UserActivities)
-                .HasForeignKey(ua => ua.AppUserId)
-                .OnDelete(DeleteBehavior.Cascade);
 
-            builder.HasOne(ua => ua.Activity)
-                .WithMany(a => a.UserActivities)
-                .HasForeignKey(ua => ua.ActivityId)
-                .OnDelete(DeleteBehavior.Restrict);
         }
     }
 }

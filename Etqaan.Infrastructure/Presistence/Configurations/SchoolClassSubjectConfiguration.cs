@@ -15,15 +15,7 @@ namespace Etqaan.Infrastructure.Presistence.Configurations
             builder.Property(scs => scs.Id)
                 .IsRequired();
 
-            builder.HasOne(scs => scs.SchoolClass)
-                .WithMany(sc => sc.SchoolClassSubjects)
-                .HasForeignKey(scs => scs.SchoolClassId)
-                .OnDelete(DeleteBehavior.Restrict);
 
-            builder.HasOne(scs => scs.Subject)
-                .WithMany(sub => sub.SchoolClassSubjects)
-                .HasForeignKey(scs => scs.SubjectId)
-                .OnDelete(DeleteBehavior.Restrict);
 
             builder.Property(a => a.Deleted).HasDefaultValue(false);
             builder.Property(a => a.Active).HasDefaultValue(true);

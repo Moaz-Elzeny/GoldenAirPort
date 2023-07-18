@@ -40,10 +40,7 @@ namespace Etqaan.Infrastructure.Presistence.Configurations
                 .HasMaxLength(255)
                 .IsRequired();
 
-            builder.HasOne(e => e.Bank)
-                .WithMany(b => b.Employees)
-                .HasForeignKey(e => e.BankId)
-                .OnDelete(DeleteBehavior.Restrict);
+
 
 
             builder.Property(a => a.Deleted).HasDefaultValue(false);

@@ -16,11 +16,6 @@ namespace Etqaan.Infrastructure.Presistence.Configurations
                 .HasMaxLength(255)
                 .IsRequired();
 
-            builder.HasMany(a => a.AboutStudents)
-            .WithOne(s => s.About)
-                .HasForeignKey(s => s.AboutId)
-                .OnDelete(DeleteBehavior.Restrict);
-
 
 
             builder.Property(a => a.Deleted).HasDefaultValue(false);

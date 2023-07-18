@@ -31,25 +31,10 @@ namespace Etqaan.Infrastructure.Persistence.Configurations
             builder.Property(qb => qb.StudentCategory)
                 .IsRequired();
 
-            builder.HasOne(qb => qb.Grade)
-                .WithMany()
-                .HasForeignKey(qb => qb.GradeId)
-                .OnDelete(DeleteBehavior.Cascade);
-
-            builder.Property(qb => qb.ExamType)
-                .IsRequired();
-
-            builder.HasOne(qb => qb.Subject)
-                .WithMany()
-                .HasForeignKey(qb => qb.SubjectId)
-                .OnDelete(DeleteBehavior.Cascade);
 
 
 
-            builder.HasMany(qb => qb.Questions)
-                .WithOne(q => q.QuestionsBank)
-                .HasForeignKey(q => q.QuestionBankId)
-                .OnDelete(DeleteBehavior.Cascade);
+
 
             builder.Property(qb => qb.Deleted).HasDefaultValue(false);
             builder.Property(qb => qb.Active).HasDefaultValue(true);

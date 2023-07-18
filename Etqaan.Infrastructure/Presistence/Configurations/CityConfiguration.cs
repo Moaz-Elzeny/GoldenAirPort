@@ -25,10 +25,7 @@ namespace Etqaan.Infrastructure.Presistence.Configurations
             builder.Property(c => c.Icon)
                 .HasMaxLength(100);
 
-            builder.HasMany(c => c.Schools)
-                .WithOne(s => s.City)
-                .HasForeignKey(s => s.CityId)
-                .OnDelete(DeleteBehavior.Restrict);
+
 
             builder.Property(a => a.Deleted).HasDefaultValue(false);
             builder.Property(a => a.Active).HasDefaultValue(true);
