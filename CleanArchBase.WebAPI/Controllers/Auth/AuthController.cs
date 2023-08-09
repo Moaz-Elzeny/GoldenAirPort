@@ -19,6 +19,7 @@ namespace CleanArchBase.WebAPI.Controllers
 
             var result = await Mediator.Send(query);
 
+
             return Ok(result);
         }
 
