@@ -1,0 +1,55 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.6.33723.286
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GoldenAirport.Application", "GoldenAirport.Application\GoldenAirport.Application.csproj", "{25399FDE-6D04-4F4A-97C5-EB9317686EBD}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GoldenAirport.Common", "GoldenAirport.Common\GoldenAirport.Common.csproj", "{4E51CD56-DE65-424C-B6BB-EA4244F5095F}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GoldenAirport.Infrastructure", "GoldenAirport.Infrastructure\GoldenAirport.Infrastructure.csproj", "{2E7A5B7E-5E6B-4DDE-A772-2ADDD21E1D6A}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GoldenAirport.Tests", "GoldenAirport.Tests\GoldenAirport.Tests.csproj", "{7D4A888D-7635-4A16-BE96-C29FFDB409CA}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GoldenAirport.Domain", "GoldenAirport.Domain\GoldenAirport.Domain.csproj", "{8DBF3522-4958-4C6F-A315-EB6CACA86D7B}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GoldenAirport.WebAPI", "GoldenAirport.WebAPI\GoldenAirport.WebAPI.csproj", "{7870FE6A-67D3-40BF-90D3-E31FD75BE860}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{25399FDE-6D04-4F4A-97C5-EB9317686EBD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{25399FDE-6D04-4F4A-97C5-EB9317686EBD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{25399FDE-6D04-4F4A-97C5-EB9317686EBD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{25399FDE-6D04-4F4A-97C5-EB9317686EBD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4E51CD56-DE65-424C-B6BB-EA4244F5095F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4E51CD56-DE65-424C-B6BB-EA4244F5095F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4E51CD56-DE65-424C-B6BB-EA4244F5095F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4E51CD56-DE65-424C-B6BB-EA4244F5095F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2E7A5B7E-5E6B-4DDE-A772-2ADDD21E1D6A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2E7A5B7E-5E6B-4DDE-A772-2ADDD21E1D6A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2E7A5B7E-5E6B-4DDE-A772-2ADDD21E1D6A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2E7A5B7E-5E6B-4DDE-A772-2ADDD21E1D6A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7D4A888D-7635-4A16-BE96-C29FFDB409CA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7D4A888D-7635-4A16-BE96-C29FFDB409CA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7D4A888D-7635-4A16-BE96-C29FFDB409CA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7D4A888D-7635-4A16-BE96-C29FFDB409CA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8DBF3522-4958-4C6F-A315-EB6CACA86D7B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8DBF3522-4958-4C6F-A315-EB6CACA86D7B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8DBF3522-4958-4C6F-A315-EB6CACA86D7B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8DBF3522-4958-4C6F-A315-EB6CACA86D7B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7870FE6A-67D3-40BF-90D3-E31FD75BE860}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7870FE6A-67D3-40BF-90D3-E31FD75BE860}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7870FE6A-67D3-40BF-90D3-E31FD75BE860}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7870FE6A-67D3-40BF-90D3-E31FD75BE860}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {4C599073-0F1C-4F79-8A2D-13AAD42D29EA}
+	EndGlobalSection
+EndGlobal
