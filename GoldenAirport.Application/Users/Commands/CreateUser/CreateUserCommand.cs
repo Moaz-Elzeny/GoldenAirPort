@@ -2,10 +2,12 @@
 using System.Security.Claims;
 using System.Text;
 using GoldenAirport.Application.Common.Models;
+using GoldenAirport.Application.Helpers;
 using GoldenAirport.Application.Users.DTOs;
 using GoldenAirport.Domain.Entities.Auth;
 using GoldenAirport.Domain.Enums;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.IdentityModel.Tokens;
 
@@ -18,10 +20,10 @@ namespace GoldenAirport.Application.Users.Commands.CreateUser
         public string Password { get; set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }
-        public string PhoneNumber { get; set; }
-        //public DateTime? DateOfBirth { get; set; }
-        //public string? AddressDetails { get; set; }
+        public string PhoneNumber { get; set; }        
         public UserType UserType { get; set; }
+        public decimal ServiceFees { get; set; }
+        public IFormFile ProfilePicture { get; set; }
         public string? CurrentUserId { get; set; }
         public class CreateUserCommandHandler : IRequestHandler<CreateUserCommand, ResultDto<UserTokenDto>>
         {
@@ -42,15 +44,17 @@ namespace GoldenAirport.Application.Users.Commands.CreateUser
                     Email = request.Email,
                     FirstName = request.FirstName,
                     LastName = request.LastName,
-                    //DateOfBirth = request.DateOfBirth,
-                   
-                    //AddressDetails = request.AddressDetails,
                     UserType = request.UserType,
-                    CreatedById = "GoldenAirportAdmin",
+                    ServiceFees = request.ServiceFees,
+                    CreatedById = request.CurrentUserId,
                     CreationDate = DateTime.Now,
                     PhoneNumber = request.PhoneNumber,
                 };
 
+                if (request.ProfilePicture != null)
+                {
+                    user.ProfilePicture = await FileHelper.SaveImageAsync(request.ProfilePicture, _environment);
+                }
 
                 var result = await _userManager.CreateAsync(user, request.Password);
 
@@ -91,7 +95,7 @@ namespace GoldenAirport.Application.Users.Commands.CreateUser
                 .Union(userClaims)
                 .Union(roleClaims);
 
-                var symmetricSecurityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("lG0rDWELYD0jPtoLNlc/sMVREJMh8laXd5bvVEZzUeg="));
+                var symmetricSecurityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("agQxFnKSqDaysE7FxWdj417E4MBd5ZQAqh0ACsSDJFA="));
                 var signingCredentials = new SigningCredentials(symmetricSecurityKey, SecurityAlgorithms.HmacSha256);
 
                 var jwtSecurityToken = new JwtSecurityToken(

@@ -35,9 +35,9 @@ namespace GoldenAirport.Application.Users.Queries.GetMyProfile
                 FirstName = currentUser.FirstName,
                 LastName = currentUser.LastName,
                 PhoneNumber = currentUser.PhoneNumber,
-                //DateOfBirth = currentUser.DateOfBirth,
-                //AddressDetails = currentUser.AddressDetails,
+                ServiceFees = currentUser.ServiceFees,
                 UserType = currentUser.UserType,
+                ProfilePicture = currentUser.ProfilePicture,
             };
 
             return ResultDto<UserProfileDto>.Success(userProfile);

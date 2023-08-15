@@ -61,9 +61,8 @@ namespace GoldenAirport.WebAPI.Controllers
                 FirstName = dto.FirstName,
                 LastName = dto.LastName,
                 PhoneNumber = dto.PhoneNumber,
-                //AddressDetails = dto.AddressDetails,
                 UserType = dto.UserType,
-                Active = dto.Active,
+                //Active = dto.Active,
                 CurrentUserId = CurrentUserId
             };
             var validationResults = await new EditUserCommandValidator().ValidateAsync(command);

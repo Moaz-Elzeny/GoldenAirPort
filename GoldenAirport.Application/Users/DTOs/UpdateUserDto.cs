@@ -1,4 +1,5 @@
 ﻿using GoldenAirport.Domain.Enums;
+using Microsoft.AspNetCore.Http;
 
 namespace GoldenAirport.Application.Users.DTOs
 {
@@ -9,9 +10,10 @@ namespace GoldenAirport.Application.Users.DTOs
         public string? FirstName { get; init; }
         public string? LastName { get; init; }
         public string? PhoneNumber { get; init; }
-        //public string? AddressDetails { get; init; }
+        public decimal? ServiceFees { get; set; }
         public UserType? UserType { get; init; }
-        public bool? Active { get; init; }
+        //public bool? Active { get; init; }
+        public IFormFile? ProfilePicture { get; set; }
     }
 
 }

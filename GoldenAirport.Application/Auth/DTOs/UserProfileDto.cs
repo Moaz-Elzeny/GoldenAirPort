@@ -9,9 +9,8 @@ namespace GoldenAirport.Application.Auth.DTOs
         public string FirstName { get; init; }
         public string LastName { get; init; }
         public string PhoneNumber { get; init; }
-        //public DateTime? DateOfBirth { get; init; }
- 
-        //public string AddressDetails { get; init; }
+        public decimal ServiceFees { get; set; }
+        public string ProfilePicture { get; set; }
         public UserType UserType { get; init; }
     }
 }

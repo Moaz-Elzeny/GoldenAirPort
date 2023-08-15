@@ -29,14 +29,15 @@ namespace GoldenAirport.Application.Users.Queries
                 Email = user.Email,
                 FirstName = user.FirstName,
                 LastName = user.LastName,
-                //AddressDetails = user.AddressDetails,
+                ServiceFees = user.ServiceFees,
                 UserType = user.UserType,
-                Deleted = user.Deleted,
-                Active = user.Active,
-                CreatedById = user.CreatedById,
-                CreationDate = user.CreationDate,
-                ModifiedById = user.ModifiedById,
-                ModificationDate = user.ModificationDate,
+                ProfilePicture = user.ProfilePicture,
+                //Deleted = user.Deleted,
+                //Active = user.Active,
+                //CreatedById = user.CreatedById,
+                //CreationDate = user.CreationDate,
+                //ModifiedById = user.ModifiedById,
+                //ModificationDate = user.ModificationDate,
 
             }).ToList();
 
