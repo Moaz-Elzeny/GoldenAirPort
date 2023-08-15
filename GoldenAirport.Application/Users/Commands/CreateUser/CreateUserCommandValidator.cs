@@ -32,14 +32,11 @@ namespace GoldenAirport.Application.Users.Commands.CreateUser
                 .NotEmpty().WithMessage("Password is required.")
                 .MinimumLength(6).WithMessage("Password must be at least 6 characters long.");
 
-           
-            //RuleFor(x => x.AddressDetails)
-            //    .MaximumLength(500).WithMessage("Address details cannot exceed 250 characters.");
 
-           
-           
             RuleFor(x => x.UserType)
                 .IsInEnum().WithMessage("Invalid user type value.");
+
+
            
         }
         private async Task<bool> BeUniqueUserName(string userName, CancellationToken cancellationToken)

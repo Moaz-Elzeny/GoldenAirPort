@@ -12,10 +12,6 @@ namespace GoldenAirport.Infrastructure.Presistence.Configurations
 
             builder.HasKey(e => e.Id);
 
-            builder.Property(e => e.Id)
-                .HasMaxLength(255);
-
-            
             builder.Property(e => e.Balance)
                 .HasColumnType("decimal(18,2)")
                 .IsRequired();

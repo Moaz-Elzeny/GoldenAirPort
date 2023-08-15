@@ -4,6 +4,7 @@ using GoldenAirport.Infrastructure.Presistence;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace GoldenAirport.Infrastructure.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230815130450_DropEmployeeTable")]
+    partial class DropEmployeeTable
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -391,64 +394,6 @@ namespace GoldenAirport.Infrastructure.Migrations
                     b.ToTable("Country", (string)null);
                 });
 
-            modelBuilder.Entity("GoldenAirport.Domain.Entities.Employee", b =>
-                {
-                    b.Property<string>("Id")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<bool>("Active")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("bit")
-                        .HasDefaultValue(true);
-
-                    b.Property<int>("AgentCode")
-                        .HasColumnType("int");
-
-                    b.Property<string>("AppUserId")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<decimal>("Balance")
-                        .HasColumnType("decimal(18,2)");
-
-                    b.Property<string>("CreatedById")
-                        .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
-
-                    b.Property<DateTime>("CreationDate")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("DATETIME")
-                        .HasDefaultValueSql("GETDATE()");
-
-                    b.Property<decimal>("DailyGoal")
-                        .HasColumnType("decimal(18,2)");
-
-                    b.Property<bool>("Deleted")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("bit")
-                        .HasDefaultValue(false);
-
-                    b.Property<DateTime>("LastLogin")
-                        .HasColumnType("datetime2");
-
-                    b.Property<DateTime?>("ModificationDate")
-                        .HasColumnType("DATETIME");
-
-                    b.Property<string>("ModifiedById")
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
-
-                    b.Property<int>("PaymentMethod")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("AppUserId");
-
-                    b.ToTable("Employee", (string)null);
-                });
-
             modelBuilder.Entity("GoldenAirport.Domain.Entities.Trip", b =>
                 {
                     b.Property<int>("Id")
@@ -751,17 +696,6 @@ namespace GoldenAirport.Infrastructure.Migrations
                     b.Navigation("Cities");
 
                     b.Navigation("Trips");
-                });
-
-            modelBuilder.Entity("GoldenAirport.Domain.Entities.Employee", b =>
-                {
-                    b.HasOne("GoldenAirport.Domain.Entities.Auth.AppUser", "AppUser")
-                        .WithMany()
-                        .HasForeignKey("AppUserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("AppUser");
                 });
 
             modelBuilder.Entity("GoldenAirport.Domain.Entities.Trip", b =>

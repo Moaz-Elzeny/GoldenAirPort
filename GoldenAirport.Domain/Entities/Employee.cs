@@ -5,7 +5,7 @@ namespace GoldenAirport.Domain.Entities
 {
     public class Employee : BaseEntity
     {
-        public int Id { get; set; }
+        public string Id { get; set; }
         public int AgentCode { get; set; }
         public decimal Balance { get; set; }
         public decimal DailyGoal { get; set; }
