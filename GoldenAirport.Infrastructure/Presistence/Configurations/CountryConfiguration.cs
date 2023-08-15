@@ -4,32 +4,20 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace GoldenAirport.Infrastructure.Presistence.Configurations
 {
-    public class EmployeeConfiguration : IEntityTypeConfiguration<Employee>
+    public class CountryConfiguration : IEntityTypeConfiguration<Country>
     {
-        public void Configure(EntityTypeBuilder<Employee> builder)
+        public void Configure(EntityTypeBuilder<Country> builder)
         {
-            builder.ToTable("Employee");
+            builder.ToTable("Country");
 
-            builder.HasKey(e => e.Id);
+            builder.HasKey(c => c.Id);
 
-            builder.Property(e => e.Id)
+            builder.Property(c => c.Id)
                 .HasMaxLength(255);
 
-            
-            builder.Property(e => e.Balance)
-                .HasColumnType("decimal(18,2)")
-                .IsRequired();
+            builder.Property(c => c.NameAr).HasMaxLength(255).IsRequired();
 
-            builder.Property(e => e.DailyGoal)
-                .HasColumnType("decimal(18,2)")
-                .IsRequired();
-
-            builder.Property(e => e.PaymentMethod)
-                .IsRequired();
-
-            builder.Property(e => e.LastLogin)
-                .IsRequired();
-
+            builder.Property(c => c.NameEn).HasMaxLength(255).IsRequired();
 
             builder.Property(a => a.Deleted).HasDefaultValue(false);
             builder.Property(a => a.Active).HasDefaultValue(true);
@@ -38,7 +26,6 @@ namespace GoldenAirport.Infrastructure.Presistence.Configurations
             builder.Property(b => b.CreationDate).HasColumnType("DATETIME").HasDefaultValueSql("GETDATE()").IsRequired();
             builder.Property(b => b.ModificationDate).HasColumnType("DATETIME");
             builder.Property(a => a.ModifiedById).HasMaxLength(50);
-
         }
     }
 }

@@ -4,6 +4,7 @@ using GoldenAirport.Infrastructure.Presistence;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace GoldenAirport.Infrastructure.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230814130203_AddTrip")]
+    partial class AddTrip
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -49,13 +52,11 @@ namespace GoldenAirport.Infrastructure.Migrations
 
                     b.Property<string>("FirstName")
                         .IsRequired()
-                        .HasMaxLength(255)
-                        .HasColumnType("nvarchar(255)");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("LastName")
                         .IsRequired()
-                        .HasMaxLength(255)
-                        .HasColumnType("nvarchar(255)");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime?>("ModificationDate")
                         .HasColumnType("datetime2");
@@ -64,12 +65,12 @@ namespace GoldenAirport.Infrastructure.Migrations
                         .HasMaxLength(450)
                         .HasColumnType("nvarchar(450)");
 
-                    b.Property<string>("PassportNo")
-                        .HasMaxLength(20)
-                        .HasColumnType("nvarchar(20)");
-
-                    b.Property<int>("Title")
+                    b.Property<int?>("PassportNo")
                         .HasColumnType("int");
+
+                    b.Property<string>("Title")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("TripRegistrationId")
                         .HasColumnType("int");
@@ -78,7 +79,7 @@ namespace GoldenAirport.Infrastructure.Migrations
 
                     b.HasIndex("TripRegistrationId");
 
-                    b.ToTable("Adult", (string)null);
+                    b.ToTable("Adult");
                 });
 
             modelBuilder.Entity("GoldenAirport.Domain.Entities.Auth.AppUser", b =>
@@ -226,9 +227,8 @@ namespace GoldenAirport.Infrastructure.Migrations
                         .HasMaxLength(450)
                         .HasColumnType("nvarchar(450)");
 
-                    b.Property<string>("PassportNo")
-                        .HasMaxLength(20)
-                        .HasColumnType("nvarchar(20)");
+                    b.Property<int?>("PassportNo")
+                        .HasColumnType("int");
 
                     b.Property<int>("TripRegistrationId")
                         .HasColumnType("int");
@@ -237,7 +237,7 @@ namespace GoldenAirport.Infrastructure.Migrations
 
                     b.HasIndex("TripRegistrationId");
 
-                    b.ToTable("Child", (string)null);
+                    b.ToTable("Child");
                 });
 
             modelBuilder.Entity("GoldenAirport.Domain.Entities.City", b =>
@@ -337,7 +337,7 @@ namespace GoldenAirport.Infrastructure.Migrations
 
                     b.HasIndex("TripId");
 
-                    b.ToTable("CityTrip", (string)null);
+                    b.ToTable("CityTrip");
                 });
 
             modelBuilder.Entity("GoldenAirport.Domain.Entities.Country", b =>
@@ -481,9 +481,8 @@ namespace GoldenAirport.Infrastructure.Migrations
                     b.Property<int>("FromCityId")
                         .HasColumnType("int");
 
-                    b.Property<byte>("Guests")
-                        .HasMaxLength(255)
-                        .HasColumnType("tinyint");
+                    b.Property<int>("Guests")
+                        .HasColumnType("int");
 
                     b.Property<bool>("IsRefundable")
                         .HasColumnType("bit");
@@ -535,8 +534,7 @@ namespace GoldenAirport.Infrastructure.Migrations
 
                     b.Property<string>("Email")
                         .IsRequired()
-                        .HasMaxLength(500)
-                        .HasColumnType("nvarchar(500)");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime?>("ModificationDate")
                         .HasColumnType("datetime2");
@@ -553,8 +551,7 @@ namespace GoldenAirport.Infrastructure.Migrations
 
                     b.Property<string>("PhoneNumber")
                         .IsRequired()
-                        .HasMaxLength(20)
-                        .HasColumnType("nvarchar(20)");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<decimal>("TaxesAdndFees")
                         .HasColumnType("decimal(18,2)");
@@ -569,7 +566,7 @@ namespace GoldenAirport.Infrastructure.Migrations
 
                     b.HasIndex("TripId");
 
-                    b.ToTable("TripRegistration", (string)null);
+                    b.ToTable("TripRegistration");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
@@ -743,13 +740,13 @@ namespace GoldenAirport.Infrastructure.Migrations
                     b.HasOne("GoldenAirport.Domain.Entities.City", "Cities")
                         .WithMany("CityTrips")
                         .HasForeignKey("CityId")
-                        .OnDelete(DeleteBehavior.Restrict)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("GoldenAirport.Domain.Entities.Trip", "Trips")
                         .WithMany("ToCity")
                         .HasForeignKey("TripId")
-                        .OnDelete(DeleteBehavior.Restrict)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("Cities");
@@ -784,7 +781,7 @@ namespace GoldenAirport.Infrastructure.Migrations
                     b.HasOne("GoldenAirport.Domain.Entities.Trip", "Trip")
                         .WithMany("TripRegistrations")
                         .HasForeignKey("TripId")
-                        .OnDelete(DeleteBehavior.Restrict)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("Trip");

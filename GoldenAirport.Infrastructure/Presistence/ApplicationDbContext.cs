@@ -1,4 +1,5 @@
 ﻿using GoldenAirport.Application.Interfaces;
+using GoldenAirport.Domain.Entities;
 using GoldenAirport.Domain.Entities.Auth;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
@@ -21,6 +22,13 @@ namespace GoldenAirport.Infrastructure.Presistence
 
         #region GoldenAirport Entities
         public DbSet<Employee> Employees { get; set; }
+        public DbSet<Country> Countries { get; set; }
+        public DbSet<City> Cities { get; set; }
+        public DbSet<Trip> Trips { get; set; }
+        public DbSet<CityTrip> CityTrips { get; set; }
+        public DbSet<TripRegistration> TripRegistrations { get; set; }
+        public DbSet<Adult> Adults { get; set; }
+        public DbSet<Child> Children { get; set; }
 
         #endregion
         public override DatabaseFacade Database => base.Database;

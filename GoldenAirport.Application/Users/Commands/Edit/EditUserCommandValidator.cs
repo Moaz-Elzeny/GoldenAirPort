@@ -22,8 +22,8 @@ namespace GoldenAirport.Application.Users.Commands.EditUser
 
 
            
-            RuleFor(x => x.AddressDetails)
-                .MaximumLength(250).WithMessage("Address details cannot exceed 250 characters.");
+            //RuleFor(x => x.AddressDetails)
+            //    .MaximumLength(250).WithMessage("Address details cannot exceed 250 characters.");
 
 
 

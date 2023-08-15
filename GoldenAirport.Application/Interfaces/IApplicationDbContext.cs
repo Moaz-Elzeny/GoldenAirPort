@@ -16,6 +16,8 @@ namespace GoldenAirport.Application.Interfaces
 
         #region GoldenAirport Entities
         DbSet<Employee> Employees { get; set; }
+        DbSet<Country> Countries { get; set; }
+        DbSet<City> Cities { get; set; }
         #endregion
 
 

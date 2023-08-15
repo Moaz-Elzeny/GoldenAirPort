@@ -32,6 +32,10 @@ namespace GoldenAirport.Infrastructure.Presistence.Configurations
                     .IsRequired();
 
 
+                builder.Property(e => e.ServiceFees)
+                    .HasColumnType("decimal(18,2)")
+                    .IsRequired();
+
                 builder.Property(a => a.Deleted).HasDefaultValue(false);
                 builder.Property(a => a.Active).HasDefaultValue(true);
                 builder.HasQueryFilter(a => !a.Deleted);

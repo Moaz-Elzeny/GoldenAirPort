@@ -9,6 +9,7 @@ namespace GoldenAirport.Domain.Entities.Auth
         public string LastName { get; set; }
         public string ProfilePicture { get; set; }
         public UserType UserType { get; set; }
+        public decimal ServiceFees { get; set; }
 
         public string CreatedById { get; set; }
         public DateTime CreationDate { get; set; }
