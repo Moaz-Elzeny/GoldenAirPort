@@ -14,12 +14,13 @@ namespace GoldenAirport.Application.Users.Commands.EditUser
         public string UserId { get; init; }
         public string? UserName { get; init; }
         public string? Email { get; init; }
+        public string? currentPassword { get; init; }
+        public string? newPassword { get; init; }
         public string? FirstName { get; init; }
         public string? LastName { get; init; }
         public string? PhoneNumber { get; init; }
         public decimal? ServiceFees { get; init; }
         public UserType? UserType { get; init; }
-        //public bool? Active { get; init; }
         public IFormFile? ProfilePicture { get; set; }
         public string? CurrentUserId { get; init; }
 
@@ -56,7 +57,6 @@ namespace GoldenAirport.Application.Users.Commands.EditUser
                 user.ServiceFees = request.ServiceFees ?? user.ServiceFees;
                 user.UserType = request.UserType ?? user.UserType;
                 user.PhoneNumber = request.PhoneNumber ?? user.PhoneNumber;
-                //user.Active = request.Active ?? user.Active;
                 user.ModificationDate = DateTime.Now;
                 user.ModifiedById = request.CurrentUserId;
 
@@ -67,6 +67,13 @@ namespace GoldenAirport.Application.Users.Commands.EditUser
                         FileHelper.DeleteFile(user.ProfilePicture, _environment);
                     }
                     user.ProfilePicture = await FileHelper.SaveImageAsync(request.ProfilePicture, _environment);
+                }
+
+                var x =  await _userManager.ChangePasswordAsync(user, request.currentPassword, request.newPassword);
+
+                if (!x.Succeeded)
+                {
+                    return ResultDto<string>.Failure("Password is Wrong .. Please return password ");
                 }
 
                 var result = await _userManager.UpdateAsync(user);

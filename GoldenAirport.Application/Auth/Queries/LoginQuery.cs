@@ -1,4 +1,5 @@
 ﻿using GoldenAirport.Application.Common.Models;
+using GoldenAirport.Domain.Entities;
 using GoldenAirport.Domain.Entities.Auth;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.IdentityModel.Tokens;
@@ -38,6 +39,11 @@ namespace GoldenAirport.Application.Users.Queries.Login
             {
                 var jwtSecurityToken = await CreateJwtToken(user);
                 var token = new JwtSecurityTokenHandler().WriteToken(jwtSecurityToken);
+
+                if (user.UserType == Domain.Enums.UserType.Employee)
+                {
+                    new Employee { LastLogin = DateTime.Now };
+                }
 
                 return ResultDto<string>.Success(token);
             }

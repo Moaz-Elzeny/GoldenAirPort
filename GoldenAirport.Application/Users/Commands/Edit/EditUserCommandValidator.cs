@@ -21,12 +21,6 @@ namespace GoldenAirport.Application.Users.Commands.EditUser
                 .MaximumLength(20).WithMessage("Phone number cannot exceed 20 characters.");
 
 
-           
-            //RuleFor(x => x.AddressDetails)
-            //    .MaximumLength(250).WithMessage("Address details cannot exceed 250 characters.");
-
-
-
             RuleFor(x => x.UserType)
                 .IsInEnum().WithMessage("Invalid user type value.");
 

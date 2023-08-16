@@ -22,8 +22,6 @@ namespace GoldenAirport.Application.Employees.Commands.Create
         public decimal Balance { get; set; }
         public decimal DailyGoal { get; set; }
         public paymentMethod PaymentMethod { get; set; }
-        public DateTime LastLogin { get; set; }
-        public string AppUserId { get; set; }
         public class CreateEmployeeHandler : IRequestHandler<CreateEmployeeCommand, ResultDto<string>>
         {
             private readonly IApplicationDbContext _dbContext;
@@ -63,7 +61,6 @@ namespace GoldenAirport.Application.Employees.Commands.Create
                     Balance = request.Balance,
                     DailyGoal = request.DailyGoal,
                     PaymentMethod = request.PaymentMethod,
-                    LastLogin = request.LastLogin,  //Edit
 
                 };
                 return ResultDto<string>.Success(CreateEmployee.Id);
