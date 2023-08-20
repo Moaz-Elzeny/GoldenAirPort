@@ -32,12 +32,7 @@ namespace GoldenAirport.Application.Users.Queries
                 ServiceFees = user.ServiceFees,
                 UserType = user.UserType,
                 ProfilePicture = user.ProfilePicture,
-                //Deleted = user.Deleted,
-                //Active = user.Active,
-                //CreatedById = user.CreatedById,
-                //CreationDate = user.CreationDate,
-                //ModifiedById = user.ModifiedById,
-                //ModificationDate = user.ModificationDate,
+                
 
             }).ToList();
 

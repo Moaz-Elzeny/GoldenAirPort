@@ -61,8 +61,14 @@ namespace GoldenAirport.Application.Employees.Commands.Create
                     Balance = request.Balance,
                     DailyGoal = request.DailyGoal,
                     PaymentMethod = request.PaymentMethod,
+                    CreatedById = request.CurrentUserId,
+                    CreationDate = DateTime.Now,
+                    Active = true
 
                 };
+
+                _dbContext.Employees.Add(CreateEmployee);
+                await _dbContext.SaveChangesAsync(cancellationToken);
                 return ResultDto<string>.Success(CreateEmployee.Id);
 
             }

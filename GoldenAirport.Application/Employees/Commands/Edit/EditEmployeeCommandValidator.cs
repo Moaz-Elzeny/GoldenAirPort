@@ -21,17 +21,17 @@ namespace GoldenAirport.Application.Employees.Commands.Edit
             RuleFor(x => x.UserType)
                 .IsInEnum().WithMessage("Invalid user type value.");
 
-            RuleFor(x => x.AgentCode)
-               .NotEmpty()
-               .WithMessage("Agent Code is required");
+            //RuleFor(x => x.AgentCode)
+            //   .NotEmpty()
+            //   .WithMessage("Agent Code is required");
 
-            RuleFor(x => x.Balance)
-                .NotEmpty()
-                .WithMessage("Balance is required");
+            //RuleFor(x => x.Balance)
+            //    .NotEmpty()
+            //    .WithMessage("Balance is required");
 
-            RuleFor(x => x.DailyGoal)
-                .NotEmpty()
-                .WithMessage("Daily Goal is required");
+            //RuleFor(x => x.DailyGoal)
+            //    .NotEmpty()
+            //    .WithMessage("Daily Goal is required");
 
             RuleFor(x => x.PaymentMethod)
                 .IsInEnum()

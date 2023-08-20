@@ -69,13 +69,15 @@ namespace GoldenAirport.Application.Users.Commands.EditUser
                     user.ProfilePicture = await FileHelper.SaveImageAsync(request.ProfilePicture, _environment);
                 }
 
-                var x =  await _userManager.ChangePasswordAsync(user, request.currentPassword, request.newPassword);
-
-                if (!x.Succeeded)
+                if (request.currentPassword != null)
                 {
-                    return ResultDto<string>.Failure("Password is Wrong .. Please return password ");
-                }
+                    var x = await _userManager.ChangePasswordAsync(user, request.currentPassword, request.newPassword);
 
+                    if (!x.Succeeded)
+                    {
+                        return ResultDto<string>.Failure("Password is Wrong .. Please return password ");
+                    }
+                }
                 var result = await _userManager.UpdateAsync(user);
 
                 if (result.Succeeded)

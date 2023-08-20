@@ -2,11 +2,7 @@
 using GoldenAirport.Application.Employees.Commands.Delete;
 using GoldenAirport.Application.Employees.Commands.Edit;
 using GoldenAirport.Application.Employees.Dtos;
-using GoldenAirport.Application.Users.Commands.Delete;
-using GoldenAirport.Application.Users.Commands.EditUser;
-using GoldenAirport.Application.Users.DTOs;
-using GoldenAirport.Domain.Entities.Auth;
-using Microsoft.AspNetCore.Identity;
+using GoldenAirport.Application.Employees.Queries;
 using Microsoft.AspNetCore.Mvc;
 
 namespace GoldenAirport.WebAPI.Controllers
@@ -15,6 +11,14 @@ namespace GoldenAirport.WebAPI.Controllers
     [Route("api/v{version:apiVersion}/[controller]")]
     public class EmployeesController : BaseController<EmployeesController>
     {
+
+        [HttpGet("AllEmployees")]
+        public async Task<IActionResult> GetAllEmployees([FromQuery]int pageNumber)
+        {
+            var query = new GetAllEmployeeQuery{PageNumber = pageNumber};
+            var result = await Mediator.Send(query);
+            return result.Errors != null ? BadRequest(result.Errors) : Ok(result.Data);
+        }
 
         [HttpPost("CreateEmployee")]
         public async Task<IActionResult> CreateEmployee([FromForm] CreateEmployeeCommand command)
@@ -29,13 +33,12 @@ namespace GoldenAirport.WebAPI.Controllers
 
             var result = await Mediator.Send(command);
 
-            return Ok(result);
+            return result.Errors != null ? BadRequest(result.Errors) : Ok(result.Data);
         }
 
         [HttpPut("UpdateEmployee")]
         public async Task<IActionResult> UpdateEmployee(string Id, [FromForm] UpdateEmployeeDto dto)
         {
-
 
             var command = new EditEmployeeCommand
             {
@@ -66,7 +69,7 @@ namespace GoldenAirport.WebAPI.Controllers
 
             var result = await Mediator.Send(command);
 
-            return Ok(result);
+            return result.Errors != null ? BadRequest(result.Errors) : Ok(result.Data);
         }
 
 
@@ -81,7 +84,7 @@ namespace GoldenAirport.WebAPI.Controllers
 
             var result = await Mediator.Send(command);
 
-            return Ok(result);
+            return result.Errors != null ? BadRequest(result.Errors) : Ok(result.Data);
         }
     }
 }

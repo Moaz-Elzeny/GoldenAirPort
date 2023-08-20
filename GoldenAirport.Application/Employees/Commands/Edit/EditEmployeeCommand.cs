@@ -46,7 +46,7 @@ namespace GoldenAirport.Application.Employees.Commands.Edit
                 //Edit user for the employee
                 var EditUser = new EditUserCommand()
                 {
-                    UserId = request.Id,
+                    UserId = employee.AppUserId,
                     UserName = request.UserName,
                     Email = request.Email,
                     FirstName = request.FirstName,
@@ -56,8 +56,7 @@ namespace GoldenAirport.Application.Employees.Commands.Edit
                     ServiceFees = request.ServiceFees,
                     ProfilePicture = request.ProfilePicture,
                     CurrentUserId = request.CurrentUserId,
-                    currentPassword = request.CurrentPassword,
-                    newPassword = request.NewPassword,
+                    
 
                 };
                 var result = await _mediator.Send(EditUser, cancellationToken);

@@ -17,13 +17,15 @@ namespace GoldenAirport.Application.Users.Queries.Login
 
     public class LoginQueryHandler : IRequestHandler<LoginQuery, ResultDto<string>>
     {
+        private readonly IApplicationDbContext _context;
         private readonly UserManager<AppUser> _userManager;
         private readonly SignInManager<AppUser> _signInManager;
 
-        public LoginQueryHandler(UserManager<AppUser> userManager, SignInManager<AppUser> signInManager)
+        public LoginQueryHandler(UserManager<AppUser> userManager, SignInManager<AppUser> signInManager, IApplicationDbContext context)
         {
             _userManager = userManager;
             _signInManager = signInManager;
+            _context = context;
         }
 
         public async Task<ResultDto<string>> Handle(LoginQuery request, CancellationToken cancellationToken)
@@ -42,7 +44,12 @@ namespace GoldenAirport.Application.Users.Queries.Login
 
                 if (user.UserType == Domain.Enums.UserType.Employee)
                 {
-                    new Employee { LastLogin = DateTime.Now };
+                    var e = await _context.Employees.Where(e => e.AppUserId == user.Id).FirstOrDefaultAsync();
+                    if (e != null) 
+                    {
+                        e.LastLogin = DateTime.Now;
+                    }
+                    await _context.SaveChangesAsync(cancellationToken);
                 }
 
                 return ResultDto<string>.Success(token);
