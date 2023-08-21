@@ -19,7 +19,7 @@ namespace GoldenAirport.Application.Countries.Commands.Delete
 
             public async Task<ResultDto<string>> Handle(DeleteCountryCommand request, CancellationToken cancellationToken)
             {
-                var country = await _dbContext.Countries.FindAsync(request.Id) ?? throw new NotFoundException("Employee not found.");
+                var country = await _dbContext.Countries.FindAsync(request.Id) ?? throw new NotFoundException("Country not found.");
                 
                 country.Deleted = true;
                 country.ModificationDate = DateTime.Now;

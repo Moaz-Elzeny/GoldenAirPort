@@ -37,7 +37,7 @@ namespace GoldenAirport.WebAPI.Controllers
         [HttpPut("Update")]
         public async Task<IActionResult> Update([FromHeader]int Id, [FromBody]UpdateCountryDto dto )
         {
-            var country = new EditCountryCommand
+            var editCountry = new EditCountryCommand
             { 
                 Id= Id,
                 NameAr = dto.NameAr,
@@ -45,15 +45,15 @@ namespace GoldenAirport.WebAPI.Controllers
                 CurrentUserId = CurrentUserId
             }; 
 
-            var result = await Mediator.Send(country);
+            var result = await Mediator.Send(editCountry);
             return result.Errors != null ? BadRequest(result.Errors) : Ok(result.Data);
         }
 
         [HttpDelete("Delete")]
         public async Task<IActionResult> Delete(int Id)
         {
-            var country = new DeleteCountryCommand { Id = Id };
-            var result = await Mediator.Send(country);
+            var deleteCountry = new DeleteCountryCommand { Id = Id };
+            var result = await Mediator.Send(deleteCountry);
 
             return result.Errors != null ? BadRequest(result.Errors) :  Ok(result.Data);
         }

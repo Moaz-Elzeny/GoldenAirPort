@@ -1,28 +1,29 @@
-﻿using GoldenAirport.Application.Common.Models;
+﻿using GoldenAirport.Application.Cities.Dtos;
+using GoldenAirport.Application.Common.Models;
 using GoldenAirport.Application.Countries.Dtos;
 using GoldenAirport.Application.Helpers;
 
-namespace GoldenAirport.Application.Countries.Queries
+namespace GoldenAirport.Application.Cities.Queries
 {
-    public class GetCountriesQuery : IRequest<ResultDto<PaginatedList<GetCountriesDto>>>
+    public class GetCitiesQuery : IRequest<ResultDto<PaginatedList<GetCitiesDto>>>
     {
         public int PageNumber { get; set; } = 1;
-        public class GetCountriesHandler : IRequestHandler<GetCountriesQuery, ResultDto<PaginatedList<GetCountriesDto>>>
+        public class GetCitiesHandler : IRequestHandler<GetCitiesQuery, ResultDto<PaginatedList<GetCitiesDto>>>
         {
             private readonly IApplicationDbContext _dbContext;
 
-            public GetCountriesHandler(IApplicationDbContext dbContext)
+            public GetCitiesHandler(IApplicationDbContext dbContext)
             {
                 _dbContext = dbContext;
             }
 
-            public async Task<ResultDto<PaginatedList<GetCountriesDto>>> Handle(GetCountriesQuery request, CancellationToken cancellationToken)
+            public async Task<ResultDto<PaginatedList<GetCitiesDto>>> Handle(GetCitiesQuery request, CancellationToken cancellationToken)
             {
 
                 var pageNumber = request.PageNumber <= 0 ? 1 : request.PageNumber;
                 var pageSize = 10;
 
-                var query = _dbContext.Countries
+                var query = _dbContext.Cities
                 .AsQueryable();
 
                 var totalCount = await query.CountAsync(cancellationToken);
@@ -30,14 +31,15 @@ namespace GoldenAirport.Application.Countries.Queries
                 var totalPages = (int)Math.Ceiling((double)totalCount / pageSize);
 
                 var countries = await query
-                    .Select(c => new GetCountriesDto
+                    .Select(c => new GetCitiesDto
                     {
                         Id = c.Id,
                         NameAr = c.NameAr,
                         NameEn = c.NameEn,
+                        CountryId = c.CountryId,
                     }).ToListAsync(cancellationToken);
 
-                var paginatedList = new PaginatedList<GetCountriesDto>
+                var paginatedList = new PaginatedList<GetCitiesDto>
                 {
                     Items = countries,
                     TotalCount = totalCount,
@@ -46,7 +48,7 @@ namespace GoldenAirport.Application.Countries.Queries
                     TotalPages = totalPages
                 };
 
-                return ResultDto<PaginatedList<GetCountriesDto>>.Success(paginatedList);
+                return ResultDto<PaginatedList<GetCitiesDto>>.Success(paginatedList);
             }
         }
     }

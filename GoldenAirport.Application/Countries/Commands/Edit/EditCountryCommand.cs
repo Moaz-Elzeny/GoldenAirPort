@@ -7,8 +7,8 @@ namespace GoldenAirport.Application.Countries.Commands.Edit
     public class EditCountryCommand : IRequest<ResultDto<string>>
     {
         public int Id { get; set; }
-        public string NameAr { get; set; }
-        public string NameEn { get; set; }
+        public string? NameAr { get; set; }
+        public string? NameEn { get; set; }
         public string? CurrentUserId { get; set; }
 
         public class EditCountyHandler : IRequestHandler<EditCountryCommand, ResultDto<string>>
