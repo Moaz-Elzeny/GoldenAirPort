@@ -6,7 +6,7 @@ namespace GoldenAirport.Application.Employees.Commands.Delete
     public class DeleteEmployeeCommand : IRequest<ResultDto<string>>
     {
         public string Id { get; set; }
-        public string CurrentUserId { get; set; }
+        public string? CurrentUserId { get; set; }
         public class DeleteEmployeeHandler : IRequestHandler<DeleteEmployeeCommand, ResultDto<string>>
         {
             private readonly IApplicationDbContext _dbContext;
@@ -26,7 +26,7 @@ namespace GoldenAirport.Application.Employees.Commands.Delete
                 
                 await _dbContext.SaveChangesAsync(cancellationToken);
 
-                return ResultDto<string>.Success(employee.Id.ToString());
+                return ResultDto<string>.Success("Deleted has been successfully");
             }
         }
     }

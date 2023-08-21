@@ -6,7 +6,7 @@ namespace GoldenAirport.Application.Employees.Queries
 {
     public class GetAllEmployeeQuery : IRequest<ResultDto<PaginatedList<GetAllEmployeeDto>>>
     {
-        public int PageNumber { get; set; }
+        public int PageNumber { get; set; } = 1;
         public string? SearchKey { get; set; }
 
         public class GetAllEmployeeHandler : IRequestHandler<GetAllEmployeeQuery, ResultDto<PaginatedList<GetAllEmployeeDto>>>
@@ -31,8 +31,7 @@ namespace GoldenAirport.Application.Employees.Queries
                     query = query.Where(e =>
                         e.AppUser.FirstName.Contains(request.SearchKey) ||
                         e.AppUser.LastName.Contains(request.SearchKey) ||
-                        e.AppUser.UserName.Contains(request.SearchKey) ||
-                        e.AppUser.Email.Contains(request.SearchKey)
+                        e.AppUser.PhoneNumber.Contains(request.SearchKey)
                     );
                 }
 
@@ -41,7 +40,7 @@ namespace GoldenAirport.Application.Employees.Queries
                 var totalPages = (int)Math.Ceiling((double)totalCount / pageSize);
 
 
-                var employees = await _dbContext.Employees
+                var employees = await query
                     .Select(x => new GetAllEmployeeDto
                     {
                         Id = x.Id,

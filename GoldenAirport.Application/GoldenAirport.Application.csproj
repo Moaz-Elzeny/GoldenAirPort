@@ -29,11 +29,6 @@
 
   <ItemGroup>
     <Folder Include="Auth\Commands\" />
-    <Folder Include="Countries\Commands\Create\" />
-    <Folder Include="Countries\Commands\Delete\" />
-    <Folder Include="Countries\Commands\Edit\" />
-    <Folder Include="Countries\Dtos\" />
-    <Folder Include="Countries\Queries\" />
     <Folder Include="Logs\Commands\" />
   </ItemGroup>
 

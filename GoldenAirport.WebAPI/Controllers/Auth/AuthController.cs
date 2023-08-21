@@ -20,7 +20,7 @@ namespace GoldenAirport.WebAPI.Controllers
             var result = await Mediator.Send(query);
 
 
-            return Ok(result);
+            return result.Errors != null ? BadRequest(result.Errors) : Ok(result.Data);
         }
 
         [HttpPost("login")]
@@ -28,7 +28,7 @@ namespace GoldenAirport.WebAPI.Controllers
         {
             var result = await Mediator.Send(query);
 
-            return Ok(result);
+            return result.Errors != null ? BadRequest(result.Errors) : Ok(result.Data);
         }
 
 

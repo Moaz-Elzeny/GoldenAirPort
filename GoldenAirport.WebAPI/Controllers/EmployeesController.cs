@@ -13,9 +13,9 @@ namespace GoldenAirport.WebAPI.Controllers
     {
 
         [HttpGet("AllEmployees")]
-        public async Task<IActionResult> GetAllEmployees([FromQuery]int pageNumber)
+        public async Task<IActionResult> GetAllEmployees([FromQuery]int pageNumber, string? keySerch)
         {
-            var query = new GetAllEmployeeQuery{PageNumber = pageNumber};
+            var query = new GetAllEmployeeQuery{PageNumber = pageNumber, SearchKey = keySerch};
             var result = await Mediator.Send(query);
             return result.Errors != null ? BadRequest(result.Errors) : Ok(result.Data);
         }
