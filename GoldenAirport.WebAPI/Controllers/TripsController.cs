@@ -1,8 +1,15 @@
-﻿using GoldenAirport.Application.Employees.Commands.Create;
+﻿using GoldenAirport.Application.Countries.Commands.Delete;
+using GoldenAirport.Application.Countries.Commands.Edit;
+using GoldenAirport.Application.Countries.Dtos;
+using GoldenAirport.Application.Employees.Commands.Create;
 using GoldenAirport.Application.Employees.Queries;
 using GoldenAirport.Application.Trips.Commands.Create;
+using GoldenAirport.Application.Trips.Commands.Delete;
+using GoldenAirport.Application.Trips.Commands.Edit;
+using GoldenAirport.Application.Trips.Dtos;
 using GoldenAirport.Application.Trips.Queries;
 using Microsoft.AspNetCore.Mvc;
+using static Microsoft.EntityFrameworkCore.DbLoggerCategory.Database;
 
 namespace GoldenAirport.WebAPI.Controllers
 {
@@ -16,9 +23,22 @@ namespace GoldenAirport.WebAPI.Controllers
         }
 
         [HttpGet("AllTrips")]
-        public async Task<IActionResult> GetAllTrips([FromQuery] int pageNumber, string? keySerch)
+        public async Task<IActionResult> GetAllTrips
+            ([FromQuery] int pageNumber,
+            int? FromCity,
+            [FromQuery] List<int>? ToCity,
+            [FromQuery] DateTime? StartingOn,
+            int? Guests
+            )
         {
-            var query = new GetTripsQuery { PageNumber = pageNumber, SearchKey = keySerch };
+            var query = new GetTripsQuery
+            { 
+                PageNumber = pageNumber, 
+                FromCity = FromCity, 
+                ToCity = ToCity, 
+                StartingOn = StartingOn,
+                Guests = Guests
+            };
             var result = await Mediator.Send(query);
             return result.Errors != null ? BadRequest(result.Errors) : Ok(result.Data);
         }
@@ -38,6 +58,42 @@ namespace GoldenAirport.WebAPI.Controllers
 
             return result.Errors != null ? BadRequest(result.Errors) : Ok(result.Data);
 
+        }
+
+        [HttpPut("Update")]
+        public async Task<IActionResult> Update([FromHeader] int Id, [FromForm] UpdateTripDto dto)
+        {
+            var command = new EditTripCommand
+            {
+                Id = Id,
+                StartingDate = dto.StartingDate,
+                EndingDate = dto.EndingDate,
+                Price = dto.Price,
+                Guests = dto.Guests,
+                TripHours = dto.TripHours,
+                FromCityId = dto.FromCityId,
+                ToCitiesIds = dto.ToCitiesIds,
+                CurrentUserId = CurrentUserId
+            };
+
+            var validationResults = await new EditTripCommandValidator().ValidateAsync(command);
+
+            if (!validationResults.IsValid)
+            {
+                return BadRequest(validationResults.Errors);
+            }
+
+            var result = await Mediator.Send(command);
+            return result.Errors != null ? BadRequest(result.Errors) : Ok(result.Data);
+        }
+
+        [HttpDelete("Delete")]
+        public async Task<IActionResult> Delete(int Id)
+        {
+            var deleteTrip = new DeleteTripCommand { Id = Id };
+            var result = await Mediator.Send(deleteTrip);
+
+            return result.Errors != null ? BadRequest(result.Errors) : Ok(result.Data);
         }
     }
 }

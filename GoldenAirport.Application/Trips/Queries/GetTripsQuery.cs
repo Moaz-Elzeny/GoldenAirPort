@@ -1,16 +1,18 @@
 ﻿using GoldenAirport.Application.Common.Models;
-using GoldenAirport.Application.Countries.Dtos;
 using GoldenAirport.Application.Helpers;
 using GoldenAirport.Application.Trips.Dtos;
 using System.Globalization;
-using System.Linq;
 
 namespace GoldenAirport.Application.Trips.Queries
 {
     public class GetTripsQuery : IRequest<ResultDto<PaginatedList<GetTripsDto>>>
     {
         public int PageNumber { get; set; } = 1;
-        public string? SearchKey { get; set; }
+        public int? FromCity { get; set; }
+        public List<int>? ToCity { get; set; }
+        public DateTime? StartingOn { get; set; }
+        public int? Guests { get; set; }
+        public int? Adult { get; set; }
 
         public class GetTripsQueryHandler : IRequestHandler<GetTripsQuery, ResultDto<PaginatedList<GetTripsDto>>>
         {
@@ -28,9 +30,35 @@ namespace GoldenAirport.Application.Trips.Queries
                 var pageSize = 10;
 
                 var query = _dbContext.Trips
+                    .Include(r => r.TripRegistrations)
+                    .ThenInclude(a => a.Adults)
                 .AsQueryable();
 
-              
+                if(request.FromCity != null)
+                {
+                    query = query.Where(t => t.FromCityId == request.FromCity);
+                }
+
+                if (request.ToCity != null && request.ToCity.Any())
+                {
+                    query = query.Where(t => t.ToCity.Any(c => request.ToCity.Contains(c.CityId)));
+                }
+
+                if (request.StartingOn != null)
+                {
+                    query = query.Where(t => t.StartingDate == request.StartingOn);
+                }
+
+                //if (request.Guests != null)
+                //{
+                //    var guests = _dbContext.Trips.Select(t => t.Guests);
+                //    var r = _dbContext.Trips.Select(t => t.TripRegistrations.Select(t => t.Id));
+                //    if (guests - r <= request.Guests )
+                //    {
+
+                //    }
+                //    query = query.Where(r => );
+                //}
 
                 var totalCount = await query.CountAsync(cancellationToken);
 

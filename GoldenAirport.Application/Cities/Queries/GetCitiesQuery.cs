@@ -2,6 +2,7 @@
 using GoldenAirport.Application.Common.Models;
 using GoldenAirport.Application.Countries.Dtos;
 using GoldenAirport.Application.Helpers;
+using System.Globalization;
 
 namespace GoldenAirport.Application.Cities.Queries
 {
@@ -37,6 +38,7 @@ namespace GoldenAirport.Application.Cities.Queries
                         NameAr = c.NameAr,
                         NameEn = c.NameEn,
                         CountryId = c.CountryId,
+                        CountryName = CultureInfo.CurrentCulture.TwoLetterISOLanguageName == "ar" ? c.Country.NameAr : c.Country.NameEn,
                     }).ToListAsync(cancellationToken);
 
                 var paginatedList = new PaginatedList<GetCitiesDto>

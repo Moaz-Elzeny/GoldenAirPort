@@ -30,8 +30,6 @@
   <ItemGroup>
     <Folder Include="Auth\Commands\" />
     <Folder Include="Logs\Commands\" />
-    <Folder Include="Trips\Commands\Delete\" />
-    <Folder Include="Trips\Commands\Edit\" />
   </ItemGroup>
 
 	<ItemGroup>

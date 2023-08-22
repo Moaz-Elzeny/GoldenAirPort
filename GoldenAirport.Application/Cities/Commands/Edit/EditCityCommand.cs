@@ -22,7 +22,7 @@ namespace GoldenAirport.Application.Cities.Commands.Edit
 
             public async Task<ResultDto<string>> Handle(EditCityCommand request, CancellationToken cancellationToken)
             {
-                var city = await _dbContext.Cities.FindAsync(request.Id) ?? throw new NotFoundException("Employee not found.");
+                var city = await _dbContext.Cities.FindAsync(request.Id) ?? throw new NotFoundException("City not found.");
 
                 if (request.NameAr != null)
                 {

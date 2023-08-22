@@ -12,5 +12,6 @@ namespace GoldenAirport.Application.Cities.Dtos
         public string NameAr { get; set; }
         public string NameEn { get; set; }
         public int CountryId { get; set; }
+        public string CountryName { get; set; }
     }
 }
