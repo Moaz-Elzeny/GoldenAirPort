@@ -12,7 +12,6 @@ namespace GoldenAirport.Application.Trips.Queries
         public List<int>? ToCity { get; set; }
         public DateTime? StartingOn { get; set; }
         public int? Guests { get; set; }
-        public int? Adult { get; set; }
 
         public class GetTripsQueryHandler : IRequestHandler<GetTripsQuery, ResultDto<PaginatedList<GetTripsDto>>>
         {
@@ -49,16 +48,13 @@ namespace GoldenAirport.Application.Trips.Queries
                     query = query.Where(t => t.StartingDate == request.StartingOn);
                 }
 
-                //if (request.Guests != null)
-                //{
-                //    var guests = _dbContext.Trips.Select(t => t.Guests);
-                //    var r = _dbContext.Trips.Select(t => t.TripRegistrations.Select(t => t.Id));
-                //    if (guests - r <= request.Guests )
-                //    {
+                if (request.Guests != null)
+                {
+                    var guests = _dbContext.Trips.Where(g => g.Guests >= request.Guests).Select(t => t.Guests).ToList();
 
-                //    }
-                //    query = query.Where(r => );
-                //}
+                    //var r = guests * _dbContext.TripRegistrations.Where(r => r.Id).Select(r => r.Adults).ToList();
+                    query = query.Where(r => guests.Contains(r.Guests));
+                }
 
                 var totalCount = await query.CountAsync(cancellationToken);
 
