@@ -1,15 +1,9 @@
-﻿using GoldenAirport.Application.Countries.Commands.Delete;
-using GoldenAirport.Application.Countries.Commands.Edit;
-using GoldenAirport.Application.Countries.Dtos;
-using GoldenAirport.Application.Employees.Commands.Create;
-using GoldenAirport.Application.Employees.Queries;
-using GoldenAirport.Application.Trips.Commands.Create;
+﻿using GoldenAirport.Application.Trips.Commands.Create;
 using GoldenAirport.Application.Trips.Commands.Delete;
 using GoldenAirport.Application.Trips.Commands.Edit;
 using GoldenAirport.Application.Trips.Dtos;
 using GoldenAirport.Application.Trips.Queries;
 using Microsoft.AspNetCore.Mvc;
-using static Microsoft.EntityFrameworkCore.DbLoggerCategory.Database;
 
 namespace GoldenAirport.WebAPI.Controllers
 {

@@ -33,6 +33,9 @@ namespace GoldenAirport.Application.Trips.Queries
                     .ThenInclude(a => a.Adults)
                 .AsQueryable();
 
+                var ra = _dbContext.TripRegistrations.Select(r => r.Id);
+                var ad = _dbContext.Adults.Where(a=> ra.Contains(a.TripRegistrationId)).Select(a => a.Id);
+
                 if(request.FromCity != null)
                 {
                     query = query.Where(t => t.FromCityId == request.FromCity);
@@ -51,8 +54,7 @@ namespace GoldenAirport.Application.Trips.Queries
                 if (request.Guests != null)
                 {
                     var guests = _dbContext.Trips.Where(g => g.Guests >= request.Guests).Select(t => t.Guests).ToList();
-                    //var x = _dbContext.Adults.Where(a => a.Id * a.TripRegistrationId )
-                    //var r = guests * _dbContext.TripRegistrations.Where(r => r.Id).Select(r => r.Adults).ToList();
+                    var x = guests.Count() - ad.Count();
                     query = query.Where(r => guests.Contains(r.Guests));
                 }
 

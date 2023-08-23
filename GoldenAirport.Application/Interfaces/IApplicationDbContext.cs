@@ -22,6 +22,7 @@ namespace GoldenAirport.Application.Interfaces
         DbSet<CityTrip> CityTrips { get; set; }
         DbSet<TripRegistration> TripRegistrations { get; set; }
         DbSet<Adult> Adults { get; set; }
+        DbSet<Child> children { get; set; }
         #endregion
 
 

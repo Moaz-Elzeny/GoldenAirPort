@@ -16,7 +16,7 @@ namespace GoldenAirport.Infrastructure.Presistence.Configurations
               .HasColumnType("decimal(18,2)")
               .IsRequired();
 
-            builder.Property(x => x.TaxesAdndFees)
+            builder.Property(x => x.TaxesAndFees)
               .HasColumnType("decimal(18,2)")
               .IsRequired();
 

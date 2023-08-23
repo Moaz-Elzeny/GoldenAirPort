@@ -9,7 +9,7 @@
         }
         public int Id { get; set; }
         public decimal PackageCost { get; set; }
-        public decimal TaxesAdndFees { get; set; }
+        public decimal TaxesAndFees { get; set; }
         public decimal OutherFees { get; set; }
         public decimal TotalAmount { get; set; }
         public string Email { get; set; }
