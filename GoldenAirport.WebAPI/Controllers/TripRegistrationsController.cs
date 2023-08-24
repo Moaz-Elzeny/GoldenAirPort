@@ -27,6 +27,19 @@ namespace GoldenAirport.WebAPI.Controllers
             var result = await Mediator.Send(query);
             return result.Errors != null ? BadRequest(result.Errors) : Ok(result.Data);
         }
+        
+        [HttpGet("AllTripRegistrationsById")]
+        public async Task<IActionResult> GetTripById
+            ( int pageNumber, int id )
+        {
+            var query = new GetTripRegistrationByIdQuery
+            {
+                PageNumber = pageNumber,
+                Id = id
+            };
+            var result = await Mediator.Send(query);
+            return result.Errors != null ? BadRequest(result.Errors) : Ok(result.Data);
+        }
 
         [HttpPost("Create")]
         public async Task<IActionResult> Create([FromForm] CreateTripRegistrationCommand command)

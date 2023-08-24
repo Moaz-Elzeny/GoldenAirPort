@@ -5,21 +5,22 @@ using GoldenAirport.Domain.Enums;
 
 namespace GoldenAirport.Application.TripRegistrations.Queries
 {
-    public class GetTripRegistrationQuery : IRequest<ResultDto<PaginatedList<GetTripRegistrationDto>>>
+    public class GetTripRegistrationByIdQuery : IRequest<ResultDto<PaginatedList<GetTripRegistrationDto>>>
     {
         public int PageNumber { get; set; } = 1;
-        
+        public int Id { get; set; }
 
-        public class GetTripRegistrationQueryHandler : IRequestHandler<GetTripRegistrationQuery, ResultDto<PaginatedList<GetTripRegistrationDto>>>
+
+        public class GetTripRegistrationByIdQueryHandler : IRequestHandler<GetTripRegistrationByIdQuery, ResultDto<PaginatedList<GetTripRegistrationDto>>>
         {
             private readonly IApplicationDbContext _dbContext;
 
-            public GetTripRegistrationQueryHandler(IApplicationDbContext dbContext)
+            public GetTripRegistrationByIdQueryHandler(IApplicationDbContext dbContext)
             {
                 _dbContext = dbContext;
             }
 
-            public async Task<ResultDto<PaginatedList<GetTripRegistrationDto>>> Handle(GetTripRegistrationQuery request, CancellationToken cancellationToken)
+            public async Task<ResultDto<PaginatedList<GetTripRegistrationDto>>> Handle(GetTripRegistrationByIdQuery request, CancellationToken cancellationToken)
             {
 
                 var pageNumber = request.PageNumber <= 0 ? 1 : request.PageNumber;
@@ -33,7 +34,9 @@ namespace GoldenAirport.Application.TripRegistrations.Queries
 
                 var totalPages = (int)Math.Ceiling((double)totalCount / pageSize);
                 var TitleValues = Enum.GetValues<Title>();
+
                 var TripRegistrations = await query
+                    .Where(t => t.Id == request.Id)
                     .Select(t => new GetTripRegistrationDto
                     {
                         Id = t.Id,
@@ -50,7 +53,7 @@ namespace GoldenAirport.Application.TripRegistrations.Queries
                         LastName = t.Adults.FirstOrDefault().LastName,
                         AdultPassportNo = t.Adults.FirstOrDefault().PassportNo,
                         DateOfBirth = t.Adults.FirstOrDefault().DateOfBirth,
-                        
+
 
                     }).ToListAsync(cancellationToken);
 
@@ -63,7 +66,11 @@ namespace GoldenAirport.Application.TripRegistrations.Queries
                     TotalPages = totalPages
                 };
 
-                return ResultDto<PaginatedList<GetTripRegistrationDto>>.Success(paginatedList);
+                if (TripRegistrations.Count != 0)
+                {
+                    return ResultDto<PaginatedList<GetTripRegistrationDto>>.Success(paginatedList);
+                }
+                return ResultDto<PaginatedList<GetTripRegistrationDto>>.Failure("Id is not found");
             }
         }
     }
