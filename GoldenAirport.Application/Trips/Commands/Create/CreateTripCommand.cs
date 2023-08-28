@@ -1,5 +1,6 @@
 ﻿using GoldenAirport.Application.Common.Models;
 using GoldenAirport.Domain.Entities;
+using GoldenAirport.Domain.Enums;
 using SendGrid.Helpers.Errors.Model;
 
 namespace GoldenAirport.Application.Trips.Commands.Create
@@ -9,10 +10,18 @@ namespace GoldenAirport.Application.Trips.Commands.Create
         public DateTime StartingDate { get; set; }
         public DateTime EndingDate { get; set; }
         public decimal Price { get; set; }
+        public decimal PriceLessThan2YearsOld { get; set; }
+        public decimal PriceLessThan12YearsOld { get; set; }
         public byte Guests { get; set; }
         public string TripHours { get; set; }
         public int FromCityId { get; set; }
         public List<int> ToCitiesIds { get; set; }
+        public List<string> WhyVisits { get; set; }
+        public List<string> WhatAreIncluded { get; set; }
+        public List<string> Accessibilitys { get; set; }
+        public List<string> Restrictions { get; set; }
+        public bool IsRefundable { get; set; }
+        public paymentMethod PaymentMethod { get; set; }
         public string? CurrentUserId { get; set; }
 
         public class CreateTripHandler : IRequestHandler<CreateTripCommand, ResultDto<string>>
@@ -31,10 +40,13 @@ namespace GoldenAirport.Application.Trips.Commands.Create
                     StartingDate = request.StartingDate,
                     EndingDate = request.EndingDate,
                     Price = request.Price,
+                    PriceLessThan2YearsOld = request.PriceLessThan2YearsOld,
+                    PriceLessThan12YearsOld = request.PriceLessThan12YearsOld,
                     Guests = request.Guests,
                     TripHours = TimeSpan.Parse(request.TripHours),
                     FromCityId = request.FromCityId,
-                    IsRefundable = true,
+                    IsRefundable = request.IsRefundable,
+                    PaymentMethod = request.PaymentMethod,
                     CreatedById = request.CurrentUserId,
                     CreationDate = DateTime.Now,
 
@@ -59,6 +71,58 @@ namespace GoldenAirport.Application.Trips.Commands.Create
                 }
 
                 await _dbContext.CityTrips.AddRangeAsync(cityTrip, cancellationToken);
+                await _dbContext.SaveChangesAsync(cancellationToken);
+
+                var whyVisit = new List<WhyVisit>();
+                foreach (var description in request.WhyVisits)
+                {
+                    whyVisit.Add(new WhyVisit
+                    {
+                        Description = description,
+                        TripId = trip.Id
+                    });
+                }
+
+                _dbContext.WhyVisits.AddRange(whyVisit);
+                await _dbContext.SaveChangesAsync(cancellationToken);
+
+                var included = new List<WhatIsIncluded>();
+                foreach (var includedDescription in request.WhatAreIncluded)
+                {
+                    included.Add(new WhatIsIncluded
+                    {
+                        Description = includedDescription,
+                        TripId = trip.Id
+                    });
+                }
+
+                _dbContext.WhatAreIncluded.AddRange(included);
+                await _dbContext.SaveChangesAsync(cancellationToken);
+
+                var accessibilitys = new List<Accessibility>();
+                foreach (var accessibility in request.Accessibilitys)
+                {
+                    accessibilitys.Add(new Accessibility
+                    {
+                        Description = accessibility,
+                        TripId = trip.Id
+                    });
+                }
+
+                _dbContext.Accessibilities.AddRange(accessibilitys);
+                await _dbContext.SaveChangesAsync(cancellationToken);
+
+                var restrictions = new List<Restriction>();
+                foreach (var description in request.Restrictions)
+                {
+                    restrictions.Add(new Restriction
+                    {
+                        Description = description,
+                        TripId = trip.Id
+                    });
+                }
+
+                _dbContext.Restrictions.AddRange(restrictions);
                 await _dbContext.SaveChangesAsync(cancellationToken);
 
                 return ResultDto<string>.Success("Trip Created Successfully!");

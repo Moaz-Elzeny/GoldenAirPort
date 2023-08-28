@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using System.Reflection;
 
 namespace GoldenAirport.Infrastructure.Presistence
 {
@@ -29,6 +30,10 @@ namespace GoldenAirport.Infrastructure.Presistence
         public DbSet<TripRegistration> TripRegistrations { get; set; }
         public DbSet<Adult> Adults { get; set; }
         public DbSet<Child> Children { get; set; }
+        public DbSet<WhyVisit> WhyVisits { get; set; }
+        public DbSet<WhatIsIncluded> WhatAreIncluded { get; set; }
+        public DbSet<Accessibility> Accessibilities { get; set; }
+        public DbSet<Restriction> Restrictions { get; set; }
 
         #endregion
         public override DatabaseFacade Database => base.Database;

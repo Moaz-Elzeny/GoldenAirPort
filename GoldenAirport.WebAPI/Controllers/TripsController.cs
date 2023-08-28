@@ -89,5 +89,22 @@ namespace GoldenAirport.WebAPI.Controllers
 
             return result.Errors != null ? BadRequest(result.Errors) : Ok(result.Data);
         }
+        
+        [HttpDelete("DeleteActions")]
+        public async Task<IActionResult> DeleteActions(int TripId, int? WhyVisitId, int? WhatIncludedId, int? AccessibilityId, int? RestrictionId)
+        {
+            var deleteTripActios = new DeleteActionsInTripCommand 
+            { 
+                TripId = TripId,
+                WhyVisitId = WhyVisitId,
+                WhatIncludedId = WhatIncludedId,
+                AccessibilityId = AccessibilityId,
+                RestrictionId = RestrictionId
+
+            };
+            var result = await Mediator.Send(deleteTripActios);
+
+            return result.Errors != null ? BadRequest(result.Errors) : Ok(result.Data);
+        }
     }
 }

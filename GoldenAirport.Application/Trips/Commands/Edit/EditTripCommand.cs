@@ -1,6 +1,7 @@
 ﻿using GoldenAirport.Application.Cities.Commands.Edit;
 using GoldenAirport.Application.Common.Models;
 using GoldenAirport.Domain.Entities;
+using GoldenAirport.Domain.Enums;
 using SendGrid.Helpers.Errors.Model;
 
 namespace GoldenAirport.Application.Trips.Commands.Edit
@@ -11,10 +12,14 @@ namespace GoldenAirport.Application.Trips.Commands.Edit
         public DateTime? StartingDate { get; set; }
         public DateTime? EndingDate { get; set; }
         public decimal? Price { get; set; }
+        public decimal? PriceLessThan2YearsOld { get; set; }
+        public decimal? PriceLessThan12YearsOld { get; set; }
         public byte? Guests { get; set; }
         public string? TripHours { get; set; }
         public int? FromCityId { get; set; }
         public List<int>? ToCitiesIds { get; set; }
+        public bool? IsRefundable { get; set; }
+        public paymentMethod? PaymentMethod { get; set; }
         public string? CurrentUserId { get; set; }
 
         public class EditTripHandler : IRequestHandler<EditTripCommand, ResultDto<string>>
@@ -46,9 +51,19 @@ namespace GoldenAirport.Application.Trips.Commands.Edit
                 }
 
                 trip.Price = request.Price ?? trip.Price;
+                trip.PriceLessThan2YearsOld = request.PriceLessThan2YearsOld ?? trip.PriceLessThan2YearsOld;
+                trip.PriceLessThan12YearsOld = request.PriceLessThan12YearsOld ?? trip.PriceLessThan12YearsOld;
                 trip.Guests = request.Guests ?? trip.Guests;
                 trip.FromCityId = request.FromCityId ?? trip.FromCityId;
+                if (request.IsRefundable != null)
+                {
+                    trip.IsRefundable = request.IsRefundable.Value;
+                }
 
+                if (request.PaymentMethod != null)
+                {
+                    trip.PaymentMethod = request.PaymentMethod.Value;
+                }
                 trip.ModifiedById = request.CurrentUserId;
                 trip.ModificationDate = DateTime.Now;
 

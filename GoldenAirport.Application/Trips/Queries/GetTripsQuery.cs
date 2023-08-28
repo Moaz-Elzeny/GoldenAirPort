@@ -70,13 +70,39 @@ namespace GoldenAirport.Application.Trips.Queries
                         EndingDate = t.EndingDate,
                         Guests = t.Guests,
                         Price = t.Price,
+                        PriceLessThan2YearsOld = t.PriceLessThan2YearsOld,
+                        PriceLessThan12YearsOld = t.PriceLessThan12YearsOld,
                         TripHours = t.TripHours.ToString(),
                         FromCityId = t.FromCityId,
+                        IsRefundable = t.IsRefundable,
+                        PaymentOptions = t.PaymentMethod,
                         FromCityName = CultureInfo.CurrentCulture.TwoLetterISOLanguageName == "ar" ? t.City.NameAr : t.City.NameEn,
                         ToCities = t.ToCity.Select(c => new GetCitiesDto 
                         { 
                             Id = c.CityId,
                             CityName = CultureInfo.CurrentCulture.TwoLetterISOLanguageName == "ar" ? c.Cities.NameAr : c.Cities.NameEn 
+                        }),
+                        WhyVisit = t.WhyVisits.Select(w => new
+                        {
+                            Id = w.Id,
+                            Description = w.Description,
+
+                        }),
+                        
+                        WhatIsIncluded = t.WhatAreIncluded.Select(w => new 
+                        {
+                            Id = w.Id,
+                            Description = w.Description
+                        }),
+                        Accessibility = t.Accessibilities.Select(w => new 
+                        {
+                            Id = w.Id,
+                            Description = w.Description 
+                        }),
+                        Restrictions = t.Restrictions.Select(w =>new 
+                        { 
+                            Id = w.Id,
+                            Description = w.Description 
                         }),
                        
                     }).ToListAsync(cancellationToken);
