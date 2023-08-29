@@ -34,6 +34,9 @@ namespace GoldenAirport.Infrastructure.Presistence
         public DbSet<WhatIsIncluded> WhatAreIncluded { get; set; }
         public DbSet<Accessibility> Accessibilities { get; set; }
         public DbSet<Restriction> Restrictions { get; set; }
+        public DbSet<Package> Packages { get; set; }
+        public DbSet<PackagePlan> PackagePlans { get; set; }
+        public DbSet<CityPackage> CityPackages { get; set; }
 
         #endregion
         public override DatabaseFacade Database => base.Database;

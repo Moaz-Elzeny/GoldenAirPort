@@ -4,6 +4,7 @@ using GoldenAirport.Infrastructure.Presistence;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace GoldenAirport.Infrastructure.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230829103135_addCityPackageRelation")]
+    partial class addCityPackageRelation
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -318,7 +321,7 @@ namespace GoldenAirport.Infrastructure.Migrations
                     b.ToTable("City", (string)null);
                 });
 
-            modelBuilder.Entity("GoldenAirport.Domain.Entities.CityPackage", b =>
+            modelBuilder.Entity("GoldenAirport.Domain.Entities.CityPackge", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -326,29 +329,8 @@ namespace GoldenAirport.Infrastructure.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<bool>("Active")
-                        .HasColumnType("bit");
-
                     b.Property<int>("CityId")
                         .HasColumnType("int");
-
-                    b.Property<string>("CreatedById")
-                        .IsRequired()
-                        .HasMaxLength(450)
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<DateTime>("CreationDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<bool>("Deleted")
-                        .HasColumnType("bit");
-
-                    b.Property<DateTime?>("ModificationDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("ModifiedById")
-                        .HasMaxLength(450)
-                        .HasColumnType("nvarchar(450)");
 
                     b.Property<int>("PackageId")
                         .HasColumnType("int");
@@ -359,7 +341,7 @@ namespace GoldenAirport.Infrastructure.Migrations
 
                     b.HasIndex("PackageId");
 
-                    b.ToTable("CityPackage", (string)null);
+                    b.ToTable("CityPackge", (string)null);
                 });
 
             modelBuilder.Entity("GoldenAirport.Domain.Entities.CityTrip", b =>
@@ -989,7 +971,7 @@ namespace GoldenAirport.Infrastructure.Migrations
                     b.Navigation("Country");
                 });
 
-            modelBuilder.Entity("GoldenAirport.Domain.Entities.CityPackage", b =>
+            modelBuilder.Entity("GoldenAirport.Domain.Entities.CityPackge", b =>
                 {
                     b.HasOne("GoldenAirport.Domain.Entities.City", "City")
                         .WithMany("CityPackges")

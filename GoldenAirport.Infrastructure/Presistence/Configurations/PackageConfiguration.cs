@@ -1,16 +1,19 @@
 ﻿using GoldenAirport.Domain.Entities;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
+using Microsoft.EntityFrameworkCore;
 
 namespace GoldenAirport.Infrastructure.Presistence.Configurations
 {
-    public class TripConfiguration : IEntityTypeConfiguration<Trip>
+    public class PackageConfiguration : IEntityTypeConfiguration<Package>
     {
-        public void Configure(EntityTypeBuilder<Trip> builder)
+        public void Configure(EntityTypeBuilder<Package> builder)
         {
-            builder.ToTable("Trip");
+            builder.ToTable("Package");
 
             builder.HasKey(t => t.Id);
+
+            builder.Property(e => e.Name)
+                .IsRequired();
 
             builder.Property(e => e.StartingDate)
                 .IsRequired();
@@ -20,25 +23,25 @@ namespace GoldenAirport.Infrastructure.Presistence.Configurations
 
             builder.Property(e => e.IsRefundable)
                 .IsRequired();
-            
+
             builder.Property(e => e.Price)
                 .HasColumnType("decimal(18,2)")
                 .IsRequired();
-            
+
             builder.Property(e => e.PriceLessThan2YearsOld)
                 .HasColumnType("decimal(18,2)");
-            
+
             builder.Property(e => e.PriceLessThan12YearsOld)
                 .HasColumnType("decimal(18,2)");
 
-            builder.Property(e => e.Guests).HasMaxLength(255)
-                .IsRequired();
+            //builder.Property(e => e.Guests).HasMaxLength(255)
+            //    .IsRequired();
 
-            builder.Property(e => e.TripHours)                
-                .IsRequired();
+            //builder.Property(e => e.TripHours)
+            //    .IsRequired();
 
             builder.HasOne(mc => mc.City)
-              .WithMany(mc => mc.Trips)
+              .WithMany(mc => mc.Packages)
               .HasForeignKey(mc => mc.FromCityId)
               .OnDelete(DeleteBehavior.Restrict);
 
@@ -48,7 +51,7 @@ namespace GoldenAirport.Infrastructure.Presistence.Configurations
             builder.Property(a => a.CreatedById).HasMaxLength(50).IsRequired();
             builder.Property(b => b.CreationDate).HasColumnType("DATETIME").HasDefaultValueSql("GETDATE()").IsRequired();
             builder.Property(b => b.ModificationDate).HasColumnType("DATETIME");
-            builder.Property(a => a.ModifiedById).HasMaxLength(50); 
+            builder.Property(a => a.ModifiedById).HasMaxLength(50);
         }
     }
 }

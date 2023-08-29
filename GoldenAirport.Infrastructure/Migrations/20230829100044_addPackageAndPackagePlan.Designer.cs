@@ -4,6 +4,7 @@ using GoldenAirport.Infrastructure.Presistence;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace GoldenAirport.Infrastructure.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230829100044_addPackageAndPackagePlan")]
+    partial class addPackageAndPackagePlan
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -311,55 +314,16 @@ namespace GoldenAirport.Infrastructure.Migrations
                         .HasMaxLength(255)
                         .HasColumnType("nvarchar(255)");
 
+                    b.Property<int?>("PackageId")
+                        .HasColumnType("int");
+
                     b.HasKey("Id");
 
                     b.HasIndex("CountryId");
 
-                    b.ToTable("City", (string)null);
-                });
-
-            modelBuilder.Entity("GoldenAirport.Domain.Entities.CityPackage", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<bool>("Active")
-                        .HasColumnType("bit");
-
-                    b.Property<int>("CityId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("CreatedById")
-                        .IsRequired()
-                        .HasMaxLength(450)
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<DateTime>("CreationDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<bool>("Deleted")
-                        .HasColumnType("bit");
-
-                    b.Property<DateTime?>("ModificationDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("ModifiedById")
-                        .HasMaxLength(450)
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<int>("PackageId")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("CityId");
-
                     b.HasIndex("PackageId");
 
-                    b.ToTable("CityPackage", (string)null);
+                    b.ToTable("City", (string)null);
                 });
 
             modelBuilder.Entity("GoldenAirport.Domain.Entities.CityTrip", b =>
@@ -609,7 +573,7 @@ namespace GoldenAirport.Infrastructure.Migrations
 
                     b.HasIndex("PackageId");
 
-                    b.ToTable("PackagePlans");
+                    b.ToTable("packagePlans");
                 });
 
             modelBuilder.Entity("GoldenAirport.Domain.Entities.Restriction", b =>
@@ -986,26 +950,11 @@ namespace GoldenAirport.Infrastructure.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("Country");
-                });
-
-            modelBuilder.Entity("GoldenAirport.Domain.Entities.CityPackage", b =>
-                {
-                    b.HasOne("GoldenAirport.Domain.Entities.City", "City")
-                        .WithMany("CityPackges")
-                        .HasForeignKey("CityId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("GoldenAirport.Domain.Entities.Package", "Package")
+                    b.HasOne("GoldenAirport.Domain.Entities.Package", null)
                         .WithMany("ToCity")
-                        .HasForeignKey("PackageId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("PackageId");
 
-                    b.Navigation("City");
-
-                    b.Navigation("Package");
+                    b.Navigation("Country");
                 });
 
             modelBuilder.Entity("GoldenAirport.Domain.Entities.CityTrip", b =>
@@ -1176,8 +1125,6 @@ namespace GoldenAirport.Infrastructure.Migrations
 
             modelBuilder.Entity("GoldenAirport.Domain.Entities.City", b =>
                 {
-                    b.Navigation("CityPackges");
-
                     b.Navigation("CityTrips");
 
                     b.Navigation("Packages");

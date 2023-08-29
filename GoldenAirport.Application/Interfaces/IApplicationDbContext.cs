@@ -27,6 +27,9 @@ namespace GoldenAirport.Application.Interfaces
         DbSet<WhatIsIncluded> WhatAreIncluded { get; set; }
         DbSet<Accessibility> Accessibilities { get; set; }
         DbSet<Restriction> Restrictions { get; set; }
+        DbSet<Package> Packages { get; set; }
+        DbSet<PackagePlan> PackagePlans { get; set; }
+        DbSet<CityPackage> CityPackages { get; set; }
         #endregion
 
 

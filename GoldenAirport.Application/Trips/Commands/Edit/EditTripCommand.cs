@@ -1,5 +1,4 @@
-﻿using GoldenAirport.Application.Cities.Commands.Edit;
-using GoldenAirport.Application.Common.Models;
+﻿using GoldenAirport.Application.Common.Models;
 using GoldenAirport.Domain.Entities;
 using GoldenAirport.Domain.Enums;
 using SendGrid.Helpers.Errors.Model;

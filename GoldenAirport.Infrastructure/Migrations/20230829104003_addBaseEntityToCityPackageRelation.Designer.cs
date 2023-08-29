@@ -4,6 +4,7 @@ using GoldenAirport.Infrastructure.Presistence;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace GoldenAirport.Infrastructure.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230829104003_addBaseEntityToCityPackageRelation")]
+    partial class addBaseEntityToCityPackageRelation
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -318,7 +321,7 @@ namespace GoldenAirport.Infrastructure.Migrations
                     b.ToTable("City", (string)null);
                 });
 
-            modelBuilder.Entity("GoldenAirport.Domain.Entities.CityPackage", b =>
+            modelBuilder.Entity("GoldenAirport.Domain.Entities.CityPackge", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -359,7 +362,7 @@ namespace GoldenAirport.Infrastructure.Migrations
 
                     b.HasIndex("PackageId");
 
-                    b.ToTable("CityPackage", (string)null);
+                    b.ToTable("CityPackge", (string)null);
                 });
 
             modelBuilder.Entity("GoldenAirport.Domain.Entities.CityTrip", b =>
@@ -989,7 +992,7 @@ namespace GoldenAirport.Infrastructure.Migrations
                     b.Navigation("Country");
                 });
 
-            modelBuilder.Entity("GoldenAirport.Domain.Entities.CityPackage", b =>
+            modelBuilder.Entity("GoldenAirport.Domain.Entities.CityPackge", b =>
                 {
                     b.HasOne("GoldenAirport.Domain.Entities.City", "City")
                         .WithMany("CityPackges")

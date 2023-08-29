@@ -1,23 +1,23 @@
-﻿using GoldenAirport.Application.Trips.Commands.Create;
+﻿using GoldenAirport.Application.Packages.Commands.Create;
+using GoldenAirport.Application.Packages.Commands.Delete;
+using GoldenAirport.Application.Packages.Commands.Edit;
+using GoldenAirport.Application.Packages.Dtos;
+using GoldenAirport.Application.Packages.Queries;
 using GoldenAirport.Application.Trips.Commands.Delete;
-using GoldenAirport.Application.Trips.Commands.Edit;
-using GoldenAirport.Application.Trips.Dtos;
-using GoldenAirport.Application.Trips.Queries;
 using Microsoft.AspNetCore.Mvc;
 
 namespace GoldenAirport.WebAPI.Controllers
 {
-
     [ApiController]
     [Route("api/v{version:apiVersion}/[controller]")]
-    public class TripsController : BaseController<TripsController>
+    public class PackagesController : BaseController<PackagesController>
     {
-        public TripsController()
+        public PackagesController()
         {
         }
 
-        [HttpGet("AllTrips")]
-        public async Task<IActionResult> GetAllTrips
+        [HttpGet("AllPackages")]
+        public async Task<IActionResult> GetAllPackages
             ([FromQuery] int pageNumber,
             int? FromCity,
             [FromQuery] List<int>? ToCity,
@@ -25,11 +25,11 @@ namespace GoldenAirport.WebAPI.Controllers
             int? Guests
             )
         {
-            var query = new GetTripsQuery
-            { 
-                PageNumber = pageNumber, 
-                FromCity = FromCity, 
-                ToCity = ToCity, 
+            var query = new GetPackagesQuery
+            {
+                PageNumber = pageNumber,
+                FromCity = FromCity,
+                ToCity = ToCity,
                 StartingOn = StartingOn,
                 Guests = Guests
             };
@@ -38,10 +38,10 @@ namespace GoldenAirport.WebAPI.Controllers
         }
 
         [HttpPost("Create")]
-        public async Task<IActionResult> Create([FromForm]CreateTripCommand command)
+        public async Task<IActionResult> Create([FromForm] CreatePackageCommand command)
         {
             command.CurrentUserId = CurrentUserId;
-            var validationResults = await new CreateTripCommandValidator().ValidateAsync(command);
+            var validationResults = await new CreatePackgeCommandValidator().ValidateAsync(command);
 
             if (!validationResults.IsValid)
             {
@@ -54,19 +54,20 @@ namespace GoldenAirport.WebAPI.Controllers
 
         }
 
+
         [HttpPut("Update")]
-        public async Task<IActionResult> Update([FromHeader] int Id, [FromForm] UpdateTripDto dto)
+        public async Task<IActionResult> Update([FromHeader] int Id, [FromForm] UpdatePackageDto dto)
         {
-            var command = new EditTripCommand
+            var command = new EditPackageCommand
             {
                 Id = Id,
+                Name = dto.Name,
                 StartingDate = dto.StartingDate,
                 EndingDate = dto.EndingDate,
                 Price = dto.Price,
                 PriceLessThan2YearsOld = dto.PriceLessThan2YearsOld,
                 PriceLessThan12YearsOld = dto.PriceLessThan12YearsOld,
-                Guests = dto.Guests,
-                TripHours = dto.TripHours,
+                CountryId = dto.CountryId,
                 FromCityId = dto.FromCityId,
                 ToCitiesIds = dto.ToCitiesIds,
                 PaymentMethod = dto.PaymentMethod,
@@ -74,7 +75,7 @@ namespace GoldenAirport.WebAPI.Controllers
                 CurrentUserId = CurrentUserId
             };
 
-            var validationResults = await new EditTripCommandValidator().ValidateAsync(command);
+            var validationResults = await new EditPackageCommandValidator().ValidateAsync(command);
 
             if (!validationResults.IsValid)
             {
@@ -88,25 +89,23 @@ namespace GoldenAirport.WebAPI.Controllers
         [HttpDelete("Delete")]
         public async Task<IActionResult> Delete(int Id)
         {
-            var deleteTrip = new DeleteTripCommand { Id = Id };
+            var deleteTrip = new DeletePackageCommand { Id = Id };
             var result = await Mediator.Send(deleteTrip);
 
             return result.Errors != null ? BadRequest(result.Errors) : Ok(result.Data);
         }
-        
-        [HttpDelete("DeleteActions")]
-        public async Task<IActionResult> DeleteActions(int TripId, int? WhyVisitId, int? WhatIncludedId, int? AccessibilityId, int? RestrictionId)
+
+        [HttpDelete("DeletePackagePlan")]
+        public async Task<IActionResult> DeletePackagePlan(int PackageId, int? PackagePlanId)
         {
-            var deleteTripActios = new DeleteActionsInTripCommand 
-            { 
-                TripId = TripId,
-                WhyVisitId = WhyVisitId,
-                WhatIncludedId = WhatIncludedId,
-                AccessibilityId = AccessibilityId,
-                RestrictionId = RestrictionId
+            var deletePackagePlan = new DeletePackagePlanCommand
+            {
+                PackageId = PackageId,
+                PackagePlanId = PackagePlanId,
+                
 
             };
-            var result = await Mediator.Send(deleteTripActios);
+            var result = await Mediator.Send(deletePackagePlan);
 
             return result.Errors != null ? BadRequest(result.Errors) : Ok(result.Data);
         }

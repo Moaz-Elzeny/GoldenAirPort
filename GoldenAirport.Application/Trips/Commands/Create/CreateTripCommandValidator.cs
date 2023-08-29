@@ -32,7 +32,7 @@ namespace GoldenAirport.Application.Trips.Commands.Create
                .WithMessage("From CityId is required");
 
             RuleFor(x => x.ToCitiesIds)
-               .NotEmpty().WithMessage("ToCities IDs are required.")
+               .NotEmpty().WithMessage("ToCities ID are required.")
                .ForEach(cityIds =>
                {
                    cityIds.NotEmpty().WithMessage("City ID is required.");
