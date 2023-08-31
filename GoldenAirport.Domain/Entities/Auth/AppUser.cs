@@ -5,6 +5,11 @@ namespace GoldenAirport.Domain.Entities.Auth
 {
     public class AppUser : IdentityUser
     {
+        public AppUser()
+        {
+            Notifications = new HashSet<Notification>();
+        }
+
         public string FirstName { get; set; }
         public string LastName { get; set; }
         public string ProfilePicture { get; set; }
@@ -17,6 +22,8 @@ namespace GoldenAirport.Domain.Entities.Auth
         public DateTime? ModificationDate { get; set; }
         public bool Deleted { get; set; }
         public bool Active { get; set; }
-       
+
+        public virtual ICollection<Notification> Notifications { get; set; }
+
     }
 }

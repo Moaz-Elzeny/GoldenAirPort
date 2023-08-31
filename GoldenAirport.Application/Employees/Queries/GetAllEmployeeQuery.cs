@@ -56,6 +56,8 @@ namespace GoldenAirport.Application.Employees.Queries
                         AgentCode = x.AgentCode,
                         Balance = x.Balance,
                         DailyGoal = x.DailyGoal,
+                        Target = x.Target,
+                        Date = x.Date,
                         PaymentMethod = x.PaymentMethod,
                         LastLogin = x.LastLogin,
                     }).ToListAsync(cancellationToken);

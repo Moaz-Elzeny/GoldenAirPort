@@ -9,7 +9,9 @@ namespace GoldenAirport.Domain.Entities
         public int AgentCode { get; set; }
         public decimal Balance { get; set; }
         public decimal DailyGoal { get; set; }
+        public decimal Target { get; set; }
         public paymentMethod PaymentMethod { get; set; }
+        public DateTime Date { get; set; }
         public DateTime LastLogin { get; set; }
 
         public string AppUserId { get; set; }

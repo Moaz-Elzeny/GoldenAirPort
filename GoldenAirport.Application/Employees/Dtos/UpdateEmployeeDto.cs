@@ -19,6 +19,8 @@ namespace GoldenAirport.Application.Employees.Dtos
         public int? AgentCode { get; set; }
         public decimal? Balance { get; set; }
         public decimal? DailyGoal { get; set; }
+        public decimal? Target { get; set; }
+        public DateTime? Date { get; set; }
         public paymentMethod? PaymentMethod { get; set; }
     }
 }

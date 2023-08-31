@@ -21,6 +21,8 @@ namespace GoldenAirport.Application.Employees.Commands.Create
         public int AgentCode { get; set; }
         public decimal Balance { get; set; }
         public decimal DailyGoal { get; set; }
+        public decimal Target { get; set; }
+        public DateTime Date { get; set; }
         public paymentMethod PaymentMethod { get; set; }
         public class CreateEmployeeHandler : IRequestHandler<CreateEmployeeCommand, ResultDto<string>>
         {
@@ -60,6 +62,8 @@ namespace GoldenAirport.Application.Employees.Commands.Create
                     AgentCode = request.AgentCode,
                     Balance = request.Balance,
                     DailyGoal = request.DailyGoal,
+                    Target = request.Target,
+                    Date = request.Date,
                     PaymentMethod = request.PaymentMethod,
                     CreatedById = request.CurrentUserId,
                     CreationDate = DateTime.Now,
