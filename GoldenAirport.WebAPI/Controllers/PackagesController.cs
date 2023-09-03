@@ -1,9 +1,8 @@
-﻿using GoldenAirport.Application.Packages.Commands.Create;
-using GoldenAirport.Application.Packages.Commands.Delete;
-using GoldenAirport.Application.Packages.Commands.Edit;
-using GoldenAirport.Application.Packages.Dtos;
-using GoldenAirport.Application.Packages.Queries;
-using GoldenAirport.Application.Trips.Commands.Delete;
+﻿using GoldenAirport.Application.Packagess.Commands.Create;
+using GoldenAirport.Application.Packagess.Commands.Delete;
+using GoldenAirport.Application.Packagess.Commands.Edit;
+using GoldenAirport.Application.Packagess.Dtos;
+using GoldenAirport.Application.Packagess.Queries;
 using Microsoft.AspNetCore.Mvc;
 
 namespace GoldenAirport.WebAPI.Controllers
