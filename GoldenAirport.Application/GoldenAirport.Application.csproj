@@ -30,6 +30,8 @@
   <ItemGroup>
     <Folder Include="Auth\Commands\" />
     <Folder Include="Logs\Commands\" />
+    <Folder Include="Notifications\Commands\" />
+    <Folder Include="Notifications\Dtos\" />
   </ItemGroup>
 
 	<ItemGroup>

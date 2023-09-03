@@ -25,6 +25,8 @@ namespace GoldenAirport.Application.Employees.Commands.Edit
         public int? AgentCode { get; set; }
         public decimal? Balance { get; set; }
         public decimal? DailyGoal { get; set; }
+        public decimal? Target { get; set; }
+        public DateTime? Date { get; set; }
         public paymentMethod? PaymentMethod { get; set; }
         public DateTime? LastLogin { get; set; }
         public string? AppUserId { get; set; }
@@ -75,6 +77,16 @@ namespace GoldenAirport.Application.Employees.Commands.Edit
                 if (request.DailyGoal != null)
                 {
                     employee.DailyGoal = request.DailyGoal.Value;
+                }
+
+                if (request.Target != null)
+                {
+                    employee.Target = request.Target.Value;
+                }
+
+                if (request.Date != null)
+                {
+                    employee.Date = request.Date.Value;
                 }
 
                 if (request.PaymentMethod != null)

@@ -30,6 +30,7 @@ namespace GoldenAirport.Application.Interfaces
         DbSet<Package> Packages { get; set; }
         DbSet<PackagePlan> PackagePlans { get; set; }
         DbSet<CityPackage> CityPackages { get; set; }
+        DbSet<Notification> Notifications { get; set; }
         #endregion
 
 

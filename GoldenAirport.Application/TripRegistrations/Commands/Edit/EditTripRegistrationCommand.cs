@@ -16,7 +16,7 @@ namespace GoldenAirport.Application.TripRegistrations.Commands.Edit
         public Title? Title { get; set; }
         public string? FirstName { get; set; }
         public string? LastName { get; set; }
-        public string?  AdultPassportNo { get; set; }
+        public string? AdultPassportNo { get; set; }
         public DateTime? DateOfBirth { get; set; }
 
         public string? ChildPassportNo { get; set; }
@@ -36,68 +36,85 @@ namespace GoldenAirport.Application.TripRegistrations.Commands.Edit
 
             public async Task<ResultDto<string>> Handle(EditTripRegistrationCommand request, CancellationToken cancellationToken)
             {
+                var user = _dbContext.AppUsers.AsQueryable();
+
                 var tripRegistration = await _dbContext.TripRegistrations
-                    .Include(a => a.Adults) 
+                    .Include(a => a.Adults)
                     .Include(a => a.Children)
                     .FirstOrDefaultAsync(t => t.Id == request.Id) ?? throw new NotFoundException("Trip Registration not found.");
 
-                tripRegistration.PackageCost = request.PackageCost ?? tripRegistration.PackageCost;
-                tripRegistration.TaxesAndFees = request.TaxesAndFees ?? tripRegistration.TaxesAndFees;
-                tripRegistration.OutherFees = request.OtherFees ?? tripRegistration.OutherFees;
-                tripRegistration.Email = request.Email ?? tripRegistration.Email;
-                tripRegistration.PhoneNumber = request.PhoneNumber ?? tripRegistration.PhoneNumber;
+                if (request.CurrentUserId == user.Select(u => u.Id).FirstOrDefault())
+                {
+                    tripRegistration.PackageCost = request.PackageCost ?? tripRegistration.PackageCost;
+                    tripRegistration.TaxesAndFees = request.TaxesAndFees ?? tripRegistration.TaxesAndFees;
+                    tripRegistration.OutherFees = request.OtherFees ?? tripRegistration.OutherFees;
+                    tripRegistration.Email = request.Email ?? tripRegistration.Email;
+                    tripRegistration.PhoneNumber = request.PhoneNumber ?? tripRegistration.PhoneNumber;
 
-                if (request.Title != null) 
-                {
-                    tripRegistration.Adults.FirstOrDefault(a => a.Title == request.Title);
-                }
-               
-                if (request.FirstName != null) 
-                {
-                    tripRegistration.Adults.FirstOrDefault(a => a.FirstName == request.FirstName);
-                }
-               
-                if (request.LastName != null) 
-                {
-                    tripRegistration.Adults.FirstOrDefault(a => a.LastName == request.LastName);
-                }
-               
-                if (request.AdultPassportNo != null) 
-                {
-                    tripRegistration.Adults.FirstOrDefault(a => a.PassportNo == request.AdultPassportNo);
-                }
-               
-                if (request.DateOfBirth != null) 
-                {
-                    tripRegistration.Adults.FirstOrDefault(a => a.DateOfBirth == request.DateOfBirth);
-                }
-               
-                if (request.AgeRange != null) 
-                {
-                    tripRegistration.Children.FirstOrDefault(a => a.AgeRange == request.AgeRange);
-                }
-               
-                if (request.ChildPassportNo != null) 
-                {
-                    tripRegistration.Children.FirstOrDefault(a => a.PassportNo == request.ChildPassportNo);
-                }
+                    if (request.Title != null)
+                    {
+                        tripRegistration.Adults.FirstOrDefault(a => a.Title == request.Title);
+                    }
 
-              
-                if (request.TripId != null) 
-                {
-                    tripRegistration.TripId = request.TripId.Value;
+                    if (request.FirstName != null)
+                    {
+                        tripRegistration.Adults.FirstOrDefault(a => a.FirstName == request.FirstName);
+                    }
+
+                    if (request.LastName != null)
+                    {
+                        tripRegistration.Adults.FirstOrDefault(a => a.LastName == request.LastName);
+                    }
+
+                    if (request.AdultPassportNo != null)
+                    {
+                        tripRegistration.Adults.FirstOrDefault(a => a.PassportNo == request.AdultPassportNo);
+                    }
+
+                    if (request.DateOfBirth != null)
+                    {
+                        tripRegistration.Adults.FirstOrDefault(a => a.DateOfBirth == request.DateOfBirth);
+                    }
+
+                    if (request.AgeRange != null)
+                    {
+                        tripRegistration.Children.FirstOrDefault(a => a.AgeRange == request.AgeRange);
+                    }
+
+                    if (request.ChildPassportNo != null)
+                    {
+                        tripRegistration.Children.FirstOrDefault(a => a.PassportNo == request.ChildPassportNo);
+                    }
+
+
+                    if (request.TripId != null)
+                    {
+                        tripRegistration.TripId = request.TripId.Value;
+                    }
+
+
+                    request.NoOfAdults = request.NoOfAdults;
+
+                    tripRegistration.ModifiedById = request.CurrentUserId;
+                    tripRegistration.ModificationDate = DateTime.Now;
+
+                    var TotalAmount = (tripRegistration.PackageCost * request.NoOfAdults) + tripRegistration.TaxesAndFees + tripRegistration.OutherFees;
+
+                    tripRegistration.TotalAmount = TotalAmount.Value;
+
+
+                    //if (user.FirstOrDefault().UserType == UserType.SuperAdmin)
+                    //{
+                    //    await _dbContext.SaveChangesAsync(cancellationToken);
+                    //    return ResultDto<string>.Success("Trip Registration Updated Successfully!");
+
+                    //}
+                    //else
+                    //{
+
+                    //}
+
                 }
-
-              
-                request.NoOfAdults = request.NoOfAdults;
-
-                tripRegistration.ModifiedById = request.CurrentUserId;
-                tripRegistration.ModificationDate = DateTime.Now;
-
-                var TotalAmount = (tripRegistration.PackageCost * request.NoOfAdults) + tripRegistration.TaxesAndFees + tripRegistration.OutherFees;
-
-                tripRegistration.TotalAmount = TotalAmount.Value;
-               
 
                 await _dbContext.SaveChangesAsync(cancellationToken);
                 return ResultDto<string>.Success("Trip Registration Updated Successfully!");
