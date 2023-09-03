@@ -3,11 +3,6 @@ using GoldenAirport.Application.Cities.Commands.Delete;
 using GoldenAirport.Application.Cities.Commands.Edit;
 using GoldenAirport.Application.Cities.Dtos;
 using GoldenAirport.Application.Cities.Queries;
-using GoldenAirport.Application.Countries.Commands.Create;
-using GoldenAirport.Application.Countries.Commands.Delete;
-using GoldenAirport.Application.Countries.Commands.Edit;
-using GoldenAirport.Application.Countries.Dtos;
-using GoldenAirport.Application.Countries.Queries;
 using Microsoft.AspNetCore.Mvc;
 
 namespace GoldenAirport.WebAPI.Controllers

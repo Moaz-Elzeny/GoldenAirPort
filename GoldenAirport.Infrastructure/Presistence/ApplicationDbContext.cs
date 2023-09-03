@@ -38,6 +38,8 @@ namespace GoldenAirport.Infrastructure.Presistence
         public DbSet<PackagePlan> PackagePlans { get; set; }
         public DbSet<CityPackage> CityPackages { get; set; }
         public DbSet<Notification> Notifications { get; set; }
+        public DbSet<Chat> Chats { get; set; }
+        public DbSet<ChatMessage> ChatMessages { get; set; }
 
         #endregion
         public override DatabaseFacade Database => base.Database;

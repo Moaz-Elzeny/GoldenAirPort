@@ -31,6 +31,8 @@ namespace GoldenAirport.Application.Interfaces
         DbSet<PackagePlan> PackagePlans { get; set; }
         DbSet<CityPackage> CityPackages { get; set; }
         DbSet<Notification> Notifications { get; set; }
+        DbSet<Domain.Entities.Chat> Chats { get; set; }
+        DbSet<ChatMessage> ChatMessages { get; set; }
         #endregion
 
 

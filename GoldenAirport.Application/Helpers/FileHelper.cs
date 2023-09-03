@@ -87,5 +87,30 @@ namespace GoldenAirport.Application.Helpers
             }
             return ImagePath;
         }
+
+        public static async Task<string> SaveAudioAsync(IFormFile audioFile, IHostingEnvironment hostingEnvironment)
+        {
+            // Create the directory if it does not exist
+            if (!Directory.Exists(hostingEnvironment.WebRootPath + "/uploads/audio/"))
+            {
+                Directory.CreateDirectory(hostingEnvironment.WebRootPath + "/uploads/audio/");
+            }
+
+            // Generate a unique filename for the audio file
+            string fileName = RandomHelper.GenerateUniqueID(25) + Path.GetExtension(audioFile.FileName).ToLower();
+
+            // Build the full file path
+            string filePath = "/uploads/audio/" + fileName;
+
+
+            using (FileStream filestream = File.Create(hostingEnvironment.WebRootPath + filePath))
+            {
+                audioFile.CopyTo(filestream);
+                filestream.Flush();
+                var fileExtention = Path.GetExtension(audioFile.FileName).ToLower();
+            }
+
+            return filePath;
+        }
     }
 }
