@@ -4,7 +4,7 @@ using GoldenAirport.Domain.Enums;
 
 namespace GoldenAirport.Application.TripRegistrations.Commands.Create
 {
-    public class CreateTripRegistrationCommand : IRequest<ResultDto<string>>
+    public class CreateTripRegistrationCommand : IRequest<ResultDto<object>>
     {
         public decimal PackageCost { get; set; }
         public decimal TaxesAndFees { get; set; }
@@ -25,7 +25,7 @@ namespace GoldenAirport.Application.TripRegistrations.Commands.Create
         //public int NoOfChildren { get; set; } = 1;
         public string? CurrentUserId { get; set; }
 
-        public class CreateTripRegistrationHandler : IRequestHandler<CreateTripRegistrationCommand, ResultDto<string>>
+        public class CreateTripRegistrationHandler : IRequestHandler<CreateTripRegistrationCommand, ResultDto<object>>
         {
             private readonly IApplicationDbContext _dbContext;
 
@@ -34,7 +34,7 @@ namespace GoldenAirport.Application.TripRegistrations.Commands.Create
                 _dbContext = dbContext;
             }
 
-            public async Task<ResultDto<string>> Handle(CreateTripRegistrationCommand request, CancellationToken cancellationToken)
+            public async Task<ResultDto<object>> Handle(CreateTripRegistrationCommand request, CancellationToken cancellationToken)
             {
                 var totalAmount = (request.PackageCost * request.NoOfAdults) + request.TaxesAndFees + request.OtherFees;
 
@@ -80,7 +80,7 @@ namespace GoldenAirport.Application.TripRegistrations.Commands.Create
                 //_dbContext.children.Add(child);
                 //await _dbContext.SaveChangesAsync(cancellationToken);
 
-                return ResultDto<string>.Success("Trip Registration Created Successfully!");
+                return ResultDto<object>.Success(tripRegistration.Id ,"Trip Registration Created Successfully!");
             }
         }
     }

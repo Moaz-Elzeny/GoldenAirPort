@@ -46,7 +46,7 @@ namespace GoldenAirport.Application.Countries.Queries
                     TotalPages = totalPages
                 };
 
-                return ResultDto<PaginatedList<GetCountriesDto>>.Success(paginatedList);
+                return ResultDto<PaginatedList<GetCountriesDto>>.Success(paginatedList , "All Countries");
             }
         }
     }

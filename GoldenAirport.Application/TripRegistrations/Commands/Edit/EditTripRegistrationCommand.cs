@@ -4,7 +4,7 @@ using SendGrid.Helpers.Errors.Model;
 
 namespace GoldenAirport.Application.TripRegistrations.Commands.Edit
 {
-    public class EditTripRegistrationCommand : IRequest<ResultDto<string>>
+    public class EditTripRegistrationCommand : IRequest<ResultDto<object>>
     {
         public int Id { get; set; }
         public decimal? PackageCost { get; set; }
@@ -25,7 +25,7 @@ namespace GoldenAirport.Application.TripRegistrations.Commands.Edit
         public int? NoOfAdults { get; set; } = 1;
         public string? CurrentUserId { get; set; }
 
-        public class EditTripRegistrationHandler : IRequestHandler<EditTripRegistrationCommand, ResultDto<string>>
+        public class EditTripRegistrationHandler : IRequestHandler<EditTripRegistrationCommand, ResultDto<object>>
         {
             private readonly IApplicationDbContext _dbContext;
 
@@ -34,7 +34,7 @@ namespace GoldenAirport.Application.TripRegistrations.Commands.Edit
                 _dbContext = dbContext;
             }
 
-            public async Task<ResultDto<string>> Handle(EditTripRegistrationCommand request, CancellationToken cancellationToken)
+            public async Task<ResultDto<object>> Handle(EditTripRegistrationCommand request, CancellationToken cancellationToken)
             {
                 var user = _dbContext.AppUsers.AsQueryable();
 
@@ -117,7 +117,7 @@ namespace GoldenAirport.Application.TripRegistrations.Commands.Edit
                 }
 
                 await _dbContext.SaveChangesAsync(cancellationToken);
-                return ResultDto<string>.Success("Trip Registration Updated Successfully!");
+                return ResultDto<object>.Success(tripRegistration.Id, "Trip Registration Updated Successfully!");
             }
         }
     }

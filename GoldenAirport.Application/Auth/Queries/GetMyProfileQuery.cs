@@ -25,7 +25,7 @@ namespace GoldenAirport.Application.Users.Queries.GetMyProfile
             var currentUser = await _userManager.FindByIdAsync(request.CurrentUserId);
             if (currentUser == null)
             {
-                return ResultDto<UserProfileDto>.Failure("User not found.");
+                return ResultDto<UserProfileDto>.Failure(request.CurrentUserId, "User not found.");
             }
 
             var userProfile = new UserProfileDto
@@ -40,7 +40,7 @@ namespace GoldenAirport.Application.Users.Queries.GetMyProfile
                 ProfilePicture = currentUser.ProfilePicture,
             };
 
-            return ResultDto<UserProfileDto>.Success(userProfile);
+            return ResultDto<UserProfileDto>.Success(userProfile, "User profile");
         }
     }
 }

@@ -48,7 +48,7 @@ namespace GoldenAirport.Application.Chat.Command
 
                     var messages = new ChatMessage
                     {
-                        ChatId = newChat.Data,
+                        ChatId = (int?)newChat.Result,
                         Content = request.Content,
                         SenderId = request.SenderId,
                         MessageTypeId = request.MessageTypeId,
@@ -77,7 +77,7 @@ namespace GoldenAirport.Application.Chat.Command
                     await _dbContext.ChatMessages.AddAsync(messages, cancellationToken);
                     await _dbContext.SaveChangesAsync(cancellationToken);
 
-                    return ResultDto<object>.Success("Sent Successfully");
+                    return ResultDto<object>.Success("Sent Successfully", messages.ChatId.ToString());
 
                 }
 
@@ -112,7 +112,7 @@ namespace GoldenAirport.Application.Chat.Command
                 await _dbContext.ChatMessages.AddAsync(message, cancellationToken);
                 await _dbContext.SaveChangesAsync(cancellationToken);
 
-                return ResultDto<object>.Success("Sent Successfully");
+                return ResultDto<object>.Success(chat ,"Sent Successfully");
             }
         }
     }

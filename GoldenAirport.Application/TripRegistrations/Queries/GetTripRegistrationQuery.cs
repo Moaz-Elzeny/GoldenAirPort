@@ -63,7 +63,7 @@ namespace GoldenAirport.Application.TripRegistrations.Queries
                     TotalPages = totalPages
                 };
 
-                return ResultDto<PaginatedList<GetTripRegistrationDto>>.Success(paginatedList);
+                return ResultDto<PaginatedList<GetTripRegistrationDto>>.Success(paginatedList, "All TripRegistration");
             }
         }
     }

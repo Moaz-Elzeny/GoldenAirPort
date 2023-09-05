@@ -42,7 +42,7 @@ namespace GoldenAirport.Application.Chat.Queries
 
                 };
 
-                return ResultDto<object>.Success(result);
+                return ResultDto<object>.Success(result, "Message");
             }
         }
     }

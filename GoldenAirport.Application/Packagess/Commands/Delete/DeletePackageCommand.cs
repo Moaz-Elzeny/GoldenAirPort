@@ -3,12 +3,12 @@ using SendGrid.Helpers.Errors.Model;
 
 namespace GoldenAirport.Application.Packagess.Commands.Delete
 {
-    public class DeletePackageCommand : IRequest<ResultDto<string>>
+    public class DeletePackageCommand : IRequest<ResultDto<object>>
     {
         public int Id { get; set; }
         public string? CurrentUserId { get; set; }
 
-        public class DeletePackageHandler : IRequestHandler<DeletePackageCommand, ResultDto<string>>
+        public class DeletePackageHandler : IRequestHandler<DeletePackageCommand, ResultDto<object>>
         {
             private readonly IApplicationDbContext _dbContext;
 
@@ -17,7 +17,7 @@ namespace GoldenAirport.Application.Packagess.Commands.Delete
                 _dbContext = dbContext;
             }
 
-            public async Task<ResultDto<string>> Handle(DeletePackageCommand request, CancellationToken cancellationToken)
+            public async Task<ResultDto<object>> Handle(DeletePackageCommand request, CancellationToken cancellationToken)
             {
                 var package = await _dbContext.Packages.FindAsync(request.Id) ?? throw new NotFoundException("Package not found.");
 
@@ -35,7 +35,7 @@ namespace GoldenAirport.Application.Packagess.Commands.Delete
                 }
 
 
-                return ResultDto<string>.Success("Deletion has been successfully");
+                return ResultDto<object>.Success(package.Id, "Deletion has been successfully");
             }
         }
     }

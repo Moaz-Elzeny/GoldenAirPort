@@ -29,12 +29,12 @@ namespace GoldenAirport.Application.Users.Commands.Delete
 
                 if (user == null)
                 {
-                    return ResultDto<Unit>.Failure("User not found");
+                    return ResultDto<Unit>.Failure(request.UserId, "User not found");
                 }
 
                 if (user.Id == request.CurrentUserId)
                 {
-                    return ResultDto<Unit>.Failure("Cannot delete your own user");
+                    return ResultDto<Unit>.Failure(request.CurrentUserId, "Cannot delete your own user");
                 }
 
                 user.Deleted = true;
@@ -50,11 +50,11 @@ namespace GoldenAirport.Application.Users.Commands.Delete
 
                 if (result.Succeeded)
                 {
-                    return ResultDto<Unit>.Success(Unit.Value);
+                    return ResultDto<Unit>.Success(Unit.Value, "Deleted Successfully");
                 }
                 else
                 {
-                    return ResultDto<Unit>.Failure("Failed to delete user");
+                    return ResultDto<Unit>.Failure(user.Id, "Failed to delete user");
                 }
             }
         }

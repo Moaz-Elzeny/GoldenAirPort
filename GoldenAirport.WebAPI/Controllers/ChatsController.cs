@@ -20,7 +20,7 @@ namespace GoldenAirport.WebAPI.Controllers
         {
             var query = new GetAllChatsQuery { Search = search };
             var result = await Mediator.Send(query);
-            return result.Errors != null ? BadRequest(result.Errors) : Ok(result.Data);
+            return result.Errors != null ? BadRequest(result) : Ok(result.Result);
         }
 
         [HttpGet("GetChatMessageByUserId")]
@@ -28,7 +28,7 @@ namespace GoldenAirport.WebAPI.Controllers
         {
             var chatMessageDto = new GetChatMessageQuery { UserId = Id};
             var result = await Mediator.Send(chatMessageDto);
-            return result.Errors != null ? BadRequest(result.Errors) : Ok(result.Data);
+            return result.Errors != null ? BadRequest(result) : Ok(result);
         }
 
         [HttpPost("SendMessage")]
@@ -52,7 +52,7 @@ namespace GoldenAirport.WebAPI.Controllers
             };
 
             var result = await Mediator.Send(command);
-            return result.Errors != null ? BadRequest(result.Errors) : Ok(result.Data);
+            return result.Errors != null ? BadRequest(result) : Ok(result);
         }
     }
 }

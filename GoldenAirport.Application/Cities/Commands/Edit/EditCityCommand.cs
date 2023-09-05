@@ -3,7 +3,7 @@ using SendGrid.Helpers.Errors.Model;
 
 namespace GoldenAirport.Application.Cities.Commands.Edit
 {
-    public class EditCityCommand : IRequest<ResultDto<string>>
+    public class EditCityCommand : IRequest<ResultDto<object>>
     {
         public int Id { get; set; }
         public string? NameAr { get; set; }
@@ -11,7 +11,7 @@ namespace GoldenAirport.Application.Cities.Commands.Edit
         public int? CountryId { get; set; }
         public string? CurrentUserId { get; set; }
 
-        public class EditCityHandler : IRequestHandler<EditCityCommand, ResultDto<string>>
+        public class EditCityHandler : IRequestHandler<EditCityCommand, ResultDto<object>>
         {
             private readonly IApplicationDbContext _dbContext;
 
@@ -20,7 +20,7 @@ namespace GoldenAirport.Application.Cities.Commands.Edit
                 _dbContext = dbContext;
             }
 
-            public async Task<ResultDto<string>> Handle(EditCityCommand request, CancellationToken cancellationToken)
+            public async Task<ResultDto<object>> Handle(EditCityCommand request, CancellationToken cancellationToken)
             {
                 var city = await _dbContext.Cities.FindAsync(request.Id) ?? throw new NotFoundException("City not found.");
 
@@ -40,7 +40,7 @@ namespace GoldenAirport.Application.Cities.Commands.Edit
                 city.ModificationDate = DateTime.Now;
 
                 await _dbContext.SaveChangesAsync(cancellationToken);
-                return ResultDto<string>.Success("City Updated Successfully!");
+                return ResultDto<object>.Success(city.Id, "City Updated Successfully!");
             }
         }
     }

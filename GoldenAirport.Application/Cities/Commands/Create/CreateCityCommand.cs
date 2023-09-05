@@ -3,14 +3,14 @@ using GoldenAirport.Domain.Entities;
 
 namespace GoldenAirport.Application.Cities.Commands.Create
 {
-    public class CreateCityCommand : IRequest<ResultDto<string>>
+    public class CreateCityCommand : IRequest<ResultDto<object>>
     {
         public string NameAr { get; set; }
         public string NameEn { get; set; }
         public int CountryId { get; set; }
         public string? CurrentUserId { get; set; }
 
-        public class CreateCityHandler : IRequestHandler<CreateCityCommand, ResultDto<string>>
+        public class CreateCityHandler : IRequestHandler<CreateCityCommand, ResultDto<object>>
         {
             private readonly IApplicationDbContext _dbContext;
 
@@ -19,7 +19,7 @@ namespace GoldenAirport.Application.Cities.Commands.Create
                 _dbContext = dbContext;
             }
 
-            public async Task<ResultDto<string>> Handle(CreateCityCommand request, CancellationToken cancellationToken)
+            public async Task<ResultDto<object>> Handle(CreateCityCommand request, CancellationToken cancellationToken)
             {
                 var city = new City
                 {
@@ -34,7 +34,7 @@ namespace GoldenAirport.Application.Cities.Commands.Create
                 _dbContext.Cities.Add(city);
                 await _dbContext.SaveChangesAsync(cancellationToken);
 
-                return ResultDto<string>.Success("City Created Successfully!");
+                return ResultDto<object>.Success(city.Id ,"City Created Successfully!");
             }
         }
     }

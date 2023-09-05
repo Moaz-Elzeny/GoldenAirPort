@@ -71,7 +71,7 @@ namespace GoldenAirport.Application.Employees.Queries
                     TotalPages = totalPages
                 };
 
-                return ResultDto<PaginatedList<GetAllEmployeeDto>>.Success(paginatedList);
+                return ResultDto<PaginatedList<GetAllEmployeeDto>>.Success(paginatedList ,"All employee");
             }
         }
     }

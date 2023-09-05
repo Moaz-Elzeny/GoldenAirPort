@@ -17,7 +17,7 @@ namespace GoldenAirport.WebAPI.Controllers
         {
             var query = new GetAllEmployeeQuery{PageNumber = pageNumber, SearchKey = keySerch};
             var result = await Mediator.Send(query);
-            return result.Errors != null ? BadRequest(result.Errors) : Ok(result.Data);
+            return result.Errors != null ? BadRequest(result) : Ok(result);
         }
 
         [HttpPost("CreateEmployee")]
@@ -33,7 +33,7 @@ namespace GoldenAirport.WebAPI.Controllers
 
             var result = await Mediator.Send(command);
 
-            return result.Errors != null ? BadRequest(result.Errors) : Ok(result.Data);
+            return result.Errors != null ? BadRequest(result) : Ok(result);
         }
 
         [HttpPut("UpdateEmployee")]
@@ -69,7 +69,7 @@ namespace GoldenAirport.WebAPI.Controllers
 
             var result = await Mediator.Send(command);
 
-            return result.Errors != null ? BadRequest(result.Errors) : Ok(result.Data);
+            return result.Errors != null ? BadRequest(result) : Ok(result);
         }
 
 
@@ -84,7 +84,7 @@ namespace GoldenAirport.WebAPI.Controllers
 
             var result = await Mediator.Send(command);
 
-            return result.Errors != null ? BadRequest(result.Errors) : Ok(result.Data);
+            return result.Errors != null ? BadRequest(result) : Ok(result);
         }
     }
 }

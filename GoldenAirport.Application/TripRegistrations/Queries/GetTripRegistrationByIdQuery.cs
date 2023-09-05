@@ -68,9 +68,9 @@ namespace GoldenAirport.Application.TripRegistrations.Queries
 
                 if (TripRegistrations.Count != 0)
                 {
-                    return ResultDto<PaginatedList<GetTripRegistrationDto>>.Success(paginatedList);
+                    return ResultDto<PaginatedList<GetTripRegistrationDto>>.Success(paginatedList, "All TripRegistration");
                 }
-                return ResultDto<PaginatedList<GetTripRegistrationDto>>.Failure("Id is not found");
+                return ResultDto<PaginatedList<GetTripRegistrationDto>>.Failure($"{request.Id}", "Id is not found");
             }
         }
     }

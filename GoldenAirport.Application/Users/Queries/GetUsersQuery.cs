@@ -36,7 +36,7 @@ namespace GoldenAirport.Application.Users.Queries
 
             }).ToList();
 
-            return ResultDto<List<UserDto>>.Success(userDtos);
+            return ResultDto<List<UserDto>>.Success(userDtos, "All users");
         }
     }
 

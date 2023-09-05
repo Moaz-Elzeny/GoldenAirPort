@@ -7,7 +7,7 @@ using SendGrid.Helpers.Errors.Model;
 
 namespace GoldenAirport.Application.Employees.Commands.Edit
 {
-    public class EditEmployeeCommand : IRequest<ResultDto<string>>
+    public class EditEmployeeCommand : IRequest<ResultDto<object>>
     {
         public string Id { get; set; }
         public string? UserName { get; set; }
@@ -30,7 +30,7 @@ namespace GoldenAirport.Application.Employees.Commands.Edit
         public paymentMethod? PaymentMethod { get; set; }
         public DateTime? LastLogin { get; set; }
         public string? AppUserId { get; set; }
-        public class EditEmployeeHandler : IRequestHandler<EditEmployeeCommand, ResultDto<string>>
+        public class EditEmployeeHandler : IRequestHandler<EditEmployeeCommand, ResultDto<object>>
         {
             private readonly IApplicationDbContext _dbContext;
             private readonly IMediator _mediator;
@@ -41,7 +41,7 @@ namespace GoldenAirport.Application.Employees.Commands.Edit
                 _mediator = mediator;
             }
 
-            public async Task<ResultDto<string>> Handle(EditEmployeeCommand request, CancellationToken cancellationToken)
+            public async Task<ResultDto<object>> Handle(EditEmployeeCommand request, CancellationToken cancellationToken)
             {
                 var employee = await _dbContext.Employees.FindAsync(request.Id) ?? throw new NotFoundException("Employee not found.");
 
@@ -103,7 +103,7 @@ namespace GoldenAirport.Application.Employees.Commands.Edit
                 employee.ModificationDate = DateTime.Now;
 
                 await _dbContext.SaveChangesAsync(cancellationToken);
-                return ResultDto<string>.Success("Employee Updated Successfully!");
+                return ResultDto<object>.Success(employee.Id ,"Employee Updated Successfully!");
 
             }
         }

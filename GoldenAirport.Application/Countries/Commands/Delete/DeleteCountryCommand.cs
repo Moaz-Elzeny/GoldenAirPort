@@ -3,12 +3,12 @@ using SendGrid.Helpers.Errors.Model;
 
 namespace GoldenAirport.Application.Countries.Commands.Delete
 {
-    public class DeleteCountryCommand : IRequest<ResultDto<string>>
+    public class DeleteCountryCommand : IRequest<ResultDto<object>>
     {
         public int Id { get; set; }
         public string? CurrentUserId { get; set; }
 
-        public class DeleteCountryHandler : IRequestHandler<DeleteCountryCommand, ResultDto<string>>
+        public class DeleteCountryHandler : IRequestHandler<DeleteCountryCommand, ResultDto<object>>
         {
             private readonly IApplicationDbContext _dbContext;
 
@@ -17,7 +17,7 @@ namespace GoldenAirport.Application.Countries.Commands.Delete
                 _dbContext = dbContext;
             }
 
-            public async Task<ResultDto<string>> Handle(DeleteCountryCommand request, CancellationToken cancellationToken)
+            public async Task<ResultDto<object>> Handle(DeleteCountryCommand request, CancellationToken cancellationToken)
             {
                 var country = await _dbContext.Countries.FindAsync(request.Id) ?? throw new NotFoundException("Country not found.");
                 
@@ -27,7 +27,7 @@ namespace GoldenAirport.Application.Countries.Commands.Delete
 
                 await _dbContext.SaveChangesAsync(cancellationToken);
 
-                return ResultDto<string>.Success("Deleted has been successfully");
+                return ResultDto<object>.Success(country.Id ,"Deleted has been successfully");
             }
         }
     }

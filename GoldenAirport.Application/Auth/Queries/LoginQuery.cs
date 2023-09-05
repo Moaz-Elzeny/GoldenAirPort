@@ -33,7 +33,7 @@ namespace GoldenAirport.Application.Users.Queries.Login
             var user = await _userManager.FindByNameAsync(request.UserName);
             if (user == null)
             {
-                return ResultDto<string>.Failure("Invalid login credentials.");
+                return ResultDto<string>.Failure(user.Id, "Invalid login credentials.");
             }
 
             var result = await _userManager.CheckPasswordAsync(user, request.Password);
@@ -52,11 +52,11 @@ namespace GoldenAirport.Application.Users.Queries.Login
                     await _context.SaveChangesAsync(cancellationToken);
                 }
 
-                return ResultDto<string>.Success(token);
+                return ResultDto<string>.Success(token, "Token");
             }
             else
             {
-                return ResultDto<string>.Failure("Invalid login credentials.");
+                return ResultDto<string>.Failure(user.Id, "Invalid login credentials.");
             }
         }
 

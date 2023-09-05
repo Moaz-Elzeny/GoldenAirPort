@@ -3,12 +3,12 @@ using SendGrid.Helpers.Errors.Model;
 
 namespace GoldenAirport.Application.TripRegistrations.Commands.Delete
 {
-    public class DeleteTripRegistrationCommand : IRequest<ResultDto<string>>
+    public class DeleteTripRegistrationCommand : IRequest<ResultDto<object>>
     {
         public int Id { get; set; }
         public string? CurrentUserId { get; set; }
 
-        public class DeleteTripRegistrationHandler : IRequestHandler<DeleteTripRegistrationCommand, ResultDto<string>>
+        public class DeleteTripRegistrationHandler : IRequestHandler<DeleteTripRegistrationCommand, ResultDto<object>>
         {
             private readonly IApplicationDbContext _dbContext;
 
@@ -17,7 +17,7 @@ namespace GoldenAirport.Application.TripRegistrations.Commands.Delete
                 _dbContext = dbContext;
             }
 
-            public async Task<ResultDto<string>> Handle(DeleteTripRegistrationCommand request, CancellationToken cancellationToken)
+            public async Task<ResultDto<object>> Handle(DeleteTripRegistrationCommand request, CancellationToken cancellationToken)
             {
                 var trip = await _dbContext.TripRegistrations.FindAsync(request.Id) ?? throw new NotFoundException("Trip Registration not found.");
 
@@ -27,7 +27,7 @@ namespace GoldenAirport.Application.TripRegistrations.Commands.Delete
 
                 await _dbContext.SaveChangesAsync(cancellationToken);
 
-                return ResultDto<string>.Success("Deleted has been successfully");
+                return ResultDto<object>.Success(trip.Id ,"Deleted has been successfully");
             }
         }
     }

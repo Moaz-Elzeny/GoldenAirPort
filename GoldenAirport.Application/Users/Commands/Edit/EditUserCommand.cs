@@ -9,7 +9,7 @@ using Microsoft.AspNetCore.Identity;
 
 namespace GoldenAirport.Application.Users.Commands.EditUser
 {
-    public record EditUserCommand : IRequest<ResultDto<string>>
+    public record EditUserCommand : IRequest<ResultDto<object>>
     {
         public string UserId { get; init; }
         public string? UserName { get; init; }
@@ -24,7 +24,7 @@ namespace GoldenAirport.Application.Users.Commands.EditUser
         public IFormFile? ProfilePicture { get; set; }
         public string? CurrentUserId { get; init; }
 
-        public class EditUserCommandHandler : IRequestHandler<EditUserCommand, ResultDto<string>>
+        public class EditUserCommandHandler : IRequestHandler<EditUserCommand, ResultDto<object>>
         {
             private readonly UserManager<AppUser> _userManager;
             private readonly IHostingEnvironment _environment;
@@ -35,12 +35,12 @@ namespace GoldenAirport.Application.Users.Commands.EditUser
                 _environment = environment;
             }
 
-            public async Task<ResultDto<string>> Handle(EditUserCommand request, CancellationToken cancellationToken)
+            public async Task<ResultDto<object>> Handle(EditUserCommand request, CancellationToken cancellationToken)
             {
                 var user = await _userManager.FindByIdAsync(request.UserId);
 
                 if (user == null)
-                    return ResultDto<string>.Failure("User not found");
+                    return ResultDto<object>.Failure(request.UserId, "User not found");
 
                 if (request.UserName != null)
                     user.UserName = request.UserName;
@@ -75,18 +75,18 @@ namespace GoldenAirport.Application.Users.Commands.EditUser
 
                     if (!x.Succeeded)
                     {
-                        return ResultDto<string>.Failure("Password is Wrong .. Please return password ");
+                        return ResultDto<object>.Failure(request.UserId, "Password is Wrong .. Please return password ");
                     }
                 }
                 var result = await _userManager.UpdateAsync(user);
 
                 if (result.Succeeded)
                 {
-                    return ResultDto<string>.Success("User updated successfully");
+                    return ResultDto<object>.Success(request.UserId, "User updated successfully");
                 }
                 else
                 {
-                    return ResultDto<string>.Failure("Failed to update user");
+                    return ResultDto<object>.Failure(request.UserId, "Failed to update user");
                 }
             }
         }

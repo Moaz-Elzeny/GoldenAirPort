@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Http;
 
 namespace GoldenAirport.Application.Employees.Commands.Create
 {
-    public class CreateEmployeeCommand : IRequest<ResultDto<string>>
+    public class CreateEmployeeCommand : IRequest<ResultDto<object>>
     {
         public string UserName { get; set; }
         public string Email { get; set; }
@@ -24,7 +24,7 @@ namespace GoldenAirport.Application.Employees.Commands.Create
         public decimal Target { get; set; }
         public DateTime Date { get; set; }
         public paymentMethod PaymentMethod { get; set; }
-        public class CreateEmployeeHandler : IRequestHandler<CreateEmployeeCommand, ResultDto<string>>
+        public class CreateEmployeeHandler : IRequestHandler<CreateEmployeeCommand, ResultDto<object>>
         {
             private readonly IApplicationDbContext _dbContext;
             private readonly IMediator _mediator;
@@ -35,7 +35,7 @@ namespace GoldenAirport.Application.Employees.Commands.Create
                 _mediator = mediator;
             }
 
-            public async Task<ResultDto<string>> Handle(CreateEmployeeCommand request, CancellationToken cancellationToken)
+            public async Task<ResultDto<object>> Handle(CreateEmployeeCommand request, CancellationToken cancellationToken)
             {
                 //Create user for the employee
                 var CreateUser = new CreateUserCommand()
@@ -58,7 +58,7 @@ namespace GoldenAirport.Application.Employees.Commands.Create
                 var CreateEmployee = new Employee
                 {
                     Id = Guid.NewGuid().ToString(),
-                    AppUserId = result.Data.UserId,
+                    AppUserId = result.Result.UserId,
                     AgentCode = request.AgentCode,
                     Balance = request.Balance,
                     DailyGoal = request.DailyGoal,
@@ -73,7 +73,7 @@ namespace GoldenAirport.Application.Employees.Commands.Create
 
                 _dbContext.Employees.Add(CreateEmployee);
                 await _dbContext.SaveChangesAsync(cancellationToken);
-                return ResultDto<string>.Success(CreateEmployee.Id);
+                return ResultDto<object>.Success(CreateEmployee.Id ,"Created Successfully");
 
             }
         }

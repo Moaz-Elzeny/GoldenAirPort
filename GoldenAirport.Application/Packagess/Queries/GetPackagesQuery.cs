@@ -63,10 +63,14 @@ namespace GoldenAirport.Application.Packagess.Queries
                     PriceLessThan2YearsOld = p.PriceLessThan2YearsOld,
                     PriceLessThan12YearsOld = p.PriceLessThan12YearsOld,
                     CountryId = p.CountryId,
-                    FromCityId = p.FromCityId,
-                    FromCityName = CultureInfo.CurrentCulture.TwoLetterISOLanguageName == "ar" ? p.City.NameAr : p.City.NameEn,
                     IsRefundable = p.IsRefundable,
                     PaymentOptions = p.PaymentMethod,
+                    FromCity = new FromCityDto
+                    {
+
+                    FromCityId = p.FromCityId,
+                    CityName = CultureInfo.CurrentCulture.TwoLetterISOLanguageName == "ar" ? p.City.NameAr : p.City.NameEn,
+                    },
                     ToCities = p.ToCity.Select(c => new GetPackegeCitiesDto
                     {
                         Id = c.CityId,
@@ -88,7 +92,7 @@ namespace GoldenAirport.Application.Packagess.Queries
                 TotalPages = totalPages
             };
 
-            return ResultDto<PaginatedList<GetPackagesDto>>.Success(paginatedList);
+            return ResultDto<PaginatedList<GetPackagesDto>>.Success(paginatedList , "All package");
         }
     }
 }

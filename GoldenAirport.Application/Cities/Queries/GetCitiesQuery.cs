@@ -37,8 +37,12 @@ namespace GoldenAirport.Application.Cities.Queries
                         Id = c.Id,
                         NameAr = c.NameAr,
                         NameEn = c.NameEn,
-                        CountryId = c.CountryId,
-                        CountryName = CultureInfo.CurrentCulture.TwoLetterISOLanguageName == "ar" ? c.Country.NameAr : c.Country.NameEn,
+                        Country = new CountryDto()
+                        {
+
+                        Id = c.CountryId,
+                        Name = CultureInfo.CurrentCulture.TwoLetterISOLanguageName == "ar" ? c.Country.NameAr : c.Country.NameEn,
+                        }
                     }).ToListAsync(cancellationToken);
 
                 var paginatedList = new PaginatedList<GetCitiesDto>
@@ -50,7 +54,7 @@ namespace GoldenAirport.Application.Cities.Queries
                     TotalPages = totalPages
                 };
 
-                return ResultDto<PaginatedList<GetCitiesDto>>.Success(paginatedList);
+                return ResultDto<PaginatedList<GetCitiesDto>>.Success(paginatedList, "All cities");
             }
         }
     }

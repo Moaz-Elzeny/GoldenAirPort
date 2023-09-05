@@ -5,7 +5,7 @@ using SendGrid.Helpers.Errors.Model;
 
 namespace GoldenAirport.Application.Trips.Commands.Edit
 {
-    public class EditTripCommand : IRequest<ResultDto<string>>
+    public class EditTripCommand : IRequest<ResultDto<object>>
     {
         public int Id { get; set; }
         public DateTime? StartingDate { get; set; }
@@ -21,7 +21,7 @@ namespace GoldenAirport.Application.Trips.Commands.Edit
         public paymentMethod? PaymentMethod { get; set; }
         public string? CurrentUserId { get; set; }
 
-        public class EditTripHandler : IRequestHandler<EditTripCommand, ResultDto<string>>
+        public class EditTripHandler : IRequestHandler<EditTripCommand, ResultDto<object>>
         {
             private readonly IApplicationDbContext _dbContext;
 
@@ -30,7 +30,7 @@ namespace GoldenAirport.Application.Trips.Commands.Edit
                 _dbContext = dbContext;
             }
 
-            public async Task<ResultDto<string>> Handle(EditTripCommand request, CancellationToken cancellationToken)
+            public async Task<ResultDto<object>> Handle(EditTripCommand request, CancellationToken cancellationToken)
             {
                 var trip = await _dbContext.Trips.FindAsync(request.Id) ?? throw new NotFoundException("Trip not found.");
 
@@ -90,7 +90,7 @@ namespace GoldenAirport.Application.Trips.Commands.Edit
                 }
 
                 await _dbContext.SaveChangesAsync(cancellationToken);
-                return ResultDto<string>.Success("Trip Updated Successfully!");
+                return ResultDto<object>.Success(trip.Id, "Trip Updated Successfully!");
             }
         }
     }

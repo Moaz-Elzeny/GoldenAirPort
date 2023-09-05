@@ -3,13 +3,13 @@ using GoldenAirport.Domain.Entities;
 
 namespace GoldenAirport.Application.Countries.Commands.Create
 {
-    public class CreateCountryCommand : IRequest<ResultDto<string>>
+    public class CreateCountryCommand : IRequest<ResultDto<object>>
     {
         public string NameAr { get; set; }
         public string NameEn { get; set; }
         public string? CurrentUserId { get; set; }
 
-        public class CreateCountryHandler : IRequestHandler<CreateCountryCommand, ResultDto<string>>
+        public class CreateCountryHandler : IRequestHandler<CreateCountryCommand, ResultDto<object>>
         {
             private readonly IApplicationDbContext _dbContext;
 
@@ -18,7 +18,7 @@ namespace GoldenAirport.Application.Countries.Commands.Create
                 _dbContext = dbContext;
             }
 
-            public async Task<ResultDto<string>> Handle(CreateCountryCommand request, CancellationToken cancellationToken)
+            public async Task<ResultDto<object>> Handle(CreateCountryCommand request, CancellationToken cancellationToken)
             {
                 var country = new Country
                 {
@@ -32,7 +32,7 @@ namespace GoldenAirport.Application.Countries.Commands.Create
                 _dbContext.Countries.Add(country);
                 await _dbContext.SaveChangesAsync(cancellationToken);
 
-                return ResultDto<string>.Success("Country Created Successfully!");
+                return ResultDto<object>.Success(country.Id ,"Country Created Successfully!");
             }
         }
     }

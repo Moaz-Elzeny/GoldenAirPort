@@ -73,10 +73,13 @@ namespace GoldenAirport.Application.Trips.Queries
                         PriceLessThan2YearsOld = t.PriceLessThan2YearsOld,
                         PriceLessThan12YearsOld = t.PriceLessThan12YearsOld,
                         TripHours = t.TripHours.ToString(),
-                        FromCityId = t.FromCityId,
                         IsRefundable = t.IsRefundable,
                         PaymentOptions = t.PaymentMethod,
-                        FromCityName = CultureInfo.CurrentCulture.TwoLetterISOLanguageName == "ar" ? t.City.NameAr : t.City.NameEn,
+                        FromCity = new GetFromCityDto
+                        {
+                        FromCityId = t.FromCityId,
+                        CityName = CultureInfo.CurrentCulture.TwoLetterISOLanguageName == "ar" ? t.City.NameAr : t.City.NameEn,
+                        },
                         ToCities = t.ToCity.Select(c => new GetCitiesDto 
                         { 
                             Id = c.CityId,
@@ -116,7 +119,7 @@ namespace GoldenAirport.Application.Trips.Queries
                     TotalPages = totalPages
                 };
 
-                return ResultDto<PaginatedList<GetTripsDto>>.Success(paginatedList);
+                return ResultDto<PaginatedList<GetTripsDto>>.Success(paginatedList, "All Trips");
             }
         }
     }

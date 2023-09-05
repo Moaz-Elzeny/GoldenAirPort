@@ -68,11 +68,11 @@ namespace GoldenAirport.Application.Users.Commands.CreateUser
                     var userId = user.Id;
                     var userToken = new UserTokenDto { UserId = userId, Token = token };
 
-                    return ResultDto<UserTokenDto>.Success(userToken);
+                    return ResultDto<UserTokenDto>.Success(userToken, "Token");
                 }
                 else
                 {
-                    return ResultDto<UserTokenDto>.Failure("Failed to create user");
+                    return ResultDto<UserTokenDto>.Failure(user.Id, "Failed to create user");
                 }
             }
 

@@ -69,7 +69,7 @@ namespace GoldenAirport.Application.Chat.Queries
                     }
                 }
 
-                return ResultDto<object>.Success(chatDtos);
+                return ResultDto<object>.Success(chatDtos, "All chats");
             }
         }
     }

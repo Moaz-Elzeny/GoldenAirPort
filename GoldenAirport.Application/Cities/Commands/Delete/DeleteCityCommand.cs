@@ -4,12 +4,12 @@ using SendGrid.Helpers.Errors.Model;
 
 namespace GoldenAirport.Application.Cities.Commands.Delete
 {
-    public class DeleteCityCommand : IRequest<ResultDto<string>>
+    public class DeleteCityCommand : IRequest<ResultDto<object>>
     {
         public int Id { get; set; }
         public string? CurrentUserId { get; set; }
 
-        public class DeleteCityHandler : IRequestHandler<DeleteCityCommand, ResultDto<string>>
+        public class DeleteCityHandler : IRequestHandler<DeleteCityCommand, ResultDto<object>>
         {
             private readonly IApplicationDbContext _dbContext;
 
@@ -18,7 +18,7 @@ namespace GoldenAirport.Application.Cities.Commands.Delete
                 _dbContext = dbContext;
             }
 
-            public async Task<ResultDto<string>> Handle(DeleteCityCommand request, CancellationToken cancellationToken)
+            public async Task<ResultDto<object>> Handle(DeleteCityCommand request, CancellationToken cancellationToken)
             {
                 var city = await _dbContext.Cities.FindAsync(request.Id) ?? throw new NotFoundException("City not found.");
 
@@ -28,7 +28,7 @@ namespace GoldenAirport.Application.Cities.Commands.Delete
 
                 await _dbContext.SaveChangesAsync(cancellationToken);
 
-                return ResultDto<string>.Success("Deleted has been successfully");
+                return ResultDto<object>.Success(city.Id ,"Deleted has been successfully");
             }
         }
     }

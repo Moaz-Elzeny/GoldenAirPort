@@ -5,7 +5,7 @@ using SendGrid.Helpers.Errors.Model;
 
 namespace GoldenAirport.Application.Packagess.Commands.Edit
 {
-    public class EditPackageCommand : IRequest<ResultDto<string>>
+    public class EditPackageCommand : IRequest<ResultDto<object>>
     {
         public int Id { get; set; }
         public string Name { get; set; }
@@ -21,7 +21,7 @@ namespace GoldenAirport.Application.Packagess.Commands.Edit
         public paymentMethod? PaymentMethod { get; set; }
         public string? CurrentUserId { get; set; }
 
-        public class EditPackageHandler : IRequestHandler<EditPackageCommand, ResultDto<string>>
+        public class EditPackageHandler : IRequestHandler<EditPackageCommand, ResultDto<object>>
         {
             private readonly IApplicationDbContext _dbContext;
 
@@ -30,7 +30,7 @@ namespace GoldenAirport.Application.Packagess.Commands.Edit
                 _dbContext = dbContext;
             }
 
-            public async Task<ResultDto<string>> Handle(EditPackageCommand request, CancellationToken cancellationToken)
+            public async Task<ResultDto<object>> Handle(EditPackageCommand request, CancellationToken cancellationToken)
             {
                 var package = await _dbContext.Packages.FindAsync(request.Id) ?? throw new NotFoundException("Package not found.");
 
@@ -88,7 +88,7 @@ namespace GoldenAirport.Application.Packagess.Commands.Edit
                 }
 
                 await _dbContext.SaveChangesAsync(cancellationToken);
-                return ResultDto<string>.Success("Package Updated Successfully!");
+                return ResultDto<object>.Success(package.Id, "Package Updated Successfully!");
             }
         }
     }

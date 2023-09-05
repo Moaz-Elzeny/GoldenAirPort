@@ -2,13 +2,13 @@
 
 namespace GoldenAirport.Application.Chat.Command
 {
-    public class CreateChatCommand : IRequest<ResultDto<int>>
+    public class CreateChatCommand : IRequest<ResultDto<object>>
     {
         public string AdminId { get; set; }
         public string EmployeeId { get; set; }
         public string? CurrentUserId { get; set; }
 
-        public class CreateChatCommandHandler : IRequestHandler<CreateChatCommand, ResultDto<int>>
+        public class CreateChatCommandHandler : IRequestHandler<CreateChatCommand, ResultDto<object>>
         {
             private readonly IApplicationDbContext _dbContext;
 
@@ -17,7 +17,7 @@ namespace GoldenAirport.Application.Chat.Command
                 _dbContext = dbContext;
             }
 
-            public async Task<ResultDto<int>> Handle(CreateChatCommand request, CancellationToken cancellationToken)
+            public async Task<ResultDto<object>> Handle(CreateChatCommand request, CancellationToken cancellationToken)
             {
                 var chat = new Domain.Entities.Chat
                 {
@@ -29,7 +29,7 @@ namespace GoldenAirport.Application.Chat.Command
                 await _dbContext.Chats.AddAsync(chat, cancellationToken);
                 await _dbContext.SaveChangesAsync(cancellationToken);
 
-                return ResultDto<int>.Success(chat.Id);
+                return ResultDto<object>.Success(chat ,"Created Successfully");
             }
         }
     }

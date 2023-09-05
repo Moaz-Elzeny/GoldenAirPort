@@ -5,7 +5,7 @@ using SendGrid.Helpers.Errors.Model;
 
 namespace GoldenAirport.Application.Packagess.Commands.Create
 {
-    public class CreatePackageCommand : IRequest<ResultDto<string>>
+    public class CreatePackageCommand : IRequest<ResultDto<object>>
     {
         public string Name { get; set; }
         public DateTime StartingDate { get; set; }
@@ -22,7 +22,7 @@ namespace GoldenAirport.Application.Packagess.Commands.Create
         public string? CurrentUserId { get; set; }
     }
 
-    public class CreatePackageCommandHandler : IRequestHandler<CreatePackageCommand, ResultDto<string>>
+    public class CreatePackageCommandHandler : IRequestHandler<CreatePackageCommand, ResultDto<object>>
     {
         private readonly IApplicationDbContext _dbContext;
 
@@ -31,7 +31,7 @@ namespace GoldenAirport.Application.Packagess.Commands.Create
             _dbContext = dbContext;
         }
 
-        public async Task<ResultDto<string>> Handle(CreatePackageCommand request, CancellationToken cancellationToken)
+        public async Task<ResultDto<object>> Handle(CreatePackageCommand request, CancellationToken cancellationToken)
         {
             var package = new Package
             {
@@ -85,7 +85,7 @@ namespace GoldenAirport.Application.Packagess.Commands.Create
                 await _dbContext.SaveChangesAsync(cancellationToken);
             }
 
-            return ResultDto<string>.Success("Package Created Successfully!");
+            return ResultDto<object>.Success(package.Id ,"Package Created Successfully!");
         }
     }
 }

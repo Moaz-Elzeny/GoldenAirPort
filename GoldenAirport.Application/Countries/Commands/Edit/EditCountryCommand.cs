@@ -4,14 +4,14 @@ using SendGrid.Helpers.Errors.Model;
 
 namespace GoldenAirport.Application.Countries.Commands.Edit
 {
-    public class EditCountryCommand : IRequest<ResultDto<string>>
+    public class EditCountryCommand : IRequest<ResultDto<object>>
     {
         public int Id { get; set; }
         public string? NameAr { get; set; }
         public string? NameEn { get; set; }
         public string? CurrentUserId { get; set; }
 
-        public class EditCountyHandler : IRequestHandler<EditCountryCommand, ResultDto<string>>
+        public class EditCountyHandler : IRequestHandler<EditCountryCommand, ResultDto<object>>
         {
             private readonly IApplicationDbContext _dbContext;
 
@@ -20,7 +20,7 @@ namespace GoldenAirport.Application.Countries.Commands.Edit
                 _dbContext = dbContext;
             }
 
-            public async Task<ResultDto<string>> Handle(EditCountryCommand request, CancellationToken cancellationToken)
+            public async Task<ResultDto<object>> Handle(EditCountryCommand request, CancellationToken cancellationToken)
             {
                 var county = await _dbContext.Countries.FindAsync(request.Id) ?? throw new NotFoundException("Employee not found.");
                 
@@ -38,7 +38,7 @@ namespace GoldenAirport.Application.Countries.Commands.Edit
                 county.ModificationDate = DateTime.Now;
 
                 await _dbContext.SaveChangesAsync(cancellationToken);
-                return ResultDto<string>.Success("Country Updated Successfully!");
+                return ResultDto<object>.Success(county.Id ,"Country Updated Successfully!");
             }
         }
     }

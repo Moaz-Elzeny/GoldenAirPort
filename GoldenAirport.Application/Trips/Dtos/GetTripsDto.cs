@@ -12,10 +12,9 @@ namespace GoldenAirport.Application.Trips.Dtos
         public decimal PriceLessThan12YearsOld { get; set; }
         public byte Guests { get; set; }
         public string TripHours { get; set; }
-        public int FromCityId { get; set; }
-        public string FromCityName { get; set; }
         public bool IsRefundable { get; set; }
         public paymentMethod PaymentOptions { get; set; }
+        public GetFromCityDto FromCity { get; set; }
 
         public IEnumerable<GetCitiesDto> ToCities { get; set; }
         public IEnumerable<object> WhyVisit { get; set; }
