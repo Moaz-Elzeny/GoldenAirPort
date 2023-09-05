@@ -20,7 +20,7 @@ namespace GoldenAirport.WebAPI.Controllers
         {
             var query = new GetAllChatsQuery { Search = search };
             var result = await Mediator.Send(query);
-            return result.Errors != null ? BadRequest(result) : Ok(result.Result);
+            return result.Errors != null ? BadRequest(result) : Ok(result);
         }
 
         [HttpGet("GetChatMessageByUserId")]
