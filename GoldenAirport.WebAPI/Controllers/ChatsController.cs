@@ -15,11 +15,20 @@ namespace GoldenAirport.WebAPI.Controllers
         
         }
 
+        [HttpGet("GetAllChats")]
+        public async Task<ActionResult<List<AllChatsDto>>> GetAllChats([FromQuery] string? search)
+        {
+            var query = new GetAllChatsQuery { Search = search };
+            var result = await Mediator.Send(query);
+            return result.Errors != null ? BadRequest(result.Errors) : Ok(result.Data);
+        }
+
         [HttpGet("GetChatMessageByUserId")]
         public async Task<ActionResult<List<ChatMessageDto>>> GetChatMessageByUserId(string Id)
         {
             var chatMessageDto = new GetChatMessageQuery { UserId = Id};
-            return Ok(await Mediator.Send(chatMessageDto));
+            var result = await Mediator.Send(chatMessageDto);
+            return result.Errors != null ? BadRequest(result.Errors) : Ok(result.Data);
         }
 
         [HttpPost("SendMessage")]
@@ -41,7 +50,9 @@ namespace GoldenAirport.WebAPI.Controllers
                 EmployeeId = dto.EmployeeId,
                 CurrentUserId = CurrentUserId
             };
-            return Ok(await Mediator.Send(command));
+
+            var result = await Mediator.Send(command);
+            return result.Errors != null ? BadRequest(result.Errors) : Ok(result.Data);
         }
     }
 }

@@ -27,8 +27,8 @@ namespace GoldenAirport.Application.Chat.Queries
                     .OrderBy(d => d.CreationDate)
                     .Select(m => new MessageInfoDto
                     {
-                        Message = m.Content,
-                        MediaPath = m.MediaPath,
+                        Message = m.Content ?? string.Empty,
+                        MediaPath = m.MediaPath ?? string.Empty,
                         SenderId = m.SenderId,
                         SenderName = m.Sender.FirstName+" "+m.Sender.LastName,
                         CreationDate = m.CreationDate,
