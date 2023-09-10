@@ -22,6 +22,7 @@ namespace GoldenAirport.Application.Users.Commands.EditUser
         public decimal? ServiceFees { get; init; }
         public UserType? UserType { get; init; }
         public IFormFile? ProfilePicture { get; set; }
+        public string? PrivacyPolicyAndTerms { get; set; }
         public string? CurrentUserId { get; init; }
 
         public class EditUserCommandHandler : IRequestHandler<EditUserCommand, ResultDto<object>>
@@ -57,6 +58,7 @@ namespace GoldenAirport.Application.Users.Commands.EditUser
                 user.ServiceFees = request.ServiceFees ?? user.ServiceFees;
                 user.UserType = request.UserType ?? user.UserType;
                 user.PhoneNumber = request.PhoneNumber ?? user.PhoneNumber;
+                user.PrivacyPolicyAndTerms = request.PrivacyPolicyAndTerms ?? user.PrivacyPolicyAndTerms;
                 user.ModificationDate = DateTime.Now;
                 user.ModifiedById = request.CurrentUserId;
 

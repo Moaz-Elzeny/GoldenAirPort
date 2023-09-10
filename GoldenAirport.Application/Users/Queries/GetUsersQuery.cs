@@ -32,7 +32,7 @@ namespace GoldenAirport.Application.Users.Queries
                 ServiceFees = user.ServiceFees,
                 UserType = user.UserType,
                 ProfilePicture = user.ProfilePicture,
-                
+                PrivacyPolicyAndTerms = user.PrivacyPolicyAndTerms,
 
             }).ToList();
 

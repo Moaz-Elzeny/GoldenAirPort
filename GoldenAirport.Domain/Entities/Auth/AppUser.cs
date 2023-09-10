@@ -22,6 +22,7 @@ namespace GoldenAirport.Domain.Entities.Auth
         public DateTime? ModificationDate { get; set; }
         public bool Deleted { get; set; }
         public bool Active { get; set; }
+        public string? PrivacyPolicyAndTerms { get; set; }
 
         public virtual ICollection<Notification> Notifications { get; set; }
 

@@ -11,6 +11,7 @@ namespace GoldenAirport.Application.Users.DTOs
         public string LastName { get; init; }
         public decimal ServiceFees { get; set; }
         public UserType UserType { get; init; }
+        public string? PrivacyPolicyAndTerms { get; init; }
         public string ProfilePicture { get; set; }
         //public bool Deleted { get; init; }
         //public bool Active { get; init; }

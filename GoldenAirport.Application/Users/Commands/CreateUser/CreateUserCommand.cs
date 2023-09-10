@@ -24,6 +24,7 @@ namespace GoldenAirport.Application.Users.Commands.CreateUser
         public UserType UserType { get; set; }
         public decimal ServiceFees { get; set; }
         public IFormFile ProfilePicture { get; set; }
+        public string? PrivacyPolicyAndTerms { get; set; }
         public string? CurrentUserId { get; set; }
         public class CreateUserCommandHandler : IRequestHandler<CreateUserCommand, ResultDto<UserTokenDto>>
         {
@@ -49,6 +50,7 @@ namespace GoldenAirport.Application.Users.Commands.CreateUser
                     CreatedById = request.CurrentUserId,
                     CreationDate = DateTime.Now,
                     PhoneNumber = request.PhoneNumber,
+                    PrivacyPolicyAndTerms = request.PrivacyPolicyAndTerms,
                 };
 
                 if (request.ProfilePicture != null)

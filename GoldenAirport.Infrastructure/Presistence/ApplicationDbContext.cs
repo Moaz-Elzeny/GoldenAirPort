@@ -40,6 +40,7 @@ namespace GoldenAirport.Infrastructure.Presistence
         public DbSet<Notification> Notifications { get; set; }
         public DbSet<Chat> Chats { get; set; }
         public DbSet<ChatMessage> ChatMessages { get; set; }
+        public DbSet<Company> Companies { get; set; }
 
         #endregion
         public override DatabaseFacade Database => base.Database;
