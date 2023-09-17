@@ -13,7 +13,7 @@ namespace GoldenAirport.Application.Trips.Dtos
         public string? TripHours { get; set; }
         public int? FromCityId { get; set; }
         public List<int>? ToCitiesIds { get; set; }
-        public paymentMethod? PaymentMethod { get; set; }
+        //public paymentMethod? PaymentMethod { get; set; }
         public bool? IsRefundable { get; set; }
 
 

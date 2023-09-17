@@ -62,6 +62,13 @@ namespace GoldenAirport.WebAPI.Controllers
                 LastName = dto.LastName,
                 PhoneNumber = dto.PhoneNumber,
                 UserType = dto.UserType,
+                ServiceFees = dto.ServiceFees,
+                TaxValue = dto.TaxValue,
+                BookingTime = dto.BookingTime,
+                PrivacyPolicyAndTerms = dto.PrivacyPolicyAndTerms,
+                ProfilePicture = dto.ProfilePicture,
+                CurrentPassword = dto.CurrentPassword,
+                NewPassword = dto.NewPassword,
                 //Active = dto.Active,
                 CurrentUserId = CurrentUserId
             };

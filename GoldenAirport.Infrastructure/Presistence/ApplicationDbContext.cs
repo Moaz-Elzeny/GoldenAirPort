@@ -36,6 +36,7 @@ namespace GoldenAirport.Infrastructure.Presistence
         public DbSet<Restriction> Restrictions { get; set; }
         public DbSet<Package> Packages { get; set; }
         public DbSet<PackagePlan> PackagePlans { get; set; }
+        public DbSet<PaymentOption> PaymentOptions { get; set; }
         public DbSet<CityPackage> CityPackages { get; set; }
         public DbSet<Notification> Notifications { get; set; }
         public DbSet<Chat> Chats { get; set; }

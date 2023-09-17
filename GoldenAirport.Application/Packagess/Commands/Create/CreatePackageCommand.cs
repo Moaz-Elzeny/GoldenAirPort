@@ -12,9 +12,9 @@ namespace GoldenAirport.Application.Packagess.Commands.Create
         public DateTime EndingDate { get; set; }
         public bool IsRefundable { get; set; }
         public decimal Price { get; set; }
-        public decimal PriceLessThan2YearsOld { get; set; }
-        public decimal PriceLessThan12YearsOld { get; set; }
-        public paymentMethod PaymentMethod { get; set; }
+        public decimal ChildPrice { get; set; }
+        //public decimal PriceLessThan12YearsOld { get; set; }
+        //public paymentMethod PaymentMethod { get; set; }
         public int CountryId { get; set; }
         public int FromCityId { get; set; }
         public List<int> ToCitiesIds { get; set; }
@@ -39,10 +39,10 @@ namespace GoldenAirport.Application.Packagess.Commands.Create
                 StartingDate = request.StartingDate,
                 EndingDate = request.EndingDate,
                 Price = request.Price,
-                PriceLessThan2YearsOld = request.PriceLessThan2YearsOld,
-                PriceLessThan12YearsOld = request.PriceLessThan12YearsOld,
+                ChildPrice = request.ChildPrice,
+                //PriceLessThan12YearsOld = request.PriceLessThan12YearsOld,
                 IsRefundable = request.IsRefundable,
-                PaymentMethod = request.PaymentMethod,
+                //PaymentMethod = request.PaymentMethod,
                 CountryId = request.CountryId,
                 FromCityId = request.FromCityId,
                 CreatedById = request.CurrentUserId,

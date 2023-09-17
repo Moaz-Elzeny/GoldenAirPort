@@ -4,6 +4,7 @@ using GoldenAirport.Infrastructure.Presistence;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace GoldenAirport.Infrastructure.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230917144001_PaymentOptionRelatedWithPackage")]
+    partial class PaymentOptionRelatedWithPackage
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -758,9 +761,6 @@ namespace GoldenAirport.Infrastructure.Migrations
                         .HasColumnType("bit")
                         .HasDefaultValue(true);
 
-                    b.Property<decimal>("ChildPrice")
-                        .HasColumnType("decimal(18,2)");
-
                     b.Property<int>("CountryId")
                         .HasColumnType("int");
 
@@ -800,6 +800,12 @@ namespace GoldenAirport.Infrastructure.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<decimal>("Price")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<decimal>("PriceLessThan12YearsOld")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<decimal>("PriceLessThan2YearsOld")
                         .HasColumnType("decimal(18,2)");
 
                     b.Property<DateTime>("StartingDate")
@@ -972,6 +978,9 @@ namespace GoldenAirport.Infrastructure.Migrations
                     b.Property<string>("ModifiedById")
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)");
+
+                    b.Property<int>("PaymentMethod")
+                        .HasColumnType("int");
 
                     b.Property<decimal>("Price")
                         .HasColumnType("decimal(18,2)");

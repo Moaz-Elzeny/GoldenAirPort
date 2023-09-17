@@ -18,11 +18,14 @@ namespace GoldenAirport.Application.Users.Commands.CreateUser
         public string UserName { get; set; }
         public string Email { get; set; }
         public string Password { get; set; }
+        public string ConfirmPassword { get; set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }
         public string PhoneNumber { get; set; }        
         public UserType UserType { get; set; }
         public decimal ServiceFees { get; set; }
+        public int? TaxValue { get; set; }
+        public int BookingTime { get; set; }
         public IFormFile ProfilePicture { get; set; }
         public string? PrivacyPolicyAndTerms { get; set; }
         public string? CurrentUserId { get; set; }
@@ -47,6 +50,8 @@ namespace GoldenAirport.Application.Users.Commands.CreateUser
                     LastName = request.LastName,
                     UserType = request.UserType,
                     ServiceFees = request.ServiceFees,
+                    TaxValue = (byte)request.TaxValue,
+                    BookingTime = (byte)request.BookingTime,
                     CreatedById = request.CurrentUserId,
                     CreationDate = DateTime.Now,
                     PhoneNumber = request.PhoneNumber,

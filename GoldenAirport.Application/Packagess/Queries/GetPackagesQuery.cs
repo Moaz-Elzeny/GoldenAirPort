@@ -60,11 +60,11 @@ namespace GoldenAirport.Application.Packagess.Queries
                     StartingDate = p.StartingDate.Date,
                     EndingDate = p.EndingDate,
                     Price = p.Price,
-                    PriceLessThan2YearsOld = p.PriceLessThan2YearsOld,
-                    PriceLessThan12YearsOld = p.PriceLessThan12YearsOld,
+                    ChildPrice = p.ChildPrice,
+                    //PriceLessThan12YearsOld = p.PriceLessThan12YearsOld,
                     CountryId = p.CountryId,
                     IsRefundable = p.IsRefundable,
-                    PaymentOptions = p.PaymentMethod,
+                    //PaymentOptions = p.PaymentMethod,
                     FromCity = new FromCityDto
                     {
 

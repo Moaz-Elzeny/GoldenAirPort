@@ -21,7 +21,7 @@ namespace GoldenAirport.Application.Trips.Commands.Create
         public List<string> Accessibilitys { get; set; }
         public List<string> Restrictions { get; set; }
         public bool IsRefundable { get; set; }
-        public paymentMethod PaymentMethod { get; set; }
+        //public paymentMethod PaymentMethod { get; set; }
         public string? CurrentUserId { get; set; }
 
         public class CreateTripHandler : IRequestHandler<CreateTripCommand, ResultDto<object>>
@@ -46,7 +46,7 @@ namespace GoldenAirport.Application.Trips.Commands.Create
                     TripHours = TimeSpan.Parse(request.TripHours),
                     FromCityId = request.FromCityId,
                     IsRefundable = request.IsRefundable,
-                    PaymentMethod = request.PaymentMethod,
+                    //PaymentMethod = request.PaymentMethod,
                     CreatedById = request.CurrentUserId,
                     CreationDate = DateTime.Now,
 

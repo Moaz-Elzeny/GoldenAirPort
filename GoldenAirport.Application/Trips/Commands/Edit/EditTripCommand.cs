@@ -18,7 +18,7 @@ namespace GoldenAirport.Application.Trips.Commands.Edit
         public int? FromCityId { get; set; }
         public List<int>? ToCitiesIds { get; set; }
         public bool? IsRefundable { get; set; }
-        public paymentMethod? PaymentMethod { get; set; }
+        //public paymentMethod? PaymentMethod { get; set; }
         public string? CurrentUserId { get; set; }
 
         public class EditTripHandler : IRequestHandler<EditTripCommand, ResultDto<object>>
@@ -59,10 +59,10 @@ namespace GoldenAirport.Application.Trips.Commands.Edit
                     trip.IsRefundable = request.IsRefundable.Value;
                 }
 
-                if (request.PaymentMethod != null)
-                {
-                    trip.PaymentMethod = request.PaymentMethod.Value;
-                }
+                //if (request.PaymentMethod != null)
+                //{
+                //    trip.PaymentMethod = request.PaymentMethod.Value;
+                //}
                 trip.ModifiedById = request.CurrentUserId;
                 trip.ModificationDate = DateTime.Now;
 

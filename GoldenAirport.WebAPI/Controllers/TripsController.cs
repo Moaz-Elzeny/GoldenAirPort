@@ -69,7 +69,7 @@ namespace GoldenAirport.WebAPI.Controllers
                 TripHours = dto.TripHours,
                 FromCityId = dto.FromCityId,
                 ToCitiesIds = dto.ToCitiesIds,
-                PaymentMethod = dto.PaymentMethod,
+                //PaymentMethod = dto.PaymentMethod,
                 IsRefundable = dto.IsRefundable,
                 CurrentUserId = CurrentUserId
             };

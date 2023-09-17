@@ -32,12 +32,16 @@ namespace GoldenAirport.Application.Users.Commands.CreateUser
                 .NotEmpty().WithMessage("Password is required.")
                 .MinimumLength(6).WithMessage("Password must be at least 6 characters long.");
 
+            RuleFor(x => x.ConfirmPassword)
+                .Equal(x => x.Password).WithMessage("Password and confirmation password do not match.");
 
             RuleFor(x => x.UserType)
                 .IsInEnum().WithMessage("Invalid user type value.");
 
+            RuleFor(x => x.TaxValue).InclusiveBetween(0, 100);
 
-           
+            RuleFor(x => x.BookingTime).InclusiveBetween(0, 60);
+
         }
         private async Task<bool> BeUniqueUserName(string userName, CancellationToken cancellationToken)
         {
@@ -50,6 +54,6 @@ namespace GoldenAirport.Application.Users.Commands.CreateUser
             var existingUser = await _userManager.FindByEmailAsync(email);
             return existingUser == null;
         }
-       
+
     }
 }

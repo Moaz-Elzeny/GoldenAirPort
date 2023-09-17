@@ -74,7 +74,7 @@ namespace GoldenAirport.Application.Trips.Queries
                         PriceLessThan12YearsOld = t.PriceLessThan12YearsOld,
                         TripHours = t.TripHours.ToString(),
                         IsRefundable = t.IsRefundable,
-                        PaymentOptions = t.PaymentMethod,
+                        //PaymentOptions = t.PaymentMethod,
                         FromCity = new GetFromCityDto
                         {
                         FromCityId = t.FromCityId,

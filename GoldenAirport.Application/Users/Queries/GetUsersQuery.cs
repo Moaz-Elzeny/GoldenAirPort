@@ -30,6 +30,8 @@ namespace GoldenAirport.Application.Users.Queries
                 FirstName = user.FirstName,
                 LastName = user.LastName,
                 ServiceFees = user.ServiceFees,
+                TaxValue = user.TaxValue,
+                BookingTime = user.BookingTime,
                 UserType = user.UserType,
                 ProfilePicture = user.ProfilePicture,
                 PrivacyPolicyAndTerms = user.PrivacyPolicyAndTerms,

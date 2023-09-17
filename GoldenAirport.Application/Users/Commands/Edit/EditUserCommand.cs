@@ -14,12 +14,15 @@ namespace GoldenAirport.Application.Users.Commands.EditUser
         public string UserId { get; init; }
         public string? UserName { get; init; }
         public string? Email { get; init; }
-        public string? currentPassword { get; init; }
-        public string? newPassword { get; init; }
+        public string? CurrentPassword { get; init; }
+        public string? NewPassword { get; init; }
+        public string? ConfirmNewPassword { get; init; }
         public string? FirstName { get; init; }
         public string? LastName { get; init; }
         public string? PhoneNumber { get; init; }
         public decimal? ServiceFees { get; init; }
+        public int? TaxValue { get; set; }
+        public int? BookingTime { get; set; }
         public UserType? UserType { get; init; }
         public IFormFile? ProfilePicture { get; set; }
         public string? PrivacyPolicyAndTerms { get; set; }
@@ -55,6 +58,13 @@ namespace GoldenAirport.Application.Users.Commands.EditUser
                 if (request.LastName != null)
                     user.LastName = request.LastName;
 
+                 if (request.BookingTime != null)
+                    user.BookingTime = (byte)request.BookingTime;
+
+                  if (request.TaxValue != null)
+                    user.TaxValue = (byte)request.TaxValue;
+
+                user.ServiceFees = request.ServiceFees ?? user.ServiceFees;
                 user.ServiceFees = request.ServiceFees ?? user.ServiceFees;
                 user.UserType = request.UserType ?? user.UserType;
                 user.PhoneNumber = request.PhoneNumber ?? user.PhoneNumber;
@@ -71,9 +81,9 @@ namespace GoldenAirport.Application.Users.Commands.EditUser
                     user.ProfilePicture = await FileHelper.SaveImageAsync(request.ProfilePicture, _environment);
                 }
 
-                if (request.currentPassword != null)
+                if (request.CurrentPassword != null)
                 {
-                    var x = await _userManager.ChangePasswordAsync(user, request.currentPassword, request.newPassword);
+                    var x = await _userManager.ChangePasswordAsync(user, request.CurrentPassword, request.NewPassword);
 
                     if (!x.Succeeded)
                     {

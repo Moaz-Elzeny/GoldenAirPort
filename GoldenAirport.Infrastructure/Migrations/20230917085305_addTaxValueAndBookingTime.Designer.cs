@@ -4,6 +4,7 @@ using GoldenAirport.Infrastructure.Presistence;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace GoldenAirport.Infrastructure.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230917085305_addTaxValueAndBookingTime")]
+    partial class addTaxValueAndBookingTime
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -758,9 +761,6 @@ namespace GoldenAirport.Infrastructure.Migrations
                         .HasColumnType("bit")
                         .HasDefaultValue(true);
 
-                    b.Property<decimal>("ChildPrice")
-                        .HasColumnType("decimal(18,2)");
-
                     b.Property<int>("CountryId")
                         .HasColumnType("int");
 
@@ -799,7 +799,16 @@ namespace GoldenAirport.Infrastructure.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<int>("PaymentMethod")
+                        .HasColumnType("int");
+
                     b.Property<decimal>("Price")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<decimal>("PriceLessThan12YearsOld")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<decimal>("PriceLessThan2YearsOld")
                         .HasColumnType("decimal(18,2)");
 
                     b.Property<DateTime>("StartingDate")
@@ -834,73 +843,6 @@ namespace GoldenAirport.Infrastructure.Migrations
                     b.HasIndex("PackageId");
 
                     b.ToTable("PackagePlans");
-                });
-
-            modelBuilder.Entity("GoldenAirport.Domain.Entities.PaymentOption", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<string>("NameAr")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("NameEn")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("PaymentOptions");
-                });
-
-            modelBuilder.Entity("GoldenAirport.Domain.Entities.PaymentOptionPackage", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<int>("PackageId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("PaymentOptionId")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("PackageId");
-
-                    b.HasIndex("PaymentOptionId");
-
-                    b.ToTable("PaymentOptionPackage");
-                });
-
-            modelBuilder.Entity("GoldenAirport.Domain.Entities.PaymentOptionTrip", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<int>("PaymentOptionId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("TripId")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("PaymentOptionId");
-
-                    b.HasIndex("TripId");
-
-                    b.ToTable("PaymentOptionTrip");
                 });
 
             modelBuilder.Entity("GoldenAirport.Domain.Entities.Restriction", b =>
@@ -972,6 +914,9 @@ namespace GoldenAirport.Infrastructure.Migrations
                     b.Property<string>("ModifiedById")
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)");
+
+                    b.Property<int>("PaymentMethod")
+                        .HasColumnType("int");
 
                     b.Property<decimal>("Price")
                         .HasColumnType("decimal(18,2)");
@@ -1412,44 +1357,6 @@ namespace GoldenAirport.Infrastructure.Migrations
                     b.Navigation("Package");
                 });
 
-            modelBuilder.Entity("GoldenAirport.Domain.Entities.PaymentOptionPackage", b =>
-                {
-                    b.HasOne("GoldenAirport.Domain.Entities.Package", "Package")
-                        .WithMany("PaymentOptionPackages")
-                        .HasForeignKey("PackageId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("GoldenAirport.Domain.Entities.PaymentOption", "PaymentOptions")
-                        .WithMany("PaymentOptionPackages")
-                        .HasForeignKey("PaymentOptionId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Package");
-
-                    b.Navigation("PaymentOptions");
-                });
-
-            modelBuilder.Entity("GoldenAirport.Domain.Entities.PaymentOptionTrip", b =>
-                {
-                    b.HasOne("GoldenAirport.Domain.Entities.PaymentOption", "PaymentOptions")
-                        .WithMany("PaymentOptionTrips")
-                        .HasForeignKey("PaymentOptionId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("GoldenAirport.Domain.Entities.Trip", "Trip")
-                        .WithMany("PaymentOptionTrips")
-                        .HasForeignKey("TripId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("PaymentOptions");
-
-                    b.Navigation("Trip");
-                });
-
             modelBuilder.Entity("GoldenAirport.Domain.Entities.Restriction", b =>
                 {
                     b.HasOne("GoldenAirport.Domain.Entities.Trip", "Trips")
@@ -1588,23 +1495,12 @@ namespace GoldenAirport.Infrastructure.Migrations
                 {
                     b.Navigation("PackagePlans");
 
-                    b.Navigation("PaymentOptionPackages");
-
                     b.Navigation("ToCity");
-                });
-
-            modelBuilder.Entity("GoldenAirport.Domain.Entities.PaymentOption", b =>
-                {
-                    b.Navigation("PaymentOptionPackages");
-
-                    b.Navigation("PaymentOptionTrips");
                 });
 
             modelBuilder.Entity("GoldenAirport.Domain.Entities.Trip", b =>
                 {
                     b.Navigation("Accessibilities");
-
-                    b.Navigation("PaymentOptionTrips");
 
                     b.Navigation("Restrictions");
 

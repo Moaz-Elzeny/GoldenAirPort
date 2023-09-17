@@ -24,6 +24,13 @@ namespace GoldenAirport.Application.Users.Commands.EditUser
             RuleFor(x => x.UserType)
                 .IsInEnum().WithMessage("Invalid user type value.");
 
+            RuleFor(x => x.NewPassword)
+                .NotEmpty().WithMessage("Password is required.")
+                .MinimumLength(6).WithMessage("Password must be at least 6 characters long.");
+
+            RuleFor(x => x.ConfirmNewPassword)
+                .Equal(x => x.NewPassword).WithMessage("Password and confirmation password do not match.");
+
         }
 
 

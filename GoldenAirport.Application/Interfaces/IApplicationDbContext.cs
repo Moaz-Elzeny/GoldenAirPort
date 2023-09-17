@@ -29,6 +29,7 @@ namespace GoldenAirport.Application.Interfaces
         DbSet<Restriction> Restrictions { get; set; }
         DbSet<Package> Packages { get; set; }
         DbSet<PackagePlan> PackagePlans { get; set; }
+        DbSet<PaymentOption> PaymentOptions { get; set; }
         DbSet<CityPackage> CityPackages { get; set; }
         DbSet<Notification> Notifications { get; set; }
         DbSet<Domain.Entities.Chat> Chats { get; set; }

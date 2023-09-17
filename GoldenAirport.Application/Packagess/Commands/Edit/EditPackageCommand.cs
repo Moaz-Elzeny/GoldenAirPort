@@ -12,13 +12,13 @@ namespace GoldenAirport.Application.Packagess.Commands.Edit
         public DateTime? StartingDate { get; set; }
         public DateTime? EndingDate { get; set; }
         public decimal? Price { get; set; }
-        public decimal? PriceLessThan2YearsOld { get; set; }
-        public decimal? PriceLessThan12YearsOld { get; set; }
+        public decimal? ChildPrice { get; set; }
+        //public decimal? PriceLessThan12YearsOld { get; set; }
         public int? CountryId { get; set; }
         public int? FromCityId { get; set; }
         public List<int>? ToCitiesIds { get; set; }
         public bool? IsRefundable { get; set; }
-        public paymentMethod? PaymentMethod { get; set; }
+        //public paymentMethod? PaymentMethod { get; set; }
         public string? CurrentUserId { get; set; }
 
         public class EditPackageHandler : IRequestHandler<EditPackageCommand, ResultDto<object>>
@@ -47,8 +47,8 @@ namespace GoldenAirport.Application.Packagess.Commands.Edit
                 }
 
                 package.Price = request.Price ?? package.Price;
-                package.PriceLessThan2YearsOld = request.PriceLessThan2YearsOld ?? package.PriceLessThan2YearsOld;
-                package.PriceLessThan12YearsOld = request.PriceLessThan12YearsOld ?? package.PriceLessThan12YearsOld;
+                package.ChildPrice = request.ChildPrice ?? package.ChildPrice;
+                //package.PriceLessThan12YearsOld = request.PriceLessThan12YearsOld ?? package.PriceLessThan12YearsOld;
                 package.CountryId = request.CountryId ?? package.CountryId;
                 package.FromCityId = request.FromCityId ?? package.FromCityId;
 
@@ -57,10 +57,10 @@ namespace GoldenAirport.Application.Packagess.Commands.Edit
                     package.IsRefundable = request.IsRefundable.Value;
                 }
 
-                if (request.PaymentMethod != null)
-                {
-                    package.PaymentMethod = request.PaymentMethod.Value;
-                }
+                //if (request.PaymentMethod != null)
+                //{
+                //    package.PaymentMethod = request.PaymentMethod.Value;
+                //}
 
                 package.ModifiedById = request.CurrentUserId;
                 package.ModificationDate = DateTime.Now;
