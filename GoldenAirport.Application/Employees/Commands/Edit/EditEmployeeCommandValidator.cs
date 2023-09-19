@@ -6,20 +6,20 @@ namespace GoldenAirport.Application.Employees.Commands.Edit
     {
         public EditEmployeeCommandValidator()
         {
-            RuleFor(x => x.Email)
-               .EmailAddress().WithMessage("Invalid email format.");
+            //RuleFor(x => x.Email)
+            //   .EmailAddress().WithMessage("Invalid email format.");
 
-            RuleFor(x => x.FirstName)
-                .MaximumLength(100).WithMessage("First name cannot exceed 100 characters.");
+            //RuleFor(x => x.FirstName)
+            //    .MaximumLength(100).WithMessage("First name cannot exceed 100 characters.");
 
-            RuleFor(x => x.LastName)
-                .MaximumLength(100).WithMessage("Last name cannot exceed 100 characters.");
+            //RuleFor(x => x.LastName)
+            //    .MaximumLength(100).WithMessage("Last name cannot exceed 100 characters.");
 
-            RuleFor(x => x.PhoneNumber)
-                .MaximumLength(20).WithMessage("Phone number cannot exceed 20 characters.");
+            //RuleFor(x => x.PhoneNumber)
+            //    .MaximumLength(20).WithMessage("Phone number cannot exceed 20 characters.");
 
-            RuleFor(x => x.UserType)
-                .IsInEnum().WithMessage("Invalid user type value.");
+            //RuleFor(x => x.UserType)
+            //    .IsInEnum().WithMessage("Invalid user type value.");
 
             //RuleFor(x => x.AgentCode)
             //   .NotEmpty()

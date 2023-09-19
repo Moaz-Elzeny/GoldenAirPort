@@ -11,8 +11,7 @@ namespace GoldenAirport.Application.Trips.Commands.Edit
         public DateTime? StartingDate { get; set; }
         public DateTime? EndingDate { get; set; }
         public decimal? Price { get; set; }
-        public decimal? PriceLessThan2YearsOld { get; set; }
-        public decimal? PriceLessThan12YearsOld { get; set; }
+        public decimal? ChildPrice { get; set; }
         public byte? Guests { get; set; }
         public string? TripHours { get; set; }
         public int? FromCityId { get; set; }
@@ -50,8 +49,7 @@ namespace GoldenAirport.Application.Trips.Commands.Edit
                 }
 
                 trip.Price = request.Price ?? trip.Price;
-                trip.PriceLessThan2YearsOld = request.PriceLessThan2YearsOld ?? trip.PriceLessThan2YearsOld;
-                trip.PriceLessThan12YearsOld = request.PriceLessThan12YearsOld ?? trip.PriceLessThan12YearsOld;
+                trip.ChildPrice = request.ChildPrice ?? trip.ChildPrice;
                 trip.Guests = request.Guests ?? trip.Guests;
                 trip.FromCityId = request.FromCityId ?? trip.FromCityId;
                 if (request.IsRefundable != null)

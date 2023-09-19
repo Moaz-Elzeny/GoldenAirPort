@@ -15,8 +15,7 @@ namespace GoldenAirport.Domain.Entities
         public DateTime EndingDate { get; set; }
         public bool IsRefundable { get; set; }
         public decimal Price { get; set; }
-        public decimal PriceLessThan2YearsOld { get; set; }
-        public decimal PriceLessThan12YearsOld { get; set; }
+        public decimal ChildPrice { get; set; }
         public byte Guests { get; set; }
         public TimeSpan TripHours { get; set;}
         //public paymentMethod PaymentMethod { get; set; }

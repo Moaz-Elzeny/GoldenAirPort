@@ -9,17 +9,17 @@ namespace GoldenAirport.Application.Employees.Commands.Edit
 {
     public class EditEmployeeCommand : IRequest<ResultDto<object>>
     {
+        //public string? UserName { get; set; }
+        //public string? Email { get; set; }
+        //public string? CurrentPassword { get; set; }
+        //public string? NewPassword { get; set; }
+        //public string? FirstName { get; set; }
+        //public string? LastName { get; set; }
+        //public string? PhoneNumber { get; set; }
+        //public UserType? UserType { get; set; }
+        //public decimal? ServiceFees { get; set; }
+        //public IFormFile? ProfilePicture { get; set; }
         public string Id { get; set; }
-        public string? UserName { get; set; }
-        public string? Email { get; set; }
-        public string? CurrentPassword { get; set; }
-        public string? NewPassword { get; set; }
-        public string? FirstName { get; set; }
-        public string? LastName { get; set; }
-        public string? PhoneNumber { get; set; }
-        public UserType? UserType { get; set; }
-        public decimal? ServiceFees { get; set; }
-        public IFormFile? ProfilePicture { get; set; }
         public bool? IsActive { get; set; }
         public string? CurrentUserId { get; set; }
         public int? AgentCode { get; set; }
@@ -46,24 +46,28 @@ namespace GoldenAirport.Application.Employees.Commands.Edit
                 var employee = await _dbContext.Employees.FindAsync(request.Id) ?? throw new NotFoundException("Employee not found.");
 
                 //Edit user for the employee
-                var EditUser = new EditUserCommand()
-                {
-                    UserId = employee.AppUserId,
-                    UserName = request.UserName,
-                    Email = request.Email,
-                    FirstName = request.FirstName,
-                    LastName = request.LastName,
-                    PhoneNumber = request.PhoneNumber,
-                    UserType = request.UserType,
-                    ServiceFees = request.ServiceFees,
-                    ProfilePicture = request.ProfilePicture,
-                    CurrentUserId = request.CurrentUserId,
-                    
+                //var EditUser = new EditUserCommand()
+                //{
+                //    UserId = employee.AppUserId,
+                //    UserName = request.UserName,
+                //    Email = request.Email,
+                //    FirstName = request.FirstName,
+                //    LastName = request.LastName,
+                //    PhoneNumber = request.PhoneNumber,
+                //    UserType = request.UserType,
+                //    ServiceFees = request.ServiceFees,
+                //    ProfilePicture = request.ProfilePicture,
+                //    CurrentUserId = request.CurrentUserId,
 
-                };
-                var result = await _mediator.Send(EditUser, cancellationToken);
+
+                //};
+                //var result = await _mediator.Send(EditUser, cancellationToken);
 
                 //Update employee data
+                if (request.AppUserId != null)
+                {
+                    employee.AppUserId = employee.AppUserId;
+                }
                 if (request.AgentCode != null)
                 {
                     employee.AgentCode = request.AgentCode.Value;

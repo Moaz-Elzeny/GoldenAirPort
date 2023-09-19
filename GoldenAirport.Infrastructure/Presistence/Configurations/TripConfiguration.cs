@@ -25,12 +25,9 @@ namespace GoldenAirport.Infrastructure.Presistence.Configurations
                 .HasColumnType("decimal(18,2)")
                 .IsRequired();
             
-            builder.Property(e => e.PriceLessThan2YearsOld)
+            builder.Property(e => e.ChildPrice)
                 .HasColumnType("decimal(18,2)");
-            
-            builder.Property(e => e.PriceLessThan12YearsOld)
-                .HasColumnType("decimal(18,2)");
-
+                     
             builder.Property(e => e.Guests).HasMaxLength(255)
                 .IsRequired();
 

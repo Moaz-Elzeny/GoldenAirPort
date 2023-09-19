@@ -1,6 +1,7 @@
 ﻿using GoldenAirport.Application.Common.Models;
 using GoldenAirport.Domain.Entities;
 using GoldenAirport.Domain.Enums;
+using SendGrid.Helpers.Errors.Model;
 
 namespace GoldenAirport.Application.TripRegistrations.Commands.Create
 {
@@ -19,9 +20,8 @@ namespace GoldenAirport.Application.TripRegistrations.Commands.Create
         public DateTime DateOfBirth { get; set; }
 
         public string? ChildPassportNo { get; set; }
-        public AgeRange AgeRange { get; set; }
         public int TripId { get; set; }
-        public int NoOfAdults { get; set; } = 1;
+        public List<int> NoOfAdults { get; set; } ;
         //public int NoOfChildren { get; set; } = 1;
         public string? CurrentUserId { get; set; }
 
@@ -36,7 +36,7 @@ namespace GoldenAirport.Application.TripRegistrations.Commands.Create
 
             public async Task<ResultDto<object>> Handle(CreateTripRegistrationCommand request, CancellationToken cancellationToken)
             {
-                var totalAmount = (request.PackageCost * request.NoOfAdults) + request.TaxesAndFees + request.OtherFees;
+                var totalAmount = (request.PackageCost * request.NoOfAdults.Count) + request.TaxesAndFees + request.OtherFees;
 
                 var tripRegistration = new TripRegistration
                 {
@@ -66,6 +66,22 @@ namespace GoldenAirport.Application.TripRegistrations.Commands.Create
                     CreatedById = request.CurrentUserId,
                     CreationDate = DateTime.Now,
                 };
+
+
+                var adults = new List<Adult>();
+                foreach (var adultId in request.NoOfAdults)
+                {
+                    var city = await _dbContext.Adults.FindAsync(adultId, cancellationToken) ?? throw new NotFoundException("Adult not found.");
+
+                    cityTrip.Add(new CityTrip
+                    {
+                        CityId = cityIds,
+                        TripId = trip.Id,
+                        CreatedById = request.CurrentUserId,
+                        CreationDate = DateTime.Now
+
+                    });
+                }
 
                 _dbContext.Adults.Add(adult);
                 await _dbContext.SaveChangesAsync(cancellationToken);

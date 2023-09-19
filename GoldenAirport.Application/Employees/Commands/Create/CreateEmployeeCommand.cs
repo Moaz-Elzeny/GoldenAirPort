@@ -8,15 +8,16 @@ namespace GoldenAirport.Application.Employees.Commands.Create
 {
     public class CreateEmployeeCommand : IRequest<ResultDto<object>>
     {
-        public string UserName { get; set; }
-        public string Email { get; set; }
-        public string Password { get; set; }
-        public string FirstName { get; set; }
-        public string LastName { get; set; }
-        public string PhoneNumber { get; set; }
-        public UserType UserType { get; set; }
-        public decimal ServiceFees { get; set; }
-        public IFormFile ProfilePicture { get; set; }
+        //public string UserName { get; set; }
+        //public string Email { get; set; }
+        //public string Password { get; set; }
+        //public string FirstName { get; set; }
+        //public string LastName { get; set; }
+        //public string PhoneNumber { get; set; }
+        //public UserType UserType { get; set; }
+        //public decimal ServiceFees { get; set; }
+        //public IFormFile ProfilePicture { get; set; }
+        public string AppUserId { get; set; }
         public string? CurrentUserId { get; set; }
         public int AgentCode { get; set; }
         public decimal Balance { get; set; }
@@ -38,27 +39,27 @@ namespace GoldenAirport.Application.Employees.Commands.Create
             public async Task<ResultDto<object>> Handle(CreateEmployeeCommand request, CancellationToken cancellationToken)
             {
                 //Create user for the employee
-                var CreateUser = new CreateUserCommand()
-                {
-                    UserName = request.UserName,
-                    Email = request.Email,
-                    Password = request.Password,
-                    FirstName = request.FirstName,
-                    LastName = request.LastName,
-                    PhoneNumber = request.PhoneNumber,
-                    UserType = request.UserType,
-                    ServiceFees = request.ServiceFees,
-                    ProfilePicture = request.ProfilePicture,
-                    CurrentUserId = request.CurrentUserId,
+                //var CreateUser = new CreateUserCommand()
+                //{
+                //    UserName = request.UserName,
+                //    Email = request.Email,
+                //    Password = request.Password,
+                //    FirstName = request.FirstName,
+                //    LastName = request.LastName,
+                //    PhoneNumber = request.PhoneNumber,
+                //    UserType = request.UserType,
+                //    ServiceFees = request.ServiceFees,
+                //    ProfilePicture = request.ProfilePicture,
+                //    CurrentUserId = request.CurrentUserId,
 
-                };
-                    var result = await _mediator.Send(CreateUser, cancellationToken);
+                //};
+                //    var result = await _mediator.Send(CreateUser, cancellationToken);
 
                 //Create the employee
                 var CreateEmployee = new Employee
                 {
                     Id = Guid.NewGuid().ToString(),
-                    AppUserId = result.Result.UserId,
+                    AppUserId = request.AppUserId,
                     AgentCode = request.AgentCode,
                     Balance = request.Balance,
                     DailyGoal = request.DailyGoal,
