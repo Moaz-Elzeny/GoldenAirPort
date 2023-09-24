@@ -4,28 +4,17 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace GoldenAirport.Infrastructure.Presistence.Configurations
 {
-    public class EmployeeConfiguration : IEntityTypeConfiguration<Employee>
+    internal class BalanceConfiguration : IEntityTypeConfiguration<Balance>
     {
-        public void Configure(EntityTypeBuilder<Employee> builder)
+        public void Configure(EntityTypeBuilder<Balance> builder)
         {
-            builder.ToTable("Employee");
-
-            builder.HasKey(e => e.Id);
-            builder.Property(e => e.AgentCode).HasMaxLength(20).IsRequired();
-            builder.Property(e => e.Target)
+            builder.ToTable("Balances");
+            builder.HasKey(x => x.Id);
+            builder.Property(e => e.BalanceAmount)
                 .HasColumnType("decimal(18,2)")
                 .IsRequired();
 
-
-            //builder.Property(e => e.PaymentMethod)
-            //    .IsRequired();
-
-            builder.Property(e => e.LastLogin)
-                .IsRequired();
-
-
             builder.Property(a => a.Deleted).HasDefaultValue(false);
-            builder.Property(a => a.Active).HasDefaultValue(true);
             builder.HasQueryFilter(a => !a.Deleted);
             builder.Property(a => a.CreatedById).HasMaxLength(50).IsRequired();
             builder.Property(b => b.CreationDate).HasColumnType("DATETIME").HasDefaultValueSql("GETDATE()").IsRequired();

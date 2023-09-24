@@ -21,7 +21,7 @@ namespace GoldenAirport.Application.TripRegistrations.Commands.Create
 
         public string? ChildPassportNo { get; set; }
         public int TripId { get; set; }
-        public List<int> NoOfAdults { get; set; } ;
+        public List<int> NoOfAdults { get; set; } 
         //public int NoOfChildren { get; set; } = 1;
         public string? CurrentUserId { get; set; }
 
@@ -68,20 +68,20 @@ namespace GoldenAirport.Application.TripRegistrations.Commands.Create
                 };
 
 
-                var adults = new List<Adult>();
-                foreach (var adultId in request.NoOfAdults)
-                {
-                    var city = await _dbContext.Adults.FindAsync(adultId, cancellationToken) ?? throw new NotFoundException("Adult not found.");
+                //var adults = new List<Adult>();
+                //foreach (var adultId in request.NoOfAdults)
+                //{
+                //    var adult1 = await _dbContext.Adults.FindAsync(adultId, cancellationToken) ?? throw new NotFoundException("Adult not found.");
 
-                    cityTrip.Add(new CityTrip
-                    {
-                        CityId = cityIds,
-                        TripId = trip.Id,
-                        CreatedById = request.CurrentUserId,
-                        CreationDate = DateTime.Now
+                //    adults.Add(new Adult
+                //    {
+                //        TripRegistrationId = tripRegistration.Id,
+                //        Id = adult.Id,
+                //        CreatedById = request.CurrentUserId,
+                //        CreationDate = DateTime.Now
 
-                    });
-                }
+                //    });
+                //}
 
                 _dbContext.Adults.Add(adult);
                 await _dbContext.SaveChangesAsync(cancellationToken);

@@ -19,8 +19,8 @@ namespace GoldenAirport.Application.Trips.Commands.Create
         public List<string> WhatAreIncluded { get; set; }
         public List<string> Accessibilitys { get; set; }
         public List<string> Restrictions { get; set; }
+        public List<int> PaymentOptions { get; set; }
         public bool IsRefundable { get; set; }
-        //public paymentMethod PaymentMethod { get; set; }
         public string? CurrentUserId { get; set; }
 
         public class CreateTripHandler : IRequestHandler<CreateTripCommand, ResultDto<object>>
@@ -44,7 +44,6 @@ namespace GoldenAirport.Application.Trips.Commands.Create
                     TripHours = TimeSpan.Parse(request.TripHours),
                     FromCityId = request.FromCityId,
                     IsRefundable = request.IsRefundable,
-                    //PaymentMethod = request.PaymentMethod,
                     CreatedById = request.CurrentUserId,
                     CreationDate = DateTime.Now,
 
@@ -121,6 +120,19 @@ namespace GoldenAirport.Application.Trips.Commands.Create
                 }
 
                 _dbContext.Restrictions.AddRange(restrictions);
+                await _dbContext.SaveChangesAsync(cancellationToken);
+
+                var paymentoptions = new List<PaymentOptionTrip>();
+                foreach (var Option in request.PaymentOptions)
+                {
+                    paymentoptions.Add(new PaymentOptionTrip
+                    {
+                        PaymentOptionId = Option,
+                        TripId = trip.Id
+                    });
+                }
+
+                _dbContext.PaymentOptionTrips.AddRange(paymentoptions);
                 await _dbContext.SaveChangesAsync(cancellationToken);
 
                 return ResultDto<object>.Success(trip.Id, "Trip Created Successfully!");

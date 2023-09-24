@@ -4,34 +4,24 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace GoldenAirport.Infrastructure.Presistence.Configurations
 {
-    public class EmployeeConfiguration : IEntityTypeConfiguration<Employee>
+    public class DailyGoalConfiguration : IEntityTypeConfiguration<DailyGoal>
     {
-        public void Configure(EntityTypeBuilder<Employee> builder)
+        public void Configure(EntityTypeBuilder<DailyGoal> builder)
         {
-            builder.ToTable("Employee");
+            builder.ToTable("DailyGoals");
 
-            builder.HasKey(e => e.Id);
-            builder.Property(e => e.AgentCode).HasMaxLength(20).IsRequired();
-            builder.Property(e => e.Target)
+            builder.HasKey(x => x.Id);
+            builder.Property(e => e.Goal)
                 .HasColumnType("decimal(18,2)")
                 .IsRequired();
-
-
-            //builder.Property(e => e.PaymentMethod)
-            //    .IsRequired();
-
-            builder.Property(e => e.LastLogin)
-                .IsRequired();
-
+            builder.Property(b => b.Date).HasColumnType("DATETIME").IsRequired();
 
             builder.Property(a => a.Deleted).HasDefaultValue(false);
-            builder.Property(a => a.Active).HasDefaultValue(true);
             builder.HasQueryFilter(a => !a.Deleted);
             builder.Property(a => a.CreatedById).HasMaxLength(50).IsRequired();
             builder.Property(b => b.CreationDate).HasColumnType("DATETIME").HasDefaultValueSql("GETDATE()").IsRequired();
             builder.Property(b => b.ModificationDate).HasColumnType("DATETIME");
             builder.Property(a => a.ModifiedById).HasMaxLength(50);
-
         }
     }
 }

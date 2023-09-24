@@ -4,6 +4,7 @@ using GoldenAirport.Infrastructure.Presistence;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace GoldenAirport.Infrastructure.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230924095446_UpdateEmployeeDailyGoal")]
+    partial class UpdateEmployeeDailyGoal
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -223,94 +226,6 @@ namespace GoldenAirport.Infrastructure.Migrations
                         .HasFilter("[NormalizedUserName] IS NOT NULL");
 
                     b.ToTable("AppUsers", (string)null);
-                });
-
-            modelBuilder.Entity("GoldenAirport.Domain.Entities.Balance", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<decimal>("BalanceAmount")
-                        .HasColumnType("decimal(18,2)");
-
-                    b.Property<string>("CreatedById")
-                        .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
-
-                    b.Property<DateTime>("CreationDate")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("DATETIME")
-                        .HasDefaultValueSql("GETDATE()");
-
-                    b.Property<bool>("Deleted")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("bit")
-                        .HasDefaultValue(false);
-
-                    b.Property<string>("EmployeeId")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<DateTime?>("ModificationDate")
-                        .HasColumnType("DATETIME");
-
-                    b.Property<string>("ModifiedById")
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("EmployeeId")
-                        .IsUnique();
-
-                    b.ToTable("Balances", (string)null);
-                });
-
-            modelBuilder.Entity("GoldenAirport.Domain.Entities.BalanceHistory", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<int>("BalanceId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("CreatedById")
-                        .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
-
-                    b.Property<DateTime>("CreationDate")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("DATETIME")
-                        .HasDefaultValueSql("GETDATE()");
-
-                    b.Property<bool>("Deleted")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("bit")
-                        .HasDefaultValue(false);
-
-                    b.Property<DateTime?>("ModificationDate")
-                        .HasColumnType("DATETIME");
-
-                    b.Property<string>("ModifiedById")
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
-
-                    b.Property<decimal>("TransactionAmount")
-                        .HasColumnType("decimal(18,2)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("BalanceId");
-
-                    b.ToTable("BalanceHistories", (string)null);
                 });
 
             modelBuilder.Entity("GoldenAirport.Domain.Entities.Chat", b =>
@@ -795,14 +710,13 @@ namespace GoldenAirport.Infrastructure.Migrations
                         .HasDefaultValue(true);
 
                     b.Property<int>("AgentCode")
-                        .HasMaxLength(20)
                         .HasColumnType("int");
 
                     b.Property<string>("AppUserId")
                         .IsRequired()
                         .HasColumnType("nvarchar(450)");
 
-                    b.Property<decimal>("BalanceId")
+                    b.Property<decimal>("Balance")
                         .HasColumnType("decimal(18,2)");
 
                     b.Property<string>("CreatedById")
@@ -829,6 +743,9 @@ namespace GoldenAirport.Infrastructure.Migrations
                     b.Property<string>("ModifiedById")
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)");
+
+                    b.Property<int>("PaymentMethod")
+                        .HasColumnType("int");
 
                     b.Property<decimal>("Target")
                         .HasColumnType("decimal(18,2)");
@@ -971,9 +888,6 @@ namespace GoldenAirport.Infrastructure.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<string>("EmployeeId")
-                        .HasColumnType("nvarchar(450)");
-
                     b.Property<string>("NameAr")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -983,8 +897,6 @@ namespace GoldenAirport.Infrastructure.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("EmployeeId");
 
                     b.ToTable("PaymentOptions");
                 });
@@ -1163,9 +1075,6 @@ namespace GoldenAirport.Infrastructure.Migrations
 
                     b.Property<decimal>("PackageCost")
                         .HasColumnType("decimal(18,2)");
-
-                    b.Property<int>("PaymentMethod")
-                        .HasColumnType("int");
 
                     b.Property<string>("PhoneNumber")
                         .IsRequired()
@@ -1387,28 +1296,6 @@ namespace GoldenAirport.Infrastructure.Migrations
                     b.Navigation("TripRegistration");
                 });
 
-            modelBuilder.Entity("GoldenAirport.Domain.Entities.Balance", b =>
-                {
-                    b.HasOne("GoldenAirport.Domain.Entities.Employee", "Employee")
-                        .WithOne("Balance")
-                        .HasForeignKey("GoldenAirport.Domain.Entities.Balance", "EmployeeId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Employee");
-                });
-
-            modelBuilder.Entity("GoldenAirport.Domain.Entities.BalanceHistory", b =>
-                {
-                    b.HasOne("GoldenAirport.Domain.Entities.Balance", "Balance")
-                        .WithMany()
-                        .HasForeignKey("BalanceId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Balance");
-                });
-
             modelBuilder.Entity("GoldenAirport.Domain.Entities.Chat", b =>
                 {
                     b.HasOne("GoldenAirport.Domain.Entities.Auth.AppUser", "Admin")
@@ -1575,15 +1462,6 @@ namespace GoldenAirport.Infrastructure.Migrations
                         .IsRequired();
 
                     b.Navigation("Package");
-                });
-
-            modelBuilder.Entity("GoldenAirport.Domain.Entities.PaymentOption", b =>
-                {
-                    b.HasOne("GoldenAirport.Domain.Entities.Employee", "Employee")
-                        .WithMany("PaymentOptions")
-                        .HasForeignKey("EmployeeId");
-
-                    b.Navigation("Employee");
                 });
 
             modelBuilder.Entity("GoldenAirport.Domain.Entities.PaymentOptionPackage", b =>
@@ -1760,12 +1638,7 @@ namespace GoldenAirport.Infrastructure.Migrations
 
             modelBuilder.Entity("GoldenAirport.Domain.Entities.Employee", b =>
                 {
-                    b.Navigation("Balance")
-                        .IsRequired();
-
                     b.Navigation("DailyGoals");
-
-                    b.Navigation("PaymentOptions");
                 });
 
             modelBuilder.Entity("GoldenAirport.Domain.Entities.Package", b =>

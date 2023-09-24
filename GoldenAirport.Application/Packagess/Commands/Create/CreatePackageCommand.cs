@@ -19,6 +19,7 @@ namespace GoldenAirport.Application.Packagess.Commands.Create
         public int FromCityId { get; set; }
         public List<int> ToCitiesIds { get; set; }
         public List<string> PackagePlan { get; set; }
+        public List<int> PaymentOptions { get; set; }
         public string? CurrentUserId { get; set; }
     }
 
@@ -84,6 +85,19 @@ namespace GoldenAirport.Application.Packagess.Commands.Create
                 _dbContext.PackagePlans.AddRange(packagePlans);
                 await _dbContext.SaveChangesAsync(cancellationToken);
             }
+
+            var paymentoptions = new List<PaymentOptionPackage>();
+            foreach (var Option in request.PaymentOptions)
+            {
+                paymentoptions.Add(new PaymentOptionPackage
+                {
+                    PaymentOptionId = Option,
+                    PackageId = package.Id
+                });
+            }
+
+            _dbContext.PaymentOptionPackages.AddRange(paymentoptions);
+            await _dbContext.SaveChangesAsync(cancellationToken);
 
             return ResultDto<object>.Success(package.Id ,"Package Created Successfully!");
         }

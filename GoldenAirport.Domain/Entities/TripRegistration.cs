@@ -1,4 +1,6 @@
-﻿namespace GoldenAirport.Domain.Entities
+﻿using GoldenAirport.Domain.Enums;
+
+namespace GoldenAirport.Domain.Entities
 {
     public class TripRegistration : BaseEntity
     {
@@ -14,6 +16,7 @@
         public decimal TotalAmount { get; set; }
         public string Email { get; set; }
         public string PhoneNumber { get; set; }
+        public paymentMethod PaymentMethod { get; set; }
 
         public int TripId { get; set; }
         public virtual Trip Trip { get; set; }

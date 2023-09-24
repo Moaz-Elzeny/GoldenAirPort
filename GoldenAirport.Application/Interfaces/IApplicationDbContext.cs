@@ -30,10 +30,15 @@ namespace GoldenAirport.Application.Interfaces
         DbSet<Package> Packages { get; set; }
         DbSet<PackagePlan> PackagePlans { get; set; }
         DbSet<PaymentOption> PaymentOptions { get; set; }
+        DbSet<PaymentOptionTrip> PaymentOptionTrips { get; set; }
+        DbSet<PaymentOptionPackage> PaymentOptionPackages { get; set; }
         DbSet<CityPackage> CityPackages { get; set; }
         DbSet<Notification> Notifications { get; set; }
         DbSet<Domain.Entities.Chat> Chats { get; set; }
         DbSet<ChatMessage> ChatMessages { get; set; }
+        DbSet<DailyGoal> DailyGoals { get; set; }
+        DbSet<Balance> Balances { get; set; }
+        DbSet<BalanceHistory> BalanceHistories { get; set; }
         #endregion
 
 

@@ -1,5 +1,4 @@
 ﻿using GoldenAirport.Domain.Entities.Auth;
-using GoldenAirport.Domain.Enums;
 
 namespace GoldenAirport.Domain.Entities
 {
@@ -7,15 +6,17 @@ namespace GoldenAirport.Domain.Entities
     {
         public string Id { get; set; }
         public int AgentCode { get; set; }
-        public decimal Balance { get; set; }
-        public decimal DailyGoal { get; set; }
         public decimal Target { get; set; }
-        public paymentMethod PaymentMethod { get; set; }
-        public DateTime Date { get; set; }
         public DateTime LastLogin { get; set; }
 
         public string AppUserId { get; set; }
         public virtual AppUser AppUser { get; set; }
+
+        public decimal BalanceId { get; set; }
+        public virtual Balance Balance { get; set; }
+
+        public virtual ICollection<DailyGoal> DailyGoals { get; set; }
+        public virtual ICollection<PaymentOption> PaymentOptions { get; set; }
 
     }
 }

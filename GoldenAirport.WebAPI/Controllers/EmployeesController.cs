@@ -42,22 +42,12 @@ namespace GoldenAirport.WebAPI.Controllers
 
             var command = new EditEmployeeCommand
             {
-                Id = Id,
-                //UserName = dto.UserName,
-                //Email = dto.Email,
-                //NewPassword = dto.NewPassword,
-                //CurrentPassword = dto.CurrentPassword,
-                //FirstName = dto.FirstName,
-                //LastName = dto.LastName,
-                //PhoneNumber = dto.PhoneNumber,
-                //UserType = dto.UserType,
-                //ProfilePicture = dto.ProfilePicture,
-                //ServiceFees = dto.ServiceFees,
+                Id = Id,               
                 AppUserId = dto.AppUserId,
                 IsActive = dto.IsActive,
                 AgentCode = dto.AgentCode,
                 Balance = dto.Balance,  
-                DailyGoal = dto.DailyGoal,  
+                //DailyGoal = dto.DailyGoal,  
                 PaymentMethod = dto.PaymentMethod,
                 CurrentUserId = CurrentUserId
             };
