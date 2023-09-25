@@ -36,7 +36,15 @@ namespace GoldenAirport.WebAPI.Controllers
             return result.Errors != null ? BadRequest(result) : Ok(result);
         }
 
-        [HttpPut("UpdateEmployee")]
+        [HttpPost("CreateBalance")]
+        public async Task<IActionResult> CreateBalance([FromForm] CreateBalanceCommand command)
+        {
+            command.CurrentUserId = CurrentUserId;
+            var result = await Mediator.Send(command);
+            return result.Errors != null ? BadRequest(result) : Ok(result);
+        }
+
+            [HttpPut("UpdateEmployee")]
         public async Task<IActionResult> UpdateEmployee(string Id, [FromForm] UpdateEmployeeDto dto)
         {
 
@@ -46,7 +54,7 @@ namespace GoldenAirport.WebAPI.Controllers
                 AppUserId = dto.AppUserId,
                 IsActive = dto.IsActive,
                 AgentCode = dto.AgentCode,
-                Balance = dto.Balance,  
+                //Balance = dto.Balance,  
                 //DailyGoal = dto.DailyGoal,  
                 PaymentMethod = dto.PaymentMethod,
                 CurrentUserId = CurrentUserId

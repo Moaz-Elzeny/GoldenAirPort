@@ -13,7 +13,6 @@ namespace GoldenAirport.Application.Employees.Commands.Edit
         public bool? IsActive { get; set; }
         public string? CurrentUserId { get; set; }
         public int? AgentCode { get; set; }
-        public decimal? Balance { get; set; }
         //public decimal? DailyGoal { get; set; }
         public decimal? Target { get; set; }
         public DateTime? Date { get; set; }
@@ -33,9 +32,7 @@ namespace GoldenAirport.Application.Employees.Commands.Edit
             {
                 var employee = await _dbContext.Employees.FindAsync(request.Id) ?? throw new NotFoundException("Employee not found.");
 
-                var balance =await _dbContext.Balances.Where(e => e.EmployeeId == request.Id).FirstOrDefaultAsync(cancellationToken);
-
-                var balanceHistroy = await _dbContext.BalanceHistories.Where(h => h.BalanceId == balance.Id).FirstOrDefaultAsync(cancellationToken);
+               
 
                 //Update employee data
                 if (request.AppUserId != null)
@@ -45,16 +42,6 @@ namespace GoldenAirport.Application.Employees.Commands.Edit
                 if (request.AgentCode != null)
                 {
                     employee.AgentCode = request.AgentCode.Value;
-                }
-
-                if (request.Balance != null)
-                {
-                    balance.BalanceAmount = (balance.BalanceAmount + request.Balance.Value);
-                    balance.ModificationDate = DateTime.Now;
-                    balance.ModifiedById = request.CurrentUserId;
-                    balanceHistroy.TransactionAmount = request.Balance.Value;
-                    balanceHistroy.ModificationDate = DateTime.Now;
-                    balanceHistroy.ModifiedById = request.CurrentUserId;
                 }
 
                 //if (request.DailyGoal != null)

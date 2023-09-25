@@ -9,7 +9,6 @@ namespace GoldenAirport.Application.Employees.Commands.Create
         public string AppUserId { get; set; }
         public string? CurrentUserId { get; set; }
         public int AgentCode { get; set; }
-        public decimal Balance { get; set; } = 0;
         public decimal DailyGoal { get; set; }
         public decimal Target { get; set; }
         public DateTime Date { get; set; }
@@ -45,31 +44,7 @@ namespace GoldenAirport.Application.Employees.Commands.Create
                 _dbContext.Employees.Add(CreateEmployee);
                 await _dbContext.SaveChangesAsync(cancellationToken);
 
-                if (request.Balance != 0)
-                {
-                    var balance = new Balance
-                    {
-                        BalanceAmount = request.Balance,
-                        EmployeeId = CreateEmployee.Id,
-                        CreationDate = DateTime.Now,
-                        CreatedById = request.CurrentUserId
-                    };
-                    _dbContext.Balances.Add(balance);
-                    await _dbContext.SaveChangesAsync(cancellationToken);
-
-
-                    var balanceHistory = new BalanceHistory
-                    {
-                        TransactionAmount = request.Balance,
-                        BalanceId = balance.Id,
-                        CreationDate = DateTime.Now,
-                        CreatedById = request.CurrentUserId
-                    };
-                    _dbContext.BalanceHistories.Add(balanceHistory);
-                    await _dbContext.SaveChangesAsync(cancellationToken);
-                }
-
-
+                
                 return ResultDto<object>.Success(CreateEmployee.Id, "Created Successfully");
 
             }
