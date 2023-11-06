@@ -1,6 +1,5 @@
 ﻿using GoldenAirport.Application.Common.Models;
 using GoldenAirport.Domain.Entities;
-using Microsoft.EntityFrameworkCore;
 
 namespace GoldenAirport.Application.Employees.Commands.Create
 {

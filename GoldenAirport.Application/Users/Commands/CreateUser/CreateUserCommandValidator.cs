@@ -38,9 +38,9 @@ namespace GoldenAirport.Application.Users.Commands.CreateUser
             RuleFor(x => x.UserType)
                 .IsInEnum().WithMessage("Invalid user type value.");
 
-            RuleFor(x => x.TaxValue).InclusiveBetween(0, 100);
+            //RuleFor(x => x.TaxValue).InclusiveBetween(0, 100);
 
-            RuleFor(x => x.BookingTime).InclusiveBetween(0, 60);
+            //RuleFor(x => x.BookingTime).InclusiveBetween(0, 60);
 
         }
         private async Task<bool> BeUniqueUserName(string userName, CancellationToken cancellationToken)

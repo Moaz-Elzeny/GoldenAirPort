@@ -29,12 +29,12 @@ namespace GoldenAirport.Application.Users.Queries
                 Email = user.Email,
                 FirstName = user.FirstName,
                 LastName = user.LastName,
-                ServiceFees = user.ServiceFees,
-                TaxValue = user.TaxValue,
-                BookingTime = user.BookingTime,
+                //ServiceFees = user.ServiceFees,
+                //TaxValue = user.TaxValue,
+                //BookingTime = user.BookingTime,
                 UserType = user.UserType,
                 ProfilePicture = user.ProfilePicture,
-                PrivacyPolicyAndTerms = user.PrivacyPolicyAndTerms,
+                //PrivacyPolicyAndTerms = user.PrivacyPolicyAndTerms,
 
             }).ToList();
 

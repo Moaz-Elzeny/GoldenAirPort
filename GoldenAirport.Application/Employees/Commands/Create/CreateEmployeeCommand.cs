@@ -7,11 +7,10 @@ namespace GoldenAirport.Application.Employees.Commands.Create
     {
 
         public string AppUserId { get; set; }
+        //public int AgentCode { get; set; }
+        public decimal ServiceFees { get; set; }
+        //public DateTime Date { get; set; }
         public string? CurrentUserId { get; set; }
-        public int AgentCode { get; set; }
-        public decimal DailyGoal { get; set; }
-        public decimal Target { get; set; }
-        public DateTime Date { get; set; }
         //public paymentMethod PaymentMethod { get; set; }
         public class CreateEmployeeHandler : IRequestHandler<CreateEmployeeCommand, ResultDto<object>>
         {
@@ -28,13 +27,16 @@ namespace GoldenAirport.Application.Employees.Commands.Create
                     .Where(u => u.Id == request.AppUserId && u.UserType == Domain.Enums.UserType.Employee)
                     .FirstOrDefaultAsync() ?? throw new Exception("Employee Not Found");
 
+                var random = new Random();
+                int randomNumber = random.Next();
+
                 //Create the employee
                 var CreateEmployee = new Employee
                 {
                     Id = Guid.NewGuid().ToString(),
                     AppUserId = request.AppUserId,
-                    AgentCode = request.AgentCode,
-                    Target = request.Target,
+                    AgentCode = randomNumber,
+                    ServiceFees = request.ServiceFees,
                     CreatedById = request.CurrentUserId,
                     CreationDate = DateTime.Now,
                     Active = true

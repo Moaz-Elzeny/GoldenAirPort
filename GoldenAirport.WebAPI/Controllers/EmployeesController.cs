@@ -12,7 +12,7 @@ namespace GoldenAirport.WebAPI.Controllers
     public class EmployeesController : BaseController<EmployeesController>
     {
 
-        [HttpGet("AllEmployees")]
+        [HttpGet("feach")]
         public async Task<IActionResult> GetAllEmployees([FromQuery]int pageNumber, string? keySerch)
         {
             var query = new GetAllEmployeeQuery{PageNumber = pageNumber, SearchKey = keySerch};
@@ -20,7 +20,7 @@ namespace GoldenAirport.WebAPI.Controllers
             return result.Errors != null ? BadRequest(result) : Ok(result);
         }
 
-        [HttpPost("CreateEmployee")]
+        [HttpPost("Create")]
         public async Task<IActionResult> CreateEmployee([FromForm] CreateEmployeeCommand command)
         {
             command.CurrentUserId = CurrentUserId;
@@ -44,16 +44,17 @@ namespace GoldenAirport.WebAPI.Controllers
             return result.Errors != null ? BadRequest(result) : Ok(result);
         }
 
-            [HttpPut("UpdateEmployee")]
+            [HttpPut("Update")]
         public async Task<IActionResult> UpdateEmployee(string Id, [FromForm] UpdateEmployeeDto dto)
         {
 
             var command = new EditEmployeeCommand
             {
                 Id = Id,               
-                AppUserId = dto.AppUserId,
+                //AppUserId = dto.AppUserId,
                 IsActive = dto.IsActive,
                 AgentCode = dto.AgentCode,
+                Date = dto.Date,
                 //Balance = dto.Balance,  
                 //DailyGoal = dto.DailyGoal,  
                 PaymentMethod = dto.PaymentMethod,
@@ -72,7 +73,7 @@ namespace GoldenAirport.WebAPI.Controllers
         }
 
 
-        [HttpDelete("DeleteEmployee")]
+        [HttpDelete("Delete")]
         public async Task<IActionResult> DeleteEmployee(string Id)
         {
             var command = new DeleteEmployeeCommand

@@ -4,6 +4,7 @@
     {
         public int Id { get; set; }
         public decimal Goal { get; set; }
+        public decimal Target { get; set; }
         public DateTime Date { get; set; }
 
         public string EmployeeId { get; set; }

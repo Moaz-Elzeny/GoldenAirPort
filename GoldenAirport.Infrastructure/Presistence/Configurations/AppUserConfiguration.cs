@@ -32,13 +32,13 @@ namespace GoldenAirport.Infrastructure.Presistence.Configurations
                     .IsRequired();
 
 
-                builder.Property(e => e.ServiceFees)
-                    .HasColumnType("decimal(18,2)")
-                    .IsRequired();
+                //builder.Property(e => e.ServiceFees)
+                //    .HasColumnType("decimal(18,2)")
+                //    .IsRequired();
 
-                builder.Property(u => u.TaxValue);
+                //builder.Property(u => u.TaxValue);
 
-                builder.Property(u => u.BookingTime);
+                //builder.Property(u => u.BookingTime);
 
                 builder.Property(a => a.Deleted).HasDefaultValue(false);
                 builder.Property(a => a.Active).HasDefaultValue(true);

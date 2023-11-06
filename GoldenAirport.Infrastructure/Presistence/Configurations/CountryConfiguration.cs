@@ -19,6 +19,8 @@ namespace GoldenAirport.Infrastructure.Presistence.Configurations
 
             builder.Property(c => c.NameEn).HasMaxLength(255).IsRequired();
 
+            builder.Property(c => c.Code).HasMaxLength(5);
+
             builder.Property(a => a.Deleted).HasDefaultValue(false);
             builder.Property(a => a.Active).HasDefaultValue(true);
             builder.HasQueryFilter(a => !a.Deleted);

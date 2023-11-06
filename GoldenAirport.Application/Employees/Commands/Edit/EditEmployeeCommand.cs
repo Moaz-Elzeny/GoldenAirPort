@@ -1,8 +1,5 @@
 ﻿using GoldenAirport.Application.Common.Models;
-using GoldenAirport.Application.Users.Commands.CreateUser;
-using GoldenAirport.Application.Users.Commands.EditUser;
 using GoldenAirport.Domain.Enums;
-using Microsoft.AspNetCore.Http;
 using SendGrid.Helpers.Errors.Model;
 
 namespace GoldenAirport.Application.Employees.Commands.Edit
@@ -14,11 +11,11 @@ namespace GoldenAirport.Application.Employees.Commands.Edit
         public string? CurrentUserId { get; set; }
         public int? AgentCode { get; set; }
         //public decimal? DailyGoal { get; set; }
-        public decimal? Target { get; set; }
+        public decimal? ServiceFees { get; set; }
         public DateTime? Date { get; set; }
         public paymentMethod? PaymentMethod { get; set; }
         public DateTime? LastLogin { get; set; }
-        public string? AppUserId { get; set; }
+        //public string? AppUserId { get; set; }
         public class EditEmployeeHandler : IRequestHandler<EditEmployeeCommand, ResultDto<object>>
         {
             private readonly IApplicationDbContext _dbContext;
@@ -35,10 +32,10 @@ namespace GoldenAirport.Application.Employees.Commands.Edit
                
 
                 //Update employee data
-                if (request.AppUserId != null)
-                {
-                    employee.AppUserId = employee.AppUserId;
-                }
+                //if (request.AppUserId != null)
+                //{
+                //    employee.AppUserId = employee.AppUserId;
+                //}
                 if (request.AgentCode != null)
                 {
                     employee.AgentCode = request.AgentCode.Value;
@@ -49,9 +46,9 @@ namespace GoldenAirport.Application.Employees.Commands.Edit
                 //    employee.DailyGoal = request.DailyGoal.Value;
                 //}
 
-                if (request.Target != null)
+                if (request.ServiceFees != null)
                 {
-                    employee.Target = request.Target.Value;
+                    employee.ServiceFees = request.ServiceFees.Value;
                 }
 
                 //if (request.Date != null)

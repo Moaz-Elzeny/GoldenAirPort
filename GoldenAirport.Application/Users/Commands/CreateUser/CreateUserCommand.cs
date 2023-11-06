@@ -23,12 +23,12 @@ namespace GoldenAirport.Application.Users.Commands.CreateUser
         public string LastName { get; set; }
         public string PhoneNumber { get; set; }        
         public UserType UserType { get; set; }
-        public decimal ServiceFees { get; set; }
-        public int? TaxValue { get; set; }
-        public int BookingTime { get; set; }
         public IFormFile ProfilePicture { get; set; }
-        public string? PrivacyPolicyAndTerms { get; set; }
         public string? CurrentUserId { get; set; }
+        //public decimal ServiceFees { get; set; }
+        //public int? TaxValue { get; set; }
+        //public int BookingTime { get; set; }
+        //public string? PrivacyPolicyAndTerms { get; set; }
         public class CreateUserCommandHandler : IRequestHandler<CreateUserCommand, ResultDto<UserTokenDto>>
         {
             private readonly UserManager<AppUser> _userManager;
@@ -49,13 +49,13 @@ namespace GoldenAirport.Application.Users.Commands.CreateUser
                     FirstName = request.FirstName,
                     LastName = request.LastName,
                     UserType = request.UserType,
-                    ServiceFees = request.ServiceFees,
-                    TaxValue = (byte)request.TaxValue,
-                    BookingTime = (byte)request.BookingTime,
-                    CreatedById = request.CurrentUserId,
+                    CreatedById ="emp",
                     CreationDate = DateTime.Now,
                     PhoneNumber = request.PhoneNumber,
-                    PrivacyPolicyAndTerms = request.PrivacyPolicyAndTerms,
+                    //ServiceFees = request.ServiceFees,
+                    //TaxValue = (byte)request.TaxValue,
+                    //BookingTime = (byte)request.BookingTime,
+                    //PrivacyPolicyAndTerms = request.PrivacyPolicyAndTerms,
                 };
 
                 if (request.ProfilePicture != null)

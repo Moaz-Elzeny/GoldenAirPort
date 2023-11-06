@@ -5,9 +5,11 @@ using GoldenAirport.Domain.Entities.Auth;
 using GoldenAirport.Infrastructure.Presistence;
 using GoldenAirport.WebAPI.Middlewares;
 using GoldenAirport.WebAPI.Models;
+using Hedaya.Application.Auth.Services;
 using MediatR;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Localization;
 using Microsoft.AspNetCore.Mvc.ApiExplorer;
 using Microsoft.AspNetCore.Mvc.Versioning;
@@ -69,6 +71,10 @@ builder.Services.ConfigureApplicationCookie(o =>
 
 builder.Services.Configure<DataProtectionTokenProviderOptions>(o =>
        o.TokenLifespan = TimeSpan.FromHours(3));
+
+//Add Send Grid Service For Sending Emails
+builder.Services.AddTransient<IEmailSender, EmailSender>();
+builder.Services.Configure<AuthMessageSenderOptions>(builder.Configuration);
 
 
 //Add Localization

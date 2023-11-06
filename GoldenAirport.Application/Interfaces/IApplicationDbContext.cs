@@ -39,6 +39,7 @@ namespace GoldenAirport.Application.Interfaces
         DbSet<DailyGoal> DailyGoals { get; set; }
         DbSet<Balance> Balances { get; set; }
         DbSet<BalanceHistory> BalanceHistories { get; set; }
+        DbSet<Domain.Entities.AdminDetails> AdminDetails { get; set; }
         #endregion
 
 

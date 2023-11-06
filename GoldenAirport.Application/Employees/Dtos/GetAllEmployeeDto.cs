@@ -16,7 +16,6 @@ namespace GoldenAirport.Application.Employees.Dtos
         public string? ProfilePicture { get; set; }
         public bool? IsActive { get; set; }
         public int? AgentCode { get; set; }
-        public decimal? Target { get; set; }
         public DateTime LastLogin { get; set; }
         public decimal? Balance { get; set; }
         //public decimal DailyGoal { get; set; }

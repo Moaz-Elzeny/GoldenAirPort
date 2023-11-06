@@ -8,7 +8,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 
-namespace GoldenAirport.WebAPI.Controllers
+namespace GoldenAirport.WebAPI.Controllers.Admin
 {
     [ApiController]
     [Route("api/v{version:apiVersion}/[controller]")]
@@ -22,7 +22,7 @@ namespace GoldenAirport.WebAPI.Controllers
 
 
 
-        [HttpGet]
+        [HttpGet("Feach")]
         [Authorize]
         public async Task<IActionResult> GetUsers()
         {
@@ -32,10 +32,10 @@ namespace GoldenAirport.WebAPI.Controllers
             return result.Errors != null ? BadRequest(result) : Ok(result);
         }
 
-        [HttpPost("CreateUser")]
+        [HttpPost("Create")]
         public async Task<IActionResult> CreateUser([FromForm] CreateUserCommand command)
         {
-            command.CurrentUserId = CurrentUserId;
+            //command.CurrentUserId = CurrentUserId;
             var validationResults = await new CreateUserCommandValidator(_userManager).ValidateAsync(command);
 
             if (!validationResults.IsValid)
@@ -48,7 +48,7 @@ namespace GoldenAirport.WebAPI.Controllers
             return result.Errors != null ? BadRequest(result) : Ok(result);
         }
 
-        [HttpPut("UpdateUser")]
+        [HttpPut("Update")]
         public async Task<IActionResult> UpdateUser(string Id, [FromForm] UpdateUserDto dto)
         {
 
@@ -62,10 +62,10 @@ namespace GoldenAirport.WebAPI.Controllers
                 LastName = dto.LastName,
                 PhoneNumber = dto.PhoneNumber,
                 UserType = dto.UserType,
-                ServiceFees = dto.ServiceFees,
-                TaxValue = dto.TaxValue,
-                BookingTime = dto.BookingTime,
-                PrivacyPolicyAndTerms = dto.PrivacyPolicyAndTerms,
+                //ServiceFees = dto.ServiceFees,
+                //TaxValue = dto.TaxValue,
+                //BookingTime = dto.BookingTime,
+                //PrivacyPolicyAndTerms = dto.PrivacyPolicyAndTerms,
                 ProfilePicture = dto.ProfilePicture,
                 CurrentPassword = dto.CurrentPassword,
                 NewPassword = dto.NewPassword,
@@ -85,7 +85,7 @@ namespace GoldenAirport.WebAPI.Controllers
         }
 
 
-        [HttpDelete("DeleteUser")]
+        [HttpDelete("Delete")]
         public async Task<IActionResult> DeleteUser(string Id)
         {
             var command = new DeleteUserCommand

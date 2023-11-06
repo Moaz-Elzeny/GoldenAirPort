@@ -36,7 +36,7 @@ namespace GoldenAirport.Application.Chat.Queries
 
                 var result = new ChatMessageDto
                 {
-                    UserId = request.UserId,
+                    //UserId = request.UserId,
                     UserName = chatName,
                     MessagesInfos = chatMessage
 

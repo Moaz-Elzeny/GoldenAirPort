@@ -6,15 +6,15 @@ namespace GoldenAirport.Application.Employees.Commands.Create
     {
         public CreateEmployeeCommandValidator()
         {
-            RuleFor(x => x.AgentCode)
-                .NotEmpty()
-                .WithMessage("Agent Code is required");
+            //RuleFor(x => x.AgentCode)
+            //    .NotEmpty()
+            //    .WithMessage("Agent Code is required");
 
             //RuleFor(x => x.Balance)
             //    .NotEmpty()
             //    .WithMessage("Balance is required");
 
-            RuleFor(x => x.Target)
+            RuleFor(x => x.ServiceFees)
                 .NotEmpty()
                 .WithMessage("Target  is required");
 

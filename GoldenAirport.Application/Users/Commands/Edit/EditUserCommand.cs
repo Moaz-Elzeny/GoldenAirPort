@@ -20,13 +20,13 @@ namespace GoldenAirport.Application.Users.Commands.EditUser
         public string? FirstName { get; init; }
         public string? LastName { get; init; }
         public string? PhoneNumber { get; init; }
-        public decimal? ServiceFees { get; init; }
-        public int? TaxValue { get; set; }
-        public int? BookingTime { get; set; }
         public UserType? UserType { get; init; }
         public IFormFile? ProfilePicture { get; set; }
-        public string? PrivacyPolicyAndTerms { get; set; }
         public string? CurrentUserId { get; init; }
+        //public decimal? ServiceFees { get; init; }
+        //public int? TaxValue { get; set; }
+        //public int? BookingTime { get; set; }
+        //public string? PrivacyPolicyAndTerms { get; set; }
 
         public class EditUserCommandHandler : IRequestHandler<EditUserCommand, ResultDto<object>>
         {
@@ -58,17 +58,16 @@ namespace GoldenAirport.Application.Users.Commands.EditUser
                 if (request.LastName != null)
                     user.LastName = request.LastName;
 
-                 if (request.BookingTime != null)
-                    user.BookingTime = (byte)request.BookingTime;
+                // if (request.BookingTime != null)
+                //    user.BookingTime = (byte)request.BookingTime;
 
-                  if (request.TaxValue != null)
-                    user.TaxValue = (byte)request.TaxValue;
+                //  if (request.TaxValue != null)
+                //    user.TaxValue = (byte)request.TaxValue;
 
-                user.ServiceFees = request.ServiceFees ?? user.ServiceFees;
-                user.ServiceFees = request.ServiceFees ?? user.ServiceFees;
+                //user.ServiceFees = request.ServiceFees ?? user.ServiceFees;
+                //user.PrivacyPolicyAndTerms = request.PrivacyPolicyAndTerms ?? user.PrivacyPolicyAndTerms;
                 user.UserType = request.UserType ?? user.UserType;
                 user.PhoneNumber = request.PhoneNumber ?? user.PhoneNumber;
-                user.PrivacyPolicyAndTerms = request.PrivacyPolicyAndTerms ?? user.PrivacyPolicyAndTerms;
                 user.ModificationDate = DateTime.Now;
                 user.ModifiedById = request.CurrentUserId;
 
