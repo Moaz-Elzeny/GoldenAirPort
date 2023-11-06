@@ -8,7 +8,7 @@ namespace GoldenAirport.Domain.Entities
         public int Id { get; set; }
         public decimal? ServiceFees { get; set; }
         public byte? TaxValue { get; set; }
-        public byte BookingTime { get; set; }
+        public byte? BookingTime { get; set; }
         public string? PrivacyPolicyAndTerms { get; set; }
 
         public string CompanyId { get; set; }

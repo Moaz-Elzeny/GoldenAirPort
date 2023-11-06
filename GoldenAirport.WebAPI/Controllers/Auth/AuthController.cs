@@ -2,7 +2,6 @@
 using GoldenAirport.Application.Users.Queries.GetMyProfile;
 using GoldenAirport.Application.Users.Queries.Login;
 using Microsoft.AspNetCore.Mvc;
-using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
 
 namespace GoldenAirport.WebAPI.Controllers.Auth
 {

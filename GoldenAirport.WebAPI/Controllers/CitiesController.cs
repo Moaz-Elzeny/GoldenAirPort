@@ -16,7 +16,7 @@ namespace GoldenAirport.WebAPI.Controllers
 
         }
 
-        [HttpGet("GetAllCities")]
+        [HttpGet("feach")]
         public async Task<IActionResult> GetCities([FromQuery] int pageNumber)
         {
             var query = new GetCitiesQuery { PageNumber = pageNumber };

@@ -7,10 +7,10 @@ namespace GoldenAirport.Application.Employees.Commands.Create
     {
 
         public string AppUserId { get; set; }
-        //public int AgentCode { get; set; }
         public decimal ServiceFees { get; set; }
-        //public DateTime Date { get; set; }
         public string? CurrentUserId { get; set; }
+        //public int AgentCode { get; set; }
+        //public DateTime Date { get; set; }
         //public paymentMethod PaymentMethod { get; set; }
         public class CreateEmployeeHandler : IRequestHandler<CreateEmployeeCommand, ResultDto<object>>
         {
