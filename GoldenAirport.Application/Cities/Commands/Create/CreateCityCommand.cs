@@ -1,16 +1,17 @@
-﻿using GoldenAirport.Application.Common.Models;
+﻿using GoldenAirport.Application.AdminDetails.DTOs;
+using GoldenAirport.Application.Common.Models;
 using GoldenAirport.Domain.Entities;
 
 namespace GoldenAirport.Application.Cities.Commands.Create
 {
-    public class CreateCityCommand : IRequest<ResultDto<object>>
+    public class CreateCityCommand : IRequest<ResponseDto<object>>
     {
         public string NameAr { get; set; }
         public string NameEn { get; set; }
         public int CountryId { get; set; }
         public string? CurrentUserId { get; set; }
 
-        public class CreateCityHandler : IRequestHandler<CreateCityCommand, ResultDto<object>>
+        public class CreateCityHandler : IRequestHandler<CreateCityCommand, ResponseDto<object>>
         {
             private readonly IApplicationDbContext _dbContext;
 
@@ -19,7 +20,7 @@ namespace GoldenAirport.Application.Cities.Commands.Create
                 _dbContext = dbContext;
             }
 
-            public async Task<ResultDto<object>> Handle(CreateCityCommand request, CancellationToken cancellationToken)
+            public async Task<ResponseDto<object>> Handle(CreateCityCommand request, CancellationToken cancellationToken)
             {
                 var city = new City
                 {
@@ -34,7 +35,14 @@ namespace GoldenAirport.Application.Cities.Commands.Create
                 _dbContext.Cities.Add(city);
                 await _dbContext.SaveChangesAsync(cancellationToken);
 
-                return ResultDto<object>.Success(city.Id ,"City Created Successfully!");
+                return ResponseDto<object>.Success(new ResultDto()
+                {
+                    Message = "Created Successfully!",
+                    Result = new
+                    {
+                        CityId = city.Id,
+                    }
+                });
             }
         }
     }

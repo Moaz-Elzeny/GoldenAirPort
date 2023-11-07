@@ -16,7 +16,6 @@ namespace GoldenAirport.Infrastructure.Presistence.Configurations
 
             builder.Property(u => u.TaxValue).HasColumnType("decimal(18,2)");
 
-            builder.Property(u => u.BookingTime).HasColumnType("decimal(18,2)");
 
             builder.Property(a => a.Deleted).HasDefaultValue(false);
             builder.HasQueryFilter(a => !a.Deleted);

@@ -1,12 +1,13 @@
-﻿using GoldenAirport.Application.Chat.Dtos;
+﻿using GoldenAirport.Application.AdminDetails.DTOs;
+using GoldenAirport.Application.Chat.Dtos;
 using GoldenAirport.Application.Common.Models;
 
 namespace GoldenAirport.Application.Chat.Queries
 {
-    public class GetAllChatsQuery : IRequest<ResultDto<object>>
+    public class GetAllChatsQuery : IRequest<ResponseDto<object>>
     {
         public string Search { get; set; }
-        public class GetAllChatsHandler : IRequestHandler<GetAllChatsQuery, ResultDto<object>> 
+        public class GetAllChatsHandler : IRequestHandler<GetAllChatsQuery, ResponseDto<object>> 
             {
 
             private readonly IApplicationDbContext _dbContext;
@@ -16,7 +17,7 @@ namespace GoldenAirport.Application.Chat.Queries
                 _dbContext = dbContext;
             }
 
-            public async Task<ResultDto<object>> Handle(GetAllChatsQuery request, CancellationToken cancellationToken)
+            public async Task<ResponseDto<object>> Handle(GetAllChatsQuery request, CancellationToken cancellationToken)
             {
                 var chats = await _dbContext.Chats
                     .Include(c => c.ChatMessages)
@@ -69,7 +70,14 @@ namespace GoldenAirport.Application.Chat.Queries
                     }
                 }
 
-                return ResultDto<object>.Success(chatDtos, "All chats");
+                return ResponseDto<object>.Success(new ResultDto()
+                {
+                    Message = "All chats",
+                    Result = new
+                    {
+                        chatDtos
+                    }
+                });
             }
         }
     }

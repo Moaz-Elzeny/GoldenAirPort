@@ -1,17 +1,18 @@
-﻿using GoldenAirport.Application.Common.Models;
+﻿using GoldenAirport.Application.AdminDetails.DTOs;
+using GoldenAirport.Application.Common.Models;
 using GoldenAirport.Domain.Entities;
 using SendGrid.Helpers.Errors.Model;
 
 namespace GoldenAirport.Application.Countries.Commands.Edit
 {
-    public class EditCountryCommand : IRequest<ResultDto<object>>
+    public class EditCountryCommand : IRequest<ResponseDto<object>>
     {
         public int Id { get; set; }
         public string? NameAr { get; set; }
         public string? NameEn { get; set; }
         public string? CurrentUserId { get; set; }
 
-        public class EditCountyHandler : IRequestHandler<EditCountryCommand, ResultDto<object>>
+        public class EditCountyHandler : IRequestHandler<EditCountryCommand, ResponseDto<object>>
         {
             private readonly IApplicationDbContext _dbContext;
 
@@ -20,7 +21,7 @@ namespace GoldenAirport.Application.Countries.Commands.Edit
                 _dbContext = dbContext;
             }
 
-            public async Task<ResultDto<object>> Handle(EditCountryCommand request, CancellationToken cancellationToken)
+            public async Task<ResponseDto<object>> Handle(EditCountryCommand request, CancellationToken cancellationToken)
             {
                 var county = await _dbContext.Countries.FindAsync(request.Id) ?? throw new NotFoundException("Employee not found.");
                 
@@ -38,7 +39,14 @@ namespace GoldenAirport.Application.Countries.Commands.Edit
                 county.ModificationDate = DateTime.Now;
 
                 await _dbContext.SaveChangesAsync(cancellationToken);
-                return ResultDto<object>.Success(county.Id ,"Country Updated Successfully!");
+                return ResponseDto<object>.Success(new ResultDto()
+                {
+                    Message = "Updated Successfully",
+                    Result = new
+                    {
+                        County = county.Id
+                    }
+                });
             }
         }
     }

@@ -1,17 +1,18 @@
-﻿using GoldenAirport.Application.Common.Models;
+﻿using GoldenAirport.Application.AdminDetails.DTOs;
+using GoldenAirport.Application.Common.Models;
 using GoldenAirport.Application.Helpers;
 using GoldenAirport.Application.TripRegistrations.Dtos;
 using GoldenAirport.Domain.Enums;
 
 namespace GoldenAirport.Application.TripRegistrations.Queries
 {
-    public class GetTripRegistrationByIdQuery : IRequest<ResultDto<PaginatedList<GetTripRegistrationDto>>>
+    public class GetTripRegistrationByIdQuery : IRequest<ResponseDto<object>>
     {
         public int PageNumber { get; set; } = 1;
         public int Id { get; set; }
 
 
-        public class GetTripRegistrationByIdQueryHandler : IRequestHandler<GetTripRegistrationByIdQuery, ResultDto<PaginatedList<GetTripRegistrationDto>>>
+        public class GetTripRegistrationByIdQueryHandler : IRequestHandler<GetTripRegistrationByIdQuery, ResponseDto<object>>
         {
             private readonly IApplicationDbContext _dbContext;
 
@@ -20,7 +21,7 @@ namespace GoldenAirport.Application.TripRegistrations.Queries
                 _dbContext = dbContext;
             }
 
-            public async Task<ResultDto<PaginatedList<GetTripRegistrationDto>>> Handle(GetTripRegistrationByIdQuery request, CancellationToken cancellationToken)
+            public async Task<ResponseDto<object>> Handle(GetTripRegistrationByIdQuery request, CancellationToken cancellationToken)
             {
 
                 var pageNumber = request.PageNumber <= 0 ? 1 : request.PageNumber;
@@ -68,9 +69,20 @@ namespace GoldenAirport.Application.TripRegistrations.Queries
 
                 if (TripRegistrations.Count != 0)
                 {
-                    return ResultDto<PaginatedList<GetTripRegistrationDto>>.Success(paginatedList, "All TripRegistration");
+                    return ResponseDto<object>.Success(new ResultDto()
+                    {
+                        Message = "All Trip Registration!",
+                        Result = new
+                        {
+                            paginatedList
+                        }
+                    });
                 }
-                return ResultDto<PaginatedList<GetTripRegistrationDto>>.Failure($"{request.Id}", "Id is not found");
+                return ResponseDto<object>.Failure(new ErrorDto()
+                {
+                    Message = "Some Thenk Error!",
+                    Code = 101
+                });
             }
         }
     }

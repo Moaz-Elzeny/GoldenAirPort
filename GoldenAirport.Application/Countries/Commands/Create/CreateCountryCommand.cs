@@ -1,15 +1,16 @@
-﻿using GoldenAirport.Application.Common.Models;
+﻿using GoldenAirport.Application.AdminDetails.DTOs;
+using GoldenAirport.Application.Common.Models;
 using GoldenAirport.Domain.Entities;
 
 namespace GoldenAirport.Application.Countries.Commands.Create
 {
-    public class CreateCountryCommand : IRequest<ResultDto<object>>
+    public class CreateCountryCommand : IRequest<ResponseDto<object>>
     {
         public string NameAr { get; set; }
         public string NameEn { get; set; }
         public string? CurrentUserId { get; set; }
 
-        public class CreateCountryHandler : IRequestHandler<CreateCountryCommand, ResultDto<object>>
+        public class CreateCountryHandler : IRequestHandler<CreateCountryCommand, ResponseDto<object>>
         {
             private readonly IApplicationDbContext _dbContext;
 
@@ -18,7 +19,7 @@ namespace GoldenAirport.Application.Countries.Commands.Create
                 _dbContext = dbContext;
             }
 
-            public async Task<ResultDto<object>> Handle(CreateCountryCommand request, CancellationToken cancellationToken)
+            public async Task<ResponseDto<object>> Handle(CreateCountryCommand request, CancellationToken cancellationToken)
             {
                 var country = new Country
                 {
@@ -32,7 +33,14 @@ namespace GoldenAirport.Application.Countries.Commands.Create
                 _dbContext.Countries.Add(country);
                 await _dbContext.SaveChangesAsync(cancellationToken);
 
-                return ResultDto<object>.Success(country.Id ,"Country Created Successfully!");
+                return ResponseDto<object>.Success(new ResultDto()
+                {
+                    Message = "Created Successfully!",
+                    Result = new
+                    {
+                        country = country.Id
+                    }
+                });
             }
         }
     }

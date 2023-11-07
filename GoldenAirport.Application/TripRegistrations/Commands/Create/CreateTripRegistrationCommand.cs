@@ -1,11 +1,12 @@
-﻿using GoldenAirport.Application.Common.Models;
+﻿using GoldenAirport.Application.AdminDetails.DTOs;
+using GoldenAirport.Application.Common.Models;
 using GoldenAirport.Domain.Entities;
 using GoldenAirport.Domain.Enums;
 using SendGrid.Helpers.Errors.Model;
 
 namespace GoldenAirport.Application.TripRegistrations.Commands.Create
 {
-    public class CreateTripRegistrationCommand : IRequest<ResultDto<object>>
+    public class CreateTripRegistrationCommand : IRequest<ResponseDto<object>>
     {
         public decimal PackageCost { get; set; }
         public decimal TaxesAndFees { get; set; }
@@ -25,7 +26,7 @@ namespace GoldenAirport.Application.TripRegistrations.Commands.Create
         //public int NoOfChildren { get; set; } = 1;
         public string? CurrentUserId { get; set; }
 
-        public class CreateTripRegistrationHandler : IRequestHandler<CreateTripRegistrationCommand, ResultDto<object>>
+        public class CreateTripRegistrationHandler : IRequestHandler<CreateTripRegistrationCommand, ResponseDto<object>>
         {
             private readonly IApplicationDbContext _dbContext;
 
@@ -34,7 +35,7 @@ namespace GoldenAirport.Application.TripRegistrations.Commands.Create
                 _dbContext = dbContext;
             }
 
-            public async Task<ResultDto<object>> Handle(CreateTripRegistrationCommand request, CancellationToken cancellationToken)
+            public async Task<ResponseDto<object>> Handle(CreateTripRegistrationCommand request, CancellationToken cancellationToken)
             {
                 var totalAmount = (request.PackageCost * request.NoOfAdults.Count) + request.TaxesAndFees + request.OtherFees;
 
@@ -96,7 +97,14 @@ namespace GoldenAirport.Application.TripRegistrations.Commands.Create
                 //_dbContext.children.Add(child);
                 //await _dbContext.SaveChangesAsync(cancellationToken);
 
-                return ResultDto<object>.Success(tripRegistration.Id ,"Trip Registration Created Successfully!");
+                return ResponseDto<object>.Success(new ResultDto()
+                {
+                    Message = "Created Successfully!",
+                    Result = new
+                    {
+                        TripRegistration = tripRegistration.Id
+                    }
+                });
             }
         }
     }

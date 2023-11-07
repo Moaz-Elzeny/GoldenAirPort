@@ -1,13 +1,14 @@
-﻿using GoldenAirport.Application.Common.Models;
+﻿using GoldenAirport.Application.AdminDetails.DTOs;
+using GoldenAirport.Application.Common.Models;
 using SendGrid.Helpers.Errors.Model;
 
 namespace GoldenAirport.Application.Employees.Commands.Delete
 {
-    public class DeleteEmployeeCommand : IRequest<ResultDto<object>>
+    public class DeleteEmployeeCommand : IRequest<ResponseDto<object>>
     {
         public string Id { get; set; }
         public string? CurrentUserId { get; set; }
-        public class DeleteEmployeeHandler : IRequestHandler<DeleteEmployeeCommand, ResultDto<object>>
+        public class DeleteEmployeeHandler : IRequestHandler<DeleteEmployeeCommand, ResponseDto<object>>
         {
             private readonly IApplicationDbContext _dbContext;
 
@@ -16,7 +17,7 @@ namespace GoldenAirport.Application.Employees.Commands.Delete
                 _dbContext = dbContext;
             }
 
-            public async Task<ResultDto<object>> Handle(DeleteEmployeeCommand request, CancellationToken cancellationToken)
+            public async Task<ResponseDto<object>> Handle(DeleteEmployeeCommand request, CancellationToken cancellationToken)
             {
                 var employee = await _dbContext.Employees.FindAsync(request.Id) ?? throw new NotFoundException("Employee not found.");
 
@@ -31,7 +32,14 @@ namespace GoldenAirport.Application.Employees.Commands.Delete
                 
                 await _dbContext.SaveChangesAsync(cancellationToken);
 
-                return ResultDto<object>.Success(employee.Id, "Deleted has been successfully");
+                return ResponseDto<object>.Success(new ResultDto()
+                {
+                    Message = "Deleted Successfully",
+                    Result = new
+                    {
+                        Employee = employee.Id
+                    }
+                });
             }
         }
     }

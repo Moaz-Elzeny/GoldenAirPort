@@ -21,7 +21,7 @@ namespace GoldenAirport.WebAPI.Controllers
         {
             var query = new GetCitiesQuery { PageNumber = pageNumber };
             var result = await Mediator.Send(query);
-            return result.Errors != null ? BadRequest(result) : Ok(result);
+            return result.Error != null ? BadRequest(result) : Ok(result);
         }
 
         [HttpPost("Create")]
@@ -29,7 +29,7 @@ namespace GoldenAirport.WebAPI.Controllers
         {
             command.CurrentUserId = CurrentUserId;
             var result = await Mediator.Send(command);
-            return result.Errors != null ? BadRequest(result) : Ok(result);
+            return result.Error != null ? BadRequest(result) : Ok(result);
         }
 
         [HttpPut("Update")]
@@ -45,7 +45,7 @@ namespace GoldenAirport.WebAPI.Controllers
             };
 
             var result = await Mediator.Send(editCity);
-            return result.Errors != null ? BadRequest(result) : Ok(result);
+            return result.Error != null ? BadRequest(result) : Ok(result);
         }
 
         [HttpDelete("Delete")]
@@ -54,7 +54,7 @@ namespace GoldenAirport.WebAPI.Controllers
             var deleteCity = new DeleteCityCommand { Id = Id };
             var result = await Mediator.Send(deleteCity);
 
-            return result.Errors != null ? BadRequest(result) : Ok(result);
+            return result.Error != null ? BadRequest(result) : Ok(result);
         }
     }
 }

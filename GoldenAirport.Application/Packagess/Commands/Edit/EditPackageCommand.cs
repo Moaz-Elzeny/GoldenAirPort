@@ -1,11 +1,12 @@
-﻿using GoldenAirport.Application.Common.Models;
+﻿using GoldenAirport.Application.AdminDetails.DTOs;
+using GoldenAirport.Application.Common.Models;
 using GoldenAirport.Domain.Entities;
 using GoldenAirport.Domain.Enums;
 using SendGrid.Helpers.Errors.Model;
 
 namespace GoldenAirport.Application.Packagess.Commands.Edit
 {
-    public class EditPackageCommand : IRequest<ResultDto<object>>
+    public class EditPackageCommand : IRequest<ResponseDto<object>>
     {
         public int Id { get; set; }
         public string Name { get; set; }
@@ -21,7 +22,7 @@ namespace GoldenAirport.Application.Packagess.Commands.Edit
         //public paymentMethod? PaymentMethod { get; set; }
         public string? CurrentUserId { get; set; }
 
-        public class EditPackageHandler : IRequestHandler<EditPackageCommand, ResultDto<object>>
+        public class EditPackageHandler : IRequestHandler<EditPackageCommand, ResponseDto<object>>
         {
             private readonly IApplicationDbContext _dbContext;
 
@@ -30,7 +31,7 @@ namespace GoldenAirport.Application.Packagess.Commands.Edit
                 _dbContext = dbContext;
             }
 
-            public async Task<ResultDto<object>> Handle(EditPackageCommand request, CancellationToken cancellationToken)
+            public async Task<ResponseDto<object>> Handle(EditPackageCommand request, CancellationToken cancellationToken)
             {
                 var package = await _dbContext.Packages.FindAsync(request.Id) ?? throw new NotFoundException("Package not found.");
 
@@ -88,7 +89,15 @@ namespace GoldenAirport.Application.Packagess.Commands.Edit
                 }
 
                 await _dbContext.SaveChangesAsync(cancellationToken);
-                return ResultDto<object>.Success(package.Id, "Package Updated Successfully!");
+                return ResponseDto<object>.Success(new ResultDto()
+                {
+                    Message = "Updated Successfully!",
+                    Result = new
+                    {
+                        Package = package.Id
+                    }
+                });
+
             }
         }
     }

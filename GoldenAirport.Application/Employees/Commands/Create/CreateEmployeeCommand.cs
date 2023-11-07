@@ -1,9 +1,11 @@
-﻿using GoldenAirport.Application.Common.Models;
+﻿using GoldenAirport.Application.AdminDetails.DTOs;
+using GoldenAirport.Application.Common.Models;
+using GoldenAirport.Application.Helpers;
 using GoldenAirport.Domain.Entities;
 
 namespace GoldenAirport.Application.Employees.Commands.Create
 {
-    public class CreateEmployeeCommand : IRequest<ResultDto<object>>
+    public class CreateEmployeeCommand : IRequest<ResponseDto<object>>
     {
 
         public string AppUserId { get; set; }
@@ -12,7 +14,7 @@ namespace GoldenAirport.Application.Employees.Commands.Create
         //public int AgentCode { get; set; }
         //public DateTime Date { get; set; }
         //public paymentMethod PaymentMethod { get; set; }
-        public class CreateEmployeeHandler : IRequestHandler<CreateEmployeeCommand, ResultDto<object>>
+        public class CreateEmployeeHandler : IRequestHandler<CreateEmployeeCommand, ResponseDto<object>>
         {
             private readonly IApplicationDbContext _dbContext;
 
@@ -21,7 +23,7 @@ namespace GoldenAirport.Application.Employees.Commands.Create
                 _dbContext = dbContext;
             }
 
-            public async Task<ResultDto<object>> Handle(CreateEmployeeCommand request, CancellationToken cancellationToken)
+            public async Task<ResponseDto<object>> Handle(CreateEmployeeCommand request, CancellationToken cancellationToken)
             {
                 var user = await _dbContext.AppUsers
                     .Where(u => u.Id == request.AppUserId && u.UserType == Domain.Enums.UserType.Employee)
@@ -47,7 +49,14 @@ namespace GoldenAirport.Application.Employees.Commands.Create
                 await _dbContext.SaveChangesAsync(cancellationToken);
 
                 
-                return ResultDto<object>.Success(CreateEmployee.Id, "Created Successfully");
+                return ResponseDto<object>.Success(new ResultDto()
+                {
+                    Message = "Created Successfully",
+                    Result = new
+                    {
+                        Employee = CreateEmployee.Id
+                    }
+                });
 
             }
         }

@@ -1,11 +1,12 @@
-﻿using GoldenAirport.Application.Common.Models;
+﻿using GoldenAirport.Application.AdminDetails.DTOs;
+using GoldenAirport.Application.Common.Models;
+using GoldenAirport.Application.Helpers;
 using GoldenAirport.Domain.Entities;
-using GoldenAirport.Domain.Enums;
 using SendGrid.Helpers.Errors.Model;
 
 namespace GoldenAirport.Application.Packagess.Commands.Create
 {
-    public class CreatePackageCommand : IRequest<ResultDto<object>>
+    public class CreatePackageCommand : IRequest<ResponseDto<object>>
     {
         public string Name { get; set; }
         public DateTime StartingDate { get; set; }
@@ -23,7 +24,7 @@ namespace GoldenAirport.Application.Packagess.Commands.Create
         public string? CurrentUserId { get; set; }
     }
 
-    public class CreatePackageCommandHandler : IRequestHandler<CreatePackageCommand, ResultDto<object>>
+    public class CreatePackageCommandHandler : IRequestHandler<CreatePackageCommand, ResponseDto<object>>
     {
         private readonly IApplicationDbContext _dbContext;
 
@@ -32,7 +33,7 @@ namespace GoldenAirport.Application.Packagess.Commands.Create
             _dbContext = dbContext;
         }
 
-        public async Task<ResultDto<object>> Handle(CreatePackageCommand request, CancellationToken cancellationToken)
+        public async Task<ResponseDto<object>> Handle(CreatePackageCommand request, CancellationToken cancellationToken)
         {
             var package = new Package
             {
@@ -99,7 +100,14 @@ namespace GoldenAirport.Application.Packagess.Commands.Create
             _dbContext.PaymentOptionPackages.AddRange(paymentoptions);
             await _dbContext.SaveChangesAsync(cancellationToken);
 
-            return ResultDto<object>.Success(package.Id ,"Package Created Successfully!");
+            return ResponseDto<object>.Success(new ResultDto()
+            {
+                Message = "Created Successfully!",
+                Result = new
+                {
+                    Package = package.Id
+                }
+            });
         }
     }
 }

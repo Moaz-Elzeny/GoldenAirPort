@@ -1,6 +1,7 @@
 ﻿using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
+using GoldenAirport.Application.AdminDetails.DTOs;
 using GoldenAirport.Application.Common.Models;
 using GoldenAirport.Application.Helpers;
 using GoldenAirport.Application.Users.DTOs;
@@ -13,7 +14,7 @@ using Microsoft.IdentityModel.Tokens;
 
 namespace GoldenAirport.Application.Users.Commands.CreateUser
 {
-    public class CreateUserCommand : IRequest<ResultDto<UserTokenDto>>
+    public class CreateUserCommand : IRequest<ResponseDto<object>>
     {
         public string UserName { get; set; }
         public string Email { get; set; }
@@ -29,7 +30,7 @@ namespace GoldenAirport.Application.Users.Commands.CreateUser
         //public int? TaxValue { get; set; }
         //public int BookingTime { get; set; }
         //public string? PrivacyPolicyAndTerms { get; set; }
-        public class CreateUserCommandHandler : IRequestHandler<CreateUserCommand, ResultDto<UserTokenDto>>
+        public class CreateUserCommandHandler : IRequestHandler<CreateUserCommand, ResponseDto<object>>
         {
             private readonly UserManager<AppUser> _userManager;
             private readonly IHostingEnvironment _environment;
@@ -40,7 +41,7 @@ namespace GoldenAirport.Application.Users.Commands.CreateUser
                 _environment = environment;
             }
 
-            public async Task<ResultDto<UserTokenDto>> Handle(CreateUserCommand request, CancellationToken cancellationToken)
+            public async Task<ResponseDto<object>> Handle(CreateUserCommand request, CancellationToken cancellationToken)
             {
                 var user = new AppUser
                 {
@@ -73,13 +74,22 @@ namespace GoldenAirport.Application.Users.Commands.CreateUser
                     var token = new JwtSecurityTokenHandler().WriteToken(jwtSecurityToken);
 
                     var userId = user.Id;
-                    var userToken = new UserTokenDto { UserId = userId, Token = token };
+                    var Token = new UserTokenDto { UserId = userId, Token = token };
 
-                    return ResultDto<UserTokenDto>.Success(userToken, "Token");
+                    return ResponseDto<object>.Success(new ResultDto()
+                    {
+                        Message = "Token!",
+                        Result = new
+                        {
+                            Token
+                        }
+                    }
+);
                 }
                 else
                 {
-                    return ResultDto<UserTokenDto>.Failure(user.Id, "Failed to create user");
+                    return ResponseDto<object>.Failure(new ErrorDto() { Message = $"Failed to create user {user.Id}", Code = 101 });
+
                 }
             }
 

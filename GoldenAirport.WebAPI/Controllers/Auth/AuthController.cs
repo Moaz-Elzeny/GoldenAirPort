@@ -21,7 +21,7 @@ namespace GoldenAirport.WebAPI.Controllers.Auth
             var result = await Mediator.Send(query);
 
 
-            return result.Errors != null ? BadRequest(result) : Ok(result);
+            return result.Error != null ? BadRequest(result.Error) : Ok(result.Result);
         }
 
         [HttpPost("login")]
@@ -29,7 +29,7 @@ namespace GoldenAirport.WebAPI.Controllers.Auth
         {
             var result = await Mediator.Send(query);
 
-            return result.Errors != null ? BadRequest(result) : Ok(result);
+            return !result.IsSuccess? BadRequest(result.Error) : Ok(result.Result);
         }
 
 
@@ -38,7 +38,7 @@ namespace GoldenAirport.WebAPI.Controllers.Auth
         {
             var result = await Mediator.Send(query);
 
-            return result.Errors != null ? BadRequest(result) : Ok(result);
+            return result.Error != null ? BadRequest(result) : Ok(result);
         }
 
         [HttpPost("LoginWithOTP")]
@@ -52,7 +52,7 @@ namespace GoldenAirport.WebAPI.Controllers.Auth
             };
             var result = await Mediator.Send(query);
 
-            return result.Errors != null ? BadRequest(result) : Ok(result);
+            return result.Error != null ? BadRequest(result) : Ok(result);
         }
         }
 }

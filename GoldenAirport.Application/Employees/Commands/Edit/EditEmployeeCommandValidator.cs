@@ -33,9 +33,9 @@ namespace GoldenAirport.Application.Employees.Commands.Edit
             //    .NotEmpty()
             //    .WithMessage("Daily Goal is required");
 
-            RuleFor(x => x.PaymentMethod)
-                .IsInEnum()
-                .WithMessage("Invalid Payment Method Value");
+            //RuleFor(x => x.PaymentMethod)
+            //    .IsInEnum()
+            //    .WithMessage("Invalid Payment Method Value");
         }
     }
 }

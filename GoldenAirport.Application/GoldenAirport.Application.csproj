@@ -28,8 +28,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="AdminDetails\DTOs\" />
-    <Folder Include="AdminDetails\Queries\" />
     <Folder Include="Logs\Commands\" />
     <Folder Include="Notifications\Commands\" />
     <Folder Include="Notifications\Dtos\" />

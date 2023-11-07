@@ -1,14 +1,16 @@
-﻿using GoldenAirport.Application.Common.Models;
+﻿using GoldenAirport.Application.AdminDetails.DTOs;
+using GoldenAirport.Application.Common.Models;
+using GoldenAirport.Application.Helpers;
 using SendGrid.Helpers.Errors.Model;
 
 namespace GoldenAirport.Application.Packagess.Commands.Delete
 {
-    public class DeletePackageCommand : IRequest<ResultDto<object>>
+    public class DeletePackageCommand : IRequest<ResponseDto<object>>
     {
         public int Id { get; set; }
         public string? CurrentUserId { get; set; }
 
-        public class DeletePackageHandler : IRequestHandler<DeletePackageCommand, ResultDto<object>>
+        public class DeletePackageHandler : IRequestHandler<DeletePackageCommand, ResponseDto<object>>
         {
             private readonly IApplicationDbContext _dbContext;
 
@@ -17,7 +19,7 @@ namespace GoldenAirport.Application.Packagess.Commands.Delete
                 _dbContext = dbContext;
             }
 
-            public async Task<ResultDto<object>> Handle(DeletePackageCommand request, CancellationToken cancellationToken)
+            public async Task<ResponseDto<object>> Handle(DeletePackageCommand request, CancellationToken cancellationToken)
             {
                 var package = await _dbContext.Packages.FindAsync(request.Id) ?? throw new NotFoundException("Package not found.");
 
@@ -35,7 +37,14 @@ namespace GoldenAirport.Application.Packagess.Commands.Delete
                 }
 
 
-                return ResultDto<object>.Success(package.Id, "Deletion has been successfully");
+                return ResponseDto<object>.Success(new ResultDto()
+                {
+                    Message = "Deleted Successfully!",
+                    Result = new
+                    {
+                        Package = package.Id
+                    }
+                });
             }
         }
     }

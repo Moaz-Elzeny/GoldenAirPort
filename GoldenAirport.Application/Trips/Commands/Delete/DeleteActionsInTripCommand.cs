@@ -1,9 +1,11 @@
-﻿using GoldenAirport.Application.Common.Models;
+﻿using GoldenAirport.Application.AdminDetails.DTOs;
+using GoldenAirport.Application.Common.Models;
+using GoldenAirport.Domain.Entities;
 using SendGrid.Helpers.Errors.Model;
 
 namespace GoldenAirport.Application.Trips.Commands.Delete
 {
-    public class DeleteActionsInTripCommand : IRequest<ResultDto<object>>
+    public class DeleteActionsInTripCommand : IRequest<ResponseDto<object>>
     {
         public int TripId { get; set; }
         public int? WhyVisitId { get; set; }
@@ -12,7 +14,7 @@ namespace GoldenAirport.Application.Trips.Commands.Delete
         public int? RestrictionId { get; set; }
         public string? CurrentUserId { get; set; }
 
-        public class DeleteActionsInTripHandler : IRequestHandler<DeleteActionsInTripCommand, ResultDto<object>>
+        public class DeleteActionsInTripHandler : IRequestHandler<DeleteActionsInTripCommand, ResponseDto<object>>
         {
             private readonly IApplicationDbContext _dbContext;
 
@@ -21,7 +23,7 @@ namespace GoldenAirport.Application.Trips.Commands.Delete
                 _dbContext = dbContext;
             }
 
-            public async Task<ResultDto<object>> Handle(DeleteActionsInTripCommand request, CancellationToken cancellationToken)
+            public async Task<ResponseDto<object>> Handle(DeleteActionsInTripCommand request, CancellationToken cancellationToken)
             {
                 var trip = await _dbContext.Trips.FindAsync(request.TripId) ?? throw new NotFoundException("Trip not found.");
 
@@ -65,7 +67,14 @@ namespace GoldenAirport.Application.Trips.Commands.Delete
                         await _dbContext.SaveChangesAsync(cancellationToken);
                     }
                 }
-                return ResultDto<object>.Success(trip.Id, "Deleted has been successfully");
+                return ResponseDto<object>.Success(new ResultDto()
+                {
+                    Message = "Deleted Successfully!",
+                    Result = new
+                    {
+                        result = trip.Id
+                    }
+                });
             }
         }
     }

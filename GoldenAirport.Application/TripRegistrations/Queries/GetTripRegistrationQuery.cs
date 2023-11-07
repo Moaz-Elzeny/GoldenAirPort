@@ -1,16 +1,18 @@
-﻿using GoldenAirport.Application.Common.Models;
+﻿using GoldenAirport.Application.AdminDetails.DTOs;
+using GoldenAirport.Application.Common.Models;
 using GoldenAirport.Application.Helpers;
 using GoldenAirport.Application.TripRegistrations.Dtos;
+using GoldenAirport.Domain.Entities;
 using GoldenAirport.Domain.Enums;
 
 namespace GoldenAirport.Application.TripRegistrations.Queries
 {
-    public class GetTripRegistrationQuery : IRequest<ResultDto<PaginatedList<GetTripRegistrationDto>>>
+    public class GetTripRegistrationQuery : IRequest<ResponseDto<object>>
     {
         public int PageNumber { get; set; } = 1;
         
 
-        public class GetTripRegistrationQueryHandler : IRequestHandler<GetTripRegistrationQuery, ResultDto<PaginatedList<GetTripRegistrationDto>>>
+        public class GetTripRegistrationQueryHandler : IRequestHandler<GetTripRegistrationQuery, ResponseDto<object>>
         {
             private readonly IApplicationDbContext _dbContext;
 
@@ -19,7 +21,7 @@ namespace GoldenAirport.Application.TripRegistrations.Queries
                 _dbContext = dbContext;
             }
 
-            public async Task<ResultDto<PaginatedList<GetTripRegistrationDto>>> Handle(GetTripRegistrationQuery request, CancellationToken cancellationToken)
+            public async Task<ResponseDto<object>> Handle(GetTripRegistrationQuery request, CancellationToken cancellationToken)
             {
 
                 var pageNumber = request.PageNumber <= 0 ? 1 : request.PageNumber;
@@ -63,7 +65,14 @@ namespace GoldenAirport.Application.TripRegistrations.Queries
                     TotalPages = totalPages
                 };
 
-                return ResultDto<PaginatedList<GetTripRegistrationDto>>.Success(paginatedList, "All TripRegistration");
+                return ResponseDto<object>.Success(new ResultDto()
+                {
+                    Message = "All TripRegistration ",
+                    Result = new
+                    {
+                        result = paginatedList
+                    }
+                });
             }
         }
     }

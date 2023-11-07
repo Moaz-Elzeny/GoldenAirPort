@@ -1,13 +1,14 @@
-﻿using GoldenAirport.Application.Common.Models;
+﻿using GoldenAirport.Application.AdminDetails.DTOs;
+using GoldenAirport.Application.Common.Models;
 using GoldenAirport.Application.Countries.Dtos;
 using GoldenAirport.Application.Helpers;
 
 namespace GoldenAirport.Application.Countries.Queries
 {
-    public class GetCountriesQuery : IRequest<ResultDto<PaginatedList<GetCountriesDto>>>
+    public class GetCountriesQuery : IRequest<ResponseDto<object>>
     {
         public int PageNumber { get; set; } = 1;
-        public class GetCountriesHandler : IRequestHandler<GetCountriesQuery, ResultDto<PaginatedList<GetCountriesDto>>>
+        public class GetCountriesHandler : IRequestHandler<GetCountriesQuery, ResponseDto<object>>
         {
             private readonly IApplicationDbContext _dbContext;
 
@@ -16,7 +17,7 @@ namespace GoldenAirport.Application.Countries.Queries
                 _dbContext = dbContext;
             }
 
-            public async Task<ResultDto<PaginatedList<GetCountriesDto>>> Handle(GetCountriesQuery request, CancellationToken cancellationToken)
+            public async Task<ResponseDto<object>> Handle(GetCountriesQuery request, CancellationToken cancellationToken)
             {
 
                 var pageNumber = request.PageNumber <= 0 ? 1 : request.PageNumber;
@@ -46,7 +47,14 @@ namespace GoldenAirport.Application.Countries.Queries
                     TotalPages = totalPages
                 };
 
-                return ResultDto<PaginatedList<GetCountriesDto>>.Success(paginatedList , "All Countries");
+                return ResponseDto<object>.Success(new ResultDto()
+                {
+                    Message = "All Countries",
+                    Result = new
+                    {
+                        paginatedList
+                    }
+                });
             }
         }
     }

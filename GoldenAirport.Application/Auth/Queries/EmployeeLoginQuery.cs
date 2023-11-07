@@ -1,4 +1,5 @@
-﻿using GoldenAirport.Application.Common.Models;
+﻿using GoldenAirport.Application.AdminDetails.DTOs;
+using GoldenAirport.Application.Common.Models;
 using GoldenAirport.Domain.Entities.Auth;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.UI.Services;
@@ -10,13 +11,13 @@ using System.Text;
 
 namespace GoldenAirport.Application.Users.Queries.Login
 {
-    public record EmployeeLoginQuery : IRequest<ResultDto<string>>
+    public record EmployeeLoginQuery : IRequest<ResponseDto<object>>
     {
         public string UserName { get; init; }
         public string Password { get; init; }
     }
 
-    public class EmployeeLoginQueryHandler : IRequestHandler<EmployeeLoginQuery, ResultDto<string>>
+    public class EmployeeLoginQueryHandler : IRequestHandler<EmployeeLoginQuery, ResponseDto<object>>
     {
         private readonly IApplicationDbContext _context;
         private readonly UserManager<AppUser> _userManager;
@@ -31,12 +32,17 @@ namespace GoldenAirport.Application.Users.Queries.Login
             _emailSender = emailSender;
         }
 
-        public async Task<ResultDto<string>> Handle(EmployeeLoginQuery request, CancellationToken cancellationToken)
+        public async Task<ResponseDto<object>> Handle(EmployeeLoginQuery request, CancellationToken cancellationToken)
         {
             var user = await _userManager.FindByNameAsync(request.UserName);
             if (user == null)
             {
-                return ResultDto<string>.Failure(user.Id, "Invalid login credentials.");
+                return ResponseDto<object>.Failure(new ErrorDto()
+                {
+                    Message = "Invalid login credentials.",
+                    Code = 101
+                });
+
             }
 
             var result = await _userManager.CheckPasswordAsync(user, request.Password);
@@ -63,12 +69,26 @@ namespace GoldenAirport.Application.Users.Queries.Login
                     var message =  _emailSender.SendEmailAsync("moazelzeny11@gmail.com", otb , "Done");
                     await _emailSender.SendEmailAsync(user.Email, token, otb);
                 }
+                //CfDJ8JoHqfjrQnJJrqGsyM4dDzAozDixOr1qDScDsge64uuMEKsarQbnJMJdXGA9QD8x7+IbtoNmRVyep3vzfdh7USrtR7ai2joA2bt9zO5aGZWdNXi7QIjaNVaohVv4fqNPk2X4XtU3yJQDHvTDZYosRMDjQO1tsH6nBn3viD+2DbT0BtqCYydGRpKDC5dtsQNrMisWa96n9fohEl4IGYGxy2ayKfGGmgm2vkcNypz9kYIP
+                return ResponseDto<object>.Success(new ResultDto()
+                {
+                    Message = "Successfully",
+                    Result = new
+                    {
 
-                return ResultDto<string>.Success(token, "Token");
+                         token
+                    }
+                }
+                );
+
             }
             else
             {
-                return ResultDto<string>.Failure(user.Id, "Invalid login credentials.");
+                return ResponseDto<object>.Failure(new ErrorDto()
+                {
+                    Message = "Invalid login credentials.",
+                    Code = 101
+                });
             }
         }
 

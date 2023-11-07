@@ -1,11 +1,13 @@
-﻿using GoldenAirport.Application.Common.Models;
+﻿using GoldenAirport.Application.AdminDetails.DTOs;
+using GoldenAirport.Application.Common.Models;
 using GoldenAirport.Application.Helpers;
 using GoldenAirport.Application.Packagess.Dtos;
+using GoldenAirport.Domain.Entities;
 using System.Globalization;
 
 namespace GoldenAirport.Application.Packagess.Queries
 {
-    public class GetPackagesQuery : IRequest<ResultDto<PaginatedList<GetPackagesDto>>>
+    public class GetPackagesQuery : IRequest<ResponseDto<object>>
     {
         public int PageNumber { get; set; } = 1;
         public int? FromCity { get; set; }
@@ -14,7 +16,7 @@ namespace GoldenAirport.Application.Packagess.Queries
         public int? Guests { get; set; }
     }
 
-    public class GetPackagesQueryHandler : IRequestHandler<GetPackagesQuery, ResultDto<PaginatedList<GetPackagesDto>>>
+    public class GetPackagesQueryHandler : IRequestHandler<GetPackagesQuery, ResponseDto<object>>
     {
         private readonly IApplicationDbContext _dbContext;
 
@@ -23,7 +25,7 @@ namespace GoldenAirport.Application.Packagess.Queries
             _dbContext = dbContext;
         }
 
-        public async Task<ResultDto<PaginatedList<GetPackagesDto>>> Handle(GetPackagesQuery request, CancellationToken cancellationToken)
+        public async Task<ResponseDto<object>> Handle(GetPackagesQuery request, CancellationToken cancellationToken)
         {
             var pageNumber = request.PageNumber <= 0 ? 1 : request.PageNumber;
             var pageSize = 10;
@@ -92,7 +94,14 @@ namespace GoldenAirport.Application.Packagess.Queries
                 TotalPages = totalPages
             };
 
-            return ResultDto<PaginatedList<GetPackagesDto>>.Success(paginatedList , "All package");
+            return ResponseDto<object>.Success(new ResultDto()
+            {
+                Message = "All package",
+                Result = new
+                {
+                    result = paginatedList
+                }
+            });
         }
     }
 }

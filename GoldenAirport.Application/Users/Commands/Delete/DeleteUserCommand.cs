@@ -1,4 +1,5 @@
-﻿using GoldenAirport.Application.Common.Models;
+﻿using GoldenAirport.Application.AdminDetails.DTOs;
+using GoldenAirport.Application.Common.Models;
 using GoldenAirport.Application.Helpers;
 using GoldenAirport.Domain.Entities;
 using GoldenAirport.Domain.Entities.Auth;
@@ -7,12 +8,12 @@ using Microsoft.AspNetCore.Identity;
 
 namespace GoldenAirport.Application.Users.Commands.Delete
 {
-    public class DeleteUserCommand : IRequest<ResultDto<Unit>>
+    public class DeleteUserCommand : IRequest<ResponseDto<object>>
     {
         public string UserId { get; set; }
         public string CurrentUserId { get; set; }
 
-        public class DeleteUserCommandHandler : IRequestHandler<DeleteUserCommand, ResultDto<Unit>>
+        public class DeleteUserCommandHandler : IRequestHandler<DeleteUserCommand, ResponseDto<object>>
         {
             private readonly UserManager<AppUser> _userManager;
             private readonly IHostingEnvironment _environment;
@@ -23,18 +24,18 @@ namespace GoldenAirport.Application.Users.Commands.Delete
                 _environment = environment;
             }
 
-            public async Task<ResultDto<Unit>> Handle(DeleteUserCommand request, CancellationToken cancellationToken)
+            public async Task<ResponseDto<object>> Handle(DeleteUserCommand request, CancellationToken cancellationToken)
             {
                 var user = await _userManager.FindByIdAsync(request.UserId);
 
                 if (user == null)
                 {
-                    return ResultDto<Unit>.Failure(request.UserId, "User not found");
+                    return  ResponseDto<object>.Failure(new ErrorDto() { Message = "user not found", Code = 101 });
                 }
 
                 if (user.Id == request.CurrentUserId)
                 {
-                    return ResultDto<Unit>.Failure(request.CurrentUserId, "Cannot delete your own user");
+                    return ResponseDto<object>.Failure(new ErrorDto() { Message = $"Cannot delete your own user {request.CurrentUserId}", Code = 101 });                   
                 }
 
                 user.Deleted = true;
@@ -50,11 +51,18 @@ namespace GoldenAirport.Application.Users.Commands.Delete
 
                 if (result.Succeeded)
                 {
-                    return ResultDto<Unit>.Success(Unit.Value, "Deleted Successfully");
+                    return ResponseDto<object>.Success(new ResultDto()
+                    {
+                        Message = "Deleted Successfully!",
+                        Result = new
+                        {
+                            result = user.Id
+                        }
+                    });
                 }
                 else
                 {
-                    return ResultDto<Unit>.Failure(user.Id, "Failed to delete user");
+                    return ResponseDto<object>.Failure(new ErrorDto() { Message = $"Failed to delete user {request.UserId}", Code = 101 });
                 }
             }
         }

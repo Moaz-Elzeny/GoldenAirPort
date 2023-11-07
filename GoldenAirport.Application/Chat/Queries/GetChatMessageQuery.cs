@@ -1,14 +1,14 @@
-﻿using GoldenAirport.Application.Chat.Dtos;
+﻿using GoldenAirport.Application.AdminDetails.DTOs;
+using GoldenAirport.Application.Chat.Dtos;
 using GoldenAirport.Application.Common.Models;
-using GoldenAirport.Domain.Entities;
 using SendGrid.Helpers.Errors.Model;
 
 namespace GoldenAirport.Application.Chat.Queries
 {
-    public class GetChatMessageQuery : IRequest<ResultDto<object>>
+    public class GetChatMessageQuery : IRequest<ResponseDto<object>>
     {
         public string UserId { get; set; }
-        public class GetChatMessageHandler : IRequestHandler<GetChatMessageQuery, ResultDto<object>>
+        public class GetChatMessageHandler : IRequestHandler<GetChatMessageQuery, ResponseDto<object>>
         {
             private readonly IApplicationDbContext _dbcontext;
 
@@ -17,7 +17,7 @@ namespace GoldenAirport.Application.Chat.Queries
                 _dbcontext = dbcontext;
             }
 
-            public async Task<ResultDto<object>> Handle(GetChatMessageQuery request, CancellationToken cancellationToken)
+            public async Task<ResponseDto<object>> Handle(GetChatMessageQuery request, CancellationToken cancellationToken)
             {
                 var user = await _dbcontext.AppUsers.FindAsync(request.UserId, cancellationToken) ?? throw new NotFoundException("User not found");
                 var chatName = $"{user.FirstName} {user.LastName}" ;
@@ -42,7 +42,14 @@ namespace GoldenAirport.Application.Chat.Queries
 
                 };
 
-                return ResultDto<object>.Success(result, "Message");
+                return ResponseDto<object>.Success(new ResultDto()
+                {
+                    Message = "Message",
+                    Result = new
+                    {
+                        result
+                    }
+                });
             }
         }
     }

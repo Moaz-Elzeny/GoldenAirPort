@@ -1,17 +1,18 @@
-﻿using GoldenAirport.Application.Auth.DTOs;
+﻿using GoldenAirport.Application.AdminDetails.DTOs;
+using GoldenAirport.Application.Auth.DTOs;
 using GoldenAirport.Application.Common.Models;
 using GoldenAirport.Domain.Entities.Auth;
 using Microsoft.AspNetCore.Identity;
 
 namespace GoldenAirport.Application.Users.Queries.GetMyProfile
 {
-    public record GetMyProfileQuery : IRequest<ResultDto<UserProfileDto>>
+    public record GetMyProfileQuery : IRequest<ResponseDto<object>>
     {
         public string CurrentUserId { get; init; }
     }
 
 
-    public class GetMyProfileQueryHandler : IRequestHandler<GetMyProfileQuery, ResultDto<UserProfileDto>>
+    public class GetMyProfileQueryHandler : IRequestHandler<GetMyProfileQuery, ResponseDto<object>>
     {
         private readonly UserManager<AppUser> _userManager;
 
@@ -20,12 +21,16 @@ namespace GoldenAirport.Application.Users.Queries.GetMyProfile
             _userManager = userManager;
         }
 
-        public async Task<ResultDto<UserProfileDto>> Handle(GetMyProfileQuery request, CancellationToken cancellationToken)
+        public async Task<ResponseDto<object>> Handle(GetMyProfileQuery request, CancellationToken cancellationToken)
         {
             var currentUser = await _userManager.FindByIdAsync(request.CurrentUserId);
             if (currentUser == null)
             {
-                return ResultDto<UserProfileDto>.Failure(request.CurrentUserId, "User not found.");
+                return ResponseDto<object>.Failure(new ErrorDto()
+                {
+                    Message = "Invalid login credentials.",
+                    Code = 101
+                });
             }
 
             var userProfile = new UserProfileDto
@@ -40,7 +45,14 @@ namespace GoldenAirport.Application.Users.Queries.GetMyProfile
                 ProfilePicture = currentUser.ProfilePicture,
             };
 
-            return ResultDto<UserProfileDto>.Success(userProfile, "User profile");
+            return ResponseDto<object>.Success(new ResultDto()
+            {
+                Message = "User profile",
+                Result = new
+                {
+                   userProfile
+                }
+            });
         }
     }
 }

@@ -1,15 +1,16 @@
-﻿using GoldenAirport.Application.Common.Models;
+﻿using GoldenAirport.Application.AdminDetails.DTOs;
+using GoldenAirport.Application.Common.Models;
 using GoldenAirport.Application.Users.DTOs;
 using GoldenAirport.Domain.Entities.Auth;
 using Microsoft.AspNetCore.Identity;
 
 namespace GoldenAirport.Application.Users.Queries
 {
-    public class GetUsersQuery : IRequest<ResultDto<List<UserDto>>>
+    public class GetUsersQuery : IRequest<ResponseDto<object>>
     {
     }
 
-    public class GetUsersQueryHandler : IRequestHandler<GetUsersQuery, ResultDto<List<UserDto>>>
+    public class GetUsersQueryHandler : IRequestHandler<GetUsersQuery, ResponseDto<object>>
     {
         private readonly UserManager<AppUser> _userManager;
 
@@ -18,7 +19,7 @@ namespace GoldenAirport.Application.Users.Queries
             _userManager = userManager;
         }
 
-        public async Task<ResultDto<List<UserDto>>> Handle(GetUsersQuery request, CancellationToken cancellationToken)
+        public async Task<ResponseDto<object>> Handle(GetUsersQuery request, CancellationToken cancellationToken)
         {
             var users = await _userManager.Users.ToListAsync();
 
@@ -38,7 +39,14 @@ namespace GoldenAirport.Application.Users.Queries
 
             }).ToList();
 
-            return ResultDto<List<UserDto>>.Success(userDtos, "All users");
+            return ResponseDto<object>.Success(new ResultDto()
+            {
+                Message = "All users",
+                Result = new
+                {
+                    result = userDtos
+                }
+            });
         }
     }
 

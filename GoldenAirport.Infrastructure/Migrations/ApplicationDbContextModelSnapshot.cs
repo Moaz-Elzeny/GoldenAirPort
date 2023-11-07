@@ -52,14 +52,14 @@ namespace GoldenAirport.Infrastructure.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<decimal>("BookingTime")
-                        .HasColumnType("decimal(18,2)");
-
-                    b.Property<string>("CompanyId")
+                    b.Property<string>("AppUserId")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("nvarchar(450)");
 
-                    b.Property<int>("CompanyId1")
+                    b.Property<TimeSpan?>("BookingTime")
+                        .HasColumnType("time");
+
+                    b.Property<int>("CompanyId")
                         .HasColumnType("int");
 
                     b.Property<string>("CreatedById")
@@ -87,7 +87,7 @@ namespace GoldenAirport.Infrastructure.Migrations
                     b.Property<string>("PrivacyPolicyAndTerms")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<decimal>("ServiceFees")
+                    b.Property<decimal?>("ServiceFees")
                         .HasColumnType("decimal(18,2)");
 
                     b.Property<decimal?>("TaxValue")
@@ -95,7 +95,9 @@ namespace GoldenAirport.Infrastructure.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("CompanyId1");
+                    b.HasIndex("AppUserId");
+
+                    b.HasIndex("CompanyId");
 
                     b.ToTable("AdminDetails", (string)null);
                 });
@@ -848,6 +850,7 @@ namespace GoldenAirport.Infrastructure.Migrations
 
                     b.Property<int>("AgentCode")
                         .HasMaxLength(20)
+                        .IsUnicode(true)
                         .HasColumnType("int");
 
                     b.Property<string>("AppUserId")
@@ -1430,11 +1433,19 @@ namespace GoldenAirport.Infrastructure.Migrations
 
             modelBuilder.Entity("GoldenAirport.Domain.Entities.AdminDetails", b =>
                 {
-                    b.HasOne("GoldenAirport.Domain.Entities.Company", "Company")
+                    b.HasOne("GoldenAirport.Domain.Entities.Auth.AppUser", "AppUser")
                         .WithMany()
-                        .HasForeignKey("CompanyId1")
+                        .HasForeignKey("AppUserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.HasOne("GoldenAirport.Domain.Entities.Company", "Company")
+                        .WithMany()
+                        .HasForeignKey("CompanyId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("AppUser");
 
                     b.Navigation("Company");
                 });

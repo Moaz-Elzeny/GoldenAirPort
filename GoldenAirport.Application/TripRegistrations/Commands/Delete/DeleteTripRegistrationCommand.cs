@@ -1,14 +1,16 @@
-﻿using GoldenAirport.Application.Common.Models;
+﻿using GoldenAirport.Application.AdminDetails.DTOs;
+using GoldenAirport.Application.Common.Models;
+using GoldenAirport.Domain.Entities;
 using SendGrid.Helpers.Errors.Model;
 
 namespace GoldenAirport.Application.TripRegistrations.Commands.Delete
 {
-    public class DeleteTripRegistrationCommand : IRequest<ResultDto<object>>
+    public class DeleteTripRegistrationCommand : IRequest<ResponseDto<object>>
     {
         public int Id { get; set; }
         public string? CurrentUserId { get; set; }
 
-        public class DeleteTripRegistrationHandler : IRequestHandler<DeleteTripRegistrationCommand, ResultDto<object>>
+        public class DeleteTripRegistrationHandler : IRequestHandler<DeleteTripRegistrationCommand, ResponseDto<object>>
         {
             private readonly IApplicationDbContext _dbContext;
 
@@ -17,7 +19,7 @@ namespace GoldenAirport.Application.TripRegistrations.Commands.Delete
                 _dbContext = dbContext;
             }
 
-            public async Task<ResultDto<object>> Handle(DeleteTripRegistrationCommand request, CancellationToken cancellationToken)
+            public async Task<ResponseDto<object>> Handle(DeleteTripRegistrationCommand request, CancellationToken cancellationToken)
             {
                 var trip = await _dbContext.TripRegistrations.FindAsync(request.Id) ?? throw new NotFoundException("Trip Registration not found.");
 
@@ -27,7 +29,14 @@ namespace GoldenAirport.Application.TripRegistrations.Commands.Delete
 
                 await _dbContext.SaveChangesAsync(cancellationToken);
 
-                return ResultDto<object>.Success(trip.Id ,"Deleted has been successfully");
+                return ResponseDto<object>.Success(new ResultDto()
+                {
+                    Message = "Deleted Successfully!",
+                    Result = new
+                    {
+                        trip = trip.Id
+                    }
+                });
             }
         }
     }

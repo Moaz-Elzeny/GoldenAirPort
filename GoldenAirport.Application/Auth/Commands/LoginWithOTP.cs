@@ -8,17 +8,18 @@ using Microsoft.AspNetCore.Http;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using NuGet.Common;
+using GoldenAirport.Application.AdminDetails.DTOs;
 
 namespace GoldenAirport.Application.Auth.Commands
 {
-    public class LoginWithOTP : IRequest<ResultDto<string>>
+    public class LoginWithOTP : IRequest<ResponseDto<object>>
     {
         public string UserName { get; init; }
         public string Code { get; init; }
     }
 }
 
-public class EmployeeLoginQueryHandler : IRequestHandler<LoginWithOTP, ResultDto<string>>
+public class EmployeeLoginQueryHandler : IRequestHandler<LoginWithOTP, ResponseDto<object>>
 {
     private readonly IApplicationDbContext _context;
     private readonly UserManager<AppUser> _userManager;
@@ -33,7 +34,7 @@ public class EmployeeLoginQueryHandler : IRequestHandler<LoginWithOTP, ResultDto
         _emailSender = emailSender;
     }
 
-    public async Task<ResultDto<string>> Handle(LoginWithOTP request, CancellationToken cancellationToken)
+    public async Task<ResponseDto<object>> Handle(LoginWithOTP request, CancellationToken cancellationToken)
     {
         var user = await _userManager.FindByNameAsync(request.UserName);
         var signIn = await _signInManager.TwoFactorSignInAsync("Email", request.Code, false, false);
@@ -54,12 +55,29 @@ public class EmployeeLoginQueryHandler : IRequestHandler<LoginWithOTP, ResultDto
 
                 //var jwtToken = GetToken(authClaims);
 
-                return ResultDto<string>.Success(signIn.ToString(), "Token");
+                return ResponseDto<object>.Success(new ResultDto()
+                {
+                    Message = "Successfully",
+                    Result = new
+                    {
+                        Token = signIn.ToString()
+                    }
+                }
+);
             };
             //returning the token...
         }
-        return ResultDto<string>.Success(signIn.ToString(), "Token");
-    }
+        return ResponseDto<object>.Success(new ResultDto()
+        {
+            Message = "Successfully",
+            Result = new
+            {
+                Token = signIn.ToString()
+            }
+        }
+       );
+   
+}
     //return StatusCode(StatusCodes.Status404NotFound,
     //    new Response { Status = "Success", Message = $"Invalid Code" });
 }

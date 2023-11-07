@@ -1,14 +1,15 @@
-﻿using GoldenAirport.Application.Common.Models;
+﻿using GoldenAirport.Application.AdminDetails.DTOs;
+using GoldenAirport.Application.Common.Models;
 
 namespace GoldenAirport.Application.Employees.Commands.Edit
 {
-    public class EditBalanceCommand : IRequest<ResultDto<object>>
+    public class EditBalanceCommand : IRequest<ResponseDto<object>>
     {
         public string EmployeeId { get; set; }
         public decimal? Balance { get; set; }
         public string? CurrentUserId { get; set; }
 
-        public class EditBalanceCommandHandler : IRequestHandler<EditBalanceCommand, ResultDto<object>>
+        public class EditBalanceCommandHandler : IRequestHandler<EditBalanceCommand, ResponseDto<object>>
         {
             private readonly IApplicationDbContext _dbContext;
 
@@ -17,7 +18,7 @@ namespace GoldenAirport.Application.Employees.Commands.Edit
                 _dbContext = dbContext;
             }
 
-            public async Task<ResultDto<object>> Handle(EditBalanceCommand request, CancellationToken cancellationToken)
+            public async Task<ResponseDto<object>> Handle(EditBalanceCommand request, CancellationToken cancellationToken)
             {
                 var balance = await _dbContext.Balances.Where(e => e.EmployeeId == request.EmployeeId).FirstOrDefaultAsync(cancellationToken) ?? throw new Exception("Employee Not Found");
 
@@ -34,7 +35,15 @@ namespace GoldenAirport.Application.Employees.Commands.Edit
                 }
 
                 await _dbContext.SaveChangesAsync(cancellationToken);
-                return ResultDto<object>.Success(balance.Id, "Balance Updated Successfully!");
+
+                return ResponseDto<object>.Success(new ResultDto()
+                {
+                    Message = "Updated Successfully",
+                    Result = new
+                    {
+                        Balance = balance.Id
+                    }
+                });
             }
         }
     }

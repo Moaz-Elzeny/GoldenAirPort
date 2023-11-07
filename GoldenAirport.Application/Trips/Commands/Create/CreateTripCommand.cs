@@ -1,11 +1,12 @@
-﻿using GoldenAirport.Application.Common.Models;
+﻿using GoldenAirport.Application.AdminDetails.DTOs;
+using GoldenAirport.Application.Common.Models;
 using GoldenAirport.Domain.Entities;
 using GoldenAirport.Domain.Enums;
 using SendGrid.Helpers.Errors.Model;
 
 namespace GoldenAirport.Application.Trips.Commands.Create
 {
-    public class CreateTripCommand : IRequest<ResultDto<object>>
+    public class CreateTripCommand : IRequest<ResponseDto<object>>
     {
         public DateTime StartingDate { get; set; }
         public DateTime EndingDate { get; set; }
@@ -23,7 +24,7 @@ namespace GoldenAirport.Application.Trips.Commands.Create
         public bool IsRefundable { get; set; }
         public string? CurrentUserId { get; set; }
 
-        public class CreateTripHandler : IRequestHandler<CreateTripCommand, ResultDto<object>>
+        public class CreateTripHandler : IRequestHandler<CreateTripCommand, ResponseDto<object>>
         {
             private readonly IApplicationDbContext _dbContext;
 
@@ -32,7 +33,7 @@ namespace GoldenAirport.Application.Trips.Commands.Create
                 _dbContext = dbContext;
             }
 
-            public async Task<ResultDto<object>> Handle(CreateTripCommand request, CancellationToken cancellationToken)
+            public async Task<ResponseDto<object>> Handle(CreateTripCommand request, CancellationToken cancellationToken)
             {
                 var trip = new Trip
                 {
@@ -135,7 +136,14 @@ namespace GoldenAirport.Application.Trips.Commands.Create
                 _dbContext.PaymentOptionTrips.AddRange(paymentoptions);
                 await _dbContext.SaveChangesAsync(cancellationToken);
 
-                return ResultDto<object>.Success(trip.Id, "Trip Created Successfully!");
+                return ResponseDto<object>.Success(new ResultDto()
+                {
+                    Message = "Created Successfully!",
+                    Result = new
+                    {
+                        result = trip.Id
+                    }
+                });
             }
         }
     }

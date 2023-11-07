@@ -1,21 +1,23 @@
-﻿using GoldenAirport.Application.Common.Models;
+﻿using GoldenAirport.Application.AdminDetails.DTOs;
+using GoldenAirport.Application.Common.Models;
 using GoldenAirport.Domain.Entities;
 using GoldenAirport.Domain.Entities.Auth;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.IdentityModel.Tokens;
+using NuGet.Common;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
 
 namespace GoldenAirport.Application.Users.Queries.Login
 {
-    public record LoginQuery : IRequest<ResultDto<string>>
+    public record LoginQuery : IRequest<ResponseDto<object>>
     {
         public string UserName { get; init; }
         public string Password { get; init; }
     }
 
-    public class LoginQueryHandler : IRequestHandler<LoginQuery, ResultDto<string>>
+    public class LoginQueryHandler : IRequestHandler<LoginQuery, ResponseDto<object>>
     {
         private readonly IApplicationDbContext _context;
         private readonly UserManager<AppUser> _userManager;
@@ -28,12 +30,26 @@ namespace GoldenAirport.Application.Users.Queries.Login
             _context = context;
         }
 
-        public async Task<ResultDto<string>> Handle(LoginQuery request, CancellationToken cancellationToken)
+        public async Task<ResponseDto<object>> Handle(LoginQuery request, CancellationToken cancellationToken)
+           
         {
+            //var fdf = new
+            //{
+            //    df = "fdkf"
+            //};
+
+            //return ResponseDto<object>.Success(new ResultDto
+            //{
+            //    Message = "Success",
+            //    Result = fdf
+            //});
             var user = await _userManager.FindByNameAsync(request.UserName);
             if (user == null)
             {
-                return ResultDto<string>.Failure(user.Id, "Invalid login credentials.");
+                return ResponseDto<object>.Failure(new ErrorDto()
+                {
+                    Message = "Invalid login credentials"
+                });
             }
 
             var result = await _userManager.CheckPasswordAsync(user, request.Password);
@@ -42,21 +58,31 @@ namespace GoldenAirport.Application.Users.Queries.Login
                 var jwtSecurityToken = await CreateJwtToken(user);
                 var token = new JwtSecurityTokenHandler().WriteToken(jwtSecurityToken);
 
-                if (user.UserType == Domain.Enums.UserType.Employee)
-                {
+                //if (user.UserType == Domain.Enums.UserType.Employee)
+                //{
                     var e = await _context.Employees.Where(e => e.AppUserId == user.Id).FirstOrDefaultAsync();
-                    if (e != null) 
+                    if (e != null)
                     {
                         e.LastLogin = DateTime.Now;
                     }
                     await _context.SaveChangesAsync(cancellationToken);
-                }
+                //}
 
-                return ResultDto<string>.Success(token, "Token");
+                return ResponseDto<object>.Success(new ResultDto()
+                {
+                    Message = "Successfully",
+                    Result = new
+                    {
+                        Token = token
+                    }
+                });
             }
             else
             {
-                return ResultDto<string>.Failure(user.Id, "Invalid login credentials.");
+                return ResponseDto<object>.Failure(new ErrorDto()
+                {
+                     Message = "Invalid login credentials"
+                });
             }
         }
 

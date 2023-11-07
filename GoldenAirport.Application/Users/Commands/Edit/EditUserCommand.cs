@@ -1,4 +1,5 @@
-﻿using GoldenAirport.Application.Common.Models;
+﻿using GoldenAirport.Application.AdminDetails.DTOs;
+using GoldenAirport.Application.Common.Models;
 using GoldenAirport.Application.Helpers;
 using GoldenAirport.Domain.Entities;
 using GoldenAirport.Domain.Entities.Auth;
@@ -9,7 +10,7 @@ using Microsoft.AspNetCore.Identity;
 
 namespace GoldenAirport.Application.Users.Commands.EditUser
 {
-    public record EditUserCommand : IRequest<ResultDto<object>>
+    public record EditUserCommand : IRequest<ResponseDto<object>>
     {
         public string UserId { get; init; }
         public string? UserName { get; init; }
@@ -28,7 +29,7 @@ namespace GoldenAirport.Application.Users.Commands.EditUser
         //public int? BookingTime { get; set; }
         //public string? PrivacyPolicyAndTerms { get; set; }
 
-        public class EditUserCommandHandler : IRequestHandler<EditUserCommand, ResultDto<object>>
+        public class EditUserCommandHandler : IRequestHandler<EditUserCommand, ResponseDto<object>>
         {
             private readonly UserManager<AppUser> _userManager;
             private readonly IHostingEnvironment _environment;
@@ -39,12 +40,13 @@ namespace GoldenAirport.Application.Users.Commands.EditUser
                 _environment = environment;
             }
 
-            public async Task<ResultDto<object>> Handle(EditUserCommand request, CancellationToken cancellationToken)
+            public async Task<ResponseDto<object>> Handle(EditUserCommand request, CancellationToken cancellationToken)
             {
                 var user = await _userManager.FindByIdAsync(request.UserId);
 
                 if (user == null)
-                    return ResultDto<object>.Failure(request.UserId, "User not found");
+                    return ResponseDto<object>.Failure(new ErrorDto() { Message = $"User not found {request.UserId}", Code = 101 });
+
 
                 if (request.UserName != null)
                     user.UserName = request.UserName;
@@ -86,18 +88,26 @@ namespace GoldenAirport.Application.Users.Commands.EditUser
 
                     if (!x.Succeeded)
                     {
-                        return ResultDto<object>.Failure(request.UserId, "Password is Wrong .. Please return password ");
+                        return ResponseDto<object>.Failure(new ErrorDto() { Message = $"Password is Wrong .. Please return password {request.CurrentUserId}", Code = 101 });
                     }
                 }
                 var result = await _userManager.UpdateAsync(user);
 
                 if (result.Succeeded)
                 {
-                    return ResultDto<object>.Success(request.UserId, "User updated successfully");
+                    return ResponseDto<object>.Success(new ResultDto()
+                    {
+                        Message = "Updated successfull!",
+                        Result = new
+                        {
+                            request.UserId
+                        }
+                    }
+);
                 }
                 else
                 {
-                    return ResultDto<object>.Failure(request.UserId, "Failed to update user");
+                    return ResponseDto<object>.Failure(new ErrorDto() { Message = $"Failed to update user {request.UserId}", Code = 101 });
                 }
             }
         }

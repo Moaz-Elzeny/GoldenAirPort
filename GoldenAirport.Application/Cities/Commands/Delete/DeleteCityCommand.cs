@@ -1,15 +1,15 @@
-﻿using GoldenAirport.Application.Common.Models;
-using GoldenAirport.Application.Countries.Commands.Delete;
+﻿using GoldenAirport.Application.AdminDetails.DTOs;
+using GoldenAirport.Application.Common.Models;
 using SendGrid.Helpers.Errors.Model;
 
 namespace GoldenAirport.Application.Cities.Commands.Delete
 {
-    public class DeleteCityCommand : IRequest<ResultDto<object>>
+    public class DeleteCityCommand : IRequest<ResponseDto<object>>
     {
         public int Id { get; set; }
         public string? CurrentUserId { get; set; }
 
-        public class DeleteCityHandler : IRequestHandler<DeleteCityCommand, ResultDto<object>>
+        public class DeleteCityHandler : IRequestHandler<DeleteCityCommand, ResponseDto<object>>
         {
             private readonly IApplicationDbContext _dbContext;
 
@@ -18,7 +18,7 @@ namespace GoldenAirport.Application.Cities.Commands.Delete
                 _dbContext = dbContext;
             }
 
-            public async Task<ResultDto<object>> Handle(DeleteCityCommand request, CancellationToken cancellationToken)
+            public async Task<ResponseDto<object>> Handle(DeleteCityCommand request, CancellationToken cancellationToken)
             {
                 var city = await _dbContext.Cities.FindAsync(request.Id) ?? throw new NotFoundException("City not found.");
 
@@ -28,7 +28,14 @@ namespace GoldenAirport.Application.Cities.Commands.Delete
 
                 await _dbContext.SaveChangesAsync(cancellationToken);
 
-                return ResultDto<object>.Success(city.Id ,"Deleted has been successfully");
+                return ResponseDto<object>.Success(new ResultDto()
+                {
+                    Message = "Deleted Successfully",
+                    Result = new
+                    {
+                        CityId = city.Id
+                    }
+                });
             }
         }
     }

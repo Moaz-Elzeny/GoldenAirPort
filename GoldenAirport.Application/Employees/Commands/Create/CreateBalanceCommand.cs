@@ -1,15 +1,17 @@
-﻿using GoldenAirport.Application.Common.Models;
+﻿using GoldenAirport.Application.AdminDetails.DTOs;
+using GoldenAirport.Application.Common.Models;
+using GoldenAirport.Application.Helpers;
 using GoldenAirport.Domain.Entities;
 
 namespace GoldenAirport.Application.Employees.Commands.Create
 {
-    public class CreateBalanceCommand : IRequest<ResultDto<object>>
+    public class CreateBalanceCommand : IRequest<ResponseDto<object>>
     {
         public string EmployeeId { get; set; }
         public decimal Balance { get; set; } = 0;
         public string? CurrentUserId { get; set; }
 
-        public class CreateBalanceCommandHandler : IRequestHandler<CreateBalanceCommand, ResultDto<object>>
+        public class CreateBalanceCommandHandler : IRequestHandler<CreateBalanceCommand, ResponseDto<object>>
         {
             private readonly IApplicationDbContext _dbContext;
 
@@ -18,7 +20,7 @@ namespace GoldenAirport.Application.Employees.Commands.Create
                 _dbContext = dbContext;
             }
 
-            public async Task<ResultDto<object>> Handle(CreateBalanceCommand request, CancellationToken cancellationToken)
+            public async Task<ResponseDto<object>> Handle(CreateBalanceCommand request, CancellationToken cancellationToken)
             {
                
                     var balance = new Balance
@@ -42,7 +44,14 @@ namespace GoldenAirport.Application.Employees.Commands.Create
                     _dbContext.BalanceHistories.Add(balanceHistory);
                     await _dbContext.SaveChangesAsync(cancellationToken);
 
-                return ResultDto<object>.Success(balance.Id, "Created Successfully");
+                return ResponseDto<object>.Success(new ResultDto()
+                {
+                    Message = "Created Successfully",
+                    Result = new
+                    {
+                        Balance = balance.Id
+                    }
+                });
 
             }
         }

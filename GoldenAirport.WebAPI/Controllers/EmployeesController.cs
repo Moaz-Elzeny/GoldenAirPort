@@ -1,4 +1,5 @@
-﻿using GoldenAirport.Application.Employees.Commands.Create;
+﻿using GoldenAirport.Application.AdminDetails.Queries;
+using GoldenAirport.Application.Employees.Commands.Create;
 using GoldenAirport.Application.Employees.Commands.Delete;
 using GoldenAirport.Application.Employees.Commands.Edit;
 using GoldenAirport.Application.Employees.Dtos;
@@ -13,11 +14,20 @@ namespace GoldenAirport.WebAPI.Controllers
     {
 
         [HttpGet("feach")]
-        public async Task<IActionResult> GetAllEmployees([FromQuery]int pageNumber, string? keySerch)
+        public async Task<IActionResult> GetAllEmployees([FromQuery] int pageNumber, string? keySerch)
         {
-            var query = new GetAllEmployeeQuery{PageNumber = pageNumber, SearchKey = keySerch};
+            var query = new GetAllEmployeeQuery { PageNumber = pageNumber, SearchKey = keySerch };
             var result = await Mediator.Send(query);
-            return result.Errors != null ? BadRequest(result) : Ok(result);
+            return result.Error != null ? BadRequest(result) : Ok(result);
+        }
+
+
+        [HttpGet("feach1")]
+        public async Task<IActionResult> GetAdminDetails(string Id)
+        {
+            var query = new GetEmployeeByIdQuery { Id = Id };
+            var result = await Mediator.Send(query);
+            return result.Error != null ? BadRequest(result) : Ok(result);
         }
 
         [HttpPost("Create")]
@@ -33,7 +43,7 @@ namespace GoldenAirport.WebAPI.Controllers
 
             var result = await Mediator.Send(command);
 
-            return result.Errors != null ? BadRequest(result) : Ok(result);
+            return result.Error != null ? BadRequest(result) : Ok(result);
         }
 
         [HttpPost("CreateBalance")]
@@ -41,23 +51,24 @@ namespace GoldenAirport.WebAPI.Controllers
         {
             command.CurrentUserId = CurrentUserId;
             var result = await Mediator.Send(command);
-            return result.Errors != null ? BadRequest(result) : Ok(result);
+            return result.Error != null ? BadRequest(result) : Ok(result);
         }
 
-            [HttpPut("Update")]
+        [HttpPut("Update")]
         public async Task<IActionResult> UpdateEmployee(string Id, [FromForm] UpdateEmployeeDto dto)
         {
 
             var command = new EditEmployeeCommand
             {
-                Id = Id,               
-                //AppUserId = dto.AppUserId,
+                Id = Id,
                 IsActive = dto.IsActive,
-                AgentCode = dto.AgentCode,
-                Date = dto.Date,
+                ServiceFees = dto.ServiceFees,
+                //AppUserId = dto.AppUserId,
+                //AgentCode = dto.AgentCode,
+                //Date = dto.Date,
                 //Balance = dto.Balance,  
                 //DailyGoal = dto.DailyGoal,  
-                PaymentMethod = dto.PaymentMethod,
+                //PaymentMethod = dto.PaymentMethod,
                 CurrentUserId = CurrentUserId
             };
             var validationResults = await new EditEmployeeCommandValidator().ValidateAsync(command);
@@ -69,7 +80,7 @@ namespace GoldenAirport.WebAPI.Controllers
 
             var result = await Mediator.Send(command);
 
-            return result.Errors != null ? BadRequest(result) : Ok(result);
+            return result.Error != null ? BadRequest(result) : Ok(result);
         }
 
 
@@ -84,7 +95,7 @@ namespace GoldenAirport.WebAPI.Controllers
 
             var result = await Mediator.Send(command);
 
-            return result.Errors != null ? BadRequest(result) : Ok(result);
+            return result.Error != null ? BadRequest(result) : Ok(result);
         }
     }
 }

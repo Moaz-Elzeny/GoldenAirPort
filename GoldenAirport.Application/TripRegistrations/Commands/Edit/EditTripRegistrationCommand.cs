@@ -1,10 +1,12 @@
-﻿using GoldenAirport.Application.Common.Models;
+﻿using GoldenAirport.Application.AdminDetails.DTOs;
+using GoldenAirport.Application.Common.Models;
+using GoldenAirport.Domain.Entities;
 using GoldenAirport.Domain.Enums;
 using SendGrid.Helpers.Errors.Model;
 
 namespace GoldenAirport.Application.TripRegistrations.Commands.Edit
 {
-    public class EditTripRegistrationCommand : IRequest<ResultDto<object>>
+    public class EditTripRegistrationCommand : IRequest<ResponseDto<object>>
     {
         public int Id { get; set; }
         public decimal? PackageCost { get; set; }
@@ -25,7 +27,7 @@ namespace GoldenAirport.Application.TripRegistrations.Commands.Edit
         public int? NoOfAdults { get; set; } = 1;
         public string? CurrentUserId { get; set; }
 
-        public class EditTripRegistrationHandler : IRequestHandler<EditTripRegistrationCommand, ResultDto<object>>
+        public class EditTripRegistrationHandler : IRequestHandler<EditTripRegistrationCommand, ResponseDto<object>>
         {
             private readonly IApplicationDbContext _dbContext;
 
@@ -34,7 +36,7 @@ namespace GoldenAirport.Application.TripRegistrations.Commands.Edit
                 _dbContext = dbContext;
             }
 
-            public async Task<ResultDto<object>> Handle(EditTripRegistrationCommand request, CancellationToken cancellationToken)
+            public async Task<ResponseDto<object>> Handle(EditTripRegistrationCommand request, CancellationToken cancellationToken)
             {
                 var user = _dbContext.AppUsers.AsQueryable();
 
@@ -117,7 +119,14 @@ namespace GoldenAirport.Application.TripRegistrations.Commands.Edit
                 }
 
                 await _dbContext.SaveChangesAsync(cancellationToken);
-                return ResultDto<object>.Success(tripRegistration.Id, "Trip Registration Updated Successfully!");
+                return ResponseDto<object>.Success(new ResultDto()
+                {
+                    Message = "Updated Successfully!",
+                    Result = new
+                    {
+                        result = tripRegistration.Id
+                    }
+                });
             }
         }
     }
