@@ -1,4 +1,4 @@
-﻿namespace GoldenAirport.Application.AdminDetails.DTOs
+﻿namespace GoldenAirport.Application.Helpers.DTOs
 {
     public class ErrorDto
     {

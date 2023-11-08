@@ -3,21 +3,23 @@ using GoldenAirport.Application.Common.Models;
 using GoldenAirport.Domain.Entities;
 using GoldenAirport.Domain.Entities.Auth;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc.ModelBinding;
 using Microsoft.IdentityModel.Tokens;
 using NuGet.Common;
+using System.Globalization;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
 
 namespace GoldenAirport.Application.Users.Queries.Login
 {
-    public record LoginQuery : IRequest<ResponseDto<object>>
+    public record AuthService : IRequest<ResponseDto<object>>
     {
         public string UserName { get; init; }
         public string Password { get; init; }
     }
 
-    public class LoginQueryHandler : IRequestHandler<LoginQuery, ResponseDto<object>>
+    public class LoginQueryHandler : IRequestHandler<AuthService, ResponseDto<object>>
     {
         private readonly IApplicationDbContext _context;
         private readonly UserManager<AppUser> _userManager;
@@ -30,19 +32,9 @@ namespace GoldenAirport.Application.Users.Queries.Login
             _context = context;
         }
 
-        public async Task<ResponseDto<object>> Handle(LoginQuery request, CancellationToken cancellationToken)
+        public async Task<ResponseDto<object>> Handle(AuthService request, CancellationToken cancellationToken)
            
         {
-            //var fdf = new
-            //{
-            //    df = "fdkf"
-            //};
-
-            //return ResponseDto<object>.Success(new ResultDto
-            //{
-            //    Message = "Success",
-            //    Result = fdf
-            //});
             var user = await _userManager.FindByNameAsync(request.UserName);
             if (user == null)
             {
@@ -58,16 +50,13 @@ namespace GoldenAirport.Application.Users.Queries.Login
                 var jwtSecurityToken = await CreateJwtToken(user);
                 var token = new JwtSecurityTokenHandler().WriteToken(jwtSecurityToken);
 
-                //if (user.UserType == Domain.Enums.UserType.Employee)
-                //{
-                    var e = await _context.Employees.Where(e => e.AppUserId == user.Id).FirstOrDefaultAsync();
+                    var e = await _context.AppUsers.Where(e => e.Id == user.Id).FirstOrDefaultAsync();
                     if (e != null)
                     {
                         e.LastLogin = DateTime.Now;
                     }
                     await _context.SaveChangesAsync(cancellationToken);
-                //}
-
+               
                 return ResponseDto<object>.Success(new ResultDto()
                 {
                     Message = "Successfully",
@@ -118,8 +107,26 @@ namespace GoldenAirport.Application.Users.Queries.Login
             return jwtSecurityToken;
 
 
+        }
 
+        public async Task<object> ChangePasswordAsync(string userId, string currentPassword, string newPassword, ModelStateDictionary modelState)
+        {
+            var user = await _userManager.FindByIdAsync(userId);
+            if (user == null)
+            {
+                return null;
+            }
 
+            var result = await _userManager.ChangePasswordAsync(user, currentPassword, newPassword);
+            if (!result.Succeeded)
+            {
+                var errors = result.Errors.Select(e => new { error = e.Description }).ToList();
+                return new { errors };
+            }
+
+            await _signInManager.RefreshSignInAsync(user);
+
+            return new { Message = CultureInfo.CurrentCulture.TwoLetterISOLanguageName == "ar" ? "تم تغيير كلمة السر بنجاح" : "Password Changed Successfully" };
         }
     }
 }

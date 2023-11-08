@@ -1,4 +1,4 @@
-﻿using GoldenAirport.Application.AdminDetails.DTOs;
+﻿using GoldenAirport.Application.Helpers.DTOs;
 using Newtonsoft.Json;
 
 namespace GoldenAirport.Application.Common.Models

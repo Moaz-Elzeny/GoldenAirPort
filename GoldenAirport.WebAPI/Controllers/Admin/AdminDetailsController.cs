@@ -11,16 +11,16 @@ namespace GoldenAirport.WebAPI.Controllers.Admin
     {
         public AdminDetailsController() { }
 
-        [HttpGet("feach1")]
+        [HttpGet("fetch1")]
         public async Task<IActionResult> GetAdminDetails(string UserId)
         {
             var query = new GetAdminDetailsQuery { UserId = UserId };
             var result =  await Mediator.Send(query);
-            return result.Error != null ? BadRequest(result) : Ok(result);
+            return !result.IsSuccess ? BadRequest(result.Error) : Ok(result.Result);
         }
 
         [HttpPut("Update")]
-        public async Task<IActionResult> UpdateEmployee(string UserId, [FromForm] AdminDetailsDto dto)
+        public async Task<IActionResult> UpdateEmployee(string UserId, [FromForm] UpdateAdminDetailsDto dto)
         {
 
             var command = new UpdateAdminDetailsCommand
@@ -35,7 +35,7 @@ namespace GoldenAirport.WebAPI.Controllers.Admin
 
             var result = await Mediator.Send(command);
 
-            return result.Error != null ? BadRequest(result) : Ok(result);
+            return !result.IsSuccess ? BadRequest(result.Error) : Ok(result.Result);
         }
 
     }

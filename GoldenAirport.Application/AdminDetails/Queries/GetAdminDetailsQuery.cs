@@ -23,21 +23,29 @@ namespace GoldenAirport.Application.AdminDetails.Queries
                     .Select(d => new AdminDetailsDto
                     {
                         ServiceFees = d.ServiceFees,
-                        TaxValue = byte.Parse($"{d.TaxValue}%"),
+                        TaxValue = byte.Parse($"{d.TaxValue}"),
                         BookingTime = d.BookingTime,
-                        PrivacyPolicyAndTerms = d.PrivacyPolicyAndTerms
+                        PrivacyPolicyAndTerms = d.PrivacyPolicyAndTerms,
+                        CompanyDetails = new CompanyDetailsDto
+                        {
+                            Name = d.Company.Name,
+                            ContactPerson = d.Company.ContactPerson,
+                            Email = d.Company.Email,
+                            PhoneNumber = d.Company.PhoneNumber,
+                            Address = d.Company.Address,
+
+                        }
                     }).ToListAsync();
 
 
-                return ResponseDto<object>.Success(new ResultDto()
+                return ResponseDto<object>.Success(new Helpers.DTOs.ResultDto()
                 {
-                    Message = "Employee!",
+                    Message = "Admin Details",
                     Result = new
                     {
-                        request.UserId
+                        adminDetails
                     }
-                }
-);
+                });
             }
         }
     }
