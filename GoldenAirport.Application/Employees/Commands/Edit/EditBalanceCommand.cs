@@ -1,5 +1,4 @@
-﻿using GoldenAirport.Application.AdminDetails.DTOs;
-using GoldenAirport.Application.Common.Models;
+﻿using GoldenAirport.Application.Common.Models;
 using GoldenAirport.Application.Helpers.DTOs;
 
 namespace GoldenAirport.Application.Employees.Commands.Edit

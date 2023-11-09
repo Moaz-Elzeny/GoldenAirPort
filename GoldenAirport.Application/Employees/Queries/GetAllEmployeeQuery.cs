@@ -40,9 +40,12 @@ namespace GoldenAirport.Application.Employees.Queries
                 var totalCount = await query.CountAsync(cancellationToken);
 
                 var totalPages = (int)Math.Ceiling((double)totalCount / pageSize);
+                int skip = (request.PageNumber - 1) * 10;
 
 
                 var employees = await query
+                    .Skip(skip)
+                    .Take(pageSize)
                     .Select(x => new GetAllEmployeeDto
                     {
                         Id = x.Id,

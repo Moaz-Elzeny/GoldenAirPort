@@ -34,18 +34,17 @@ namespace GoldenAirport.Application.Employees.Commands.Create
                 balance.BalanceAmount = request.AddBalance.Value + balance.BalanceAmount;
                 balance.ModificationDate = DateTime.Now;
                 balance.ModifiedById = request.CurrentUserId;
-                //_dbContext.Balances.Add(balance);
-                await _dbContext.SaveChangesAsync(cancellationToken);
 
 
                 var balanceHistory = new BalanceHistory
                 {
-                    TransactionAmount = request.Balance,
-                    BalanceId = balance.Id,
+                    TransactionAmount = request.AddBalance.Value,
+                    Balance = balance,
                     CreationDate = DateTime.Now,
                     CreatedById = request.CurrentUserId
                 };
                 _dbContext.BalanceHistories.Add(balanceHistory);
+
                 await _dbContext.SaveChangesAsync(cancellationToken);
 
                 return ResponseDto<object>.Success(new ResultDto()

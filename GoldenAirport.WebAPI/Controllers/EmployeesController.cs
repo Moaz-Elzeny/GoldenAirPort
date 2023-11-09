@@ -46,13 +46,6 @@ namespace GoldenAirport.WebAPI.Controllers
         //    return !result.IsSuccess ? BadRequest(result.Error) : Ok(result.Result);
         //}
 
-        [HttpPost("CreateBalance")]
-        public async Task<IActionResult> CreateBalance([FromForm] CreateBalanceCommand command)
-        {
-            command.CurrentUserId = CurrentUserId;
-            var result = await Mediator.Send(command);
-            return !result.IsSuccess ? BadRequest(result.Error) : Ok(result.Result);
-        }
 
         [HttpPut("Update")]
         public async Task<IActionResult> UpdateEmployee(string Id, [FromForm] UpdateEmployeeDto dto)
