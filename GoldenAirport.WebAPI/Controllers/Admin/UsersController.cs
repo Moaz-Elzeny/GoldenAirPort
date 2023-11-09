@@ -22,7 +22,7 @@ namespace GoldenAirport.WebAPI.Controllers.Admin
 
 
 
-        [HttpGet("Feach")]
+        [HttpGet("Fetch")]
         [Authorize]
         public async Task<IActionResult> GetUsers()
         {
@@ -62,15 +62,15 @@ namespace GoldenAirport.WebAPI.Controllers.Admin
                 LastName = dto.LastName,
                 PhoneNumber = dto.PhoneNumber,
                 UserType = dto.UserType,
+                ProfilePicture = dto.ProfilePicture,
+                CurrentPassword = dto.CurrentPassword,
+                NewPassword = dto.NewPassword,
+                CurrentUserId = CurrentUserId
                 //ServiceFees = dto.ServiceFees,
                 //TaxValue = dto.TaxValue,
                 //BookingTime = dto.BookingTime,
                 //PrivacyPolicyAndTerms = dto.PrivacyPolicyAndTerms,
-                ProfilePicture = dto.ProfilePicture,
-                CurrentPassword = dto.CurrentPassword,
-                NewPassword = dto.NewPassword,
                 //Active = dto.Active,
-                CurrentUserId = CurrentUserId
             };
             var validationResults = await new EditUserCommandValidator().ValidateAsync(command);
 

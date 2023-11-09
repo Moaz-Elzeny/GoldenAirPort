@@ -17,7 +17,7 @@ namespace GoldenAirport.Domain.Entities.Auth
         //public decimal ServiceFees { get; set; }
         //public byte? TaxValue { get; set; }
         //public byte BookingTime { get; set; }
-
+        public int code { get; set; }
         public string CreatedById { get; set; }
         public DateTime CreationDate { get; set; }
         public string? ModifiedById { get; set; }

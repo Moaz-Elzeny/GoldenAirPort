@@ -1,5 +1,6 @@
 ﻿using GoldenAirport.Application.AdminDetails.DTOs;
 using GoldenAirport.Application.Common.Models;
+using GoldenAirport.Application.Helpers.DTOs;
 using GoldenAirport.Domain.Entities.Auth;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.UI.Services;

@@ -2,6 +2,7 @@
 using GoldenAirport.Application.Common.Models;
 using GoldenAirport.Application.Employees.Dtos;
 using GoldenAirport.Application.Helpers;
+using GoldenAirport.Application.Helpers.DTOs;
 
 namespace GoldenAirport.Application.Employees.Queries
 {

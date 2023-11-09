@@ -1,5 +1,4 @@
 ﻿using GoldenAirport.Application.Auth.Commands;
-using GoldenAirport.Application.Users.Queries.GetMyProfile;
 using GoldenAirport.Application.Users.Queries.Login;
 using GoldenAirport.Domain.Entities.Auth;
 using Hedaya.Application.Auth.Abstractions;
@@ -39,7 +38,7 @@ namespace GoldenAirport.WebAPI.Controllers.Auth
         //}
 
         [HttpPost("login")]
-        public async Task<IActionResult> Login(AuthService query)
+        public async Task<IActionResult> Login(LoginQuery query)
         {
             var result = await Mediator.Send(query);
 
@@ -81,12 +80,18 @@ namespace GoldenAirport.WebAPI.Controllers.Auth
                 return BadRequest(new { errors });
             }
 
-
             var result = await _authService.ForgetPasswordAsync(ModelState, userModel);
 
             return Ok(result);
 
-
         }
+
+        [HttpPost("CheckOTP")]
+        public async Task<IActionResult> CheckPasswordAsync([FromBody] LoginWithOTP loginWithOTP)
+        {
+            var result = await Mediator.Send(loginWithOTP);
+            return !result.IsSuccess ? BadRequest(result.Error) : Ok(result.Result);
+        }
+
     }
 }

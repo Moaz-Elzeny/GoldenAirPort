@@ -9,13 +9,16 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using NuGet.Common;
 using GoldenAirport.Application.AdminDetails.DTOs;
+using GoldenAirport.Application.Helpers.DTOs;
+using Microsoft.IdentityModel.Tokens;
+using System.Text;
 
 namespace GoldenAirport.Application.Auth.Commands
 {
     public class LoginWithOTP : IRequest<ResponseDto<object>>
     {
-        public string UserName { get; init; }
-        public string Code { get; init; }
+        public string Email { get; init; }
+        public int Code { get; init; }
     }
 }
 
@@ -36,48 +39,92 @@ public class EmployeeLoginQueryHandler : IRequestHandler<LoginWithOTP, ResponseD
 
     public async Task<ResponseDto<object>> Handle(LoginWithOTP request, CancellationToken cancellationToken)
     {
-        var user = await _userManager.FindByNameAsync(request.UserName);
-        var signIn = await _signInManager.TwoFactorSignInAsync("Email", request.Code, false, false);
-        if (signIn.Succeeded)
-        {
-            if (user != null)
-            {
-                var authClaims = new List<Claim>
-                {
-                    new Claim(ClaimTypes.Name, request.UserName),
-                    new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
-                };
-                var userRoles = await _userManager.GetRolesAsync(user);
-                foreach (var role in userRoles)
-                {
-                    authClaims.Add(new Claim(ClaimTypes.Role, role));
-                }
+        var user = await _userManager.FindByEmailAsync(request.Email);
 
-                //var jwtToken = GetToken(authClaims);
 
-                return ResponseDto<object>.Success(new ResultDto()
-                {
-                    Message = "Successfully",
-                    Result = new
-                    {
-                        Token = signIn.ToString()
-                    }
-                }
-);
-            };
-            //returning the token...
-        }
-        return ResponseDto<object>.Success(new ResultDto()
+        if (user.code == request.Code)
         {
-            Message = "Successfully",
-            Result = new
+            var jwtSecurityToken = await CreateJwtToken(user);
+            var token = new JwtSecurityTokenHandler().WriteToken(jwtSecurityToken);
+
+            return ResponseDto<object>.Success(new ResultDto()
             {
-                Token = signIn.ToString()
-            }
+                Message = "Successfully",
+                Result = new
+                {
+                    Token = token.ToString()
+                }
+            });
         }
-       );
-   
-}
+
+        //var signIn = await _signInManager.TwoFactorSignInAsync("Email", request.Code, false, false);
+        //if (signIn.Succeeded)
+        //{
+        //    if (user != null)
+        //    {
+        //        var authClaims = new List<Claim>
+        //        {
+        //            new Claim(ClaimTypes.Name, request.UserName),
+        //            new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
+        //        };
+        //        var userRoles = await _userManager.GetRolesAsync(user);
+        //        foreach (var role in userRoles)
+        //        {
+        //            authClaims.Add(new Claim(ClaimTypes.Role, role));
+        //        }
+
+        //        //var jwtToken = GetToken(authClaims);
+
+        //        return ResponseDto<object>.Success(new ResultDto()
+        //        {
+        //            Message = "Successfully",
+        //            Result = new
+        //            {
+        //                Token = signIn.ToString()
+        //            }
+        //        });
+        //    };
+        //returning the token...
+        //}
+        return ResponseDto<object>.Failure(new ErrorDto()
+        {
+            Message = "Code is wrong",
+            Code = 101
+        });
+    }
+    private async Task<JwtSecurityToken> CreateJwtToken(AppUser user)
+    {
+        var userClaims = await _userManager.GetClaimsAsync(user);
+        var roles = await _userManager.GetRolesAsync(user);
+        var roleClaims = new List<Claim>();
+
+        foreach (var role in roles)
+            roleClaims.Add(new Claim(ClaimTypes.Role, role));
+
+        var claims = new[]
+        {
+            new Claim(JwtRegisteredClaimNames.Sub, user.UserName),
+            new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
+            new Claim(JwtRegisteredClaimNames.Email, user.Email),
+            new Claim("uid", user.Id)
+        }
+        .Union(userClaims)
+        .Union(roleClaims);
+
+        var symmetricSecurityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("lG0rDWELYD0jPtoLNlc/sMVREJMh8laXd5bvVEZzUeg="));
+        var signingCredentials = new SigningCredentials(symmetricSecurityKey, SecurityAlgorithms.HmacSha256);
+
+        var jwtSecurityToken = new JwtSecurityToken(
+            issuer: "SecureApi",
+            audience: "SecureApiUser",
+            claims: claims,
+            expires: DateTime.Now.AddDays(30),
+            signingCredentials: signingCredentials);
+
+        return jwtSecurityToken;
+
+
+    }
     //return StatusCode(StatusCodes.Status404NotFound,
     //    new Response { Status = "Success", Message = $"Invalid Code" });
 }

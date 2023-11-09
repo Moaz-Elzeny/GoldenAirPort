@@ -10,6 +10,7 @@ namespace GoldenAirport.WebAPI.Controllers.Admin
     {
         public HomeController() { }
 
+        [HttpGet("Home")]
         public async Task<IActionResult> GetAdminDetails()
         {
 

@@ -1,6 +1,7 @@
 ﻿using GoldenAirport.Application.AdminDetails.DTOs;
 using GoldenAirport.Application.Common.Models;
 using GoldenAirport.Application.Helpers;
+using GoldenAirport.Application.Helpers.DTOs;
 using SendGrid.Helpers.Errors.Model;
 
 namespace GoldenAirport.Application.Packagess.Commands.Delete

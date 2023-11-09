@@ -1,10 +1,13 @@
+using GoldenAirport.Application.Auth.Services;
 using GoldenAirport.Application.Helpers;
 using GoldenAirport.Application.Infrastructure;
 using GoldenAirport.Application.Interfaces;
+using GoldenAirport.Application.Users.Queries.Login;
 using GoldenAirport.Domain.Entities.Auth;
 using GoldenAirport.Infrastructure.Presistence;
 using GoldenAirport.WebAPI.Middlewares;
 using GoldenAirport.WebAPI.Models;
+using Hedaya.Application.Auth.Abstractions;
 using Hedaya.Application.Auth.Services;
 using MediatR;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -46,6 +49,8 @@ builder.Services.AddAuthentication(options =>
     ValidAudience = builder.Configuration["JWT:Audience"],
     IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["JWT:Key"]))
 });
+
+builder.Services.AddScoped<IAuthService, AuthService>();
 
 
 builder.Services.AddIdentityCore<AppUser>(options => options.SignIn.RequireConfirmedAccount = true)

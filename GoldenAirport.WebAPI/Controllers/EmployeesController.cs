@@ -13,45 +13,45 @@ namespace GoldenAirport.WebAPI.Controllers
     public class EmployeesController : BaseController<EmployeesController>
     {
 
-        [HttpGet("feach")]
+        [HttpGet("fetch")]
         public async Task<IActionResult> GetAllEmployees([FromQuery] int pageNumber, string? keySerch)
         {
             var query = new GetAllEmployeeQuery { PageNumber = pageNumber, SearchKey = keySerch };
             var result = await Mediator.Send(query);
-            return result.Error != null ? BadRequest(result) : Ok(result);
+            return !result.IsSuccess ? BadRequest(result.Error) : Ok(result.Result);
         }
 
 
-        [HttpGet("feach1")]
+        [HttpGet("fetch1")]
         public async Task<IActionResult> GetAdminDetails(string Id)
         {
             var query = new GetEmployeeByIdQuery { Id = Id };
             var result = await Mediator.Send(query);
-            return result.Error != null ? BadRequest(result) : Ok(result);
+            return !result.IsSuccess ? BadRequest(result.Error) : Ok(result.Result);
         }
 
-        [HttpPost("Create")]
-        public async Task<IActionResult> CreateEmployee([FromForm] CreateEmployeeCommand command)
-        {
-            command.CurrentUserId = CurrentUserId;
-            var validationResults = await new CreateEmployeeCommandValidator().ValidateAsync(command);
+        //[HttpPost("Create")]
+        //public async Task<IActionResult> CreateEmployee([FromForm] CreateEmployeeCommand command)
+        //{
+        //    command.CurrentUserId = CurrentUserId;
+        //    var validationResults = await new CreateEmployeeCommandValidator().ValidateAsync(command);
 
-            if (!validationResults.IsValid)
-            {
-                return BadRequest(validationResults.Errors);
-            }
+        //    if (!validationResults.IsValid)
+        //    {
+        //        return BadRequest(validationResults.Errors);
+        //    }
 
-            var result = await Mediator.Send(command);
+        //    var result = await Mediator.Send(command);
 
-            return result.Error != null ? BadRequest(result) : Ok(result);
-        }
+        //    return !result.IsSuccess ? BadRequest(result.Error) : Ok(result.Result);
+        //}
 
         [HttpPost("CreateBalance")]
         public async Task<IActionResult> CreateBalance([FromForm] CreateBalanceCommand command)
         {
             command.CurrentUserId = CurrentUserId;
             var result = await Mediator.Send(command);
-            return result.Error != null ? BadRequest(result) : Ok(result);
+            return !result.IsSuccess ? BadRequest(result.Error) : Ok(result.Result);
         }
 
         [HttpPut("Update")]
@@ -80,22 +80,22 @@ namespace GoldenAirport.WebAPI.Controllers
 
             var result = await Mediator.Send(command);
 
-            return result.Error != null ? BadRequest(result) : Ok(result);
+            return !result.IsSuccess ? BadRequest(result.Error) : Ok(result.Result);
         }
 
 
-        [HttpDelete("Delete")]
-        public async Task<IActionResult> DeleteEmployee(string Id)
-        {
-            var command = new DeleteEmployeeCommand
-            {
-                Id = Id,
-                CurrentUserId = CurrentUserId
-            };
+        //[HttpDelete("Delete")]
+        //public async Task<IActionResult> DeleteEmployee(string Id)
+        //{
+        //    var command = new DeleteEmployeeCommand
+        //    {
+        //        Id = Id,
+        //        CurrentUserId = CurrentUserId
+        //    };
 
-            var result = await Mediator.Send(command);
+        //    var result = await Mediator.Send(command);
 
-            return result.Error != null ? BadRequest(result) : Ok(result);
-        }
+        //    return !result.IsSuccess ? BadRequest(result.Error) : Ok(result.Result);
+        //}
     }
 }

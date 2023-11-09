@@ -21,11 +21,11 @@ namespace GoldenAirport.WebAPI.Controllers.Auth
         }
 
         [HttpPost("LoginWithOTP")]
-        public async Task<IActionResult> LoginWithOTP(string code, string username)
+        public async Task<IActionResult> LoginWithOTP(int code, string username)
         {
             var query = new LoginWithOTP
             {
-                UserName = username,
+                Email = username,
                 Code = code
 
             };
