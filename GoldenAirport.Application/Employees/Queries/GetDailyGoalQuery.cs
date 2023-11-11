@@ -17,7 +17,7 @@ namespace GoldenAirport.Application.Employees.Queries
             public async Task<ResponseDto<object>> Handle(GetDailyGoalQuery request, CancellationToken cancellationToken)
             {
 
-                var PaymentOption = await _dbContext.DailyGoals
+                var dailyGoal = await _dbContext.DailyGoals
                     .Select(x => new
                     {
                         Target = x.Target,
@@ -29,10 +29,10 @@ namespace GoldenAirport.Application.Employees.Queries
 
                 return ResponseDto<object>.Success(new ResultDto()
                 {
-                    Message = "All employee",
+                    Message = "employee daily Goal",
                     Result = new
                     {
-                        PaymentOption
+                        dailyGoal
                     }
                 });
             }
