@@ -1,35 +1,36 @@
 ﻿using GoldenAirport.Application.Employees.Commands.Edit;
+using GoldenAirport.Application.Employees.Commands.Edit.Actions;
 using GoldenAirport.Application.Employees.Dtos;
 using GoldenAirport.Application.Employees.Queries;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace GoldenAirport.WebAPI.Controllers
 {
     [ApiController]
     [Route("api/v{version:apiVersion}/[controller]")]
-    public class PaymentOptionController : BaseController<PaymentOptionController>
+    public class DailyGoalController : BaseController<DailyGoalController>
     {
-        public PaymentOptionController() { }
+        public DailyGoalController() { }
 
 
         [HttpGet("fetch")]
-        public async Task<IActionResult> GetPaymentOption()
+        public async Task<IActionResult> GetDailyGoal()
         {
-            var query = new GetAllEmployeeQuery();
+            var query = new GetDailyGoalQuery();
             var result = await Mediator.Send(query);
             return !result.IsSuccess ? BadRequest(result.Error) : Ok(result.Result);
         }
 
 
         [HttpPut("Update")]
-        public async Task<IActionResult> UpdateEmployee(string Id, [FromForm] UpdatePaymentOptionDto dto)
+        public async Task<IActionResult> UpdateEmployee(string Id, [FromForm] UpdateDailyDto dto)
         {
 
-            var command = new EditPaymentOptionCommand
+            var command = new EditDailyGoalCommand
             {
                 EmployeeId = Id,
-                NameAr = dto.NameAr,
-                NameEn = dto.NameEn,
+                Target = dto.Target,
             };
 
             var result = await Mediator.Send(command);
