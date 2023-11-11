@@ -1,7 +1,7 @@
 ﻿using GoldenAirport.Application.Common.Models;
 using GoldenAirport.Application.Helpers.DTOs;
 
-namespace GoldenAirport.Application.Employees.Commands.Edit
+namespace GoldenAirport.Application.Employees.Commands.Edit.Actions
 {
     public class EditBalanceCommand : IRequest<ResponseDto<object>>
     {
@@ -26,7 +26,7 @@ namespace GoldenAirport.Application.Employees.Commands.Edit
 
                 if (request.Balance != null)
                 {
-                    balance.BalanceAmount = (balance.BalanceAmount + request.Balance.Value);
+                    balance.BalanceAmount = balance.BalanceAmount + request.Balance.Value;
                     balance.ModificationDate = DateTime.Now;
                     balance.ModifiedById = request.CurrentUserId;
                     balanceHistroy.TransactionAmount = request.Balance.Value;
