@@ -103,8 +103,7 @@ namespace GoldenAirport.Application.Users.Commands.EditUser
                         {
                             request.UserId
                         }
-                    }
-);
+                    });
                 }
                 else
                 {

@@ -3,6 +3,7 @@ using GoldenAirport.Application.Helpers.DTOs;
 using GoldenAirport.Domain.Entities.Auth;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.IdentityModel.Tokens;
+using System.Globalization;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
@@ -36,7 +37,8 @@ namespace GoldenAirport.Application.Users.Queries.Login
             {
                 return ResponseDto<object>.Failure(new ErrorDto()
                 {
-                    Message = "Invalid login credentials"
+                    Code = 101,
+                    Message = CultureInfo.CurrentCulture.TwoLetterISOLanguageName == "ar" ? "الحساب خاطئ" : "Email Not Found" 
                 });
             }
 
@@ -66,7 +68,8 @@ namespace GoldenAirport.Application.Users.Queries.Login
             {
                 return ResponseDto<object>.Failure(new ErrorDto()
                 {
-                     Message = "Invalid login credentials"
+                    Code = 103,
+                     Message = CultureInfo.CurrentCulture.TwoLetterISOLanguageName == "ar" ? "تسجيل الدخول غير صالح" : "Invalid login credentials" 
                 });
             }
         }

@@ -20,15 +20,15 @@ namespace GoldenAirport.WebAPI.Controllers
         {
             var query = new GetAllChatsQuery { Search = search };
             var result = await Mediator.Send(query);
-            return result.Error != null ? BadRequest(result) : Ok(result);
+            return !result.IsSuccess ? BadRequest(result.Error) : Ok(result.Result);
         }
 
-        [HttpGet("GetChatMessageByUserId")]
-        public async Task<ActionResult<List<ChatMessageDto>>> GetChatMessageByUserId(string Id)
+        [HttpGet("GetChatMessageByChatId")]
+        public async Task<ActionResult<List<ChatMessageDto>>> GetChatMessageByUserId(int Id)
         {
-            var chatMessageDto = new GetChatMessageQuery { UserId = Id};
+            var chatMessageDto = new GetChatMessageQuery { ChatId = Id};
             var result = await Mediator.Send(chatMessageDto);
-            return result.Error != null ? BadRequest(result) : Ok(result);
+            return !result.IsSuccess ? BadRequest(result.Error) : Ok(result.Result);
         }
 
         [HttpPost("SendMessage")]
@@ -43,7 +43,7 @@ namespace GoldenAirport.WebAPI.Controllers
             {
                 Content = dto.Content,
                 ChatId = dto.ChatId,
-                SenderId = senderId,
+                //SenderId = senderId,
                 MediaPath = dto.MediaFile,
                 MessageTypeId = dto.MessageType,
                 AdminId = dto.AdminId,
@@ -52,7 +52,7 @@ namespace GoldenAirport.WebAPI.Controllers
             };
 
             var result = await Mediator.Send(command);
-            return result.Error != null ? BadRequest(result) : Ok(result);
+            return !result.IsSuccess ? BadRequest(result.Error) : Ok(result.Result);
         }
     }
 }

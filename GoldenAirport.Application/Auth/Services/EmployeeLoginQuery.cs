@@ -5,6 +5,7 @@ using GoldenAirport.Domain.Entities.Auth;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.IdentityModel.Tokens;
+using System.Globalization;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
@@ -35,12 +36,12 @@ namespace GoldenAirport.Application.Users.Queries.Login
 
         public async Task<ResponseDto<object>> Handle(EmployeeLoginQuery request, CancellationToken cancellationToken)
         {
-            var user = await _userManager.FindByNameAsync(request.UserName);
+            var user = await _userManager.FindByEmailAsync(request.UserName);
             if (user == null)
             {
                 return ResponseDto<object>.Failure(new ErrorDto()
                 {
-                    Message = "Invalid login credentials.",
+                    Message = CultureInfo.CurrentCulture.TwoLetterISOLanguageName == "ar" ? "الحساب خاطئ" : "Email Not Found" ,
                     Code = 101
                 });
 
@@ -52,8 +53,12 @@ namespace GoldenAirport.Application.Users.Queries.Login
                 var jwtSecurityToken = await CreateJwtToken(user);
                 var token = new JwtSecurityTokenHandler().WriteToken(jwtSecurityToken);
 
+                var verificationCode = new Random().Next(1000, 9999).ToString();
+                user.code = int.Parse(verificationCode);
+
                 if (user.UserType == Domain.Enums.UserType.Employee)
                 {
+
                     user.TwoFactorEnabled = true;
                     var e = await _context.Employees.Where(e => e.AppUserId == user.Id).FirstOrDefaultAsync();
                     if (e != null)
@@ -64,11 +69,16 @@ namespace GoldenAirport.Application.Users.Queries.Login
                     await _context.SaveChangesAsync(cancellationToken);
                 }
 
-                if (user.TwoFactorEnabled)
+                if (!user.TwoFactorEnabled)
                 {
-                    var otb = await _userManager.GenerateTwoFactorTokenAsync(user, "Default");
-                    var message =  _emailSender.SendEmailAsync("moazelzeny11@gmail.com", otb , "Done");
-                    await _emailSender.SendEmailAsync(user.Email, token, otb);
+                    return ResponseDto<object>.Failure(new ErrorDto()
+                    {
+                        Message = "Invalid login credentials.",
+                        Code = 101
+                    });
+                    //var otb = await _userManager.GenerateTwoFactorTokenAsync(user, "Default");
+                    //var message =  _emailSender.SendEmailAsync("moazelzeny11@gmail.com", otb , "Done");
+                    //await _emailSender.SendEmailAsync(user.Email, token, otb);
                 }
                 //CfDJ8JoHqfjrQnJJrqGsyM4dDzAozDixOr1qDScDsge64uuMEKsarQbnJMJdXGA9QD8x7+IbtoNmRVyep3vzfdh7USrtR7ai2joA2bt9zO5aGZWdNXi7QIjaNVaohVv4fqNPk2X4XtU3yJQDHvTDZYosRMDjQO1tsH6nBn3viD+2DbT0BtqCYydGRpKDC5dtsQNrMisWa96n9fohEl4IGYGxy2ayKfGGmgm2vkcNypz9kYIP
                 return ResponseDto<object>.Success(new ResultDto()
@@ -77,7 +87,7 @@ namespace GoldenAirport.Application.Users.Queries.Login
                     Result = new
                     {
 
-                         token
+                        code = verificationCode
                     }
                 }
                 );
@@ -87,7 +97,7 @@ namespace GoldenAirport.Application.Users.Queries.Login
             {
                 return ResponseDto<object>.Failure(new ErrorDto()
                 {
-                    Message = "Invalid login credentials.",
+                    Message = CultureInfo.CurrentCulture.TwoLetterISOLanguageName == "ar" ? "تسجيل الدخول غير صالح" : "Invalid login credentials",
                     Code = 101
                 });
             }

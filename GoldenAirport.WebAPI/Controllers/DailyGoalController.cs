@@ -1,8 +1,6 @@
-﻿using GoldenAirport.Application.Employees.Commands.Edit;
-using GoldenAirport.Application.Employees.Commands.Edit.Actions;
+﻿using GoldenAirport.Application.Employees.Commands.Edit.Actions;
 using GoldenAirport.Application.Employees.Dtos;
 using GoldenAirport.Application.Employees.Queries;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace GoldenAirport.WebAPI.Controllers
@@ -24,9 +22,20 @@ namespace GoldenAirport.WebAPI.Controllers
             var result = await Mediator.Send(query);
             return !result.IsSuccess ? BadRequest(result.Error) : Ok(result.Result);
         }
+        
+        [HttpGet("GetTarget")]
+        public async Task<IActionResult> GetTarget(string Id)
+        {
+            var query = new GetTargetQuey
+            {
+                EmployeeId = Id,
+            };
+            var result = await Mediator.Send(query);
+            return !result.IsSuccess ? BadRequest(result.Error) : Ok(result.Result);
+        }
 
 
-        [HttpPut("Update")]
+        [HttpPut("UpdateTarget")]
         public async Task<IActionResult> UpdateEmployee(string Id, [FromForm] UpdateDailyDto dto)
         {
 

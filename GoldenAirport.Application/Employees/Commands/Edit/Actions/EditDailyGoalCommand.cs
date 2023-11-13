@@ -21,7 +21,7 @@ namespace GoldenAirport.Application.Employees.Commands.Edit.Actions
 
             public async Task<ResponseDto<object>> Handle(EditDailyGoalCommand request, CancellationToken cancellationToken)
             {
-                var dailyGoal = await _dbContext.DailyGoals.Where(e => e.EmployeeId == request.EmployeeId).FirstOrDefaultAsync(cancellationToken);
+                var dailyGoal = await _dbContext.DailyGoals.Where(e => e.Employee.AppUserId == request.EmployeeId).FirstOrDefaultAsync(cancellationToken);
                 if (dailyGoal == null)
                 {
                     var goal = new DailyGoal

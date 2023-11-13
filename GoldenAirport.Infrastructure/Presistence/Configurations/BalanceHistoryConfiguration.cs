@@ -8,7 +8,7 @@ namespace GoldenAirport.Infrastructure.Presistence.Configurations
     {
         public void Configure(EntityTypeBuilder<Balance> builder)
         {
-            builder.ToTable("BalanceHistories");
+            builder.ToTable("Balances");
             builder.HasKey(x => x.Id);
             builder.Property(x => x.TransactionAmount)
                 .HasColumnType("decimal(18,2)")

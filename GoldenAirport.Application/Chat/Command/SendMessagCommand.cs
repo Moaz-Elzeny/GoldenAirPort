@@ -14,7 +14,7 @@ namespace GoldenAirport.Application.Chat.Command
     {
         public int? ChatId { get; set; } 
         public string? Content { get; set; }
-        public string SenderId { get; set; }
+        //public string SenderId { get; set; }
         public IFormFile? MediaPath { get; set; }
         public MessageType MessageTypeId { get; set; }
         public string? CurrentUserId { get; set; }
@@ -52,7 +52,7 @@ namespace GoldenAirport.Application.Chat.Command
                     {
                         ChatId = (int?)newChat.Result.Result,
                         Content = request.Content,
-                        SenderId = request.SenderId,
+                        SenderId = request.CurrentUserId,
                         MessageTypeId = request.MessageTypeId,
                         CreationDate = DateTime.Now,
                         CreatedById = request.CurrentUserId
@@ -95,7 +95,7 @@ namespace GoldenAirport.Application.Chat.Command
                 {
                     ChatId = request.ChatId,
                     Content = request.Content,
-                    SenderId = request.SenderId,
+                    SenderId = request.CurrentUserId,
                     MessageTypeId = request.MessageTypeId,
                     CreationDate = DateTime.Now,
                     CreatedById = request.CurrentUserId

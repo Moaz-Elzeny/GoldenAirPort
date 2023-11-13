@@ -12,9 +12,9 @@ namespace GoldenAirport.WebAPI.Controllers.Admin
         public AdminDetailsController() { }
 
         [HttpGet("fetch1")]
-        public async Task<IActionResult> GetAdminDetails(string UserId)
+        public async Task<IActionResult> GetAdminDetails(string? UserId)
         {
-            var query = new GetAdminDetailsQuery { UserId = UserId };
+            var query = new GetAdminDetailsQuery { UserId = UserId ?? CurrentUserId };
             var result =  await Mediator.Send(query);
             return !result.IsSuccess ? BadRequest(result.Error) : Ok(result.Result);
         }

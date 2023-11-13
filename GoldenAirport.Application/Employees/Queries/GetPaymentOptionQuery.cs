@@ -1,6 +1,5 @@
 ﻿using GoldenAirport.Application.Common.Models;
 using GoldenAirport.Application.Helpers.DTOs;
-using GoldenAirport.Domain.Entities;
 
 namespace GoldenAirport.Application.Employees.Queries
 {
@@ -19,13 +18,14 @@ namespace GoldenAirport.Application.Employees.Queries
             public async Task<ResponseDto<object>> Handle(GetPaymentOptionQuery request, CancellationToken cancellationToken)
             {
 
-                var EmployeeId = await _dbContext.paymentOptionEmployee.Select(e => e.EmployeeId).FirstOrDefaultAsync();
-                var PaymentOption = await _dbContext.PaymentOptions.Where(e => request.EmployeeId.Contains(EmployeeId))
+                //var EmployeeId = await _dbContext.paymentOptionEmployee.Where(e => e.Employee.AppUserId == request.EmployeeId).Select(e => e.EmployeeId).FirstOrDefaultAsync();
+                var PaymentOption = await _dbContext.paymentOptionEmployee.Where(e => e.Employee.AppUserId == request.EmployeeId)
                     .Select(x => new
                     {
-                        NameAr = x.NameAr,
-                        NameEn = x.NameEn,
-                        Status = x.Status,
+                        Id = x.PaymentOption.Id,
+                        NameAr = x.PaymentOption.NameAr,
+                        NameEn = x.PaymentOption.NameEn,
+                        Status = x.PaymentOption.Status,
                     }).ToListAsync(cancellationToken);
 
 

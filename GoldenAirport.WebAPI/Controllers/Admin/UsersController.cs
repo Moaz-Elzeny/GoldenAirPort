@@ -29,7 +29,7 @@ namespace GoldenAirport.WebAPI.Controllers.Admin
             var query = new GetUsersQuery();
             var result = await Mediator.Send(query);
 
-            return result.Error != null ? BadRequest(result) : Ok(result);
+            return !result.IsSuccess ? BadRequest(result.Error) : Ok(result.Result);
         }
 
         [HttpPost("Create")]
@@ -45,7 +45,7 @@ namespace GoldenAirport.WebAPI.Controllers.Admin
 
             var result = await Mediator.Send(command);
 
-            return result.Error != null ? BadRequest(result) : Ok(result);
+            return !result.IsSuccess ? BadRequest(result.Error) : Ok(result.Result);
         }
 
         [HttpPut("Update")]
@@ -81,7 +81,7 @@ namespace GoldenAirport.WebAPI.Controllers.Admin
 
             var result = await Mediator.Send(command);
 
-            return result.Error != null ? BadRequest(result) : Ok(result);
+            return !result.IsSuccess ? BadRequest(result.Error) : Ok(result.Result);
         }
 
 
@@ -96,7 +96,7 @@ namespace GoldenAirport.WebAPI.Controllers.Admin
 
             var result = await Mediator.Send(command);
 
-            return result.Error != null ? BadRequest(result) : Ok(result);
+            return !result.IsSuccess ? BadRequest(result.Error) : Ok(result.Result);
         }
 
 

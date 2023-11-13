@@ -24,7 +24,7 @@ namespace GoldenAirport.Application.AdminDetails.Queries
                     {
                         ServiceFees = d.ServiceFees,
                         TaxValue = byte.Parse($"{d.TaxValue}"),
-                        BookingTime = d.BookingTime,
+                        BookingTime = $"{d.BookingTime}",
                         PrivacyPolicyAndTerms = d.PrivacyPolicyAndTerms,
                         CompanyDetails = new CompanyDetailsDto
                         {

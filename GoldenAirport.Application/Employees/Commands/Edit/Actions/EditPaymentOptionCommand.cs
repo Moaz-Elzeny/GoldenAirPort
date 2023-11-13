@@ -1,6 +1,7 @@
 ﻿using GoldenAirport.Application.Common.Models;
 using GoldenAirport.Application.Helpers.DTOs;
 using GoldenAirport.Domain.Entities;
+using System.Globalization;
 
 namespace GoldenAirport.Application.Employees.Commands.Edit
 {
@@ -21,22 +22,23 @@ namespace GoldenAirport.Application.Employees.Commands.Edit
 
             public async Task<ResponseDto<object>> Handle(EditPaymentOptionCommand request, CancellationToken cancellationToken)
             {
-                var PaymentOption = await _dbContext.Employees.Where(e => e.Id == request.EmployeeId).ToListAsync(cancellationToken) ?? throw new Exception("Employee Not Found");
+                var employee = await _dbContext.Employees.Where(e => e.AppUserId == request.EmployeeId).Select(u => u.Id).FirstOrDefaultAsync(cancellationToken) ?? throw new Exception("Employee Not Found");
 
                 if (request.paymentOptionIds != null)
                 {
                     var payment = new PaymentOptionEmployee();
-                    var removeAbout = _dbContext.paymentOptionEmployee.Where(a => a.EmployeeId == request.EmployeeId);
+                    var removeAbout = _dbContext.paymentOptionEmployee.Where(a => a.Employee.AppUserId == request.EmployeeId);
                     _dbContext.paymentOptionEmployee.RemoveRange(removeAbout);
 
                     foreach (var paymentOption in request.paymentOptionIds)
                     {
                          payment = new PaymentOptionEmployee
                         {
-                            EmployeeId = request.EmployeeId,
+                            EmployeeId = employee,
                             PaymentOptionId = paymentOption,
 
                         };
+                        PaymentOption.Status = true;
                         _dbContext.paymentOptionEmployee.Add(payment);
                     }
                     //var status = await _dbContext.PaymentOptions.Where(p => p.Id == payment.Id).ToListAsync();
@@ -45,8 +47,6 @@ namespace GoldenAirport.Application.Employees.Commands.Edit
                     //{
 
                     //}
-                }
-
 
                 await _dbContext.SaveChangesAsync(cancellationToken);
 
@@ -55,8 +55,14 @@ namespace GoldenAirport.Application.Employees.Commands.Edit
                     Message = "Updated Successfully",
                     Result = new
                     {
-                        result = PaymentOption
+                       employee
                     }
+                });
+                }
+                return ResponseDto<object>.Failure(new ErrorDto()
+                {
+                    Code = 101,
+                    Message = CultureInfo.CurrentCulture.TwoLetterISOLanguageName == "ar" ? " من فضك ادخل وسائل الدفع" : "Please Enter payment Options"
                 });
             }
         }

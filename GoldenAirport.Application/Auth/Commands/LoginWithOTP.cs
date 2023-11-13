@@ -1,16 +1,12 @@
-﻿using GoldenAirport.Application.Common.Models;
-using GoldenAirport.Application.Users.Queries.Login;
+﻿using GoldenAirport.Application.Auth.Commands;
+using GoldenAirport.Application.Common.Models;
+using GoldenAirport.Application.Helpers.DTOs;
 using GoldenAirport.Domain.Entities.Auth;
-using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Identity;
-using GoldenAirport.Application.Auth.Commands;
-using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Identity.UI.Services;
+using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
-using NuGet.Common;
-using GoldenAirport.Application.AdminDetails.DTOs;
-using GoldenAirport.Application.Helpers.DTOs;
-using Microsoft.IdentityModel.Tokens;
 using System.Text;
 
 namespace GoldenAirport.Application.Auth.Commands

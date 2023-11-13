@@ -33,7 +33,7 @@ namespace GoldenAirport.Application.AdminDetails.Commands
                         AppUserId = request.UserId,
                         ServiceFees = request.ServiceFees,
                         TaxValue = request.TaxValue,
-                        //BookingTime = request.BookingTime,
+                        BookingTime = TimeSpan.Parse(request.BookingTime),
                         PrivacyPolicyAndTerms = request.PrivacyPolicyAndTerms,
                         ModifiedById = request.CurrentUserId,
                         ModificationDate = DateTime.Now

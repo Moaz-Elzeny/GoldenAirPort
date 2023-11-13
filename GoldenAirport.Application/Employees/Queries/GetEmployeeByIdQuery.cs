@@ -20,7 +20,7 @@ namespace GoldenAirport.Application.Employees.Queries
             {
 
 
-                var employeeDetails = await _dbContext.Employees.Where(a => a.Id == request.Id)
+                var employeeDetails = await _dbContext.Employees.Where(a => a.AppUserId == request.Id)
                     .Select(d => new EmployeeByIdDto
                     {
                         ProfilePicture = d.AppUser.ProfilePicture,

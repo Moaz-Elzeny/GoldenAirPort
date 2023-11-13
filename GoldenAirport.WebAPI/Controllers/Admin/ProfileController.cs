@@ -1,4 +1,8 @@
-﻿using GoldenAirport.Application.Users.Queries.GetMyProfile;
+﻿using GoldenAirport.Application.Auth.Commands;
+using GoldenAirport.Application.Auth.DTOs;
+using GoldenAirport.Application.Users.Commands.EditUser;
+using GoldenAirport.Application.Users.DTOs;
+using GoldenAirport.Application.Users.Queries.GetMyProfile;
 using Microsoft.AspNetCore.Mvc;
 
 namespace GoldenAirport.WebAPI.Controllers.Admin
@@ -9,7 +13,7 @@ namespace GoldenAirport.WebAPI.Controllers.Admin
     {
         public ProfileController() { }
 
-        [HttpGet("profile")]
+        [HttpGet("fetch")]
         public async Task<IActionResult> GetMyProfile()
         {
             var query = new GetMyProfileQuery
@@ -20,7 +24,26 @@ namespace GoldenAirport.WebAPI.Controllers.Admin
             var result = await Mediator.Send(query);
 
 
-            return result.Error != null ? BadRequest(result.Error) : Ok(result.Result);
+            return !result.IsSuccess ? BadRequest(result.Error) : Ok(result.Result);
+        }
+
+        [HttpPost("Update")]
+        public async Task<IActionResult> UpdateUser([FromForm] UpdateUserProfileDto dto)
+        {
+
+
+            var command = new UpdateMyProfileQuery
+            {
+                CurrentUserId = CurrentUserId,
+                Email = dto.Email,
+                FirstName = dto.FirstName,
+                LastName = dto.LastName,
+                PhoneNumber = dto.PhoneNumber,
+              
+            };
+            var result = await Mediator.Send(command);
+
+            return !result.IsSuccess ? BadRequest(result.Error) : Ok(result.Result);
         }
     }
 }
