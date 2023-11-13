@@ -1,5 +1,4 @@
-﻿using GoldenAirport.Application.AdminDetails.DTOs;
-using GoldenAirport.Application.Common.Models;
+﻿using GoldenAirport.Application.Common.Models;
 using GoldenAirport.Application.Employees.Dtos;
 using GoldenAirport.Application.Helpers;
 using GoldenAirport.Application.Helpers.DTOs;
@@ -8,7 +7,7 @@ namespace GoldenAirport.Application.Employees.Queries
 {
     public class GetAllEmployeeQuery : IRequest<ResponseDto<object>>
     {
-        public int PageNumber { get; set; } = 1;
+        public int PageNumber { get; set; }
         public string? SearchKey { get; set; }
 
         public class GetAllEmployeeHandler : IRequestHandler<GetAllEmployeeQuery, ResponseDto<object>>
@@ -48,7 +47,7 @@ namespace GoldenAirport.Application.Employees.Queries
                     .Take(pageSize)
                     .Select(x => new GetAllEmployeeDto
                     {
-                        Id = x.Id,
+                        Id = x.AppUserId,
                         Email = x.AppUser.Email,
                         UserName = x.AppUser.UserName,
                         FirstName = x.AppUser.FirstName,
@@ -59,8 +58,8 @@ namespace GoldenAirport.Application.Employees.Queries
                         ProfilePicture = x.AppUser.ProfilePicture.ToString(),
                         IsActive = x.Active,
                         AgentCode = x.AgentCode,
-                        Balance = x.Balance.BalanceAmount,
-                        //DailyGoal = x.DailyGoal,
+                        Balance = x.AppUser.Balances.Sum(s=>s.BalanceAmount),
+                        DailyGoal = x.DailyGoals.Select(d => d.Goal).FirstOrDefault(),
                         ServiceFees = x.ServiceFees,
                         //Date = x.Date,
                         //PaymentMethod = x.PaymentMethod,

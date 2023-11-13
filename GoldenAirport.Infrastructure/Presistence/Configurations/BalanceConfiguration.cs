@@ -4,23 +4,23 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace GoldenAirport.Infrastructure.Presistence.Configurations
 {
-    internal class BalanceConfiguration : IEntityTypeConfiguration<Balance>
-    {
-        public void Configure(EntityTypeBuilder<Balance> builder)
-        {
-            builder.ToTable("Balances");
-            builder.HasKey(x => x.Id);
-            builder.Property(e => e.BalanceAmount)
-                .HasColumnType("decimal(18,2)")
-                .IsRequired();
+    //internal class BalanceConfiguration : IEntityTypeConfiguration<Balance>
+    //{
+    //    public void Configure(EntityTypeBuilder<Balance> builder)
+    //    {
+    //        builder.ToTable("Balances");
+    //        builder.HasKey(x => x.Id);
+    //        builder.Property(e => e.BalanceAmount)
+    //            .HasColumnType("decimal(18,2)")
+    //            .IsRequired();
 
-            builder.Property(a => a.Deleted).HasDefaultValue(false);
-            builder.HasQueryFilter(a => !a.Deleted);
-            builder.Property(a => a.CreatedById).HasMaxLength(50).IsRequired();
-            builder.Property(b => b.CreationDate).HasColumnType("DATETIME").HasDefaultValueSql("GETDATE()").IsRequired();
-            builder.Property(b => b.ModificationDate).HasColumnType("DATETIME");
-            builder.Property(a => a.ModifiedById).HasMaxLength(50);
+    //        builder.Property(a => a.Deleted).HasDefaultValue(false);
+    //        builder.HasQueryFilter(a => !a.Deleted);
+    //        builder.Property(a => a.CreatedById).HasMaxLength(50).IsRequired();
+    //        builder.Property(b => b.CreationDate).HasColumnType("DATETIME").HasDefaultValueSql("GETDATE()").IsRequired();
+    //        builder.Property(b => b.ModificationDate).HasColumnType("DATETIME");
+    //        builder.Property(a => a.ModifiedById).HasMaxLength(50);
 
-        }
-    }
+    //    }
+    //}
 }

@@ -26,6 +26,11 @@ using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
 
+if (!builder.Environment.IsDevelopment())
+{
+    builder.Environment.WebRootPath = "C:\\inetpub\\wwwroot\\GoldenAirport\\wwwroot\\";
+}
+
 // Add services to the container.
 builder.Services.AddDbContext<ApplicationDbContext>(
     dbContextOptions => dbContextOptions.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"))

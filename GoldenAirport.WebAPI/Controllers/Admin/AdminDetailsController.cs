@@ -20,7 +20,7 @@ namespace GoldenAirport.WebAPI.Controllers.Admin
         }
 
         [HttpPut("Update")]
-        public async Task<IActionResult> UpdateEmployee(string UserId, [FromForm] UpdateAdminDetailsDto dto)
+        public async Task<IActionResult> UpdateEmployee(string UserId, UpdateAdminDetailsDto dto)
         {
 
             var command = new UpdateAdminDetailsCommand

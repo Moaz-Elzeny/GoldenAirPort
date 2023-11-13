@@ -1,6 +1,4 @@
-﻿using GoldenAirport.Application.AdminDetails.DTOs;
-using GoldenAirport.Application.Common.Models;
-using GoldenAirport.Application.Helpers;
+﻿using GoldenAirport.Application.Common.Models;
 using GoldenAirport.Application.Helpers.DTOs;
 using GoldenAirport.Domain.Entities;
 
@@ -24,26 +22,37 @@ namespace GoldenAirport.Application.Employees.Commands.Create
 
             public async Task<ResponseDto<object>> Handle(CreateBalanceCommand request, CancellationToken cancellationToken)
             {
-                var balance = await _dbContext.Balances.Where(e => e.EmployeeId == request.EmployeeId).FirstOrDefaultAsync() ?? throw new Exception("Employee Not Found");
-                if (request.AddBalance == 0)
+                //var balance = await _dbContext.Balances.Where(e => e.EmployeeId == request.EmployeeId).FirstOrDefaultAsync() ?? throw new Exception("Employee Not Found");
+                //var 
+                //if (request.AddBalance == 0)
+                //{
+                //    balance.BalanceAmount = request.RebateBalance.Value - balance.BalanceAmount;
+
+                //}
+
+                //balance.BalanceAmount = request.AddBalance.Value + balance.BalanceAmount;
+                //balance.ModificationDate = DateTime.Now;
+                //balance.ModifiedById = request.CurrentUserId;
+                
+                var balanceHistory = new Balance
                 {
-                    balance.BalanceAmount = request.RebateBalance.Value - balance.BalanceAmount;
-
-                }
-
-                balance.BalanceAmount = request.AddBalance.Value + balance.BalanceAmount;
-                balance.ModificationDate = DateTime.Now;
-                balance.ModifiedById = request.CurrentUserId;
-
-
-                var balanceHistory = new BalanceHistory
-                {
-                    TransactionAmount = request.AddBalance.Value,
-                    Balance = balance,
+                    AppUserId = request.EmployeeId,
+                    TransactionAmount = request.AddBalance.Value + (request.RebateBalance.Value * -1),
                     CreationDate = DateTime.Now,
                     CreatedById = request.CurrentUserId
                 };
-                _dbContext.BalanceHistories.Add(balanceHistory);
+
+                if (request.AddBalance == 0)
+                {
+                    balanceHistory.BalanceAmount = (decimal)request.RebateBalance;
+
+                }
+                else if(request.RebateBalance == 0)            {
+
+                    balanceHistory.BalanceAmount = (decimal)request.AddBalance * -1;
+                }
+
+                _dbContext.Balances.Add(balanceHistory);
 
                 await _dbContext.SaveChangesAsync(cancellationToken);
 
@@ -52,7 +61,6 @@ namespace GoldenAirport.Application.Employees.Commands.Create
                     Message = "Created Successfully",
                     Result = new
                     {
-                        Balance = balance.Id
                     }
                 });
 

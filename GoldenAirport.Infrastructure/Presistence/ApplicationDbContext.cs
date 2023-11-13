@@ -39,6 +39,7 @@ namespace GoldenAirport.Infrastructure.Presistence
         public DbSet<PaymentOption> PaymentOptions { get; set; }
         public DbSet<PaymentOptionTrip> PaymentOptionTrips { get; set; }
         public DbSet<PaymentOptionPackage> PaymentOptionPackages { get; set; }
+        public DbSet<PaymentOptionEmployee> paymentOptionEmployee { get; set; }
         public DbSet<CityPackage> CityPackages { get; set; }
         public DbSet<Notification> Notifications { get; set; }
         public DbSet<Chat> Chats { get; set; }
@@ -46,7 +47,7 @@ namespace GoldenAirport.Infrastructure.Presistence
         public DbSet<Company> Companies { get; set; }
         public DbSet<DailyGoal> DailyGoals { get; set; }
         public DbSet<Balance> Balances { get; set; }
-        public DbSet<BalanceHistory> BalanceHistories { get; set; }
+        //public DbSet<BalanceHistory> BalanceHistories { get; set; }
         public DbSet<AdminDetails> AdminDetails { get; set; }
 
         #endregion

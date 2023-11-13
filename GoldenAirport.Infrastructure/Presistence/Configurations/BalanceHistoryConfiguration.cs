@@ -4,9 +4,9 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace GoldenAirport.Infrastructure.Presistence.Configurations
 {
-    public class BalanceHistoryConfiguration : IEntityTypeConfiguration<BalanceHistory>
+    public class BalanceHistoryConfiguration : IEntityTypeConfiguration<Balance>
     {
-        public void Configure(EntityTypeBuilder<BalanceHistory> builder)
+        public void Configure(EntityTypeBuilder<Balance> builder)
         {
             builder.ToTable("BalanceHistories");
             builder.HasKey(x => x.Id);

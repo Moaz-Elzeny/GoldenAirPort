@@ -13,6 +13,7 @@ namespace GoldenAirport.Application.Employees.Dtos
         public string? PhoneNumber { get; set; }
         public UserType? UserType { get; set; }
         public decimal? ServiceFees { get; set; }
+        public decimal? DailyGoal { get; set; }
         public string? ProfilePicture { get; set; }
         public bool? IsActive { get; set; }
         public int? AgentCode { get; set; }

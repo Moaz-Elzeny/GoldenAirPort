@@ -36,6 +36,7 @@ namespace GoldenAirport.Application.Users.Queries.GetMyProfile
 
             var userProfile = new UserProfileDto
             {
+                Id = currentUser.Id,
                 UserName = currentUser.UserName,
                 Email = currentUser.Email,
                 FirstName = currentUser.FirstName,

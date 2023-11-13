@@ -4,6 +4,7 @@ namespace GoldenAirport.Application.Auth.DTOs
 {
     public record UserProfileDto
     {
+        public string Id { get; set; }
         public string UserName { get; init; }
         public string Email { get; init; }
         public string FirstName { get; init; }

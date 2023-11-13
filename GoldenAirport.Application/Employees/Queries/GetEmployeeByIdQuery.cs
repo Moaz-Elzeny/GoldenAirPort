@@ -1,7 +1,5 @@
-﻿using GoldenAirport.Application.AdminDetails.DTOs;
-using GoldenAirport.Application.Common.Models;
+﻿using GoldenAirport.Application.Common.Models;
 using GoldenAirport.Application.Employees.Dtos;
-using GoldenAirport.Application.Helpers;
 using GoldenAirport.Application.Helpers.DTOs;
 
 namespace GoldenAirport.Application.Employees.Queries
@@ -25,7 +23,14 @@ namespace GoldenAirport.Application.Employees.Queries
                 var employeeDetails = await _dbContext.Employees.Where(a => a.Id == request.Id)
                     .Select(d => new EmployeeByIdDto
                     {
+                        ProfilePicture = d.AppUser.ProfilePicture,
+                        FirstName = d.AppUser.FirstName,
+                        LastName = d.AppUser.LastName,  
+                        Email = d.AppUser.Email,
+                        PhoneNumber = d.AppUser.PhoneNumber,
                         AgentCode = d.AgentCode,
+                        //Balance = d.Balance.BalanceAmount,
+                        Target = d.DailyGoals.Where(e => e.EmployeeId == request.Id).Select(a => a.Target).FirstOrDefault(),
                         ServiceFees = d.ServiceFees,
                         IsActive = d.Active,
                         LastLogin = d.LastLogin,

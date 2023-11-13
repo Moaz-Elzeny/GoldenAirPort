@@ -2,7 +2,8 @@
 {
     public class UpdatePaymentOptionDto
     {
-        public string? NameAr { get; set; }
-        public string? NameEn { get; set; }
+        public List<int>? paymentOptionIds { get; set; }
+        //public bool? Status { get; set; }
+
     }
 }

@@ -5,6 +5,7 @@ namespace GoldenAirport.Application.Employees.Queries
 {
     public class GetDailyGoalQuery : IRequest<ResponseDto<object>>
     {
+        public string EmployeeId { get; set; }
         public class GetDailyGoalQueryHandler : IRequestHandler<GetDailyGoalQuery, ResponseDto<object>>
         {
             private readonly IApplicationDbContext _dbContext;
@@ -16,8 +17,9 @@ namespace GoldenAirport.Application.Employees.Queries
 
             public async Task<ResponseDto<object>> Handle(GetDailyGoalQuery request, CancellationToken cancellationToken)
             {
+                //var query = await _dbContext.Employees.Where(e => e.Id == request.EmployeeId).FirstOrDefaultAsync();
 
-                var dailyGoal = await _dbContext.DailyGoals
+                var dailyGoal = await _dbContext.DailyGoals.Where(e => e.EmployeeId == request.EmployeeId)
                     .Select(x => new
                     {
                         Target = x.Target,

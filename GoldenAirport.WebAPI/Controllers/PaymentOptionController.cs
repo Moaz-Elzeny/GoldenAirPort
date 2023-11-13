@@ -13,9 +13,12 @@ namespace GoldenAirport.WebAPI.Controllers
 
 
         [HttpGet("fetch")]
-        public async Task<IActionResult> GetPaymentOption()
+        public async Task<IActionResult> GetPaymentOption(string EmployeeId)
         {
-            var query = new GetAllEmployeeQuery();
+            var query = new GetPaymentOptionQuery
+            {
+                EmployeeId = EmployeeId
+            };
             var result = await Mediator.Send(query);
             return !result.IsSuccess ? BadRequest(result.Error) : Ok(result.Result);
         }
@@ -28,8 +31,8 @@ namespace GoldenAirport.WebAPI.Controllers
             var command = new EditPaymentOptionCommand
             {
                 EmployeeId = Id,
-                NameAr = dto.NameAr,
-                NameEn = dto.NameEn,
+                paymentOptionIds = dto.paymentOptionIds,
+               //Status = dto.Status,
             };
 
             var result = await Mediator.Send(command);

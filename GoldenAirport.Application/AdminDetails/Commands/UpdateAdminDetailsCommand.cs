@@ -9,7 +9,7 @@ namespace GoldenAirport.Application.AdminDetails.Commands
         public string UserId { get; set; }
         public decimal? ServiceFees { get; set; }
         public byte? TaxValue { get; set; }
-        public TimeSpan? BookingTime { get; set; }
+        public string? BookingTime { get; set; }
         public string? PrivacyPolicyAndTerms { get; set; }
         public string? CurrentUserId { get; set; }
 
@@ -44,7 +44,7 @@ namespace GoldenAirport.Application.AdminDetails.Commands
 
                 admin.ServiceFees = request.ServiceFees ?? admin.ServiceFees;
                 admin.TaxValue = request.TaxValue ?? admin.TaxValue;
-                admin.BookingTime = request.BookingTime ?? admin.BookingTime;
+                //admin.BookingTime =(TimeSpan)TimeSpan.Parse(request.BookingTime) ?? admin.BookingTime;
                 admin.PrivacyPolicyAndTerms = request.PrivacyPolicyAndTerms ?? admin.PrivacyPolicyAndTerms;
                 admin.ModifiedById = request.CurrentUserId;
                 admin.ModificationDate = DateTime.Now;

@@ -1,14 +1,8 @@
-﻿using GoldenAirport.Application.AdminDetails.DTOs;
-using GoldenAirport.Application.Common.Models;
+﻿using GoldenAirport.Application.Common.Models;
 using GoldenAirport.Application.Helpers.DTOs;
-using GoldenAirport.Domain.Entities;
 using GoldenAirport.Domain.Entities.Auth;
-using Hedaya.Application.Auth.Models;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Mvc.ModelBinding;
 using Microsoft.IdentityModel.Tokens;
-using NuGet.Common;
-using System.Globalization;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
@@ -37,7 +31,7 @@ namespace GoldenAirport.Application.Users.Queries.Login
         public async Task<ResponseDto<object>> Handle(LoginQuery request, CancellationToken cancellationToken)
            
         {
-            var user = await _userManager.FindByNameAsync(request.UserName);
+            var user = await _userManager.FindByEmailAsync(request.UserName);
             if (user == null)
             {
                 return ResponseDto<object>.Failure(new ErrorDto()

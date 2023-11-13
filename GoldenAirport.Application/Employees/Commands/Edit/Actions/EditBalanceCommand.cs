@@ -20,19 +20,19 @@ namespace GoldenAirport.Application.Employees.Commands.Edit.Actions
 
             public async Task<ResponseDto<object>> Handle(EditBalanceCommand request, CancellationToken cancellationToken)
             {
-                var balance = await _dbContext.Balances.Where(e => e.EmployeeId == request.EmployeeId).FirstOrDefaultAsync(cancellationToken) ?? throw new Exception("Employee Not Found");
+                //var balance = await _dbContext.Balances.Where(e => e.EmployeeId == request.EmployeeId).FirstOrDefaultAsync(cancellationToken) ?? throw new Exception("Employee Not Found");
 
-                var balanceHistroy = await _dbContext.BalanceHistories.Where(h => h.BalanceId == balance.Id).FirstOrDefaultAsync(cancellationToken);
+                //var balanceHistroy = await _dbContext.BalanceHistories.Where(h => h.Id == balance.Id).FirstOrDefaultAsync(cancellationToken);
 
-                if (request.Balance != null)
-                {
-                    balance.BalanceAmount = balance.BalanceAmount + request.Balance.Value;
-                    balance.ModificationDate = DateTime.Now;
-                    balance.ModifiedById = request.CurrentUserId;
-                    balanceHistroy.TransactionAmount = request.Balance.Value;
-                    balanceHistroy.ModificationDate = DateTime.Now;
-                    balanceHistroy.ModifiedById = request.CurrentUserId;
-                }
+                //if (request.Balance != null)
+                //{
+                //    balance.BalanceAmount = balance.BalanceAmount + request.Balance.Value;
+                //    balance.ModificationDate = DateTime.Now;
+                //    balance.ModifiedById = request.CurrentUserId;
+                //    balanceHistroy.TransactionAmount = request.Balance.Value;
+                //    balanceHistroy.ModificationDate = DateTime.Now;
+                //    balanceHistroy.ModifiedById = request.CurrentUserId;
+                //}
 
                 await _dbContext.SaveChangesAsync(cancellationToken);
 
@@ -41,7 +41,7 @@ namespace GoldenAirport.Application.Employees.Commands.Edit.Actions
                     Message = "Updated Successfully",
                     Result = new
                     {
-                        Balance = balance.Id
+                        //Balance = balance.Id
                     }
                 });
             }

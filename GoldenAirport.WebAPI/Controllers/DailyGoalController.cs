@@ -15,9 +15,12 @@ namespace GoldenAirport.WebAPI.Controllers
 
 
         [HttpGet("fetch")]
-        public async Task<IActionResult> GetDailyGoal()
+        public async Task<IActionResult> GetDailyGoal(string Id)
         {
-            var query = new GetDailyGoalQuery();
+            var query = new GetDailyGoalQuery 
+            {
+                EmployeeId = Id,
+            };
             var result = await Mediator.Send(query);
             return !result.IsSuccess ? BadRequest(result.Error) : Ok(result.Result);
         }
@@ -29,6 +32,7 @@ namespace GoldenAirport.WebAPI.Controllers
 
             var command = new EditDailyGoalCommand
             {
+                CurrentUserId = CurrentUserId,
                 EmployeeId = Id,
                 Target = dto.Target,
             };

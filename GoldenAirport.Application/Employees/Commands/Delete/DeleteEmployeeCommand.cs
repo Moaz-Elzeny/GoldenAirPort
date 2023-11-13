@@ -26,10 +26,10 @@ namespace GoldenAirport.Application.Employees.Commands.Delete
                 employee.ModificationDate = DateTime.Now;
                 employee.ModifiedById = request.CurrentUserId;
                 
-                var balsnce = employee.Balance;
-                balsnce.Deleted = true;
-                balsnce.ModificationDate = DateTime.Now;
-                balsnce.ModifiedById = request.CurrentUserId;
+                //var balsnce = employee.Balance;
+                //balsnce.Deleted = true;
+                //balsnce.ModificationDate = DateTime.Now;
+                //balsnce.ModifiedById = request.CurrentUserId;
                 
                 await _dbContext.SaveChangesAsync(cancellationToken);
 
