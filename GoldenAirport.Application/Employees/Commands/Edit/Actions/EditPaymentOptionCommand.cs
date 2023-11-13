@@ -38,7 +38,7 @@ namespace GoldenAirport.Application.Employees.Commands.Edit
                             PaymentOptionId = paymentOption,
 
                         };
-                        PaymentOption.Status = true;
+                        payment.PaymentOption.Status = true;
                         _dbContext.paymentOptionEmployee.Add(payment);
                     }
                     //var status = await _dbContext.PaymentOptions.Where(p => p.Id == payment.Id).ToListAsync();
