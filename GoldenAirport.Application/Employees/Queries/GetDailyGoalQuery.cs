@@ -22,7 +22,7 @@ namespace GoldenAirport.Application.Employees.Queries
                 var dailyGoal = await _dbContext.DailyGoals.Where(e => e.Employee.AppUserId == request.EmployeeId)
                     .Select(x => new
                     {
-                        Name = x.Employee.AppUser.FirstName + " " + x.Employee.AppUser.LastName,
+                        //Name = x.Employee.AppUser.FirstName + " " + x.Employee.AppUser.LastName,
                         Target = x.Target,
                         Date = x.Date,
                         Goale = x.Goal

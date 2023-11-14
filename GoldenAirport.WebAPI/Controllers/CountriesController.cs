@@ -3,8 +3,6 @@ using GoldenAirport.Application.Countries.Commands.Delete;
 using GoldenAirport.Application.Countries.Commands.Edit;
 using GoldenAirport.Application.Countries.Dtos;
 using GoldenAirport.Application.Countries.Queries;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 
 namespace GoldenAirport.WebAPI.Controllers
@@ -23,7 +21,7 @@ namespace GoldenAirport.WebAPI.Controllers
         {
             var query = new GetCountriesQuery { PageNumber = pageNumber };
             var result = await Mediator.Send(query);
-            return result.Error != null ? BadRequest(result) : Ok(result);
+            return !result.IsSuccess ? BadRequest(result.Error) : Ok(result.Result);
         }
 
         [HttpPost("Create")]
@@ -31,7 +29,7 @@ namespace GoldenAirport.WebAPI.Controllers
         {
             command.CurrentUserId = CurrentUserId;
             var result = await Mediator.Send(command);
-            return result.Error != null ? BadRequest(result) : Ok(result);
+            return !result.IsSuccess ? BadRequest(result.Error) : Ok(result.Result);
         }
 
         [HttpPut("Update")]
@@ -46,7 +44,7 @@ namespace GoldenAirport.WebAPI.Controllers
             }; 
 
             var result = await Mediator.Send(editCountry);
-            return result.Error != null ? BadRequest(result) : Ok(result);
+            return !result.IsSuccess ? BadRequest(result.Error) : Ok(result.Result);
         }
 
         [HttpDelete("Delete")]
@@ -55,7 +53,7 @@ namespace GoldenAirport.WebAPI.Controllers
             var deleteCountry = new DeleteCountryCommand { Id = Id };
             var result = await Mediator.Send(deleteCountry);
 
-            return result.Error != null ? BadRequest(result) : Ok(result);
+            return !result.IsSuccess ? BadRequest(result.Error) : Ok(result.Result);
         }
     }
 }

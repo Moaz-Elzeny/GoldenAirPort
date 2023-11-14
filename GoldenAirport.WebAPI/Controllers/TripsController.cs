@@ -34,7 +34,7 @@ namespace GoldenAirport.WebAPI.Controllers
                 Guests = Guests
             };
             var result = await Mediator.Send(query);
-            return result.Error != null ? BadRequest(result) : Ok(result);
+            return !result.IsSuccess ? BadRequest(result.Error) : Ok(result.Result);
         }
 
         [HttpPost("Create")]
@@ -50,7 +50,7 @@ namespace GoldenAirport.WebAPI.Controllers
 
             var result = await Mediator.Send(command);
 
-            return result.Error != null ? BadRequest(result) : Ok(result);
+            return !result.IsSuccess ? BadRequest(result.Error) : Ok(result.Result);
 
         }
 
@@ -81,7 +81,7 @@ namespace GoldenAirport.WebAPI.Controllers
             }
 
             var result = await Mediator.Send(command);
-            return result.Error != null ? BadRequest(result) : Ok(result);
+            return !result.IsSuccess ? BadRequest(result.Error) : Ok(result.Result);
         }
 
         [HttpDelete("Delete")]
@@ -90,7 +90,7 @@ namespace GoldenAirport.WebAPI.Controllers
             var deleteTrip = new DeleteTripCommand { Id = Id };
             var result = await Mediator.Send(deleteTrip);
 
-            return result.Error != null ? BadRequest(result) : Ok(result);
+            return !result.IsSuccess ? BadRequest(result.Error) : Ok(result.Result);
         }
         
         [HttpDelete("DeleteActions")]
@@ -107,7 +107,7 @@ namespace GoldenAirport.WebAPI.Controllers
             };
             var result = await Mediator.Send(deleteTripActios);
 
-            return result.Error != null ? BadRequest(result) : Ok(result);
+            return !result.IsSuccess ? BadRequest(result.Error) : Ok(result.Result);
         }
     }
 }
