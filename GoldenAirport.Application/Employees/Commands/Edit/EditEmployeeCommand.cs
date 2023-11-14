@@ -8,7 +8,7 @@ namespace GoldenAirport.Application.Employees.Commands.Edit
     public class EditEmployeeCommand : IRequest<ResponseDto<object>>
     {
         public string Id { get; set; }
-        public bool? IsActive { get; set; }
+        public string? IsActive { get; set; }
         public decimal? ServiceFees { get; set; }
         public string? CurrentUserId { get; set; }
         //public int? AgentCode { get; set; }
@@ -41,7 +41,7 @@ namespace GoldenAirport.Application.Employees.Commands.Edit
 
                 if (request.IsActive != null)
                 {
-                    employee.Active = request.IsActive.Value;
+                    employee.Active = bool.Parse(request.IsActive);
                 }
 
                 employee.ModifiedById = request.CurrentUserId;

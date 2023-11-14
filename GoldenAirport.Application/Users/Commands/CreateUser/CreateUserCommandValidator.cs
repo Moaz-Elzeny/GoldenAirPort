@@ -11,9 +11,9 @@ namespace GoldenAirport.Application.Users.Commands.CreateUser
         {
             _userManager = userManager;
 
-            RuleFor(x => x.UserName)
-                 .NotEmpty().WithMessage("Username is required.")
-                 .MustAsync(BeUniqueUserName).WithMessage("Username is already taken.");
+            //RuleFor(x => x.UserName)
+            //     .NotEmpty().WithMessage("Username is required.")
+            //     .MustAsync(BeUniqueUserName).WithMessage("Username is already taken.");
 
             RuleFor(x => x.Email)
                 .NotEmpty().WithMessage("Email is required.")

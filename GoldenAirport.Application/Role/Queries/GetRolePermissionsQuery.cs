@@ -1,6 +1,7 @@
 ﻿using GoldenAirport.Application.Common.Models;
 using GoldenAirport.Application.Helpers.DTOs;
 using GoldenAirport.Application.Role.DTOs;
+using GoldenAirport.Domain.Entities.Auth;
 using Microsoft.AspNetCore.Identity;
 using SendGrid.Helpers.Errors.Model;
 
@@ -8,28 +9,31 @@ namespace GoldenAirport.Application.Role.Queries
 {
     public class GetRolePermissionsQuery : IRequest<ResponseDto<object>>
     {
-        public string RoleId { get; set; }
+        public string UserId { get; set; }
 
         public class GetRolePermissionsQueryHandler : IRequestHandler<GetRolePermissionsQuery, ResponseDto<object>>
         {
             private readonly RoleManager<IdentityRole> _roleManager;
+            private readonly UserManager<AppUser> _userManager;
 
-            public GetRolePermissionsQueryHandler(RoleManager<IdentityRole> roleManager)
+
+            public GetRolePermissionsQueryHandler(RoleManager<IdentityRole> roleManager, UserManager<AppUser> userManager)
             {
                 _roleManager = roleManager;
+                _userManager = userManager;
             }
 
             public async Task<ResponseDto<object>> Handle(GetRolePermissionsQuery request, CancellationToken cancellationToken)
             {
-                var role = await _roleManager.FindByIdAsync(request.RoleId) ?? throw new NotFoundException("Role not found");
+                var role = await _userManager.FindByIdAsync(request.UserId) ?? throw new NotFoundException("Role not found");
 
-                var roleClaims = await _roleManager.GetClaimsAsync(role);
+                var roleClaims = await _userManager.GetClaimsAsync(role);
                 var allClaims = Infrastructure.Permissions.GenerateAllPermissions();
 
                 var allPermissions = allClaims.Select(p => new
                 {
-                    Module = p.Split('.')[1],
-                    Permission = p.Split('.')[2],
+                    Module = p.Split(),
+                    Permission = p.Split(),
                     IsSelected = roleClaims.Any(c => c.Value == p)
                 }).ToList();
 
@@ -43,8 +47,8 @@ namespace GoldenAirport.Application.Role.Queries
 
                 var Result = new
                 {
-                    RoleId = request.RoleId,
-                    RoleName = role.Name,
+                    UserId = request.UserId,
+                    UserName = role.FirstName + "" + role.LastName,
                     //RoleClaims = allPermissions,
                     RoleClaimsFormat = allPermissionsFormat,
                 };

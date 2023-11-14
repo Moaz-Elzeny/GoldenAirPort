@@ -4,7 +4,6 @@ using GoldenAirport.Domain.Entities.Auth;
 using Hedaya.Application.Auth.Abstractions;
 using Hedaya.Application.Auth.Models;
 using Hedaya.Application.Auth.Validators;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using System.Globalization;

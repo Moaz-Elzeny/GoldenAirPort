@@ -11,7 +11,7 @@ namespace GoldenAirport.WebAPI.Controllers
     {
         public PaymentOptionController() { }
 
-
+        //[Authorize(Permissions.Flight.Actions)]
         [HttpGet("fetch")]
         public async Task<IActionResult> GetPaymentOption(string EmployeeId)
         {

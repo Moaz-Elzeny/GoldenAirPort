@@ -30,20 +30,20 @@ namespace GoldenAirport.WebAPI.Controllers.Admin
 
         [HttpGet("fetch")]
 
-        public async Task<IActionResult> GetRolePermissions(string roleId)
+        public async Task<IActionResult> GetRolePermissions(string userId)
         {
-            var query = new GetRolePermissionsQuery { RoleId = roleId };
+            var query = new GetRolePermissionsQuery { UserId = userId };
             var permissions = await Mediator.Send(query);
 
             return !permissions.IsSuccess ? BadRequest(permissions.Error) : Ok(permissions.Result);
         }
 
         [HttpPost("Update")]
-        public async Task<IActionResult> UpdateRolePermissions(string roleId, List<CheckBoxDto> RoleClaims)
+        public async Task<IActionResult> UpdateRolePermissions(string userId, List<CheckBoxDto> RoleClaims)
         {
             var result = await Mediator.Send(new ManagePermissionsCommand
             {
-                RoleId = roleId,
+                UserId = userId,
                 SelectedPermissions = RoleClaims
             });
 

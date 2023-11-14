@@ -15,6 +15,7 @@ namespace GoldenAirport.Application.Users.Queries.Login
 {
     public record EmployeeLoginQuery : IRequest<ResponseDto<object>>
     {
+        public int AgentCode { get; set; }
         public string UserName { get; init; }
         public string Password { get; init; }
     }
@@ -36,6 +37,8 @@ namespace GoldenAirport.Application.Users.Queries.Login
 
         public async Task<ResponseDto<object>> Handle(EmployeeLoginQuery request, CancellationToken cancellationToken)
         {
+            
+
             var user = await _userManager.FindByEmailAsync(request.UserName);
             if (user == null)
             {
@@ -45,6 +48,15 @@ namespace GoldenAirport.Application.Users.Queries.Login
                     Code = 101
                 });
 
+            }
+            var agentCode = await _context.Employees.Where(a => a.AgentCode == request.AgentCode && a.AppUser.Email == user.Email).FirstOrDefaultAsync();
+            if (agentCode == null)
+            {
+                return ResponseDto<object>.Failure(new ErrorDto()
+                {
+                    Message = CultureInfo.CurrentCulture.TwoLetterISOLanguageName == "ar" ? "الموظف غير موجود " : "Employee Not Found",
+                    Code = 101
+                });
             }
 
             var result = await _userManager.CheckPasswordAsync(user, request.Password);

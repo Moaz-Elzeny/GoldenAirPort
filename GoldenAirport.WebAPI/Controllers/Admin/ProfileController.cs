@@ -1,7 +1,5 @@
 ﻿using GoldenAirport.Application.Auth.Commands;
 using GoldenAirport.Application.Auth.DTOs;
-using GoldenAirport.Application.Users.Commands.EditUser;
-using GoldenAirport.Application.Users.DTOs;
 using GoldenAirport.Application.Users.Queries.GetMyProfile;
 using Microsoft.AspNetCore.Mvc;
 

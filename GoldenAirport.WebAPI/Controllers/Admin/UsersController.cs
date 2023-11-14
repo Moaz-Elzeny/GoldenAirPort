@@ -56,16 +56,16 @@ namespace GoldenAirport.WebAPI.Controllers.Admin
             var command = new EditUserCommand
             {
                 UserId = Id,
-                UserName = dto.UserName,
                 Email = dto.Email,
                 FirstName = dto.FirstName,
                 LastName = dto.LastName,
                 PhoneNumber = dto.PhoneNumber,
                 UserType = dto.UserType,
                 ProfilePicture = dto.ProfilePicture,
-                CurrentPassword = dto.CurrentPassword,
-                NewPassword = dto.NewPassword,
                 CurrentUserId = CurrentUserId
+                //UserName = dto.UserName,
+                //NewPassword = dto.NewPassword,
+                //CurrentPassword = dto.CurrentPassword,
                 //ServiceFees = dto.ServiceFees,
                 //TaxValue = dto.TaxValue,
                 //BookingTime = dto.BookingTime,

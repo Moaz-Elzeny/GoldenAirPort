@@ -1,7 +1,4 @@
-﻿using GoldenAirport.Application.AdminDetails.Queries;
-using GoldenAirport.Application.Employees.Commands.Create;
-using GoldenAirport.Application.Employees.Commands.Delete;
-using GoldenAirport.Application.Employees.Commands.Edit;
+﻿using GoldenAirport.Application.Employees.Commands.Edit;
 using GoldenAirport.Application.Employees.Dtos;
 using GoldenAirport.Application.Employees.Queries;
 using Microsoft.AspNetCore.Mvc;

@@ -2,7 +2,7 @@
 {
     public class UpdateEmployeeDto
     {     
-        public bool? IsActive { get; set; }
+        public string? IsActive { get; set; }
         public decimal? ServiceFees { get; set; }
         //public string AppUserId { get; set; }
         //public int? AgentCode { get; set; }

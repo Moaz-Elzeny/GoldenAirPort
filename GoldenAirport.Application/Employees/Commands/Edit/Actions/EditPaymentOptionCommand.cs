@@ -32,32 +32,37 @@ namespace GoldenAirport.Application.Employees.Commands.Edit
 
                     foreach (var paymentOption in request.paymentOptionIds)
                     {
-                         payment = new PaymentOptionEmployee
+                        payment = new PaymentOptionEmployee
                         {
                             EmployeeId = employee,
                             PaymentOptionId = paymentOption,
+                            Status = true
 
                         };
-                        payment.PaymentOption.Status = true;
                         _dbContext.paymentOptionEmployee.Add(payment);
                     }
-                    //var status = await _dbContext.PaymentOptions.Where(p => p.Id == payment.Id).ToListAsync();
+                    //await _dbContext.SaveChangesAsync(cancellationToken);
 
-                    //foreach (var s in collection)
+                    //var f = _dbContext.PaymentOptions.Where(f => f.Status == true).ToList();
+                    //f.ForEach(f => f.Status = false);
+
+                    //var paymentOptionId = await _dbContext.PaymentOptions.Where(p => request.paymentOptionIds.Contains(p.Id)).ToListAsync();
+
+                    //foreach (var status in paymentOptionId)
                     //{
-
+                    //    status.Status = true;
                     //}
 
-                await _dbContext.SaveChangesAsync(cancellationToken);
+                    await _dbContext.SaveChangesAsync(cancellationToken);
 
-                return ResponseDto<object>.Success(new ResultDto()
-                {
-                    Message = "Updated Successfully",
-                    Result = new
+                    return ResponseDto<object>.Success(new ResultDto()
                     {
-                       employee
-                    }
-                });
+                        Message = "Updated Successfully",
+                        Result = new
+                        {
+                            employee
+                        }
+                    });
                 }
                 return ResponseDto<object>.Failure(new ErrorDto()
                 {

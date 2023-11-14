@@ -1,8 +1,6 @@
-﻿using GoldenAirport.Application.AdminDetails.DTOs;
-using GoldenAirport.Application.Common.Models;
+﻿using GoldenAirport.Application.Common.Models;
 using GoldenAirport.Application.Helpers;
 using GoldenAirport.Application.Helpers.DTOs;
-using GoldenAirport.Domain.Entities;
 using GoldenAirport.Domain.Entities.Auth;
 using GoldenAirport.Domain.Enums;
 using Microsoft.AspNetCore.Hosting;
@@ -14,11 +12,11 @@ namespace GoldenAirport.Application.Users.Commands.EditUser
     public record EditUserCommand : IRequest<ResponseDto<object>>
     {
         public string UserId { get; init; }
-        public string? UserName { get; init; }
+        //public string? UserName { get; init; }
         public string? Email { get; init; }
         public string? CurrentPassword { get; init; }
-        public string? NewPassword { get; init; }
-        public string? ConfirmNewPassword { get; init; }
+        //public string? NewPassword { get; init; }
+        //public string? ConfirmNewPassword { get; init; }
         public string? FirstName { get; init; }
         public string? LastName { get; init; }
         public string? PhoneNumber { get; init; }
@@ -49,8 +47,8 @@ namespace GoldenAirport.Application.Users.Commands.EditUser
                     return ResponseDto<object>.Failure(new ErrorDto() { Message = $"User not found {request.UserId}", Code = 101 });
 
 
-                if (request.UserName != null)
-                    user.UserName = request.UserName;
+                if (request.Email != null)
+                    user.UserName = request.Email;
 
                 if (request.Email != null)
                     user.Email = request.Email;
@@ -83,15 +81,15 @@ namespace GoldenAirport.Application.Users.Commands.EditUser
                     user.ProfilePicture = await FileHelper.SaveImageAsync(request.ProfilePicture, _environment);
                 }
 
-                if (request.CurrentPassword != null)
-                {
-                    var x = await _userManager.ChangePasswordAsync(user, request.CurrentPassword, request.NewPassword);
+                //if (request.CurrentPassword != null)
+                //{
+                //    var x = await _userManager.ChangePasswordAsync(user, request.CurrentPassword, request.NewPassword);
 
-                    if (!x.Succeeded)
-                    {
-                        return ResponseDto<object>.Failure(new ErrorDto() { Message = $"Password is Wrong .. Please return password {request.CurrentUserId}", Code = 101 });
-                    }
-                }
+                //    if (!x.Succeeded)
+                //    {
+                //        return ResponseDto<object>.Failure(new ErrorDto() { Message = $"Password is Wrong .. Please return password {request.CurrentUserId}", Code = 101 });
+                //    }
+                //}
                 var result = await _userManager.UpdateAsync(user);
 
                 if (result.Succeeded)
