@@ -3,6 +3,7 @@ using GoldenAirport.Application.TripRegistrations.Commands.Delete;
 using GoldenAirport.Application.TripRegistrations.Commands.Edit;
 using GoldenAirport.Application.TripRegistrations.Dtos;
 using GoldenAirport.Application.TripRegistrations.Queries;
+using GoldenAirport.Domain.Entities;
 using Microsoft.AspNetCore.Mvc;
 
 namespace GoldenAirport.WebAPI.Controllers
@@ -16,7 +17,7 @@ namespace GoldenAirport.WebAPI.Controllers
         }
 
 
-        [HttpGet("AllTripRegistrations")]
+        [HttpGet("fetch")]
         public async Task<IActionResult> GetAllTrips
             ( int pageNumber )
         {
@@ -28,14 +29,25 @@ namespace GoldenAirport.WebAPI.Controllers
             return !result.IsSuccess ? BadRequest(result.Error) : Ok(result.Result);
         }
         
-        [HttpGet("AllTripRegistrationsById")]
+        [HttpGet("fetch1")]
         public async Task<IActionResult> GetTripById
-            ( int pageNumber, int id )
+            (int id )
         {
             var query = new GetTripRegistrationByIdQuery
             {
-                PageNumber = pageNumber,
                 Id = id
+            };
+            var result = await Mediator.Send(query);
+            return !result.IsSuccess ? BadRequest(result.Error) : Ok(result.Result);
+        }
+        
+        [HttpGet("GetAdult")]
+        public async Task<IActionResult> GetAdult
+            (int TripRegistrationId)
+        {
+            var query = new GetAdultQuery
+            {
+                TripRegistrationId = TripRegistrationId
             };
             var result = await Mediator.Send(query);
             return !result.IsSuccess ? BadRequest(result.Error) : Ok(result.Result);
@@ -52,6 +64,17 @@ namespace GoldenAirport.WebAPI.Controllers
                 return BadRequest(validationResults.Errors);
             }
 
+            var result = await Mediator.Send(command);
+
+            return !result.IsSuccess ? BadRequest(result.Error) : Ok(result.Result);
+
+        }
+        
+        [HttpPost("CreateAdult")]
+        public async Task<IActionResult> CreateAdult( CreateAdultCommand command)
+        {
+            command.CurrentUserId = CurrentUserId;
+            
             var result = await Mediator.Send(command);
 
             return !result.IsSuccess ? BadRequest(result.Error) : Ok(result.Result);

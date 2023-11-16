@@ -6,13 +6,13 @@ namespace GoldenAirport.Application.TripRegistrations.Commands.Create
     {
         public CreateTripRegistrationCommandValidator()
         {
-            RuleFor(t => t.PackageCost)
-                .NotEmpty()
-                .WithMessage("Please Enter The Package Cost");
+            //RuleFor(t => t.AdminFees)
+            //    .NotEmpty()
+            //    .WithMessage("Please Enter The Package Cost");
 
-            RuleFor(t => t.TaxesAndFees)
-               .NotEmpty()
-               .WithMessage("Please Enter Taxes And Fees");
+            //RuleFor(t => t.TaxesAndFees)
+            //   .NotEmpty()
+            //   .WithMessage("Please Enter Taxes And Fees");
 
             RuleFor(t => t.Email)
                 .EmailAddress()

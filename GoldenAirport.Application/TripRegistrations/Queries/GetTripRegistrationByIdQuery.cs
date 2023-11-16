@@ -9,7 +9,6 @@ namespace GoldenAirport.Application.TripRegistrations.Queries
 {
     public class GetTripRegistrationByIdQuery : IRequest<ResponseDto<object>>
     {
-        public int PageNumber { get; set; } = 1;
         public int Id { get; set; }
 
 
@@ -25,16 +24,10 @@ namespace GoldenAirport.Application.TripRegistrations.Queries
             public async Task<ResponseDto<object>> Handle(GetTripRegistrationByIdQuery request, CancellationToken cancellationToken)
             {
 
-                var pageNumber = request.PageNumber <= 0 ? 1 : request.PageNumber;
-                var pageSize = 10;
-
                 var query = _dbContext.TripRegistrations
                     .Include(r => r.Adults)
                     .AsQueryable();
 
-                var totalCount = await query.CountAsync(cancellationToken);
-
-                var totalPages = (int)Math.Ceiling((double)totalCount / pageSize);
                 var TitleValues = Enum.GetValues<Title>();
 
                 var TripRegistrations = await query
@@ -42,46 +35,42 @@ namespace GoldenAirport.Application.TripRegistrations.Queries
                     .Select(t => new GetTripRegistrationDto
                     {
                         Id = t.Id,
-                        PackageCost = t.PackageCost,
-                        TaxesAndFees = t.TaxesAndFees,
-                        OtherFees = t.OutherFees,
+                        TripId = t.TripId,
+                        AdultCost = t.AdultCost,
+                        ChildCost = t.ChildCost,
+                        AdminFees = t.AdminFees ?? 0,
+                        EmployeeFees = t.EmployeeFees,
+                        Taxes = t.Taxes,
+                       //OtherFees = t.OutherFees,
                         TotalAmount = t.TotalAmount,
                         Email = t.Email,
                         PhoneNumber = t.PhoneNumber,
 
-                        Title = t.Adults.FirstOrDefault().Title,
-                        TitleValue = EnumHelper.GetEnumLocalizedDescription<Title>(t.Adults.FirstOrDefault().Title),
-                        FirstName = t.Adults.FirstOrDefault().FirstName,
-                        LastName = t.Adults.FirstOrDefault().LastName,
-                        AdultPassportNo = t.Adults.FirstOrDefault().PassportNo,
-                        DateOfBirth = t.Adults.FirstOrDefault().DateOfBirth,
-
+                        Title = t.Adults.Select(a => a.Title).FirstOrDefault(),
+                        TitleValue = EnumHelper.GetEnumLocalizedDescription<Title>(t.Adults.Select(a => a.Title).FirstOrDefault()),
+                        FirstName = t.Adults.Select(a => a.FirstName).FirstOrDefault(),
+                        LastName = t.Adults.Select(a => a.LastName).FirstOrDefault(),
+                        AdultPassportNo = t.Adults.Select(a => a.PassportNo).FirstOrDefault(),
+                        DateOfBirth = t.Adults.Select(a => a.DateOfBirth).FirstOrDefault(),
+                        NoOfAdults = t.Adults.Count(),
+                        ChildPassportNo = t.Children.Select(c => c.PassportNo).FirstOrDefault(),
 
                     }).ToListAsync(cancellationToken);
-
-                var paginatedList = new PaginatedList<GetTripRegistrationDto>
-                {
-                    Items = TripRegistrations,
-                    TotalCount = totalCount,
-                    PageNumber = pageNumber,
-                    PageSize = pageSize,
-                    TotalPages = totalPages
-                };
 
                 if (TripRegistrations.Count != 0)
                 {
                     return ResponseDto<object>.Success(new ResultDto()
                     {
-                        Message = "All Trip Registration!",
+                        Message = "Trip Registration!",
                         Result = new
                         {
-                            paginatedList
+                            TripRegistrations
                         }
                     });
                 }
                 return ResponseDto<object>.Failure(new ErrorDto()
                 {
-                    Message = "Some Thenk Error!",
+                    Message = "Something Error!",
                     Code = 101
                 });
             }

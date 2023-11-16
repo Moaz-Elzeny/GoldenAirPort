@@ -17,6 +17,7 @@ namespace GoldenAirport.Domain.Entities
         public decimal Price { get; set; }
         public decimal ChildPrice { get; set; }
         public byte Guests { get; set; }
+        public byte RemainingGuests { get; set; }
         public TimeSpan TripHours { get; set;}
         //public paymentMethod PaymentMethod { get; set; }
 

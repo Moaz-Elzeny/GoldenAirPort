@@ -4,6 +4,7 @@ using GoldenAirport.Infrastructure.Presistence;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace GoldenAirport.Infrastructure.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20231116135238_RelationBetweenEmployeeAndTripRegistration")]
+    partial class RelationBetweenEmployeeAndTripRegistration
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -856,6 +859,30 @@ namespace GoldenAirport.Infrastructure.Migrations
                     b.ToTable("Employee", (string)null);
                 });
 
+            modelBuilder.Entity("GoldenAirport.Domain.Entities.EmployeeTripRegistration", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("EmployeeId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<int>("TripRegistrationId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("EmployeeId");
+
+                    b.HasIndex("TripRegistrationId");
+
+                    b.ToTable("EmployeeTripRegistration");
+                });
+
             modelBuilder.Entity("GoldenAirport.Domain.Entities.Notification", b =>
                 {
                     b.Property<int>("Id")
@@ -1187,9 +1214,6 @@ namespace GoldenAirport.Infrastructure.Migrations
                     b.Property<decimal>("AdultCost")
                         .HasColumnType("decimal(18,2)");
 
-                    b.Property<string>("AppUserId")
-                        .HasColumnType("nvarchar(450)");
-
                     b.Property<decimal?>("ChildCost")
                         .HasColumnType("decimal(18,2)");
 
@@ -1241,8 +1265,6 @@ namespace GoldenAirport.Infrastructure.Migrations
                         .HasColumnType("int");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("AppUserId");
 
                     b.HasIndex("TripId");
 
@@ -1603,6 +1625,25 @@ namespace GoldenAirport.Infrastructure.Migrations
                     b.Navigation("AppUser");
                 });
 
+            modelBuilder.Entity("GoldenAirport.Domain.Entities.EmployeeTripRegistration", b =>
+                {
+                    b.HasOne("GoldenAirport.Domain.Entities.Employee", "Employee")
+                        .WithMany("EmployeeTripRegistrations")
+                        .HasForeignKey("EmployeeId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("GoldenAirport.Domain.Entities.TripRegistration", "TripRegistration")
+                        .WithMany("EmployeeTripRegistrations")
+                        .HasForeignKey("TripRegistrationId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Employee");
+
+                    b.Navigation("TripRegistration");
+                });
+
             modelBuilder.Entity("GoldenAirport.Domain.Entities.Notification", b =>
                 {
                     b.HasOne("GoldenAirport.Domain.Entities.Auth.AppUser", "AppUser")
@@ -1725,17 +1766,11 @@ namespace GoldenAirport.Infrastructure.Migrations
 
             modelBuilder.Entity("GoldenAirport.Domain.Entities.TripRegistration", b =>
                 {
-                    b.HasOne("GoldenAirport.Domain.Entities.Auth.AppUser", "AppUser")
-                        .WithMany("TripRegistrations")
-                        .HasForeignKey("AppUserId");
-
                     b.HasOne("GoldenAirport.Domain.Entities.Trip", "Trip")
                         .WithMany("TripRegistrations")
                         .HasForeignKey("TripId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-
-                    b.Navigation("AppUser");
 
                     b.Navigation("Trip");
                 });
@@ -1818,8 +1853,6 @@ namespace GoldenAirport.Infrastructure.Migrations
                     b.Navigation("Balances");
 
                     b.Navigation("Notifications");
-
-                    b.Navigation("TripRegistrations");
                 });
 
             modelBuilder.Entity("GoldenAirport.Domain.Entities.Chat", b =>
@@ -1848,6 +1881,8 @@ namespace GoldenAirport.Infrastructure.Migrations
             modelBuilder.Entity("GoldenAirport.Domain.Entities.Employee", b =>
                 {
                     b.Navigation("DailyGoals");
+
+                    b.Navigation("EmployeeTripRegistrations");
 
                     b.Navigation("PaymentOptionEmployees");
                 });
@@ -1892,6 +1927,8 @@ namespace GoldenAirport.Infrastructure.Migrations
                     b.Navigation("Adults");
 
                     b.Navigation("Children");
+
+                    b.Navigation("EmployeeTripRegistrations");
                 });
 #pragma warning restore 612, 618
         }

@@ -4,6 +4,7 @@ using GoldenAirport.Infrastructure.Presistence;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace GoldenAirport.Infrastructure.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20231116150956_UpdateRelationBetweenEmployeeAndTripRegistration")]
+    partial class UpdateRelationBetweenEmployeeAndTripRegistration
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -1216,6 +1219,9 @@ namespace GoldenAirport.Infrastructure.Migrations
                     b.Property<decimal?>("EmployeeFees")
                         .HasColumnType("decimal(18,2)");
 
+                    b.Property<string>("EmployeeId")
+                        .HasColumnType("nvarchar(450)");
+
                     b.Property<DateTime?>("ModificationDate")
                         .HasColumnType("DATETIME");
 
@@ -1243,6 +1249,8 @@ namespace GoldenAirport.Infrastructure.Migrations
                     b.HasKey("Id");
 
                     b.HasIndex("AppUserId");
+
+                    b.HasIndex("EmployeeId");
 
                     b.HasIndex("TripId");
 
@@ -1726,8 +1734,12 @@ namespace GoldenAirport.Infrastructure.Migrations
             modelBuilder.Entity("GoldenAirport.Domain.Entities.TripRegistration", b =>
                 {
                     b.HasOne("GoldenAirport.Domain.Entities.Auth.AppUser", "AppUser")
-                        .WithMany("TripRegistrations")
+                        .WithMany()
                         .HasForeignKey("AppUserId");
+
+                    b.HasOne("GoldenAirport.Domain.Entities.Employee", null)
+                        .WithMany("TripRegistrations")
+                        .HasForeignKey("EmployeeId");
 
                     b.HasOne("GoldenAirport.Domain.Entities.Trip", "Trip")
                         .WithMany("TripRegistrations")
@@ -1818,8 +1830,6 @@ namespace GoldenAirport.Infrastructure.Migrations
                     b.Navigation("Balances");
 
                     b.Navigation("Notifications");
-
-                    b.Navigation("TripRegistrations");
                 });
 
             modelBuilder.Entity("GoldenAirport.Domain.Entities.Chat", b =>
@@ -1850,6 +1860,8 @@ namespace GoldenAirport.Infrastructure.Migrations
                     b.Navigation("DailyGoals");
 
                     b.Navigation("PaymentOptionEmployees");
+
+                    b.Navigation("TripRegistrations");
                 });
 
             modelBuilder.Entity("GoldenAirport.Domain.Entities.Package", b =>

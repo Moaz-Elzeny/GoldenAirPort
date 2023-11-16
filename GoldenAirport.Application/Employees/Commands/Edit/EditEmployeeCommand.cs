@@ -28,7 +28,7 @@ namespace GoldenAirport.Application.Employees.Commands.Edit
 
             public async Task<ResponseDto<object>> Handle(EditEmployeeCommand request, CancellationToken cancellationToken)
             {
-                var employee = await _dbContext.Employees.FindAsync(request.Id) ?? throw new NotFoundException("Employee not found.");
+                var employee = await _dbContext.Employees.Where(a => a.AppUserId == request.Id).FirstOrDefaultAsync() ?? throw new NotFoundException("Employee not found.");
 
                
 

@@ -1,8 +1,6 @@
-﻿using GoldenAirport.Application.AdminDetails.DTOs;
-using GoldenAirport.Application.Common.Models;
+﻿using GoldenAirport.Application.Common.Models;
 using GoldenAirport.Application.Helpers.DTOs;
 using GoldenAirport.Domain.Entities;
-using GoldenAirport.Domain.Enums;
 using SendGrid.Helpers.Errors.Model;
 
 namespace GoldenAirport.Application.Trips.Commands.Create
@@ -22,7 +20,7 @@ namespace GoldenAirport.Application.Trips.Commands.Create
         public List<string> Accessibilitys { get; set; }
         public List<string> Restrictions { get; set; }
         public List<int> PaymentOptions { get; set; }
-        public bool IsRefundable { get; set; }
+        public string IsRefundable { get; set; }
         public string? CurrentUserId { get; set; }
 
         public class CreateTripHandler : IRequestHandler<CreateTripCommand, ResponseDto<object>>
@@ -43,9 +41,10 @@ namespace GoldenAirport.Application.Trips.Commands.Create
                     Price = request.Price,
                     ChildPrice = request.ChildPrice,
                     Guests = request.Guests,
+                    RemainingGuests = 0,
                     TripHours = TimeSpan.Parse(request.TripHours),
                     FromCityId = request.FromCityId,
-                    IsRefundable = request.IsRefundable,
+                    IsRefundable =bool.Parse(request.IsRefundable),
                     CreatedById = request.CurrentUserId,
                     CreationDate = DateTime.Now,
 
@@ -98,17 +97,17 @@ namespace GoldenAirport.Application.Trips.Commands.Create
                 _dbContext.WhatAreIncluded.AddRange(included);
                 await _dbContext.SaveChangesAsync(cancellationToken);
 
-                var accessibilitys = new List<Accessibility>();
+                var accessibilities = new List<Accessibility>();
                 foreach (var accessibility in request.Accessibilitys)
                 {
-                    accessibilitys.Add(new Accessibility
+                    accessibilities.Add(new Accessibility
                     {
                         Description = accessibility,
                         TripId = trip.Id
                     });
                 }
 
-                _dbContext.Accessibilities.AddRange(accessibilitys);
+                _dbContext.Accessibilities.AddRange(accessibilities);
                 await _dbContext.SaveChangesAsync(cancellationToken);
 
                 var restrictions = new List<Restriction>();
@@ -124,18 +123,25 @@ namespace GoldenAirport.Application.Trips.Commands.Create
                 _dbContext.Restrictions.AddRange(restrictions);
                 await _dbContext.SaveChangesAsync(cancellationToken);
 
-                var paymentoptions = new List<PaymentOptionTrip>();
+                var paymentOptions = new List<PaymentOptionTrip>();
                 foreach (var Option in request.PaymentOptions)
                 {
-                    paymentoptions.Add(new PaymentOptionTrip
+                    paymentOptions.Add(new PaymentOptionTrip
                     {
                         PaymentOptionId = Option,
                         TripId = trip.Id
                     });
                 }
 
-                _dbContext.PaymentOptionTrips.AddRange(paymentoptions);
+                _dbContext.PaymentOptionTrips.AddRange(paymentOptions);
                 await _dbContext.SaveChangesAsync(cancellationToken);
+
+                var TripRegistration = new TripRegistration
+                {
+                    TripId = trip.Id,
+                    //PackageCost = trip.Price + trip.ChildPrice,
+                    
+                };
 
                 return ResponseDto<object>.Success(new ResultDto()
                 {

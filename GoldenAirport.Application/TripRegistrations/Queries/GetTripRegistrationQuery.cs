@@ -1,9 +1,7 @@
-﻿using GoldenAirport.Application.AdminDetails.DTOs;
-using GoldenAirport.Application.Common.Models;
+﻿using GoldenAirport.Application.Common.Models;
 using GoldenAirport.Application.Helpers;
 using GoldenAirport.Application.Helpers.DTOs;
 using GoldenAirport.Application.TripRegistrations.Dtos;
-using GoldenAirport.Domain.Entities;
 using GoldenAirport.Domain.Enums;
 
 namespace GoldenAirport.Application.TripRegistrations.Queries
@@ -40,9 +38,12 @@ namespace GoldenAirport.Application.TripRegistrations.Queries
                     .Select(t => new GetTripRegistrationDto
                     {
                         Id = t.Id,
-                        PackageCost = t.PackageCost,
-                        TaxesAndFees = t.TaxesAndFees,
-                        OtherFees = t.OutherFees,
+                        AdultCost = t.AdultCost,
+                        ChildCost = t.ChildCost,
+                        AdminFees = t.AdminFees,
+                        EmployeeFees = t.EmployeeFees,
+                        //NoOfAdults = t.Trip.RemainingGuests,
+                        //OtherFees = t.OtherFees,
                         TotalAmount = t.TotalAmount,
                         Email = t.Email,
                         PhoneNumber = t.PhoneNumber,

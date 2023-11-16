@@ -48,9 +48,9 @@ namespace GoldenAirport.Application.TripRegistrations.Commands.Edit
 
                 if (request.CurrentUserId == user.Select(u => u.Id).FirstOrDefault())
                 {
-                    tripRegistration.PackageCost = request.PackageCost ?? tripRegistration.PackageCost;
-                    tripRegistration.TaxesAndFees = request.TaxesAndFees ?? tripRegistration.TaxesAndFees;
-                    tripRegistration.OutherFees = request.OtherFees ?? tripRegistration.OutherFees;
+                    //tripRegistration.PackageCost = request.PackageCost ?? tripRegistration.PackageCost;
+                    //tripRegistration.TaxesAndFees = request.TaxesAndFees ?? tripRegistration.TaxesAndFees;
+                    //tripRegistration.OutherFees = request.OtherFees ?? tripRegistration.OutherFees;
                     tripRegistration.Email = request.Email ?? tripRegistration.Email;
                     tripRegistration.PhoneNumber = request.PhoneNumber ?? tripRegistration.PhoneNumber;
 
@@ -101,9 +101,9 @@ namespace GoldenAirport.Application.TripRegistrations.Commands.Edit
                     tripRegistration.ModifiedById = request.CurrentUserId;
                     tripRegistration.ModificationDate = DateTime.Now;
 
-                    var TotalAmount = (tripRegistration.PackageCost * request.NoOfAdults) + tripRegistration.TaxesAndFees + tripRegistration.OutherFees;
+                    //var TotalAmount = (tripRegistration.PackageCost * request.NoOfAdults) + tripRegistration.TaxesAndFees + tripRegistration.OutherFees;
 
-                    tripRegistration.TotalAmount = TotalAmount.Value;
+                    //tripRegistration.TotalAmount = TotalAmount.Value;
 
 
                     //if (user.FirstOrDefault().UserType == UserType.SuperAdmin)

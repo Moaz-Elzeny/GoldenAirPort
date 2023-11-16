@@ -9,6 +9,7 @@ namespace GoldenAirport.Domain.Entities.Auth
         {
             Notifications = new HashSet<Notification>();
             Balances = new HashSet<Balance>();
+            TripRegistrations = new HashSet<TripRegistration>();
         }
 
         public string FirstName { get; set; }
@@ -31,6 +32,8 @@ namespace GoldenAirport.Domain.Entities.Auth
 
         public virtual ICollection<Notification> Notifications { get; set; }
         public virtual ICollection<Balance> Balances { get; set; }
+        public virtual ICollection<TripRegistration> TripRegistrations { get; set; }
+
 
     }
 }
