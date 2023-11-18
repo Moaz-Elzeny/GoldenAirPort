@@ -72,11 +72,11 @@ namespace GoldenAirport.Application.Trips.Queries
                         StartingDate = t.StartingDate.Date,
                         EndingDate = t.EndingDate,
                         Guests = t.Guests,
+                        RemainingGuests = t.RemainingGuests,
                         Price = t.Price,
                         ChildPrice = t.ChildPrice,
                         TripHours = t.TripHours.ToString(),
                         IsRefundable = t.IsRefundable,
-                        //PaymentOptions = t.PaymentMethod,
                         FromCity = new GetFromCityDto
                         {
                         FromCityId = t.FromCityId,
@@ -86,6 +86,11 @@ namespace GoldenAirport.Application.Trips.Queries
                         { 
                             Id = c.CityId,
                             CityName = CultureInfo.CurrentCulture.TwoLetterISOLanguageName == "ar" ? c.Cities.NameAr : c.Cities.NameEn 
+                        }),
+                        PaymentOptions = t.PaymentOptionTrips.Select(p => new
+                        {
+                            Id = p.PaymentOptionId,
+                            Type = p.PaymentOptions.NameAr
                         }),
                         WhyVisit = t.WhyVisits.Select(w => new
                         {

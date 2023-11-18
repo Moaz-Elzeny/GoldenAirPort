@@ -45,6 +45,9 @@ namespace GoldenAirport.Application.TripRegistrations.Queries
                         TotalAmount = t.TotalAmount,
                         Email = t.Email,
                         PhoneNumber = t.PhoneNumber,
+                        NoOfAdults = t.Adults.Count(),
+                        Adults = t.Adults.Select(a => new AdultTripRegistrationDto
+                        {
 
                         Title = t.Adults.Select(a => a.Title).FirstOrDefault(),
                         TitleValue = EnumHelper.GetEnumLocalizedDescription<Title>(t.Adults.Select(a => a.Title).FirstOrDefault()),
@@ -52,8 +55,14 @@ namespace GoldenAirport.Application.TripRegistrations.Queries
                         LastName = t.Adults.Select(a => a.LastName).FirstOrDefault(),
                         AdultPassportNo = t.Adults.Select(a => a.PassportNo).FirstOrDefault(),
                         DateOfBirth = t.Adults.Select(a => a.DateOfBirth).FirstOrDefault(),
-                        NoOfAdults = t.Adults.Count(),
-                        ChildPassportNo = t.Children.Select(c => c.PassportNo).FirstOrDefault(),
+                        }).ToList(),
+                        Children = t.Children.Select(c => new ChildrenTripRegistrationDto
+                        {
+                            FirstName = t.Children.Select(a => a.FirstName).FirstOrDefault(),
+                            LastName = t.Children.Select(a => a.LastName).FirstOrDefault(),
+                            AdultPassportNo = t.Children.Select(a => a.PassportNo).FirstOrDefault(),
+                            DateOfBirth = t.Children.Select(a => a.DateOfBirth).FirstOrDefault(),
+                        }).ToList(),
 
                     }).ToListAsync(cancellationToken);
 

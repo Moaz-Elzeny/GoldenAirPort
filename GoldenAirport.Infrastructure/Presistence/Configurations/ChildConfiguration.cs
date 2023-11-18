@@ -18,8 +18,8 @@ namespace GoldenAirport.Infrastructure.Presistence.Configurations
             builder.Property(e => e.PassportNo)
                 .HasMaxLength(20);
 
-            builder.Property(e => e.AgeRange)
-               .IsRequired();
+            //builder.Property(e => e.AgeRange)
+            //   .IsRequired();
         }
     }
 }

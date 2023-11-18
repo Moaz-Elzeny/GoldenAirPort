@@ -1,7 +1,5 @@
-﻿using GoldenAirport.Application.AdminDetails.DTOs;
-using GoldenAirport.Application.Common.Models;
+﻿using GoldenAirport.Application.Common.Models;
 using GoldenAirport.Application.Helpers.DTOs;
-using GoldenAirport.Domain.Entities;
 using GoldenAirport.Domain.Enums;
 using SendGrid.Helpers.Errors.Model;
 
@@ -79,10 +77,10 @@ namespace GoldenAirport.Application.TripRegistrations.Commands.Edit
                         tripRegistration.Adults.FirstOrDefault(a => a.DateOfBirth == request.DateOfBirth);
                     }
 
-                    if (request.AgeRange != null)
-                    {
-                        tripRegistration.Children.FirstOrDefault(a => a.AgeRange == request.AgeRange);
-                    }
+                    //if (request.AgeRange != null)
+                    //{
+                    //    tripRegistration.Children.FirstOrDefault(a => a.AgeRange == request.AgeRange);
+                    //}
 
                     if (request.ChildPassportNo != null)
                     {

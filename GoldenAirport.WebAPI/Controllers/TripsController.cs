@@ -16,7 +16,7 @@ namespace GoldenAirport.WebAPI.Controllers
         {
         }
 
-        [HttpGet("AllTrips")]
+        [HttpGet("fetch")]
         public async Task<IActionResult> GetAllTrips
             ([FromQuery] int pageNumber,
             int? FromCity,
@@ -68,7 +68,7 @@ namespace GoldenAirport.WebAPI.Controllers
                 TripHours = dto.TripHours,
                 FromCityId = dto.FromCityId,
                 ToCitiesIds = dto.ToCitiesIds,
-                //PaymentMethod = dto.PaymentMethod,
+                PaymentOptions = dto.PaymentOptions,
                 IsRefundable = dto.IsRefundable,
                 CurrentUserId = CurrentUserId
             };
@@ -96,7 +96,7 @@ namespace GoldenAirport.WebAPI.Controllers
         [HttpDelete("DeleteActions")]
         public async Task<IActionResult> DeleteActions(int TripId, int? WhyVisitId, int? WhatIncludedId, int? AccessibilityId, int? RestrictionId)
         {
-            var deleteTripActios = new DeleteActionsInTripCommand 
+            var deleteTripActions = new DeleteActionsInTripCommand 
             { 
                 TripId = TripId,
                 WhyVisitId = WhyVisitId,
@@ -105,7 +105,7 @@ namespace GoldenAirport.WebAPI.Controllers
                 RestrictionId = RestrictionId
 
             };
-            var result = await Mediator.Send(deleteTripActios);
+            var result = await Mediator.Send(deleteTripActions);
 
             return !result.IsSuccess ? BadRequest(result.Error) : Ok(result.Result);
         }

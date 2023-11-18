@@ -9,7 +9,7 @@ namespace GoldenAirport.Application.TripRegistrations.Queries
     public class GetTripRegistrationQuery : IRequest<ResponseDto<object>>
     {
         public int PageNumber { get; set; } = 1;
-        
+
 
         public class GetTripRegistrationQueryHandler : IRequestHandler<GetTripRegistrationQuery, ResponseDto<object>>
         {
@@ -47,14 +47,16 @@ namespace GoldenAirport.Application.TripRegistrations.Queries
                         TotalAmount = t.TotalAmount,
                         Email = t.Email,
                         PhoneNumber = t.PhoneNumber,
+                        Adults = t.Adults.Select(a => new AdultTripRegistrationDto
+                        {
+                            Title = t.Adults.Select(a => a.Title).FirstOrDefault(),
+                            TitleValue = EnumHelper.GetEnumLocalizedDescription<Title>(t.Adults.Select(a => a.Title).FirstOrDefault()),
+                            FirstName = t.Adults.Select(a => a.FirstName).FirstOrDefault(),
+                            LastName = t.Adults.Select(a => a.LastName).FirstOrDefault(),
+                            AdultPassportNo = t.Adults.Select(a => a.PassportNo).FirstOrDefault(),
+                            DateOfBirth = t.Adults.Select(a => a.DateOfBirth).FirstOrDefault(),
+                        }).ToList(),
 
-                        Title = t.Adults.FirstOrDefault().Title,
-                        TitleValue = EnumHelper.GetEnumLocalizedDescription<Title>(t.Adults.FirstOrDefault().Title),
-                        FirstName = t.Adults.FirstOrDefault().FirstName,
-                        LastName = t.Adults.FirstOrDefault().LastName,
-                        AdultPassportNo = t.Adults.FirstOrDefault().PassportNo,
-                        DateOfBirth = t.Adults.FirstOrDefault().DateOfBirth,
-                        
 
                     }).ToListAsync(cancellationToken);
 

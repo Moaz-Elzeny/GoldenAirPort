@@ -1,8 +1,6 @@
-﻿using GoldenAirport.Application.AdminDetails.DTOs;
-using GoldenAirport.Application.Common.Models;
+﻿using GoldenAirport.Application.Common.Models;
 using GoldenAirport.Application.Helpers.DTOs;
 using GoldenAirport.Domain.Entities;
-using GoldenAirport.Domain.Enums;
 using SendGrid.Helpers.Errors.Model;
 
 namespace GoldenAirport.Application.Trips.Commands.Edit
@@ -19,7 +17,7 @@ namespace GoldenAirport.Application.Trips.Commands.Edit
         public int? FromCityId { get; set; }
         public List<int>? ToCitiesIds { get; set; }
         public bool? IsRefundable { get; set; }
-        //public paymentMethod? PaymentMethod { get; set; }
+        public List<int>? PaymentOptions { get; set; }
         public string? CurrentUserId { get; set; }
 
         public class EditTripHandler : IRequestHandler<EditTripCommand, ResponseDto<object>>
@@ -44,7 +42,7 @@ namespace GoldenAirport.Application.Trips.Commands.Edit
                 {
                     trip.EndingDate = request.EndingDate.Value;
                 }
-                
+
                 if (request.TripHours != null)
                 {
                     trip.TripHours = TimeSpan.Parse(request.TripHours);
@@ -81,12 +79,29 @@ namespace GoldenAirport.Application.Trips.Commands.Edit
                                 TripId = trip.Id,
                                 CityId = ToCitiesId,
                                 CreatedById = request.CurrentUserId,
-                                CreationDate = DateTime.Now,    
+                                CreationDate = DateTime.Now,
                             };
                             _dbContext.CityTrips.Add(addCities);
 
                         }
                     }
+                }
+
+                if (request.PaymentOptions != null)
+                {
+                    var oldPayments = _dbContext.PaymentOptionTrips.Where(c => c.TripId == trip.Id);
+                    _dbContext.PaymentOptionTrips.RemoveRange(oldPayments);
+
+                    var paymentOptions = new List<PaymentOptionTrip>();
+                    foreach (var Option in request.PaymentOptions)
+                    {
+                        paymentOptions.Add(new PaymentOptionTrip
+                        {
+                            PaymentOptionId = Option,
+                            TripId = trip.Id
+                        });
+                    }
+                    _dbContext.PaymentOptionTrips.AddRange(paymentOptions);
                 }
 
                 await _dbContext.SaveChangesAsync(cancellationToken);

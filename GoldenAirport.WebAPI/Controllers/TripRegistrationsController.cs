@@ -17,17 +17,17 @@ namespace GoldenAirport.WebAPI.Controllers
         }
 
 
-        [HttpGet("fetch")]
-        public async Task<IActionResult> GetAllTrips
-            ( int pageNumber )
-        {
-            var query = new GetTripRegistrationQuery
-            {
-                PageNumber = pageNumber,
-            };
-            var result = await Mediator.Send(query);
-            return !result.IsSuccess ? BadRequest(result.Error) : Ok(result.Result);
-        }
+        //[HttpGet("fetch")]
+        //public async Task<IActionResult> GetAllTrips
+        //    ( int pageNumber )
+        //{
+        //    var query = new GetTripRegistrationQuery
+        //    {
+        //        PageNumber = pageNumber,
+        //    };
+        //    var result = await Mediator.Send(query);
+        //    return !result.IsSuccess ? BadRequest(result.Error) : Ok(result.Result);
+        //}
         
         [HttpGet("fetch1")]
         public async Task<IActionResult> GetTripById
@@ -41,17 +41,17 @@ namespace GoldenAirport.WebAPI.Controllers
             return !result.IsSuccess ? BadRequest(result.Error) : Ok(result.Result);
         }
         
-        [HttpGet("GetAdult")]
-        public async Task<IActionResult> GetAdult
-            (int TripRegistrationId)
-        {
-            var query = new GetAdultQuery
-            {
-                TripRegistrationId = TripRegistrationId
-            };
-            var result = await Mediator.Send(query);
-            return !result.IsSuccess ? BadRequest(result.Error) : Ok(result.Result);
-        }
+        //[HttpGet("GetAdult")]
+        //public async Task<IActionResult> GetAdult
+        //    (int TripRegistrationId)
+        //{
+        //    var query = new GetAdultQuery
+        //    {
+        //        TripRegistrationId = TripRegistrationId
+        //    };
+        //    var result = await Mediator.Send(query);
+        //    return !result.IsSuccess ? BadRequest(result.Error) : Ok(result.Result);
+        //}
 
         [HttpPost("Create")]
         public async Task<IActionResult> Create([FromForm] CreateTripRegistrationCommand command)
@@ -72,6 +72,17 @@ namespace GoldenAirport.WebAPI.Controllers
         
         [HttpPost("CreateAdult")]
         public async Task<IActionResult> CreateAdult( CreateAdultCommand command)
+        {
+            command.CurrentUserId = CurrentUserId;
+            
+            var result = await Mediator.Send(command);
+
+            return !result.IsSuccess ? BadRequest(result.Error) : Ok(result.Result);
+
+        }
+        
+        [HttpPost("CreateChild")]
+        public async Task<IActionResult> CreateChild(CreateChildCommand command)
         {
             command.CurrentUserId = CurrentUserId;
             
