@@ -1,9 +1,7 @@
-﻿using GoldenAirport.Application.AdminDetails.DTOs;
-using GoldenAirport.Application.Common.Models;
+﻿using GoldenAirport.Application.Common.Models;
 using GoldenAirport.Application.Helpers;
 using GoldenAirport.Application.Helpers.DTOs;
 using GoldenAirport.Application.Trips.Dtos;
-using GoldenAirport.Domain.Entities;
 using System.Globalization;
 
 namespace GoldenAirport.Application.Trips.Queries
@@ -37,9 +35,9 @@ namespace GoldenAirport.Application.Trips.Queries
                 .AsQueryable();
 
                 var ra = _dbContext.TripRegistrations.Select(r => r.Id);
-                var ad = _dbContext.Adults.Where(a=> ra.Contains(a.TripRegistrationId)).Select(a => a.Id);
+                var ad = _dbContext.Adults.Where(a => ra.Contains(a.TripRegistrationId)).Select(a => a.Id);
 
-                if(request.FromCity != null)
+                if (request.FromCity != null)
                 {
                     query = query.Where(t => t.FromCityId == request.FromCity);
                 }
@@ -71,50 +69,50 @@ namespace GoldenAirport.Application.Trips.Queries
                         Id = t.Id,
                         StartingDate = t.StartingDate.Date,
                         EndingDate = t.EndingDate,
-                        Guests = t.Guests,
-                        RemainingGuests = t.RemainingGuests,
-                        Price = t.Price,
+                        //Guests = t.Guests,
+                        //RemainingGuests = t.RemainingGuests,
+                        AdultPrice = t.Price,
                         ChildPrice = t.ChildPrice,
-                        TripHours = t.TripHours.ToString(),
+                        TripHours = t.TripHours.ToString(@"hh\:mm"),
                         IsRefundable = t.IsRefundable,
-                        FromCity = new GetFromCityDto
+                        Cities = t.ToCity.Select(c => new GetCitiesDto
                         {
-                        FromCityId = t.FromCityId,
-                        CityName = CultureInfo.CurrentCulture.TwoLetterISOLanguageName == "ar" ? t.City.NameAr : t.City.NameEn,
-                        },
-                        ToCities = t.ToCity.Select(c => new GetCitiesDto 
-                        { 
+                            City = new GetFromCityDto
+                            {
+                                Id = t.FromCityId,
+                                CityName = CultureInfo.CurrentCulture.TwoLetterISOLanguageName == "ar" ? t.City.NameAr : t.City.NameEn,
+                            } ,
                             Id = c.CityId,
-                            CityName = CultureInfo.CurrentCulture.TwoLetterISOLanguageName == "ar" ? c.Cities.NameAr : c.Cities.NameEn 
+                            CityName = CultureInfo.CurrentCulture.TwoLetterISOLanguageName == "ar" ? c.Cities.NameAr : c.Cities.NameEn
                         }),
-                        PaymentOptions = t.PaymentOptionTrips.Select(p => new
-                        {
-                            Id = p.PaymentOptionId,
-                            Type = p.PaymentOptions.NameAr
-                        }),
-                        WhyVisit = t.WhyVisits.Select(w => new
-                        {
-                            Id = w.Id,
-                            Description = w.Description,
+                        //PaymentOptions = t.PaymentOptionTrips.Select(p => new
+                        //{
+                        //    Id = p.PaymentOptionId,
+                        //    Type = p.PaymentOptions.NameAr
+                        //}),
+                        //WhyVisit = t.WhyVisits.Select(w => new
+                        //{
+                        //    Id = w.Id,
+                        //    Description = w.Description,
 
-                        }),
-                        
-                        WhatIsIncluded = t.WhatAreIncluded.Select(w => new 
-                        {
-                            Id = w.Id,
-                            Description = w.Description
-                        }),
-                        Accessibility = t.Accessibilities.Select(w => new 
-                        {
-                            Id = w.Id,
-                            Description = w.Description 
-                        }),
-                        Restrictions = t.Restrictions.Select(w =>new 
-                        { 
-                            Id = w.Id,
-                            Description = w.Description 
-                        }),
-                       
+                        //}),
+
+                        //WhatIsIncluded = t.WhatAreIncluded.Select(w => new
+                        //{
+                        //    Id = w.Id,
+                        //    Description = w.Description
+                        //}),
+                        //Accessibility = t.Accessibilities.Select(w => new
+                        //{
+                        //    Id = w.Id,
+                        //    Description = w.Description
+                        //}),
+                        //Restrictions = t.Restrictions.Select(w => new
+                        //{
+                        //    Id = w.Id,
+                        //    Description = w.Description
+                        //}),
+
                     }).ToListAsync(cancellationToken);
 
                 var paginatedList = new PaginatedList<GetTripsDto>
@@ -129,10 +127,7 @@ namespace GoldenAirport.Application.Trips.Queries
                 return ResponseDto<object>.Success(new ResultDto()
                 {
                     Message = "All Trips",
-                    Result = new
-                    {
-                        result = paginatedList
-                    }
+                    Result = paginatedList
                 });
             }
         }

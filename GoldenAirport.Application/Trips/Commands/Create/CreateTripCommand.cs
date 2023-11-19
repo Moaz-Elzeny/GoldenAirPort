@@ -9,7 +9,7 @@ namespace GoldenAirport.Application.Trips.Commands.Create
     {
         public DateTime StartingDate { get; set; }
         public DateTime EndingDate { get; set; }
-        public decimal Price { get; set; }
+        public decimal AdultPrice { get; set; }
         public decimal ChildPrice { get; set; }
         public byte Guests { get; set; }
         public string TripHours { get; set; }
@@ -19,7 +19,7 @@ namespace GoldenAirport.Application.Trips.Commands.Create
         public List<string> WhatAreIncluded { get; set; }
         public List<string> Accessibilitys { get; set; }
         public List<string> Restrictions { get; set; }
-        public List<int> PaymentOptions { get; set; }
+        //public List<int> PaymentOptions { get; set; }
         public string IsRefundable { get; set; }
         public string? CurrentUserId { get; set; }
 
@@ -38,7 +38,7 @@ namespace GoldenAirport.Application.Trips.Commands.Create
                 {
                     StartingDate = request.StartingDate,
                     EndingDate = request.EndingDate,
-                    Price = request.Price,
+                    Price = request.AdultPrice,
                     ChildPrice = request.ChildPrice,
                     Guests = request.Guests,
                     RemainingGuests = 0,
@@ -123,18 +123,18 @@ namespace GoldenAirport.Application.Trips.Commands.Create
                 _dbContext.Restrictions.AddRange(restrictions);
                 await _dbContext.SaveChangesAsync(cancellationToken);
 
-                var paymentOptions = new List<PaymentOptionTrip>();
-                foreach (var Option in request.PaymentOptions)
-                {
-                    paymentOptions.Add(new PaymentOptionTrip
-                    {
-                        PaymentOptionId = Option,
-                        TripId = trip.Id
-                    });
-                }
+                //var paymentOptions = new List<PaymentOptionTrip>();
+                //foreach (var Option in request.PaymentOptions)
+                //{
+                //    paymentOptions.Add(new PaymentOptionTrip
+                //    {
+                //        PaymentOptionId = Option,
+                //        TripId = trip.Id
+                //    });
+                //}
 
-                _dbContext.PaymentOptionTrips.AddRange(paymentOptions);
-                await _dbContext.SaveChangesAsync(cancellationToken);
+                //_dbContext.PaymentOptionTrips.AddRange(paymentOptions);
+                //await _dbContext.SaveChangesAsync(cancellationToken);
 
                 var TripRegistration = new TripRegistration
                 {

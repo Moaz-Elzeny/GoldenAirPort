@@ -19,24 +19,21 @@ namespace GoldenAirport.Application.Packagess.Commands.Create
                .NotEmpty()
                .WithMessage("Ending Date is required");
 
-            RuleFor(x => x.Price)
+            RuleFor(x => x.AdultPrice)
                .NotEmpty()
                .WithMessage("Price is required");
 
-            RuleFor(x => x.CountryId)
-              .NotEmpty()
-              .WithMessage("Country Id is required");
+            //RuleFor(x => x.CountryId)
+            //  .NotEmpty()
+            //  .WithMessage("Country Id is required");
 
             RuleFor(x => x.FromCityId)
                .NotEmpty()
                .WithMessage("From CityId is required");
 
-            RuleFor(x => x.ToCitiesIds)
-               .NotEmpty().WithMessage("ToCities ID are required.")
-               .ForEach(cityIds =>
-               {
-                   cityIds.NotEmpty().WithMessage("City ID is required.");
-               });
+            RuleFor(x => x.ToCityId)
+               .NotEmpty().WithMessage("To CityId are required");
+              
 
         }
     }

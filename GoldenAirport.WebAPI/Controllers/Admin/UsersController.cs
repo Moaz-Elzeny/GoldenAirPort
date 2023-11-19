@@ -35,7 +35,7 @@ namespace GoldenAirport.WebAPI.Controllers.Admin
         [HttpPost("Create")]
         public async Task<IActionResult> CreateUser([FromForm] CreateUserCommand command)
         {
-            //command.CurrentUserId = CurrentUserId;
+            command.CurrentUserId = CurrentUserId;
             var validationResults = await new CreateUserCommandValidator(_userManager).ValidateAsync(command);
 
             if (!validationResults.IsValid)

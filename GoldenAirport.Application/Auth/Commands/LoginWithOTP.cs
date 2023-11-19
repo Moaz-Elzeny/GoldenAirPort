@@ -48,7 +48,8 @@ public class EmployeeLoginQueryHandler : IRequestHandler<LoginWithOTP, ResponseD
                 Message = "Successfully",
                 Result = new
                 {
-                    Token = token.ToString()
+                    Token = token.ToString(),
+                    UserType = user.UserType
                 }
             });
         }

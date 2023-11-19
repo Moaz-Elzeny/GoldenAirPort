@@ -1,9 +1,7 @@
-﻿using GoldenAirport.Application.AdminDetails.DTOs;
-using GoldenAirport.Application.Common.Models;
+﻿using GoldenAirport.Application.Common.Models;
 using GoldenAirport.Application.Helpers;
 using GoldenAirport.Application.Helpers.DTOs;
 using GoldenAirport.Application.Packagess.Dtos;
-using GoldenAirport.Domain.Entities;
 using System.Globalization;
 
 namespace GoldenAirport.Application.Packagess.Queries
@@ -12,7 +10,7 @@ namespace GoldenAirport.Application.Packagess.Queries
     {
         public int PageNumber { get; set; } = 1;
         public int? FromCity { get; set; }
-        public List<int>? ToCity { get; set; }
+        public int? ToCity { get; set; }
         public DateTime? StartingOn { get; set; }
         public int? Guests { get; set; }
     }
@@ -32,8 +30,7 @@ namespace GoldenAirport.Application.Packagess.Queries
             var pageSize = 10;
 
             var query = _dbContext.Packages
-                .Include(p => p.ToCity)
-                .ThenInclude(c => c.City)
+                .Include(p => p.ToCity)                
                 .AsQueryable();
 
             if (request.FromCity != null)
@@ -41,9 +38,9 @@ namespace GoldenAirport.Application.Packagess.Queries
                 query = query.Where(p => p.FromCityId == request.FromCity);
             }
 
-            if (request.ToCity != null && request.ToCity.Any())
+            if (request.ToCity != null )
             {
-                query = query.Where(p => p.ToCity.Any(c => request.ToCity.Contains(c.CityId)));
+                query = query.Where(p => p.ToCityId == request.ToCity);
             }
 
             if (request.StartingOn != null)
@@ -62,23 +59,21 @@ namespace GoldenAirport.Application.Packagess.Queries
                     Name = p.Name,
                     StartingDate = p.StartingDate.Date,
                     EndingDate = p.EndingDate,
-                    Price = p.Price,
-                    ChildPrice = p.ChildPrice,
-                    //PriceLessThan12YearsOld = p.PriceLessThan12YearsOld,
-                    CountryId = p.CountryId,
+                    AdultPrice = p.Price,
+                    ChildPrice = p.ChildPrice,   
+                    AboutExploreTour = p.AboutExploreTour,
                     IsRefundable = p.IsRefundable,
-                    //PaymentOptions = p.PaymentMethod,
                     FromCity = new FromCityDto
                     {
 
                     FromCityId = p.FromCityId,
                     CityName = CultureInfo.CurrentCulture.TwoLetterISOLanguageName == "ar" ? p.City.NameAr : p.City.NameEn,
                     },
-                    ToCities = p.ToCity.Select(c => new GetPackegeCitiesDto
+                    ToCity =  new GetPackegeCitiesDto
                     {
-                        Id = c.CityId,
-                        CityName = CultureInfo.CurrentCulture.TwoLetterISOLanguageName == "ar" ? c.City.NameAr : c.City.NameEn
-                    }),
+                        Id = p.ToCityId,
+                        CityName = CultureInfo.CurrentCulture.TwoLetterISOLanguageName == "ar" ? p.City.NameAr : p.City.NameEn
+                    },
                     PackagePlan = p.PackagePlans.Select(pp => new
                     {
                         Id = pp.Id,
@@ -98,10 +93,7 @@ namespace GoldenAirport.Application.Packagess.Queries
             return ResponseDto<object>.Success(new ResultDto()
             {
                 Message = "All package",
-                Result = new
-                {
-                    result = paginatedList
-                }
+                Result =  paginatedList
             });
         }
     }

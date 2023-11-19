@@ -19,7 +19,7 @@ namespace GoldenAirport.WebAPI.Controllers
         public async Task<IActionResult> GetAllPackages
             ([FromQuery] int pageNumber,
             int? FromCity,
-            [FromQuery] List<int>? ToCity,
+            [FromQuery] int? ToCity,
             [FromQuery] DateTime? StartingOn,
             int? Guests
             )
@@ -63,13 +63,11 @@ namespace GoldenAirport.WebAPI.Controllers
                 Name = dto.Name,
                 StartingDate = dto.StartingDate,
                 EndingDate = dto.EndingDate,
-                Price = dto.Price,
+                Price = dto.AdultPrice,
                 ChildPrice = dto.ChildPrice,
-                //PriceLessThan12YearsOld = dto.PriceLessThan12YearsOld,
-                CountryId = dto.CountryId,
                 FromCityId = dto.FromCityId,
-                ToCitiesIds = dto.ToCitiesIds,
-                //PaymentMethod = dto.PaymentMethod,
+                ToCityId = dto.ToCityId,
+                AboutExploreTour = dto.AboutExploreTour,
                 IsRefundable = dto.IsRefundable,
                 CurrentUserId = CurrentUserId
             };

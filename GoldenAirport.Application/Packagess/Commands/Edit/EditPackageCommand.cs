@@ -1,8 +1,5 @@
-﻿using GoldenAirport.Application.AdminDetails.DTOs;
-using GoldenAirport.Application.Common.Models;
+﻿using GoldenAirport.Application.Common.Models;
 using GoldenAirport.Application.Helpers.DTOs;
-using GoldenAirport.Domain.Entities;
-using GoldenAirport.Domain.Enums;
 using SendGrid.Helpers.Errors.Model;
 
 namespace GoldenAirport.Application.Packagess.Commands.Edit
@@ -15,12 +12,10 @@ namespace GoldenAirport.Application.Packagess.Commands.Edit
         public DateTime? EndingDate { get; set; }
         public decimal? Price { get; set; }
         public decimal? ChildPrice { get; set; }
-        //public decimal? PriceLessThan12YearsOld { get; set; }
-        public int? CountryId { get; set; }
         public int? FromCityId { get; set; }
-        public List<int>? ToCitiesIds { get; set; }
-        public bool? IsRefundable { get; set; }
-        //public paymentMethod? PaymentMethod { get; set; }
+        public int? ToCityId { get; set; }
+        public string? AboutExploreTour { get; set; }
+        public string? IsRefundable { get; set; }
         public string? CurrentUserId { get; set; }
 
         public class EditPackageHandler : IRequestHandler<EditPackageCommand, ResponseDto<object>>
@@ -50,44 +45,40 @@ namespace GoldenAirport.Application.Packagess.Commands.Edit
 
                 package.Price = request.Price ?? package.Price;
                 package.ChildPrice = request.ChildPrice ?? package.ChildPrice;
-                //package.PriceLessThan12YearsOld = request.PriceLessThan12YearsOld ?? package.PriceLessThan12YearsOld;
-                package.CountryId = request.CountryId ?? package.CountryId;
+                package.AboutExploreTour = request.AboutExploreTour ?? package.AboutExploreTour;
+                
                 package.FromCityId = request.FromCityId ?? package.FromCityId;
+                package.ToCityId = request.ToCityId ?? package.ToCityId;
 
                 if (request.IsRefundable != null)
                 {
-                    package.IsRefundable = request.IsRefundable.Value;
+                    package.IsRefundable = bool.Parse(request.IsRefundable);
                 }
-
-                //if (request.PaymentMethod != null)
-                //{
-                //    package.PaymentMethod = request.PaymentMethod.Value;
-                //}
 
                 package.ModifiedById = request.CurrentUserId;
                 package.ModificationDate = DateTime.Now;
 
-                if (request.ToCitiesIds != null)
-                {
-                    var oldCityPackages = _dbContext.CityPackages.Where(c => c.PackageId == package.Id);
-                    _dbContext.CityPackages.RemoveRange(oldCityPackages);
+                //if (request.ToCityId != null)
+                //{
+                //    var oldCityPackages = _dbContext.CityPackages.Where(c => c.PackageId == package.Id);
+                //    _dbContext.CityPackages.RemoveRange(oldCityPackages);
 
-                    foreach (var toCityId in request.ToCitiesIds)
-                    {
-                        var newCity = await _dbContext.Cities.FindAsync(toCityId, cancellationToken) ?? throw new NotFoundException("City not found.");
-                        if (newCity != null)
-                        {
-                            var newCityPackage = new CityPackage
-                            {
-                                PackageId = package.Id,
-                                CityId = toCityId,
-                                CreatedById = request.CurrentUserId,
-                                CreationDate = DateTime.Now
-                            };
-                            _dbContext.CityPackages.Add(newCityPackage);
-                        }
-                    }
-                }
+                //    foreach (var toCityId in request.ToCitiesIds)
+                //    {
+                //        var newCity = await _dbContext.Cities.FindAsync(toCityId, cancellationToken) ?? throw new NotFoundException("City not found.");
+                //        if (newCity != null)
+                //        {
+                //            var newCityPackage = new CityPackage
+                //            {
+                //                PackageId = package.Id,
+                //                CityId = toCityId,
+                //                CreatedById = request.CurrentUserId,
+                //                CreationDate = DateTime.Now
+                //            };
+                //            _dbContext.CityPackages.Add(newCityPackage);
+                //        }
+                //    }
+                //}
 
                 await _dbContext.SaveChangesAsync(cancellationToken);
                 return ResponseDto<object>.Success(new ResultDto()

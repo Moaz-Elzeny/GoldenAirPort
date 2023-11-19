@@ -4,6 +4,7 @@ using GoldenAirport.Infrastructure.Presistence;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace GoldenAirport.Infrastructure.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20231119131316_updatePackage")]
+    partial class updatePackage
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -904,10 +907,6 @@ namespace GoldenAirport.Infrastructure.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<string>("AboutExploreTour")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<bool>("Active")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("bit")
@@ -915,6 +914,9 @@ namespace GoldenAirport.Infrastructure.Migrations
 
                     b.Property<decimal>("ChildPrice")
                         .HasColumnType("decimal(18,2)");
+
+                    b.Property<int?>("CountryId")
+                        .HasColumnType("int");
 
                     b.Property<string>("CreatedById")
                         .IsRequired()
@@ -961,6 +963,8 @@ namespace GoldenAirport.Infrastructure.Migrations
                         .HasColumnType("int");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("CountryId");
 
                     b.HasIndex("FromCityId");
 
@@ -1628,6 +1632,10 @@ namespace GoldenAirport.Infrastructure.Migrations
 
             modelBuilder.Entity("GoldenAirport.Domain.Entities.Package", b =>
                 {
+                    b.HasOne("GoldenAirport.Domain.Entities.Country", null)
+                        .WithMany("packages")
+                        .HasForeignKey("CountryId");
+
                     b.HasOne("GoldenAirport.Domain.Entities.City", "City")
                         .WithMany("Packages")
                         .HasForeignKey("FromCityId")
@@ -1851,6 +1859,8 @@ namespace GoldenAirport.Infrastructure.Migrations
             modelBuilder.Entity("GoldenAirport.Domain.Entities.Country", b =>
                 {
                     b.Navigation("Cities");
+
+                    b.Navigation("packages");
                 });
 
             modelBuilder.Entity("GoldenAirport.Domain.Entities.Employee", b =>

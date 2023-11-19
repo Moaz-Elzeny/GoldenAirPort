@@ -15,17 +15,14 @@ namespace GoldenAirport.Domain.Entities
         public bool IsRefundable { get; set; }
         public decimal Price { get; set; }
         public decimal ChildPrice { get; set; }
-        //public decimal PriceLessThan12YearsOld { get; set; }
-        //public paymentMethod PaymentMethod { get; set; }
-
-        public int CountryId { get; set; }
-        public virtual Country Country { get; set; }
+        public string AboutExploreTour { get; set; }
 
         public int FromCityId { get; set; }
         public virtual City City { get; set; }
+        public int? ToCityId { get; set; }
+        public virtual City ToCity { get; set; }
 
         public virtual ICollection<PackagePlan> PackagePlans { get; set; }
-        public virtual ICollection<CityPackage> ToCity { get; set; }
         public virtual ICollection<PaymentOptionPackage> PaymentOptionPackages { get; set; }
 
 

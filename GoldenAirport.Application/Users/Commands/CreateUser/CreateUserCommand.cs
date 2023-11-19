@@ -2,11 +2,13 @@
 using GoldenAirport.Application.Helpers;
 using GoldenAirport.Application.Helpers.DTOs;
 using GoldenAirport.Application.Users.DTOs;
+using GoldenAirport.Domain.Entities;
 using GoldenAirport.Domain.Entities.Auth;
 using GoldenAirport.Domain.Enums;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
@@ -34,11 +36,14 @@ namespace GoldenAirport.Application.Users.Commands.CreateUser
         {
             private readonly UserManager<AppUser> _userManager;
             private readonly IHostingEnvironment _environment;
+            private readonly IApplicationDbContext _dbContext;
 
-            public CreateUserCommandHandler(UserManager<AppUser> userManager, IHostingEnvironment environment)
+
+            public CreateUserCommandHandler(UserManager<AppUser> userManager, IHostingEnvironment environment, IApplicationDbContext dbContext)
             {
                 _userManager = userManager;
                 _environment = environment;
+                _dbContext = dbContext;
             }
 
             public async Task<ResponseDto<object>> Handle(CreateUserCommand request, CancellationToken cancellationToken)
@@ -50,7 +55,7 @@ namespace GoldenAirport.Application.Users.Commands.CreateUser
                     FirstName = request.FirstName,
                     LastName = request.LastName,
                     UserType = request.UserType,
-                    CreatedById ="emp",
+                    CreatedById = request.CurrentUserId,
                     CreationDate = DateTime.Now,
                     PhoneNumber = request.PhoneNumber,
                     //ServiceFees = request.ServiceFees,
@@ -64,6 +69,7 @@ namespace GoldenAirport.Application.Users.Commands.CreateUser
                     user.ProfilePicture = await FileHelper.SaveImageAsync(request.ProfilePicture, _environment);
                 }
 
+
                 var result = await _userManager.CreateAsync(user, request.Password);
 
                 if (result.Succeeded)
@@ -76,9 +82,27 @@ namespace GoldenAirport.Application.Users.Commands.CreateUser
                     var userId = user.Id;
                     var Token = new UserTokenDto { UserId = userId, Token = token };
 
+
+                if (request.UserType == UserType.Employee) 
+                {
+                    var CreateEmployee = new Employee
+                    {
+                        Id = Guid.NewGuid().ToString(),
+                        AppUserId = user.Id,
+                        CreatedById = request.CurrentUserId,
+                        CreationDate = DateTime.Now,
+                        Active = true
+
+                    };
+
+                    _dbContext.Employees.Add(CreateEmployee);
+                    await _dbContext.SaveChangesAsync(cancellationToken);
+                }
+
+
                     return ResponseDto<object>.Success(new ResultDto()
                     {
-                        Message = "Token!",
+                        Message = Token.UserId,
                         Result = new
                         {
                             Token

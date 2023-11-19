@@ -14,9 +14,9 @@ namespace GoldenAirport.Application.Employees.Commands.Create
             //    .NotEmpty()
             //    .WithMessage("Balance is required");
 
-            RuleFor(x => x.ServiceFees)
-                .NotEmpty()
-                .WithMessage("Target  is required");
+            //RuleFor(x => x.ServiceFees)
+            //    .NotEmpty()
+            //    .WithMessage("Target  is required");
 
             //RuleFor(x => x.PaymentMethod)
             //    .IsInEnum()

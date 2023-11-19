@@ -57,10 +57,6 @@ namespace GoldenAirport.Application.Trips.Commands.Edit
                     trip.IsRefundable = request.IsRefundable.Value;
                 }
 
-                //if (request.PaymentMethod != null)
-                //{
-                //    trip.PaymentMethod = request.PaymentMethod.Value;
-                //}
                 trip.ModifiedById = request.CurrentUserId;
                 trip.ModificationDate = DateTime.Now;
 
@@ -87,22 +83,22 @@ namespace GoldenAirport.Application.Trips.Commands.Edit
                     }
                 }
 
-                if (request.PaymentOptions != null)
-                {
-                    var oldPayments = _dbContext.PaymentOptionTrips.Where(c => c.TripId == trip.Id);
-                    _dbContext.PaymentOptionTrips.RemoveRange(oldPayments);
+                //if (request.PaymentOptions != null)
+                //{
+                //    var oldPayments = _dbContext.PaymentOptionTrips.Where(c => c.TripId == trip.Id);
+                //    _dbContext.PaymentOptionTrips.RemoveRange(oldPayments);
 
-                    var paymentOptions = new List<PaymentOptionTrip>();
-                    foreach (var Option in request.PaymentOptions)
-                    {
-                        paymentOptions.Add(new PaymentOptionTrip
-                        {
-                            PaymentOptionId = Option,
-                            TripId = trip.Id
-                        });
-                    }
-                    _dbContext.PaymentOptionTrips.AddRange(paymentOptions);
-                }
+                //    var paymentOptions = new List<PaymentOptionTrip>();
+                //    foreach (var Option in request.PaymentOptions)
+                //    {
+                //        paymentOptions.Add(new PaymentOptionTrip
+                //        {
+                //            PaymentOptionId = Option,
+                //            TripId = trip.Id
+                //        });
+                //    }
+                //    _dbContext.PaymentOptionTrips.AddRange(paymentOptions);
+                //}
 
                 await _dbContext.SaveChangesAsync(cancellationToken);
                 return ResponseDto<object>.Success(new ResultDto()

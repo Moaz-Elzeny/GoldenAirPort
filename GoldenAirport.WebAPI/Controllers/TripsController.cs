@@ -62,13 +62,13 @@ namespace GoldenAirport.WebAPI.Controllers
                 Id = Id,
                 StartingDate = dto.StartingDate,
                 EndingDate = dto.EndingDate,
-                Price = dto.Price,
+                Price = dto.AdultPrice,
                 ChildPrice = dto.ChildPrice,
                 Guests = dto.Guests,
                 TripHours = dto.TripHours,
                 FromCityId = dto.FromCityId,
                 ToCitiesIds = dto.ToCitiesIds,
-                PaymentOptions = dto.PaymentOptions,
+                //PaymentOptions = dto.PaymentOptions,
                 IsRefundable = dto.IsRefundable,
                 CurrentUserId = CurrentUserId
             };

@@ -44,12 +44,12 @@ namespace GoldenAirport.Application.Employees.Commands.Create
 
                 if (request.AddBalance == 0)
                 {
-                    balanceHistory.BalanceAmount = (decimal)request.RebateBalance;
+                    balanceHistory.BalanceAmount = (decimal)request.RebateBalance * -1;
 
                 }
                 else if(request.RebateBalance == 0)            {
 
-                    balanceHistory.BalanceAmount = (decimal)request.AddBalance * -1;
+                    balanceHistory.BalanceAmount = (decimal)request.AddBalance ;
                 }
 
                 _dbContext.Balances.Add(balanceHistory);
@@ -61,6 +61,7 @@ namespace GoldenAirport.Application.Employees.Commands.Create
                     Message = "Created Successfully",
                     Result = new
                     {
+                        EmployeeId = balanceHistory.AppUserId,
                     }
                 });
 

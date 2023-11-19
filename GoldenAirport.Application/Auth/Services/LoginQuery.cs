@@ -60,7 +60,8 @@ namespace GoldenAirport.Application.Users.Queries.Login
                     Message = "Successfully",
                     Result = new
                     {
-                        Token = token
+                        Token = token,
+                        UserType = user.UserType
                     }
                 });
             }

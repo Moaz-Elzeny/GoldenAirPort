@@ -15,7 +15,7 @@ namespace GoldenAirport.Application.Trips.Commands.Create
                .NotEmpty()
                .WithMessage("Ending Date is required");
             
-            RuleFor(x => x.Price)
+            RuleFor(x => x.AdultPrice)
                .NotEmpty()
                .WithMessage("Price is required");
             
