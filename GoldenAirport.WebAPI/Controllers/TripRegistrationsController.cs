@@ -17,18 +17,18 @@ namespace GoldenAirport.WebAPI.Controllers
         }
 
 
-        //[HttpGet("fetch")]
-        //public async Task<IActionResult> GetAllTrips
-        //    ( int pageNumber )
-        //{
-        //    var query = new GetTripRegistrationQuery
-        //    {
-        //        PageNumber = pageNumber,
-        //    };
-        //    var result = await Mediator.Send(query);
-        //    return !result.IsSuccess ? BadRequest(result.Error) : Ok(result.Result);
-        //}
-        
+        [HttpGet("fetch")]
+        public async Task<IActionResult> GetAllTrips
+            (int pageNumber)
+        {
+            var query = new GetTripRegistrationQuery
+            {
+                PageNumber = pageNumber,
+            };
+            var result = await Mediator.Send(query);
+            return !result.IsSuccess ? BadRequest(result.Error) : Ok(result.Result);
+        }
+
         [HttpGet("fetch1")]
         public async Task<IActionResult> GetTripById
             (int id )
@@ -54,7 +54,7 @@ namespace GoldenAirport.WebAPI.Controllers
         //}
 
         [HttpPost("Create")]
-        public async Task<IActionResult> Create([FromForm] CreateTripRegistrationCommand command)
+        public async Task<IActionResult> Create( CreateTripRegistrationCommand command)
         {
             command.CurrentUserId = CurrentUserId;
             var validationResults = await new CreateTripRegistrationCommandValidator().ValidateAsync(command);

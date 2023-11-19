@@ -75,44 +75,16 @@ namespace GoldenAirport.Application.Trips.Queries
                         ChildPrice = t.ChildPrice,
                         TripHours = t.TripHours.ToString(@"hh\:mm"),
                         IsRefundable = t.IsRefundable,
-                        Cities = t.ToCity.Select(c => new GetCitiesDto
+                        FromCities = new GetFromCityDto
                         {
-                            City = new GetFromCityDto
-                            {
-                                Id = t.FromCityId,
-                                CityName = CultureInfo.CurrentCulture.TwoLetterISOLanguageName == "ar" ? t.City.NameAr : t.City.NameEn,
-                            } ,
+                            Id = t.FromCityId,
+                            CityName = CultureInfo.CurrentCulture.TwoLetterISOLanguageName == "ar" ? t.City.NameAr : t.City.NameEn,
+                        },
+                        ToCities = t.ToCity.Select(c => new GetCitiesDto
+                        {
                             Id = c.CityId,
                             CityName = CultureInfo.CurrentCulture.TwoLetterISOLanguageName == "ar" ? c.Cities.NameAr : c.Cities.NameEn
-                        }),
-                        //PaymentOptions = t.PaymentOptionTrips.Select(p => new
-                        //{
-                        //    Id = p.PaymentOptionId,
-                        //    Type = p.PaymentOptions.NameAr
-                        //}),
-                        //WhyVisit = t.WhyVisits.Select(w => new
-                        //{
-                        //    Id = w.Id,
-                        //    Description = w.Description,
-
-                        //}),
-
-                        //WhatIsIncluded = t.WhatAreIncluded.Select(w => new
-                        //{
-                        //    Id = w.Id,
-                        //    Description = w.Description
-                        //}),
-                        //Accessibility = t.Accessibilities.Select(w => new
-                        //{
-                        //    Id = w.Id,
-                        //    Description = w.Description
-                        //}),
-                        //Restrictions = t.Restrictions.Select(w => new
-                        //{
-                        //    Id = w.Id,
-                        //    Description = w.Description
-                        //}),
-
+                        })
                     }).ToListAsync(cancellationToken);
 
                 var paginatedList = new PaginatedList<GetTripsDto>

@@ -16,8 +16,8 @@ namespace GoldenAirport.Domain.Entities
         public bool IsRefundable { get; set; }
         public decimal Price { get; set; }
         public decimal ChildPrice { get; set; }
-        public byte Guests { get; set; }
-        public byte RemainingGuests { get; set; }
+        public int Guests { get; set; }
+        public int RemainingGuests { get; set; }
         public TimeSpan TripHours { get; set;}
         //public paymentMethod PaymentMethod { get; set; }
 

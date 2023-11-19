@@ -30,7 +30,7 @@ namespace GoldenAirport.Application.TripRegistrations.Queries
                 var adult = await query
                     .Select(a => new AdultDto
                     {
-                        Id = a.Id,
+                       // Id = a.Id,
                         Title = a.Title,
                         FirstName = a.FirstName,
                         LastName = a.LastName,
