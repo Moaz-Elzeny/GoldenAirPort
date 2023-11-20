@@ -32,10 +32,7 @@ namespace GoldenAirport.Application.Employees.Queries
                 return ResponseDto<object>.Success(new ResultDto()
                 {
                     Message = "employee daily Goal",
-                    Result = new
-                    {
-                        dailyGoal
-                    }
+                    Result = dailyGoal
                 });
             }
         }

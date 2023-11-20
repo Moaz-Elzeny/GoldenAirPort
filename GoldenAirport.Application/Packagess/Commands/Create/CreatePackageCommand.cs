@@ -1,7 +1,6 @@
 ﻿using GoldenAirport.Application.Common.Models;
 using GoldenAirport.Application.Helpers.DTOs;
 using GoldenAirport.Domain.Entities;
-using SendGrid.Helpers.Errors.Model;
 
 namespace GoldenAirport.Application.Packagess.Commands.Create
 {

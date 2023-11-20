@@ -40,10 +40,7 @@ namespace GoldenAirport.Application.TripRegistrations.Queries
                 return ResponseDto<object>.Success(new ResultDto()
                 {
                     Message = "Adult",
-                    Result = new
-                    {
-                        adult
-                    }
+                    Result =  adult
                 });
 
             }

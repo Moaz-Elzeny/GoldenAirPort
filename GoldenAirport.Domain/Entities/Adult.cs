@@ -10,7 +10,10 @@ namespace GoldenAirport.Domain.Entities
         public string LastName { get; set; }        
         public string? PassportNo { get; set; }
         public DateTime DateOfBirth { get; set; }
-        public int TripRegistrationId { get; set;}
+
+        public int? TripRegistrationId { get; set;}
         public virtual TripRegistration TripRegistration { get; set; }
+        public int? PackageRegistrationId { get; set;}
+        public virtual PackageRegistration PackageRegistration { get; set; }
     }
 }

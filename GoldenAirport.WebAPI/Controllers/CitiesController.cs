@@ -23,6 +23,14 @@ namespace GoldenAirport.WebAPI.Controllers
             var result = await Mediator.Send(query);
             return !result.IsSuccess ? BadRequest(result.Error) : Ok(result.Result);
         }
+        
+        [HttpGet("fetch1")]
+        public async Task<IActionResult> GetCitiesByCountryId([FromQuery] int CountryId)
+        {
+            var query = new GetCitiesByCountryIdQuery { CountryId = CountryId };
+            var result = await Mediator.Send(query);
+            return !result.IsSuccess ? BadRequest(result.Error) : Ok(result.Result);
+        }
 
         [HttpPost("Create")]
         public async Task<IActionResult> Create([FromBody] CreateCityCommand command)

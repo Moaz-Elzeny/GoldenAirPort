@@ -35,7 +35,7 @@ namespace GoldenAirport.Application.Trips.Queries
                 .AsQueryable();
 
                 var ra = _dbContext.TripRegistrations.Select(r => r.Id);
-                var ad = _dbContext.Adults.Where(a => ra.Contains(a.TripRegistrationId)).Select(a => a.Id);
+                var ad = _dbContext.Adults.Where(a => ra.Contains(a.TripRegistrationId.Value)).Select(a => a.Id);
 
                 if (request.FromCity != null)
                 {
@@ -84,7 +84,29 @@ namespace GoldenAirport.Application.Trips.Queries
                         {
                             Id = c.CityId,
                             CityName = CultureInfo.CurrentCulture.TwoLetterISOLanguageName == "ar" ? c.Cities.NameAr : c.Cities.NameEn
-                        })
+                        }),
+                        WhyVisit = t.WhyVisits.Select(w => new
+                        {
+                            Id = w.Id,
+                            Description = w.Description,
+
+                        }),
+
+                        WhatIsIncluded = t.WhatAreIncluded.Select(w => new
+                        {
+                            Id = w.Id,
+                            Description = w.Description
+                        }),
+                        Accessibility = t.Accessibilities.Select(w => new
+                        {
+                            Id = w.Id,
+                            Description = w.Description
+                        }),
+                        Restrictions = t.Restrictions.Select(w => new
+                        {
+                            Id = w.Id,
+                            Description = w.Description
+                        }),
                     }).ToListAsync(cancellationToken);
 
                 var paginatedList = new PaginatedList<GetTripsDto>

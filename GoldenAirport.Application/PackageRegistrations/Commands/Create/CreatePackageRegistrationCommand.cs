@@ -4,11 +4,11 @@ using GoldenAirport.Application.TripRegistrations.Dtos;
 using GoldenAirport.Domain.Entities;
 using GoldenAirport.Domain.Enums;
 
-namespace GoldenAirport.Application.TripRegistrations.Commands.Create
+namespace GoldenAirport.Application.PackageRegistrations.Commands.Create
 {
-    public class CreateTripRegistrationCommand : IRequest<ResponseDto<object>>
+    public class CreatePackageRegistrationCommand : IRequest<ResponseDto<object>>
     {
-        public int TripId { get; set; }
+        public int PackageId { get; set; }
         public string Email { get; set; }
         public string PhoneNumber { get; set; }
         public UserType UserType { get; set; }
@@ -17,18 +17,20 @@ namespace GoldenAirport.Application.TripRegistrations.Commands.Create
         public List<AdultDto> Adult { get; set; }
         public List<ChildDto> Child { get; set; }
 
-        public class CreateTripRegistrationHandler : IRequestHandler<CreateTripRegistrationCommand, ResponseDto<object>>
+        public class CreatePackageRegistrationCommandHandler : IRequestHandler<CreatePackageRegistrationCommand, ResponseDto<object>>
         {
             private readonly IApplicationDbContext _dbContext;
 
-            public CreateTripRegistrationHandler(IApplicationDbContext dbContext)
+            public CreatePackageRegistrationCommandHandler(IApplicationDbContext dbContext)
             {
                 _dbContext = dbContext;
             }
 
-            public async Task<ResponseDto<object>> Handle(CreateTripRegistrationCommand request, CancellationToken cancellationToken)
+            public async Task<ResponseDto<object>> Handle(CreatePackageRegistrationCommand request, CancellationToken cancellationToken)
             {
-                var trip = _dbContext.Trips.Where(t => t.Id == request.TripId).FirstOrDefault();
+                var package = _dbContext.Packages.Where(t => t.Id == request.PackageId).AsQueryable().FirstOrDefault();
+
+
 
                 var userDetails = new Domain.Entities.AdminDetails();
                 var employee = new Employee();
@@ -44,18 +46,15 @@ namespace GoldenAirport.Application.TripRegistrations.Commands.Create
 
                         break;
                 }
-
-
-
-                var adultPrice = trip.Price;
+                var adultPrice = package.Price;
                 var employeeServiceFees = employee.ServiceFees;
-                var childPrice = trip.ChildPrice;
-                var userServiceFees = userDetails.ServiceFees ?? 0;
+                var childPrice = package.ChildPrice;
+                var userServiceFees = userDetails.ServiceFees;
                 var Taxes = userDetails.TaxValue ?? 14;
 
-                var tripRegistration = new TripRegistration
+                var packageRegistration = new PackageRegistration
                 {
-                    TripId = request.TripId,
+                    PackageId = request.PackageId,
                     Email = request.Email,
                     PhoneNumber = request.PhoneNumber,
                     AdultCost = adultPrice,
@@ -63,16 +62,14 @@ namespace GoldenAirport.Application.TripRegistrations.Commands.Create
                     AdminFees = userServiceFees,
                     EmployeeFees = employeeServiceFees,
                     Taxes = Taxes,
-                    TotalAmount = (adultPrice * request.Adult.Count) + (childPrice * request.Child.Count) + userServiceFees + employeeServiceFees + Taxes,
                     CreatedById = request.CurrentUserId,
                     CreationDate = DateTime.Now,
-                    //OtherFees = request.OtherFees,
 
                 };
 
                 foreach (var item in request.Adult)
                 {
-                    tripRegistration.Adults.Add(new Adult()
+                    packageRegistration.Adults.Add(new Adult()
                     {
                         Title = item.Title.Value,
                         FirstName = item.FirstName,
@@ -86,7 +83,7 @@ namespace GoldenAirport.Application.TripRegistrations.Commands.Create
                 //child
                 foreach (var item in request.Child)
                 {
-                    tripRegistration.Children.Add(new Child()
+                    packageRegistration.Children.Add(new Child()
                     {
                         FirstName = item.FirstName,
                         LastName = item.LastName,
@@ -97,12 +94,12 @@ namespace GoldenAirport.Application.TripRegistrations.Commands.Create
                     });
                 }
 
-                _dbContext.TripRegistrations.Add(tripRegistration);
+                _dbContext.PackageRegistrations.Add(packageRegistration);
 
                 await _dbContext.SaveChangesAsync(cancellationToken);
 
 
-                trip.RemainingGuests += (request.Adult.Count() + request.Child.Count());
+                package.RemainingGuests += request.Adult.Count() + request.Child.Count();
 
 
                 await _dbContext.SaveChangesAsync();
@@ -111,10 +108,8 @@ namespace GoldenAirport.Application.TripRegistrations.Commands.Create
                 return ResponseDto<object>.Success(new ResultDto()
                 {
                     Message = "Created Successfully!",
-                    Result = new
-                    {
-                        TripRegistration = tripRegistration.Id
-                    }
+                    Result = packageRegistration.Id
+
                 });
             }
         }

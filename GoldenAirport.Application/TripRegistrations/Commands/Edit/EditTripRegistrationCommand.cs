@@ -7,10 +7,7 @@ namespace GoldenAirport.Application.TripRegistrations.Commands.Edit
 {
     public class EditTripRegistrationCommand : IRequest<ResponseDto<object>>
     {
-        public int Id { get; set; }
-        public decimal? PackageCost { get; set; }
-        public decimal? TaxesAndFees { get; set; }
-        public decimal? OtherFees { get; set; }
+        public int Id { get; set; }        
         public string? Email { get; set; }
         public string? PhoneNumber { get; set; }
 
@@ -46,9 +43,7 @@ namespace GoldenAirport.Application.TripRegistrations.Commands.Edit
 
                 if (request.CurrentUserId == user.Select(u => u.Id).FirstOrDefault())
                 {
-                    //tripRegistration.PackageCost = request.PackageCost ?? tripRegistration.PackageCost;
-                    //tripRegistration.TaxesAndFees = request.TaxesAndFees ?? tripRegistration.TaxesAndFees;
-                    //tripRegistration.OutherFees = request.OtherFees ?? tripRegistration.OutherFees;
+                    
                     tripRegistration.Email = request.Email ?? tripRegistration.Email;
                     tripRegistration.PhoneNumber = request.PhoneNumber ?? tripRegistration.PhoneNumber;
 
@@ -77,10 +72,6 @@ namespace GoldenAirport.Application.TripRegistrations.Commands.Edit
                         tripRegistration.Adults.FirstOrDefault(a => a.DateOfBirth == request.DateOfBirth);
                     }
 
-                    //if (request.AgeRange != null)
-                    //{
-                    //    tripRegistration.Children.FirstOrDefault(a => a.AgeRange == request.AgeRange);
-                    //}
 
                     if (request.ChildPassportNo != null)
                     {
@@ -99,21 +90,7 @@ namespace GoldenAirport.Application.TripRegistrations.Commands.Edit
                     tripRegistration.ModifiedById = request.CurrentUserId;
                     tripRegistration.ModificationDate = DateTime.Now;
 
-                    //var TotalAmount = (tripRegistration.PackageCost * request.NoOfAdults) + tripRegistration.TaxesAndFees + tripRegistration.OutherFees;
-
-                    //tripRegistration.TotalAmount = TotalAmount.Value;
-
-
-                    //if (user.FirstOrDefault().UserType == UserType.SuperAdmin)
-                    //{
-                    //    await _dbContext.SaveChangesAsync(cancellationToken);
-                    //    return ResultDto<string>.Success("Trip Registration Updated Successfully!");
-
-                    //}
-                    //else
-                    //{
-
-                    //}
+                   
 
                 }
 

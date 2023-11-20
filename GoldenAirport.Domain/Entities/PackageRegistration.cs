@@ -2,9 +2,9 @@
 
 namespace GoldenAirport.Domain.Entities
 {
-    public class TripRegistration : BaseEntity
+    public class PackageRegistration : BaseEntity
     {
-        public TripRegistration() 
+        public PackageRegistration()
         {
             Adults = new HashSet<Adult>();
             Children = new HashSet<Child>();
@@ -15,20 +15,16 @@ namespace GoldenAirport.Domain.Entities
         public decimal? AdminFees { get; set; }
         public decimal? EmployeeFees { get; set; }
         public decimal? Taxes { get; set; }
-        public decimal? OtherFees { get; set; }
-        public decimal TotalAmount { get; set; }
         public string Email { get; set; }
         public string PhoneNumber { get; set; }
-        //public paymentMethod PaymentMethod { get; set; }
 
-        public int TripId { get; set; }
-        public virtual Trip Trip { get; set; }
+        public int PackageId { get; set; }
+        public virtual Package Package { get; set; }
 
         public string? AppUserId { get; set; }
         public virtual AppUser AppUser { get; set; }
 
         public virtual ICollection<Adult> Adults { get; set; }
         public virtual ICollection<Child> Children { get; set; }
-        //public virtual ICollection<EmployeeTripRegistration> EmployeeTripRegistrations { get; set; }
     }
 }

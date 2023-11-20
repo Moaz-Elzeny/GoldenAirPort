@@ -70,37 +70,13 @@ namespace GoldenAirport.WebAPI.Controllers
 
         }
         
-        [HttpPost("CreateAdult")]
-        public async Task<IActionResult> CreateAdult( CreateAdultCommand command)
-        {
-            command.CurrentUserId = CurrentUserId;
-            
-            var result = await Mediator.Send(command);
-
-            return !result.IsSuccess ? BadRequest(result.Error) : Ok(result.Result);
-
-        }
-        
-        [HttpPost("CreateChild")]
-        public async Task<IActionResult> CreateChild(CreateChildCommand command)
-        {
-            command.CurrentUserId = CurrentUserId;
-            
-            var result = await Mediator.Send(command);
-
-            return !result.IsSuccess ? BadRequest(result.Error) : Ok(result.Result);
-
-        }
 
         [HttpPut("Update")]
         public async Task<IActionResult> Update([FromHeader] int Id, [FromForm] UpdateTripRegistrationDto dto)
         {
             var command = new EditTripRegistrationCommand
             {
-                Id = Id,
-                PackageCost = dto.PackageCost,
-                TaxesAndFees = dto.TaxesAndFees,
-                OtherFees = dto.OtherFees,
+                Id = Id,               
                 Email = dto.Email,
                 PhoneNumber = dto.PhoneNumber,
                 Title = dto.Title,

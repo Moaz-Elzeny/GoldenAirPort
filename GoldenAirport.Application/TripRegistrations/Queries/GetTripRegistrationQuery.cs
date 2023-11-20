@@ -38,12 +38,12 @@ namespace GoldenAirport.Application.TripRegistrations.Queries
                     .Select(t => new GetTripRegistrationDto
                     {
                         Id = t.Id,
+                        TripId = t.TripId,
                         AdultCost = t.AdultCost,
                         ChildCost = t.ChildCost,
                         AdminFees = t.AdminFees,
                         EmployeeFees = t.EmployeeFees,
-                        //NoOfAdults = t.Trip.RemainingGuests,
-                        //OtherFees = t.OtherFees,
+                        Taxes = t.Taxes,                        
                         TotalAmount = t.TotalAmount,
                         Email = t.Email,
                         PhoneNumber = t.PhoneNumber,
@@ -72,10 +72,8 @@ namespace GoldenAirport.Application.TripRegistrations.Queries
                 return ResponseDto<object>.Success(new ResultDto()
                 {
                     Message = "All TripRegistration ",
-                    Result = new
-                    {
-                        result = paginatedList
-                    }
+                    Result =  paginatedList
+                    
                 });
             }
         }

@@ -16,10 +16,9 @@ namespace GoldenAirport.Application.Trips.Dtos
 
         public GetFromCityDto FromCities { get; set; }
         public IEnumerable<GetCitiesDto> ToCities { get; set; }
-        //    public IEnumerable<object> PaymentOptions { get; set; }
-        //    public IEnumerable<object> WhyVisit { get; set; }
-        //    public IEnumerable<object> WhatIsIncluded { get; set; }
-        //    public IEnumerable<object> Restrictions { get; set; }
-        //    public IEnumerable<object> Accessibility { get; set; }
+        public IEnumerable<object> WhyVisit { get; set; }
+        public IEnumerable<object> WhatIsIncluded { get; set; }
+        public IEnumerable<object> Restrictions { get; set; }
+        public IEnumerable<object> Accessibility { get; set; }
     }
 }

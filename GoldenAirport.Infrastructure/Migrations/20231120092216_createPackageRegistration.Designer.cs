@@ -4,6 +4,7 @@ using GoldenAirport.Infrastructure.Presistence;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace GoldenAirport.Infrastructure.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20231120092216_createPackageRegistration")]
+    partial class createPackageRegistration
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -154,7 +157,7 @@ namespace GoldenAirport.Infrastructure.Migrations
                     b.Property<int>("Title")
                         .HasColumnType("int");
 
-                    b.Property<int?>("TripRegistrationId")
+                    b.Property<int>("TripRegistrationId")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
@@ -488,7 +491,7 @@ namespace GoldenAirport.Infrastructure.Migrations
                         .HasMaxLength(20)
                         .HasColumnType("nvarchar(20)");
 
-                    b.Property<int?>("TripRegistrationId")
+                    b.Property<int>("TripRegistrationId")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
@@ -947,9 +950,6 @@ namespace GoldenAirport.Infrastructure.Migrations
                     b.Property<int>("FromCityId")
                         .HasColumnType("int");
 
-                    b.Property<int>("Guests")
-                        .HasColumnType("int");
-
                     b.Property<bool>("IsRefundable")
                         .HasColumnType("bit");
 
@@ -966,9 +966,6 @@ namespace GoldenAirport.Infrastructure.Migrations
 
                     b.Property<decimal>("Price")
                         .HasColumnType("decimal(18,2)");
-
-                    b.Property<int>("RemainingGuests")
-                        .HasColumnType("int");
 
                     b.Property<DateTime>("StartingDate")
                         .HasColumnType("datetime2");
@@ -1567,7 +1564,9 @@ namespace GoldenAirport.Infrastructure.Migrations
 
                     b.HasOne("GoldenAirport.Domain.Entities.TripRegistration", "TripRegistration")
                         .WithMany("Adults")
-                        .HasForeignKey("TripRegistrationId");
+                        .HasForeignKey("TripRegistrationId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("PackageRegistration");
 
@@ -1625,7 +1624,9 @@ namespace GoldenAirport.Infrastructure.Migrations
 
                     b.HasOne("GoldenAirport.Domain.Entities.TripRegistration", "TripRegistration")
                         .WithMany("Children")
-                        .HasForeignKey("TripRegistrationId");
+                        .HasForeignKey("TripRegistrationId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("PackageRegistration");
 

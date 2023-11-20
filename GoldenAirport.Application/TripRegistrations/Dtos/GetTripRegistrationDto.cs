@@ -11,16 +11,14 @@ namespace GoldenAirport.Application.TripRegistrations.Dtos
         public decimal? AdminFees { get; set; }
         public decimal? EmployeeFees { get; set; }
         public decimal? Taxes { get; set; }
-        //public decimal? OtherFees { get; set; }
         public decimal TotalAmount { get; set; }
         public string Email { get; set; }
         public string PhoneNumber { get; set; }
         public List<AdultTripRegistrationDto> Adults { get; set; }
         public List<ChildrenTripRegistrationDto> Children { get; set; }
 
-        public int NoOfAdults { get; set; } = 1;
+        //public int NoOfAdults { get; set; } = 1;
 
-        //public AgeRange? AgeRange { get; set; }
     }
 
     public class AdultTripRegistrationDto

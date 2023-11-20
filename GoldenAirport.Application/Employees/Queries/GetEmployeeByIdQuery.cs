@@ -41,10 +41,8 @@ namespace GoldenAirport.Application.Employees.Queries
                 return ResponseDto<object>.Success(new ResultDto()
                 {
                     Message = "All employee",
-                    Result = new
-                    {
-                        Employees = employeeDetails
-                    }
+                    Result = employeeDetails
+                    
                 });
             }
         }

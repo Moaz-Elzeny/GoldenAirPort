@@ -27,7 +27,7 @@ namespace GoldenAirport.Application.Employees.Commands.Edit.Actions
                     var goal = new DailyGoal
                     {
                         EmployeeId = request.EmployeeId,
-                        Target = request.Target.Value,
+                        Target = request.Target.Value, 
                         Date = DateTime.Now,
                         Goal = 0,
                         CreatedById = request.CurrentUserId,

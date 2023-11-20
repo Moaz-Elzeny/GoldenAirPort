@@ -4,9 +4,7 @@ namespace GoldenAirport.Application.TripRegistrations.Dtos
 {
     public class UpdateTripRegistrationDto
     {
-        public decimal? PackageCost { get; set; }
-        public decimal? TaxesAndFees { get; set; }
-        public decimal? OtherFees { get; set; }
+       
         public string? Email { get; set; }
         public string? PhoneNumber { get; set; }
 
