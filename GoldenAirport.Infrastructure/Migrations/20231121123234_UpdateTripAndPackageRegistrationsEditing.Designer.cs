@@ -4,6 +4,7 @@ using GoldenAirport.Infrastructure.Presistence;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace GoldenAirport.Infrastructure.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20231121123234_UpdateTripAndPackageRegistrationsEditing")]
+    partial class UpdateTripAndPackageRegistrationsEditing
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -1214,6 +1217,15 @@ namespace GoldenAirport.Infrastructure.Migrations
                         .HasColumnType("bit")
                         .HasDefaultValue(true);
 
+                    b.Property<decimal?>("AdminFees")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<decimal>("AdultCost")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<decimal?>("ChildCost")
+                        .HasColumnType("decimal(18,2)");
+
                     b.Property<string>("CreatedById")
                         .IsRequired()
                         .HasMaxLength(50)
@@ -1234,6 +1246,9 @@ namespace GoldenAirport.Infrastructure.Migrations
                         .HasMaxLength(500)
                         .HasColumnType("nvarchar(500)");
 
+                    b.Property<decimal?>("EmployeeFees")
+                        .HasColumnType("decimal(18,2)");
+
                     b.Property<DateTime?>("ModificationDate")
                         .HasColumnType("DATETIME");
 
@@ -1241,7 +1256,10 @@ namespace GoldenAirport.Infrastructure.Migrations
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)");
 
-                    b.Property<int>("PackageRegistrationId")
+                    b.Property<int?>("PackageId")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("PackageRegistrationId")
                         .HasColumnType("int");
 
                     b.Property<string>("PhoneNumber")
@@ -1249,7 +1267,12 @@ namespace GoldenAirport.Infrastructure.Migrations
                         .HasMaxLength(20)
                         .HasColumnType("nvarchar(20)");
 
+                    b.Property<decimal?>("Taxes")
+                        .HasColumnType("decimal(18,2)");
+
                     b.HasKey("Id");
+
+                    b.HasIndex("PackageId");
 
                     b.HasIndex("PackageRegistrationId");
 
@@ -1539,6 +1562,15 @@ namespace GoldenAirport.Infrastructure.Migrations
                         .HasColumnType("bit")
                         .HasDefaultValue(true);
 
+                    b.Property<decimal?>("AdminFees")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<decimal>("AdultCost")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<decimal?>("ChildCost")
+                        .HasColumnType("decimal(18,2)");
+
                     b.Property<string>("CreatedById")
                         .IsRequired()
                         .HasMaxLength(50)
@@ -1559,6 +1591,9 @@ namespace GoldenAirport.Infrastructure.Migrations
                         .HasMaxLength(500)
                         .HasColumnType("nvarchar(500)");
 
+                    b.Property<decimal?>("EmployeeFees")
+                        .HasColumnType("decimal(18,2)");
+
                     b.Property<DateTime?>("ModificationDate")
                         .HasColumnType("DATETIME");
 
@@ -1566,15 +1601,29 @@ namespace GoldenAirport.Infrastructure.Migrations
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)");
 
+                    b.Property<decimal?>("OtherFees")
+                        .HasColumnType("decimal(18,2)");
+
                     b.Property<string>("PhoneNumber")
                         .IsRequired()
                         .HasMaxLength(20)
                         .HasColumnType("nvarchar(20)");
 
+                    b.Property<decimal?>("Taxes")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<decimal>("TotalAmount")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<int?>("TripId")
+                        .HasColumnType("int");
+
                     b.Property<int>("TripRegistrationId")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("TripId");
 
                     b.HasIndex("TripRegistrationId");
 
@@ -2031,11 +2080,13 @@ namespace GoldenAirport.Infrastructure.Migrations
 
             modelBuilder.Entity("GoldenAirport.Domain.Entities.PackageRegistrationEditing", b =>
                 {
+                    b.HasOne("GoldenAirport.Domain.Entities.Package", null)
+                        .WithMany("PackageRegistrationsEditing")
+                        .HasForeignKey("PackageId");
+
                     b.HasOne("GoldenAirport.Domain.Entities.PackageRegistration", "PackageRegistration")
                         .WithMany()
-                        .HasForeignKey("PackageRegistrationId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("PackageRegistrationId");
 
                     b.Navigation("PackageRegistration");
                 });
@@ -2138,6 +2189,10 @@ namespace GoldenAirport.Infrastructure.Migrations
 
             modelBuilder.Entity("GoldenAirport.Domain.Entities.TripRegistrationEditing", b =>
                 {
+                    b.HasOne("GoldenAirport.Domain.Entities.Trip", null)
+                        .WithMany("TripRegistrationsEditing")
+                        .HasForeignKey("TripId");
+
                     b.HasOne("GoldenAirport.Domain.Entities.TripRegistration", "TripRegistration")
                         .WithMany()
                         .HasForeignKey("TripRegistrationId")
@@ -2263,6 +2318,8 @@ namespace GoldenAirport.Infrastructure.Migrations
 
                     b.Navigation("PackageRegistrations");
 
+                    b.Navigation("PackageRegistrationsEditing");
+
                     b.Navigation("PaymentOptionPackages");
                 });
 
@@ -2300,6 +2357,8 @@ namespace GoldenAirport.Infrastructure.Migrations
                     b.Navigation("ToCity");
 
                     b.Navigation("TripRegistrations");
+
+                    b.Navigation("TripRegistrationsEditing");
 
                     b.Navigation("WhatAreIncluded");
 

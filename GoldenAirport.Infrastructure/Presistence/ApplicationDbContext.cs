@@ -28,8 +28,11 @@ namespace GoldenAirport.Infrastructure.Presistence
         public DbSet<Trip> Trips { get; set; }
         public DbSet<CityTrip> CityTrips { get; set; }
         public DbSet<TripRegistration> TripRegistrations { get; set; }
+        public DbSet<TripRegistrationEditing> TripRegistrationsEditing { get; set; }
         public DbSet<Adult> Adults { get; set; }
+        public DbSet<AdultEditing> AdultsEditing { get; set; }
         public DbSet<Child> Children { get; set; }
+        public DbSet<ChildEditing> ChildrenEditing { get; set; }
         public DbSet<WhyVisit> WhyVisits { get; set; }
         public DbSet<WhatIsIncluded> WhatAreIncluded { get; set; }
         public DbSet<Accessibility> Accessibilities { get; set; }
@@ -37,6 +40,7 @@ namespace GoldenAirport.Infrastructure.Presistence
         public DbSet<Package> Packages { get; set; }
         public DbSet<PackagePlan> PackagePlans { get; set; }
         public DbSet<PackageRegistration> PackageRegistrations { get; set; }
+        public DbSet<PackageRegistrationEditing> PackageRegistrationsEditing { get; set; }
         public DbSet<PaymentOption> PaymentOptions { get; set; }
         public DbSet<PaymentOptionTrip> PaymentOptionTrips { get; set; }
         public DbSet<PaymentOptionPackage> PaymentOptionPackages { get; set; }

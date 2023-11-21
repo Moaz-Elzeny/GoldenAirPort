@@ -34,7 +34,7 @@ namespace GoldenAirport.Application.TripRegistrations.Queries
                         Title = a.Title,
                         FirstName = a.FirstName,
                         LastName = a.LastName,
-                        AdultPassportNo = a.PassportNo,
+                        PassportNo = a.PassportNo,
                         DateOfBirth = a.DateOfBirth
                     }).ToListAsync();
                 return ResponseDto<object>.Success(new ResultDto()

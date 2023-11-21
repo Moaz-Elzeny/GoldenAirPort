@@ -77,7 +77,7 @@ namespace GoldenAirport.Application.TripRegistrations.Commands.Create
                         Title = item.Title.Value,
                         FirstName = item.FirstName,
                         LastName = item.LastName,
-                        PassportNo = item.AdultPassportNo,
+                        PassportNo = item.PassportNo,
                         DateOfBirth = DateTime.Now,
                         CreatedById = request.CurrentUserId,
                         CreationDate = DateTime.Now,
@@ -90,7 +90,7 @@ namespace GoldenAirport.Application.TripRegistrations.Commands.Create
                     {
                         FirstName = item.FirstName,
                         LastName = item.LastName,
-                        PassportNo = item.AdultPassportNo,
+                        PassportNo = item.PassportNo,
                         DateOfBirth = DateTime.Now,
                         CreatedById = request.CurrentUserId,
                         CreationDate = DateTime.Now,

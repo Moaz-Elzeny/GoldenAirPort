@@ -13,8 +13,8 @@ namespace GoldenAirport.Application.PackageRegistrations.Commands.Edit
         public string? Email { get; set; }
         public string? PhoneNumber { get; set; }
 
-        public List<AdultDto>? Adult { get; set; }
-        public List<ChildDto>? Child { get; set; }
+        public List<AdultDto>? Adults { get; set; }
+        public List<ChildDto>? Children { get; set; }
         public string? CurrentUserId { get; set; }
 
         public class EditPackageRegistrationCommandHandler : IRequestHandler<EditPackageRegistrationCommand, ResponseDto<object>>
@@ -28,7 +28,6 @@ namespace GoldenAirport.Application.PackageRegistrations.Commands.Edit
 
             public async Task<ResponseDto<object>> Handle(EditPackageRegistrationCommand request, CancellationToken cancellationToken)
             {
-                //var user = _dbContext.AppUsers.AsQueryable();
 
                  var packageRegistration = await _dbContext.PackageRegistrations
                     .Include(a => a.Adults)
@@ -51,7 +50,7 @@ namespace GoldenAirport.Application.PackageRegistrations.Commands.Edit
                     packageRegistration.ModifiedById = request.CurrentUserId;
                     packageRegistration.ModificationDate = DateTime.Now;
 
-                    if (request.Adult.Count != null)
+                    if (request.Adults.Count != null)
                     {
                         //var adult = await _dbContext.Adults.Where(a => a.PackageRegistrationId == request.Id).ToListAsync();
                         //if (adult == null)
@@ -59,14 +58,14 @@ namespace GoldenAirport.Application.PackageRegistrations.Commands.Edit
 
                         //}
 
-                        foreach (var item in request.Adult)
+                        foreach (var item in request.Adults)
                         {
                             packageRegistration.Adults.Add(new Adult()
                             {
                                 Title = item.Title.Value,
                                 FirstName = item.FirstName,
                                 LastName = item.LastName,
-                                PassportNo = item.AdultPassportNo,
+                                PassportNo = item.PassportNo,
                                 DateOfBirth = DateTime.Now,
                                 CreatedById = request.CurrentUserId,
                                 CreationDate = DateTime.Now,
@@ -76,16 +75,16 @@ namespace GoldenAirport.Application.PackageRegistrations.Commands.Edit
                     }
 
                     //child
-                    if (request.Child.Count != 0)
+                    if (request.Children.Count != 0)
                     {
 
-                        foreach (var item in request.Child)
+                        foreach (var item in request.Children)
                         {
                             packageRegistration.Children.Add(new Child()
                             {
                                 FirstName = item.FirstName,
                                 LastName = item.LastName,
-                                PassportNo = item.AdultPassportNo,
+                                PassportNo = item.PassportNo,
                                 DateOfBirth = DateTime.Now,
                                 CreatedById = request.CurrentUserId,
                                 CreationDate = DateTime.Now,

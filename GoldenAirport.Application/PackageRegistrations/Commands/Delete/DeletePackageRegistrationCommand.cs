@@ -2,7 +2,7 @@
 using GoldenAirport.Application.Helpers.DTOs;
 using SendGrid.Helpers.Errors.Model;
 
-namespace GoldenAirport.Application.PackageRegistrations.Commands
+namespace GoldenAirport.Application.PackageRegistrations.Commands.Delete
 {
     public class DeletePackageRegistrationCommand : IRequest<ResponseDto<object>>
     {

@@ -33,7 +33,7 @@ namespace GoldenAirport.Application.Trips.Queries
                     .Include(r => r.TripRegistrations)
                     .ThenInclude(a => a.Adults)
                 .AsQueryable();
-
+                var allTrips = await query.CountAsync(cancellationToken);
                 var ra = _dbContext.TripRegistrations.Select(r => r.Id);
                 var ad = _dbContext.Adults.Where(a => ra.Contains(a.TripRegistrationId.Value)).Select(a => a.Id);
 
@@ -121,7 +121,11 @@ namespace GoldenAirport.Application.Trips.Queries
                 return ResponseDto<object>.Success(new ResultDto()
                 {
                     Message = "All Trips",
-                    Result = paginatedList
+                    Result = new
+                    {
+                        paginatedList,
+                        allTrips
+                    }
                 });
             }
         }

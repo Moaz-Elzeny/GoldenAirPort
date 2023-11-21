@@ -2,10 +2,6 @@
 using GoldenAirport.Application.PackageRegistrations.Commands.Edit;
 using GoldenAirport.Application.PackageRegistrations.Dtos;
 using GoldenAirport.Application.PackageRegistrations.Queries;
-using GoldenAirport.Application.Packagess.Commands.Edit;
-using GoldenAirport.Application.Packagess.Dtos;
-using GoldenAirport.Application.TripRegistrations.Commands.Create;
-using GoldenAirport.Application.TripRegistrations.Queries;
 using Microsoft.AspNetCore.Mvc;
 
 namespace GoldenAirport.WebAPI.Controllers
@@ -17,8 +13,7 @@ namespace GoldenAirport.WebAPI.Controllers
         public PackageRegistrationController() { }
 
         [HttpGet("fetch")]
-        public async Task<IActionResult> GetAllTrips
-            (int pageNumber)
+        public async Task<IActionResult> GetAllTrips(int pageNumber)
         {
             var query = new GetPackageRegistrationsQuery
             {
@@ -30,8 +25,7 @@ namespace GoldenAirport.WebAPI.Controllers
 
 
         [HttpGet("fetch1")]
-        public async Task<IActionResult> GetPackageById
-            (int id)
+        public async Task<IActionResult> GetPackageById(int id)
         {
             var query = new GetPackageRegistrationByIdQuery
             {
@@ -61,8 +55,22 @@ namespace GoldenAirport.WebAPI.Controllers
                 Id = Id,
                 Email = dto.Email,
                 PhoneNumber = dto.PhoneNumber,
-                Adult = dto.Adult,
-                Child = dto.Child,
+                Adults = dto.Adult,
+                Children = dto.Child,
+                CurrentUserId = CurrentUserId
+            };
+
+            var result = await Mediator.Send(command);
+            return !result.IsSuccess ? BadRequest(result.Error) : Ok(result.Result);
+        }
+        
+        [HttpPut("ApprovePackageRegistrationEditing")]
+        public async Task<IActionResult> ApprovePackageRegistrationEditing([FromHeader] int Id, bool Approve)
+         {
+            var command = new ApprovePackageRegistrationEditingCommand
+            {
+                PackageRegistrationId = Id,
+                Approve = Approve,
                 CurrentUserId = CurrentUserId
             };
 

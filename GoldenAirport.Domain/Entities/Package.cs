@@ -25,6 +25,8 @@ namespace GoldenAirport.Domain.Entities
         public virtual City ToCity { get; set; }
 
         public virtual ICollection<PackagePlan> PackagePlans { get; set; }
+        public virtual ICollection<PackageRegistration> PackageRegistrations { get; set; }
+        //public virtual ICollection<PackageRegistrationEditing> PackageRegistrationsEditing { get; set; }
         public virtual ICollection<PaymentOptionPackage> PaymentOptionPackages { get; set; }
 
 
