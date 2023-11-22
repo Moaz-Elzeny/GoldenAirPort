@@ -12,9 +12,9 @@ namespace GoldenAirport.Application.TripRegistrations.Dtos
         public string TripHours { get; set; }
         public decimal AdultCost { get; set; }
         public decimal? ChildCost { get; set; }
-        public decimal? AdminFees { get; set; }
-        public decimal? EmployeeFees { get; set; }
-        public decimal? Taxes { get; set; }
+        //public decimal? AdminFees { get; set; }
+        //public decimal? EmployeeFees { get; set; }
+        //public decimal? Taxes { get; set; }
         public decimal TotalAmount { get; set; }
         public string Email { get; set; }
         public string PhoneNumber { get; set; }
