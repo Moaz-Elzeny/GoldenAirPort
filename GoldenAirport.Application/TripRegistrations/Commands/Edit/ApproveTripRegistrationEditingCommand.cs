@@ -39,15 +39,17 @@ namespace GoldenAirport.Application.TripRegistrations.Commands.Edit
                     TripRegistration.Email = TripRegistrationEditing.Email;
                     TripRegistration.PhoneNumber = TripRegistrationEditing.PhoneNumber;
                     TripRegistration.TripId = TripRegistration.TripId;
-                    TripRegistration.CreatedById = request.CurrentUserId;
-                    TripRegistration.CreationDate = DateTime.Now;
+                    TripRegistration.ModifiedById = request.CurrentUserId;
+                    TripRegistration.ModificationDate = DateTime.Now;
 
                     if (TripRegistrationEditing.AdultsEditing.Count != 0)
                     {
 
+                        _dbContext.Adults.RemoveRange(TripRegistration.Adults);
 
                         foreach (var item in TripRegistrationEditing.AdultsEditing)
                         {
+
                             TripRegistration.Adults.Add(new Adult()
                             {
                                 Title = item.Title,
@@ -66,9 +68,11 @@ namespace GoldenAirport.Application.TripRegistrations.Commands.Edit
                     //child
                     if (TripRegistrationEditing.ChildrenEditing.Count != 0)
                     {
+                        _dbContext.Children.RemoveRange(TripRegistration.Children);
 
                         foreach (var item in TripRegistrationEditing.ChildrenEditing)
                         {
+
                             TripRegistration.Children.Add(new Child()
                             {
                                 FirstName = item.FirstName,
@@ -83,6 +87,15 @@ namespace GoldenAirport.Application.TripRegistrations.Commands.Edit
                     }
 
                     _dbContext.TripRegistrationsEditing.RemoveRange(TripRegistrationEditing);
+
+                    var Notification = new Notification
+                    {
+                        Title = "The trip modification request has been approved",
+                        Date = DateTime.Now,
+                        Content = "",
+                        AppUserId = request.CurrentUserId
+                    };
+                    await _dbContext.Notifications.AddAsync(Notification);
 
                     await _dbContext.SaveChangesAsync(cancellationToken);
 

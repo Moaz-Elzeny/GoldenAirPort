@@ -43,6 +43,8 @@ namespace GoldenAirport.Application.RegistrationsEditing.Commands
 
                 if (request.Adult.Count != null)
                 {
+                    _dbContext.AdultsEditing.RemoveRange();
+
                     foreach (var item in request.Adult)
                     {
                         packageRegistration.AdultsEditing.Add(new AdultEditing()
@@ -62,7 +64,7 @@ namespace GoldenAirport.Application.RegistrationsEditing.Commands
                 //child
                 if (request.Child.Count != 0)
                 {
-
+                     _dbContext.ChildrenEditing.RemoveRange();
                     foreach (var item in request.Child)
                     {
                         packageRegistration.ChildrenEditing.Add(new ChildEditing()

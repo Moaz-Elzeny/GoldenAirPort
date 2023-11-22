@@ -33,6 +33,8 @@ namespace GoldenAirport.Application.Packagess.Queries
                 .Include(p => p.ToCity)                
                 .AsQueryable();
 
+            var allPackages = await query.CountAsync(cancellationToken);
+
             if (request.FromCity != null)
             {
                 query = query.Where(p => p.FromCityId == request.FromCity);
@@ -48,7 +50,13 @@ namespace GoldenAirport.Application.Packagess.Queries
                 query = query.Where(p => p.StartingDate == request.StartingOn);
             }
 
-           
+
+            if (request.Guests != null)
+            {
+                var guests = _dbContext.Packages.Where(g => g.RemainingGuests >= request.Guests).Select(t => t.Guests).ToList();
+                query = query.Where(r => guests.Contains(r.Guests));
+            }
+
             var totalCount = await query.CountAsync(cancellationToken);
             var totalPages = (int)Math.Ceiling((double)totalCount / pageSize);
 
@@ -93,7 +101,7 @@ namespace GoldenAirport.Application.Packagess.Queries
             return ResponseDto<object>.Success(new ResultDto()
             {
                 Message = "All package",
-                Result =  paginatedList
+                Result = new { paginatedList , allPackages }
             });
         }
     }

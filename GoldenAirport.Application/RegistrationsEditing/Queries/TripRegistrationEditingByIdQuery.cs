@@ -25,9 +25,8 @@ namespace GoldenAirport.Application.RegistrationsEditing.Queries
                 var query = _dbContext.TripRegistrationsEditing
                     .Include(r => r.AdultsEditing)
                     .AsQueryable();
-                var allpackages = await query.CountAsync(cancellationToken);
 
-                var packageRegistrations = await query
+                var tripRegistrations = await query
                     .Where(t => t.Id == request.Id)
                     .Select(t => new
                     {
@@ -55,16 +54,12 @@ namespace GoldenAirport.Application.RegistrationsEditing.Queries
 
                     }).ToListAsync(cancellationToken);
 
-                if (packageRegistrations.Count != 0)
+                if (tripRegistrations.Count != 0)
                 {
                     return ResponseDto<object>.Success(new ResultDto()
                     {
                         Message = "Trip Registration",
-                        Result = new
-                        {
-                            packageRegistrations,
-                            allpackages
-                        }
+                        Result = tripRegistrations,
                     });
                 }
                 return ResponseDto<object>.Failure(new ErrorDto()

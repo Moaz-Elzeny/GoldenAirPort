@@ -2,7 +2,9 @@
 using GoldenAirport.Application.Helpers;
 using GoldenAirport.Application.Helpers.DTOs;
 using GoldenAirport.Application.TripRegistrations.Dtos;
+using GoldenAirport.Application.Trips.Dtos;
 using GoldenAirport.Domain.Enums;
+using System.Globalization;
 
 namespace GoldenAirport.Application.TripRegistrations.Queries
 {
@@ -28,6 +30,7 @@ namespace GoldenAirport.Application.TripRegistrations.Queries
 
                 var query = _dbContext.TripRegistrations
                     .Include(r => r.Adults)
+                    .Include(c => c.Children)
                     .AsQueryable();
 
                 var totalCount = await query.CountAsync(cancellationToken);
@@ -39,23 +42,21 @@ namespace GoldenAirport.Application.TripRegistrations.Queries
                     {
                         Id = t.Id,
                         TripId = t.TripId,
-                        AdultCost = t.AdultCost,
-                        ChildCost = t.ChildCost,
-                        AdminFees = t.AdminFees,
-                        EmployeeFees = t.EmployeeFees,
-                        Taxes = t.Taxes,                        
+                        StartingDate = t.Trip.StartingDate.Date,
+                        EndingDate = t.Trip.EndingDate,                                              
+                        TripHours = t.Trip.TripHours.ToString(@"hh\:mm"),
+                        IsRefundable = t.Trip.IsRefundable,
                         TotalAmount = t.TotalAmount,
-                        Email = t.Email,
-                        PhoneNumber = t.PhoneNumber,
-                        Adults = t.Adults.Select(a => new AdultTripRegistrationDto
+                        FromCities = new GetFromCityDto
                         {
-                            Title = t.Adults.Select(a => a.Title).FirstOrDefault(),
-                            TitleValue = EnumHelper.GetEnumLocalizedDescription<Title>(t.Adults.Select(a => a.Title).FirstOrDefault()),
-                            FirstName = t.Adults.Select(a => a.FirstName).FirstOrDefault(),
-                            LastName = t.Adults.Select(a => a.LastName).FirstOrDefault(),
-                            AdultPassportNo = t.Adults.Select(a => a.PassportNo).FirstOrDefault(),
-                            DateOfBirth = t.Adults.Select(a => a.DateOfBirth).FirstOrDefault(),
-                        }).ToList(),
+                            Id = t.Trip.FromCityId,
+                            CityName = CultureInfo.CurrentCulture.TwoLetterISOLanguageName == "ar" ? t.Trip.City.NameAr : t.Trip.City.NameEn,
+                        },
+                        ToCities = t.Trip.ToCity.Select(c => new GetCitiesDto
+                        {
+                            Id = c.CityId,
+                            CityName = CultureInfo.CurrentCulture.TwoLetterISOLanguageName == "ar" ? c.Cities.NameAr : c.Cities.NameEn
+                        }),
 
 
                     }).ToListAsync(cancellationToken);

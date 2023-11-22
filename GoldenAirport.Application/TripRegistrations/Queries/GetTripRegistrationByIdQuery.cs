@@ -2,7 +2,9 @@
 using GoldenAirport.Application.Helpers;
 using GoldenAirport.Application.Helpers.DTOs;
 using GoldenAirport.Application.TripRegistrations.Dtos;
+using GoldenAirport.Application.Trips.Dtos;
 using GoldenAirport.Domain.Enums;
+using System.Globalization;
 
 namespace GoldenAirport.Application.TripRegistrations.Queries
 {
@@ -31,37 +33,70 @@ namespace GoldenAirport.Application.TripRegistrations.Queries
 
                 var TripRegistrations = await query
                     .Where(t => t.Id == request.Id)
-                    .Select(t => new GetTripRegistrationDto
+                    .Select(t => new GetTripRegistrationByIdDto
                     {
                         Id = t.Id,
                         TripId = t.TripId,
                         AdultCost = t.AdultCost,
                         ChildCost = t.ChildCost,
-                        AdminFees = t.AdminFees ?? 0,
-                        EmployeeFees = t.EmployeeFees,
-                        Taxes = t.Taxes,
-                       //OtherFees = t.OutherFees,
+                        //AdminFees = t.AdminFees ?? 0,
+                        //EmployeeFees = t.EmployeeFees,
+                        //Taxes = t.Taxes,
                         TotalAmount = t.TotalAmount,
                         Email = t.Email,
                         PhoneNumber = t.PhoneNumber,
-                        //NoOfAdults = t.Adults.Count(),
+                        StartingDate = t.Trip.StartingDate.Date,
+                        EndingDate = t.Trip.EndingDate,
+                        TripHours = t.Trip.TripHours.ToString(@"hh\:mm"),
+                        FromCities = new GetFromCityDto
+                        {
+                            Id = t.Trip.FromCityId,
+                            CityName = CultureInfo.CurrentCulture.TwoLetterISOLanguageName == "ar" ? t.Trip.City.NameAr : t.Trip.City.NameEn,
+                        },
+                        ToCities = t.Trip.ToCity.Select(c => new GetCitiesDto
+                        {
+                            Id = c.CityId,
+                            CityName = CultureInfo.CurrentCulture.TwoLetterISOLanguageName == "ar" ? c.Cities.NameAr : c.Cities.NameEn
+                        }),
                         Adults = t.Adults.Select(a => new AdultTripRegistrationDto
                         {
 
-                        Title = t.Adults.Select(a => a.Title).FirstOrDefault(),
-                        TitleValue = EnumHelper.GetEnumLocalizedDescription<Title>(t.Adults.Select(a => a.Title).FirstOrDefault()),
-                        FirstName = t.Adults.Select(a => a.FirstName).FirstOrDefault(),
-                        LastName = t.Adults.Select(a => a.LastName).FirstOrDefault(),
-                        AdultPassportNo = t.Adults.Select(a => a.PassportNo).FirstOrDefault(),
-                        DateOfBirth = t.Adults.Select(a => a.DateOfBirth).FirstOrDefault(),
+                        Title =  a.Title,
+                        TitleValue = EnumHelper.GetEnumLocalizedDescription<Title>( a.Title),
+                        FirstName = a.FirstName,
+                        LastName = a.LastName,
+                        AdultPassportNo = a.PassportNo,
+                        DateOfBirth = a.DateOfBirth,
                         }).ToList(),
                         Children = t.Children.Select(c => new ChildrenTripRegistrationDto
                         {
-                            FirstName = t.Children.Select(a => a.FirstName).FirstOrDefault(),
-                            LastName = t.Children.Select(a => a.LastName).FirstOrDefault(),
-                            AdultPassportNo = t.Children.Select(a => a.PassportNo).FirstOrDefault(),
-                            DateOfBirth = t.Children.Select(a => a.DateOfBirth).FirstOrDefault(),
+                            FirstName = c.FirstName,
+                            LastName = c.LastName,
+                            AdultPassportNo = c.PassportNo,
+                            DateOfBirth = c.DateOfBirth,
                         }).ToList(),
+                        WhyVisit = t.Trip.WhyVisits.Select(w => new
+                        {
+                            Id = w.Id,
+                            Description = w.Description,
+
+                        }),
+
+                        WhatIsIncluded = t.Trip.WhatAreIncluded.Select(w => new
+                        {
+                            Id = w.Id,
+                            Description = w.Description
+                        }),
+                        Accessibility = t.Trip.Accessibilities.Select(w => new
+                        {
+                            Id = w.Id,
+                            Description = w.Description
+                        }),
+                        Restrictions = t.Trip.Restrictions.Select(w => new
+                        {
+                            Id = w.Id,
+                            Description = w.Description
+                        }),
 
                     }).ToListAsync(cancellationToken);
 

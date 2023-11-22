@@ -39,15 +39,16 @@ namespace GoldenAirport.Application.PackageRegistrations.Commands.Edit
                     PackageRegistration.Email = packageRegistrationEditing.Email;
                     PackageRegistration.PhoneNumber = packageRegistrationEditing.PhoneNumber;
                     PackageRegistration.PackageId = PackageRegistration.PackageId;
-                    PackageRegistration.CreatedById = request.CurrentUserId;
-                    PackageRegistration.CreationDate = DateTime.Now;
+                    PackageRegistration.ModifiedById = request.CurrentUserId;
+                    PackageRegistration.ModificationDate = DateTime.Now;
 
                     if (packageRegistrationEditing.AdultsEditing.Count != 0)
                     {
 
-
+                        _dbContext.Adults.RemoveRange(PackageRegistration.Adults);
                         foreach (var item in packageRegistrationEditing.AdultsEditing)
                         {
+
                             PackageRegistration.Adults.Add(new Adult()
                             {
                                 Title = item.Title,
@@ -66,6 +67,7 @@ namespace GoldenAirport.Application.PackageRegistrations.Commands.Edit
                     //child
                     if (packageRegistrationEditing.ChildrenEditing.Count != 0)
                     {
+                        _dbContext.Children.RemoveRange(PackageRegistration.Children);
 
                         foreach (var item in packageRegistrationEditing.ChildrenEditing)
                         {
@@ -83,6 +85,15 @@ namespace GoldenAirport.Application.PackageRegistrations.Commands.Edit
                     }
 
                      _dbContext.PackageRegistrationsEditing.RemoveRange(packageRegistrationEditing);
+
+                    var Notification = new Notification
+                    {
+                        Title = "The package modification request has been approved",
+                        Date = DateTime.Now,
+                        Content = "",
+                        AppUserId = request.CurrentUserId
+                    };
+                    await _dbContext.Notifications.AddAsync(Notification);
 
                     await _dbContext.SaveChangesAsync(cancellationToken);
 

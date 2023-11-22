@@ -33,9 +33,11 @@ namespace GoldenAirport.Application.Trips.Queries
                     .Include(r => r.TripRegistrations)
                     .ThenInclude(a => a.Adults)
                 .AsQueryable();
+
                 var allTrips = await query.CountAsync(cancellationToken);
-                var ra = _dbContext.TripRegistrations.Select(r => r.Id);
-                var ad = _dbContext.Adults.Where(a => ra.Contains(a.TripRegistrationId.Value)).Select(a => a.Id);
+
+                //var ra = _dbContext.TripRegistrations.Select(r => r.Id);
+                //var ad = _dbContext.Adults.Where(a => ra.Contains(a.TripRegistrationId.Value)).Select(a => a.Id);
 
                 if (request.FromCity != null)
                 {
@@ -54,8 +56,8 @@ namespace GoldenAirport.Application.Trips.Queries
 
                 if (request.Guests != null)
                 {
-                    var guests = _dbContext.Trips.Where(g => g.Guests >= request.Guests).Select(t => t.Guests).ToList();
-                    var x = guests.Count() - ad.Count();
+                    var guests = _dbContext.Trips.Where(g => g.RemainingGuests >= request.Guests).Select(t => t.Guests).ToList();
+                    //var x = guests.Count() - ad.Count();
                     query = query.Where(r => guests.Contains(r.Guests));
                 }
 
