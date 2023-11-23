@@ -32,25 +32,53 @@ namespace GoldenAirport.Application.RegistrationsEditing.Queries
                     {
                         Id = t.Id,
                         TripRegistrationId = t.TripRegistrationId,
+                        AdultCost = t.TripRegistration.AdultCost,
+                        ChildCost = t.TripRegistration.ChildCost,
+                        TotalAmount = t.TripRegistration.TotalAmount,
+                        StartingDate = t.TripRegistration.Trip.StartingDate.Date,
+                        EndingDate = t.TripRegistration.Trip.EndingDate.Date,
+                        TripHours = t.TripRegistration.Trip.TripHours.ToString(@"hh\:mm"),
                         Email = t.Email,
                         PhoneNumber = t.PhoneNumber,
                         Adults = t.AdultsEditing.Select(a => new AdultTripRegistrationDto
                         {
 
-                            Title = t.AdultsEditing.Select(a => a.Title).FirstOrDefault(),
-                            TitleValue = EnumHelper.GetEnumLocalizedDescription<Title>(t.AdultsEditing.Select(a => a.Title).FirstOrDefault()),
-                            FirstName = t.AdultsEditing.Select(a => a.FirstName).FirstOrDefault(),
-                            LastName = t.AdultsEditing.Select(a => a.LastName).FirstOrDefault(),
-                            AdultPassportNo = t.AdultsEditing.Select(a => a.PassportNo).FirstOrDefault(),
-                            DateOfBirth = t.AdultsEditing.Select(a => a.DateOfBirth).FirstOrDefault(),
+                            Title = a.Title,
+                            TitleValue = EnumHelper.GetEnumLocalizedDescription<Title>(a.Title),
+                            FirstName = a.FirstName,
+                            LastName = a.LastName,
+                            AdultPassportNo = a.PassportNo,
+                            DateOfBirth = a.DateOfBirth,
                         }).ToList(),
                         Children = t.ChildrenEditing.Select(c => new ChildrenTripRegistrationDto
                         {
-                            FirstName = t.ChildrenEditing.Select(a => a.FirstName).FirstOrDefault(),
-                            LastName = t.ChildrenEditing.Select(a => a.LastName).FirstOrDefault(),
-                            AdultPassportNo = t.ChildrenEditing.Select(a => a.PassportNo).FirstOrDefault(),
-                            DateOfBirth = t.ChildrenEditing.Select(a => a.DateOfBirth).FirstOrDefault(),
+                            FirstName = c.FirstName,
+                            LastName = c.LastName,
+                            AdultPassportNo = c.PassportNo,
+                            DateOfBirth = c.DateOfBirth,
                         }).ToList(),
+                        WhyVisit = t.TripRegistration.Trip.WhyVisits.Select(w => new
+                        {
+                            Id = w.Id,
+                            Description = w.Description,
+
+                        }),
+
+                        WhatIsIncluded = t.TripRegistration.Trip.WhatAreIncluded.Select(w => new
+                        {
+                            Id = w.Id,
+                            Description = w.Description
+                        }),
+                        Accessibility = t.TripRegistration.Trip.Accessibilities.Select(w => new
+                        {
+                            Id = w.Id,
+                            Description = w.Description
+                        }),
+                        Restrictions = t.TripRegistration.Trip.Restrictions.Select(w => new
+                        {
+                            Id = w.Id,
+                            Description = w.Description
+                        }),
 
                     }).ToListAsync(cancellationToken);
 

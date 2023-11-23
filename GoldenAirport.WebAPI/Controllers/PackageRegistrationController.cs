@@ -1,7 +1,9 @@
 ﻿using GoldenAirport.Application.PackageRegistrations.Commands.Create;
+using GoldenAirport.Application.PackageRegistrations.Commands.Delete;
 using GoldenAirport.Application.PackageRegistrations.Commands.Edit;
 using GoldenAirport.Application.PackageRegistrations.Dtos;
 using GoldenAirport.Application.PackageRegistrations.Queries;
+using GoldenAirport.Application.TripRegistrations.Commands.Delete;
 using Microsoft.AspNetCore.Mvc;
 
 namespace GoldenAirport.WebAPI.Controllers
@@ -63,18 +65,13 @@ namespace GoldenAirport.WebAPI.Controllers
             var result = await Mediator.Send(command);
             return !result.IsSuccess ? BadRequest(result.Error) : Ok(result.Result);
         }
-        
-        [HttpPut("ApprovePackageRegistrationEditing")]
-        public async Task<IActionResult> ApprovePackageRegistrationEditing([FromHeader] int Id, bool Approve)
-         {
-            var command = new ApprovePackageRegistrationEditingCommand
-            {
-                PackageRegistrationId = Id,
-                Approve = Approve,
-                CurrentUserId = CurrentUserId
-            };
 
-            var result = await Mediator.Send(command);
+        [HttpDelete("Delete")]
+        public async Task<IActionResult> Delete(int Id)
+        {
+            var deleteTripRegistration = new DeletePackageRegistrationCommand { Id = Id };
+            var result = await Mediator.Send(deleteTripRegistration);
+
             return !result.IsSuccess ? BadRequest(result.Error) : Ok(result.Result);
         }
 

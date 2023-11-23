@@ -1,6 +1,4 @@
-﻿using GoldenAirport.Domain.Enums;
-
-namespace GoldenAirport.Application.Packagess.Dtos
+﻿namespace GoldenAirport.Application.Packagess.Dtos
 {
     public class GetPackagesDto
     {

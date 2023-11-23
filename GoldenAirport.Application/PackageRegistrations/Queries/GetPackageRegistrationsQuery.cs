@@ -2,7 +2,9 @@
 using GoldenAirport.Application.Helpers;
 using GoldenAirport.Application.Helpers.DTOs;
 using GoldenAirport.Application.PackageRegistrations.Dtos;
+using GoldenAirport.Application.Packagess.Dtos;
 using GoldenAirport.Application.TripRegistrations.Dtos;
+using GoldenAirport.Application.Trips.Dtos;
 using GoldenAirport.Domain.Enums;
 using System.Globalization;
 
@@ -30,6 +32,7 @@ namespace GoldenAirport.Application.PackageRegistrations.Queries
 
                 var query = _dbContext.PackageRegistrations
                     .Include(r => r.Adults)
+                    .Include(c => c.Children)
                     .AsQueryable();
 
                 var totalCount = await query.CountAsync(cancellationToken);
@@ -42,15 +45,24 @@ namespace GoldenAirport.Application.PackageRegistrations.Queries
                         Id = t.Id,
                         PackageId = t.PackageId,
                         PackageName = t.Package.Name,
+                        StartingDate = t.Package.StartingDate.Date,
+                        EndingDate = t.Package.EndingDate.Date,
+                        Day = t.Package.EndingDate.DayOfYear - t.Package.StartingDate.DayOfYear,
+                        Night = (t.Package.EndingDate.DayOfYear - t.Package.StartingDate.DayOfYear) -1,
                         AdultPrice = t.Package.Price,
                         ChildPrice = t.Package.ChildPrice,
                         IsRefundable = t.Package.IsRefundable,
                         ServiceFees = t.AdminFees + t.EmployeeFees,
-                        FromCityId = t.Package.FromCityId,
-                        FromCityName = CultureInfo.CurrentCulture.TwoLetterISOLanguageName == "ar" ?  t.Package.City.NameAr : t.Package.City.NameEn,
-                        ToCityId = t.Package.ToCityId,
-                        ToCityName = CultureInfo.CurrentCulture.TwoLetterISOLanguageName == "ar" ? t.Package.ToCity.NameAr : t.Package.ToCity.NameEn ,
-                       
+                        FromCity = new FromCityDto
+                        {
+                            Id = t.Package.FromCityId,
+                            CityName = CultureInfo.CurrentCulture.TwoLetterISOLanguageName == "ar" ? t.Package.City.NameAr : t.Package.City.NameEn,
+                        },
+                        ToCity = new GetPackegeCitiesDto
+                        {
+                         Id =  t.Package.ToCityId,
+                        CityName = CultureInfo.CurrentCulture.TwoLetterISOLanguageName == "ar" ? t.Package.ToCity.NameAr : t.Package.ToCity.NameEn ,
+                        }
                     }).ToListAsync(cancellationToken);
 
                 var paginatedList = new PaginatedList<GetTripRegistrationDto>

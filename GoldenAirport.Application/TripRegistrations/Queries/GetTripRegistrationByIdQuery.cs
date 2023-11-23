@@ -39,14 +39,11 @@ namespace GoldenAirport.Application.TripRegistrations.Queries
                         TripId = t.TripId,
                         AdultCost = t.AdultCost,
                         ChildCost = t.ChildCost,
-                        //AdminFees = t.AdminFees ?? 0,
-                        //EmployeeFees = t.EmployeeFees,
-                        //Taxes = t.Taxes,
                         TotalAmount = t.TotalAmount,
                         Email = t.Email,
                         PhoneNumber = t.PhoneNumber,
                         StartingDate = t.Trip.StartingDate.Date,
-                        EndingDate = t.Trip.EndingDate,
+                        EndingDate = t.Trip.EndingDate.Date,
                         TripHours = t.Trip.TripHours.ToString(@"hh\:mm"),
                         FromCities = new GetFromCityDto
                         {

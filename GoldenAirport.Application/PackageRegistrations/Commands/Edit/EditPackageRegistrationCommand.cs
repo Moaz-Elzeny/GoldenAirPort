@@ -1,7 +1,9 @@
 ﻿using GoldenAirport.Application.Common.Models;
 using GoldenAirport.Application.Helpers.DTOs;
+using GoldenAirport.Application.RegistrationsEditing.Commands;
 using GoldenAirport.Application.TripRegistrations.Dtos;
 using GoldenAirport.Domain.Entities;
+using GoldenAirport.Domain.Enums;
 using Microsoft.IdentityModel.Tokens;
 using SendGrid.Helpers.Errors.Model;
 
@@ -20,43 +22,41 @@ namespace GoldenAirport.Application.PackageRegistrations.Commands.Edit
         public class EditPackageRegistrationCommandHandler : IRequestHandler<EditPackageRegistrationCommand, ResponseDto<object>>
         {
             private readonly IApplicationDbContext _dbContext;
+            private readonly IMediator _mediator;
 
-            public EditPackageRegistrationCommandHandler(IApplicationDbContext dbContext)
+            public EditPackageRegistrationCommandHandler(IApplicationDbContext dbContext, IMediator mediator)
             {
                 _dbContext = dbContext;
+                _mediator = mediator;
             }
 
             public async Task<ResponseDto<object>> Handle(EditPackageRegistrationCommand request, CancellationToken cancellationToken)
             {
+                var user = _dbContext.AppUsers.Where(a => a.Id == request.CurrentUserId).FirstOrDefault();
 
-                 var packageRegistration = await _dbContext.PackageRegistrations
+                var packageRegistration = await _dbContext.PackageRegistrations
                     .Include(a => a.Adults)
                     .Include(a => a.Children)
                     .FirstOrDefaultAsync(t => t.Id == request.Id) ?? throw new NotFoundException("Package Registration not found.");
 
-                //if (request.CurrentUserId == user.Select(u => u.Id).FirstOrDefault())
-                //{
-
-                if (!request.Email.IsNullOrEmpty())
+                if (user.UserType == UserType.SuperAdmin)
                 {
-                    packageRegistration.Email = request.Email ;
 
-                }
-                if (!request.PhoneNumber.IsNullOrEmpty())
-                {
-                    packageRegistration.PhoneNumber = request.PhoneNumber;
+                    if (!request.Email.IsNullOrEmpty())
+                    {
+                        packageRegistration.Email = request.Email;
 
-                }
+                    }
+                    if (!request.PhoneNumber.IsNullOrEmpty())
+                    {
+                        packageRegistration.PhoneNumber = request.PhoneNumber;
+
+                    }
                     packageRegistration.ModifiedById = request.CurrentUserId;
                     packageRegistration.ModificationDate = DateTime.Now;
 
                     if (request.Adults.Count != null)
                     {
-                        //var adult = await _dbContext.Adults.Where(a => a.PackageRegistrationId == request.Id).ToListAsync();
-                        //if (adult == null)
-                        //{
-
-                        //}
 
                         foreach (var item in request.Adults)
                         {
@@ -92,7 +92,22 @@ namespace GoldenAirport.Application.PackageRegistrations.Commands.Edit
                         }
 
                     }
-                //}
+                }
+
+                else
+                {
+                    var TripRegistrationEditing = new PackageRegistrationEditingCommand
+                    {
+                        PackageRegistrationId = request.Id,
+                        Email = request.Email,
+                        PhoneNumber = request.PhoneNumber,
+                        Adults = request.Adults,
+                        Children = request.Children,
+                        CurrentUserId = request.CurrentUserId,
+                    };
+                    await _mediator.Send(TripRegistrationEditing);
+                }
+
 
                 await _dbContext.SaveChangesAsync(cancellationToken);
                 return ResponseDto<object>.Success(new ResultDto()

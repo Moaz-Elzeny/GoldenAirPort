@@ -17,21 +17,26 @@ namespace GoldenAirport.Application.Notifications.Queries
 
             public async Task<ResponseDto<object>> Handle(AdminNotificationsQuery request, CancellationToken cancellationToken)
             {
+                var user = _dbContext.AppUsers.AsQueryable();
                 var tripsNotifications = await _dbContext.TripRegistrationsEditing
-                    .Select(t => new AdminNotificationsDto
+                    .Select(t => new AdminTripNotificationsDto
                     {
-                        Name = _dbContext.AppUsers.Where(c => c.Id == t.CreatedById).Select(a => a.FirstName + a.LastName).FirstOrDefault(),                       
+                        TicketNumber = user.Where(c => c.Id == t.CreatedById).Select(a => a.Id).FirstOrDefault(),
+                        ProfilePicture = user.Where(c => c.Id == t.CreatedById).Select(a => a.ProfilePicture).FirstOrDefault(),
+                        Name = user.Where(c => c.Id == t.CreatedById).Select(a => a.FirstName +" " + a.LastName).FirstOrDefault(),                       
                         Date = t.CreationDate,
                         Content = "Trip modification request has been send",
                         FromCity = t.TripRegistration.Trip.City.NameAr,
-                        ToCity = t.TripRegistration.Trip.ToCity.Select(d => d.Cities.NameAr).FirstOrDefault(),
+                        ToCity = t.TripRegistration.Trip.ToCity.Select(d => d.Cities.NameAr).ToList(),
                         PhoneNumber = t.PhoneNumber,
                     }).ToListAsync();
 
                 var packagesNotifications = await _dbContext.PackageRegistrationsEditing
-                    .Select(t => new AdminNotificationsDto
+                    .Select(t => new AdminPackageNotificationsDto
                     {
-                        Name = _dbContext.AppUsers.Where(c => c.Id == t.CreatedById).Select(a => a.FirstName + a.LastName).FirstOrDefault(),                       
+                        TicketNumber = user.Where(c => c.Id == t.CreatedById).Select(a => a.Id).FirstOrDefault(),
+                        ProfilePicture = user.Where(c => c.Id == t.CreatedById).Select(a => a.ProfilePicture).FirstOrDefault(),
+                        Name = _dbContext.AppUsers.Where(c => c.Id == t.CreatedById).Select(a => a.FirstName +" "+ a.LastName).FirstOrDefault(),                       
                         Date = t.CreationDate,
                         Content = "package modification request has been send",
                         FromCity = t.PackageRegistration.Package.City.NameAr,

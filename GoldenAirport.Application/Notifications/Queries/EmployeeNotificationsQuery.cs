@@ -6,6 +6,8 @@ namespace GoldenAirport.Application.Notifications.Queries
 {
     public class EmployeeNotificationsQuery : IRequest<ResponseDto<object>>
     {
+        public string? CurrentUserId { get; set; }
+
         public class EmployeeNotificationsQueryHandler : IRequestHandler<EmployeeNotificationsQuery, ResponseDto<object>>
         {
             private readonly IApplicationDbContext _dbContext;
@@ -17,13 +19,14 @@ namespace GoldenAirport.Application.Notifications.Queries
 
             public async Task<ResponseDto<object>> Handle(EmployeeNotificationsQuery request, CancellationToken cancellationToken)
             {
-                var Notifications = await _dbContext.Notifications
+                var Notifications = await _dbContext.Notifications.Where(e => e.AppUserId == request.CurrentUserId)
                     .Select(n => new EmployeeNotificationsDto
                     {
                         EmployeeId = n.AppUserId,
+                        //ProfilePicture = n.AppUser.ProfilePicture,
                         Date = n.Date,
                         Message = n.Title,
-                        Imgage = n.Content,
+                        Image = n.Content,
 
                     }).ToListAsync();
 

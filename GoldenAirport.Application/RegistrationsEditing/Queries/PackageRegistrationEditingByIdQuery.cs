@@ -1,6 +1,7 @@
 ﻿using GoldenAirport.Application.Common.Models;
 using GoldenAirport.Application.Helpers;
 using GoldenAirport.Application.Helpers.DTOs;
+using GoldenAirport.Application.PackageRegistrations.Dtos;
 using GoldenAirport.Application.TripRegistrations.Dtos;
 using GoldenAirport.Domain.Enums;
 
@@ -31,26 +32,45 @@ namespace GoldenAirport.Application.RegistrationsEditing.Queries
                     .Select(t => new 
                     {
                         Id = t.Id,
-                        PackageRegistrationId = t.PackageRegistrationId,                      
+                        PackageRegistrationId = t.PackageRegistrationId,
+                        PackageName = t.PackageRegistration.Package.Name,
+                        AdultCost = t.PackageRegistration.AdultCost,
+                        ChildCost = t.PackageRegistration.ChildCost,
+                        StartingDate = t.PackageRegistration.Package.StartingDate,
+                        EndingDate = t.PackageRegistration.Package.EndingDate,
+                        Day = t.PackageRegistration.Package.EndingDate.DayOfYear - t.PackageRegistration.Package.StartingDate.DayOfYear,
+                        Night = (t.PackageRegistration.Package.EndingDate.DayOfYear - t.PackageRegistration.Package.StartingDate.DayOfYear) - 1,
+                        TaxesAndFees = t.PackageRegistration.Taxes + t.PackageRegistration.EmployeeFees + t.PackageRegistration.AdminFees,
+                        TotalAmount = (int)((t.PackageRegistration.AdultCost * t.PackageRegistration.Adults.Count()) + 
+                        (t.PackageRegistration.ChildCost * t.PackageRegistration.Children.Count()) + 
+                        t.PackageRegistration.AdminFees + t.PackageRegistration.EmployeeFees + t.PackageRegistration.Taxes),
                         Email = t.Email,
                         PhoneNumber = t.PhoneNumber,
+                        AboutExploreTour = t.PackageRegistration.Package.AboutExploreTour,
+                        NumberOfAdults = t.PackageRegistration.Adults.Count(),
+                        NumberOfChildren = t.PackageRegistration.Children.Count(),
                         Adults = t.AdultsEditing.Select(a => new AdultTripRegistrationDto
                         {
 
-                            Title = t.AdultsEditing.Select(a => a.Title).FirstOrDefault(),
-                            TitleValue = EnumHelper.GetEnumLocalizedDescription<Title>(t.AdultsEditing.Select(a => a.Title).FirstOrDefault()),
-                            FirstName = t.AdultsEditing.Select(a => a.FirstName).FirstOrDefault(),
-                            LastName = t.AdultsEditing.Select(a => a.LastName).FirstOrDefault(),
-                            AdultPassportNo = t.AdultsEditing.Select(a => a.PassportNo).FirstOrDefault(),
-                            DateOfBirth = t.AdultsEditing.Select(a => a.DateOfBirth).FirstOrDefault(),
+                            Title = a.Title,
+                            TitleValue = EnumHelper.GetEnumLocalizedDescription<Title>(a.Title),
+                            FirstName = a.FirstName,
+                            LastName = a.LastName,
+                            AdultPassportNo = a.PassportNo,
+                            DateOfBirth = a.DateOfBirth,
                         }).ToList(),
                         Children = t.ChildrenEditing.Select(c => new ChildrenTripRegistrationDto
                         {
-                            FirstName = t.ChildrenEditing.Select(a => a.FirstName).FirstOrDefault(),
-                            LastName = t.ChildrenEditing.Select(a => a.LastName).FirstOrDefault(),
-                            AdultPassportNo = t.ChildrenEditing.Select(a => a.PassportNo).FirstOrDefault(),
-                            DateOfBirth = t.ChildrenEditing.Select(a => a.DateOfBirth).FirstOrDefault(),
+                            FirstName = c.FirstName,
+                            LastName = c.LastName,
+                            AdultPassportNo = c.PassportNo,
+                            DateOfBirth = c.DateOfBirth,
                         }).ToList(),
+                        PackagePlans = t.PackageRegistration.Package.PackagePlans.Select(p => new PackagePlanDto
+                        {
+                            Id = p.Id,
+                            Description = p.Description
+                        }).ToList()
 
                     }).ToListAsync(cancellationToken);
 

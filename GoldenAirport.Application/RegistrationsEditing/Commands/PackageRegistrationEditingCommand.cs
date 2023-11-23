@@ -11,8 +11,8 @@ namespace GoldenAirport.Application.RegistrationsEditing.Commands
         public string? Email { get; set; }
         public string? PhoneNumber { get; set; }
 
-        public List<AdultDto>? Adult { get; set; }
-        public List<ChildDto>? Child { get; set; }
+        public List<AdultDto>? Adults { get; set; }
+        public List<ChildDto>? Children { get; set; }
         public string? CurrentUserId { get; set; }
 
         public class PackageRegistrationEditingCommandHandler : IRequestHandler<PackageRegistrationEditingCommand, ResponseDto<object>>
@@ -41,11 +41,11 @@ namespace GoldenAirport.Application.RegistrationsEditing.Commands
 
 
 
-                if (request.Adult.Count != null)
+                if (request.Adults.Count != null)
                 {
                     _dbContext.AdultsEditing.RemoveRange();
 
-                    foreach (var item in request.Adult)
+                    foreach (var item in request.Adults)
                     {
                         packageRegistration.AdultsEditing.Add(new AdultEditing()
                         {
@@ -62,10 +62,10 @@ namespace GoldenAirport.Application.RegistrationsEditing.Commands
                 }
 
                 //child
-                if (request.Child.Count != 0)
+                if (request.Children.Count != 0)
                 {
                      _dbContext.ChildrenEditing.RemoveRange();
-                    foreach (var item in request.Child)
+                    foreach (var item in request.Children)
                     {
                         packageRegistration.ChildrenEditing.Add(new ChildEditing()
                         {

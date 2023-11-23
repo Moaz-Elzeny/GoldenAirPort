@@ -73,22 +73,16 @@ namespace GoldenAirport.WebAPI.Controllers
         
 
         [HttpPut("Update")]
-        public async Task<IActionResult> Update([FromHeader] int Id, [FromForm] UpdateTripRegistrationDto dto)
+        public async Task<IActionResult> Update([FromHeader] int Id, UpdateTripRegistrationDto dto)
         {
             var command = new EditTripRegistrationCommand
             {
                 Id = Id,               
+                TripId = dto.TripId,
                 Email = dto.Email,
                 PhoneNumber = dto.PhoneNumber,
-                Title = dto.Title,
-                FirstName = dto.FirstName,
-                LastName = dto.LastName,
-                AdultPassportNo = dto.AdultPassportNo,
-                DateOfBirth = dto.DateOfBirth,
-                ChildPassportNo = dto.ChildPassportNo,
-                AgeRange = dto.AgeRange,
-                TripId = dto.TripId,
-                NoOfAdults = dto.NoOfAdults,
+                Adults = dto.Adult,
+                Children = dto.Child,
                 CurrentUserId = CurrentUserId
             };
 
@@ -102,22 +96,6 @@ namespace GoldenAirport.WebAPI.Controllers
             var result = await Mediator.Send(command);
             return !result.IsSuccess ? BadRequest(result.Error) : Ok(result.Result);
         }
-
-
-        [HttpPut("ApprovePackageRegistrationEditing")]
-        public async Task<IActionResult> ApprovePackageRegistrationEditing([FromHeader] int Id, bool Approve)
-        {
-            var command = new ApproveTripRegistrationEditingCommand
-            {
-                TripRegistrationId = Id,
-                Approve = Approve,
-                CurrentUserId = CurrentUserId
-            };
-
-            var result = await Mediator.Send(command);
-            return !result.IsSuccess ? BadRequest(result.Error) : Ok(result.Result);
-        }
-
 
         [HttpDelete("Delete")]
         public async Task<IActionResult> Delete(int Id)

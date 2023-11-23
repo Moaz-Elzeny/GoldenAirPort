@@ -74,7 +74,7 @@ namespace GoldenAirport.Application.Packagess.Queries
                     FromCity = new FromCityDto
                     {
 
-                    FromCityId = p.FromCityId,
+                    Id = p.FromCityId,
                     CityName = CultureInfo.CurrentCulture.TwoLetterISOLanguageName == "ar" ? p.City.NameAr : p.City.NameEn,
                     },
                     ToCity =  new GetPackegeCitiesDto

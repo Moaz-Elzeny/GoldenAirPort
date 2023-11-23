@@ -11,8 +11,8 @@ namespace GoldenAirport.Application.RegistrationsEditing.Commands
         public string? Email { get; set; }
         public string? PhoneNumber { get; set; }
 
-        public List<AdultDto>? Adult { get; set; }
-        public List<ChildDto>? Child { get; set; }
+        public List<AdultDto>? Adults { get; set; }
+        public List<ChildDto>? Children { get; set; }
         public string? CurrentUserId { get; set; }
 
         public class TripRegistrationEditingCommandHandler : IRequestHandler<TripRegistrationEditingCommand, ResponseDto<object>>
@@ -41,9 +41,9 @@ namespace GoldenAirport.Application.RegistrationsEditing.Commands
 
 
 
-                if (request.Adult.Count != null)
+                if (request.Adults.Count != 0)
                 {
-                    foreach (var item in request.Adult)
+                    foreach (var item in request.Adults)
                     {
                         tripRegistration.AdultsEditing.Add(new AdultEditing()
                         {
@@ -60,10 +60,10 @@ namespace GoldenAirport.Application.RegistrationsEditing.Commands
                 }
 
                 //child
-                if (request.Child.Count != 0)
+                if (request.Children.Count != 0 )
                 {
 
-                    foreach (var item in request.Child)
+                    foreach (var item in request.Children)
                     {
                         tripRegistration.ChildrenEditing.Add(new ChildEditing()
                         {
