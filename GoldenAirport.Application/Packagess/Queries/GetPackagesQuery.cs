@@ -80,7 +80,7 @@ namespace GoldenAirport.Application.Packagess.Queries
                     ToCity =  new GetPackegeCitiesDto
                     {
                         Id = p.ToCityId,
-                        CityName = CultureInfo.CurrentCulture.TwoLetterISOLanguageName == "ar" ? p.City.NameAr : p.City.NameEn
+                        CityName = CultureInfo.CurrentCulture.TwoLetterISOLanguageName == "ar" ? p.ToCity.NameAr : p.ToCity.NameEn
                     },
                     PackagePlan = p.PackagePlans.Select(pp => new
                     {

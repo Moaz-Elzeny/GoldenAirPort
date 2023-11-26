@@ -78,7 +78,7 @@ namespace GoldenAirport.Application.PackageRegistrations.Queries
                 {
                     return ResponseDto<object>.Success(new ResultDto()
                     {
-                        Message = "Trip Registration!",
+                        Message = "Package Registration!",
                         Result = packageRegistrations
                     });
                 }

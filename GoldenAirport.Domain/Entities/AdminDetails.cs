@@ -13,7 +13,7 @@ namespace GoldenAirport.Domain.Entities
 
         public string AppUserId { get; set; }
         public virtual AppUser AppUser { get; set; } 
-        public int CompanyId { get; set; }
+        public int? CompanyId { get; set; }
         public virtual Company Company { get; set; }
     }
 }

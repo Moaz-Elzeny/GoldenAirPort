@@ -4,7 +4,6 @@ using GoldenAirport.Application.Helpers.DTOs;
 using GoldenAirport.Application.PackageRegistrations.Dtos;
 using GoldenAirport.Application.Packagess.Dtos;
 using GoldenAirport.Application.TripRegistrations.Dtos;
-using GoldenAirport.Application.Trips.Dtos;
 using GoldenAirport.Domain.Enums;
 using System.Globalization;
 
@@ -39,7 +38,7 @@ namespace GoldenAirport.Application.PackageRegistrations.Queries
 
                 var totalPages = (int)Math.Ceiling((double)totalCount / pageSize);
                 var TitleValues = Enum.GetValues<Title>();
-                var TripRegistrations = await query
+                var PackageRegistrations = await query
                     .Select(t => new GetPackageRegistrationDto
                     {
                         Id = t.Id,
@@ -67,7 +66,7 @@ namespace GoldenAirport.Application.PackageRegistrations.Queries
 
                 var paginatedList = new PaginatedList<GetTripRegistrationDto>
                 {
-                    Items = TripRegistrations,
+                    Items = PackageRegistrations,
                     TotalCount = totalCount,
                     PageNumber = pageNumber,
                     PageSize = pageSize,
@@ -76,7 +75,7 @@ namespace GoldenAirport.Application.PackageRegistrations.Queries
 
                 return ResponseDto<object>.Success(new ResultDto()
                 {
-                    Message = "All TripRegistration ",
+                    Message = "All Package Registration ",
                     Result = paginatedList
 
                 });

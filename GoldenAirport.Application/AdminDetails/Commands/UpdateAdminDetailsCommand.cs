@@ -35,8 +35,8 @@ namespace GoldenAirport.Application.AdminDetails.Commands
                         TaxValue = request.TaxValue,
                         BookingTime = TimeSpan.Parse(request.BookingTime),
                         PrivacyPolicyAndTerms = request.PrivacyPolicyAndTerms,
-                        ModifiedById = request.CurrentUserId,
-                        ModificationDate = DateTime.Now
+                        CreatedById = request.CurrentUserId,
+                        CreationDate = DateTime.Now
                     };
                     await _dbContext.AdminDetails.AddAsync(details);
                     await _dbContext.SaveChangesAsync(cancellationToken);
