@@ -1,4 +1,5 @@
-﻿using GoldenAirport.Application.Trips.Commands.Create;
+﻿using GoldenAirport.Application.TripRegistrations.Queries;
+using GoldenAirport.Application.Trips.Commands.Create;
 using GoldenAirport.Application.Trips.Commands.Delete;
 using GoldenAirport.Application.Trips.Commands.Edit;
 using GoldenAirport.Application.Trips.Dtos;
@@ -36,6 +37,20 @@ namespace GoldenAirport.WebAPI.Controllers
             var result = await Mediator.Send(query);
             return !result.IsSuccess ? BadRequest(result.Error) : Ok(result.Result);
         }
+
+
+        [HttpGet("fetch1")]
+        public async Task<IActionResult> GetTripById
+            (int id)
+        {
+            var query = new GetTripByIdQuery
+            {
+                Id = id
+            };
+            var result = await Mediator.Send(query);
+            return !result.IsSuccess ? BadRequest(result.Error) : Ok(result.Result);
+        }
+
 
         [HttpPost("Create")]
         public async Task<IActionResult> Create([FromForm]CreateTripCommand command)

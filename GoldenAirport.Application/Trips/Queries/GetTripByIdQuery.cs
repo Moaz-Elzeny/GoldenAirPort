@@ -28,14 +28,12 @@ namespace GoldenAirport.Application.Trips.Queries
                     .ThenInclude(a => a.Adults)
                 .AsQueryable();
 
-                var Trips = await query
-                    .Select(t => new GetTripsDto
+                var Trip = await query
+                    .Where(t => t.Id == request.Id)
+                    .Select(t => new GetTripByIdDto
                     {
-                        Id = t.Id,
                         StartingDate = t.StartingDate.Date,
-                        EndingDate = t.EndingDate,
-                        //Guests = t.Guests,
-                        //RemainingGuests = t.RemainingGuests,
+                        EndingDate = t.EndingDate,                       
                         AdultPrice = t.Price,
                         ChildPrice = t.ChildPrice,
                         TripHours = t.TripHours.ToString(@"hh\:mm"),
@@ -50,47 +48,36 @@ namespace GoldenAirport.Application.Trips.Queries
                             Id = c.CityId,
                             CityName = CultureInfo.CurrentCulture.TwoLetterISOLanguageName == "ar" ? c.Cities.NameAr : c.Cities.NameEn
                         }),
-                        WhyVisit = t.WhyVisits.Select(w => new
+                        WhyVisit = t.WhyVisits.Select(w => new TripDescription
                         {
                             Id = w.Id,
                             Description = w.Description,
 
                         }),
 
-                        WhatIsIncluded = t.WhatAreIncluded.Select(w => new
+                        WhatIsIncluded = t.WhatAreIncluded.Select(w => new TripDescription
                         {
                             Id = w.Id,
                             Description = w.Description
                         }),
-                        Accessibility = t.Accessibilities.Select(w => new
+                        Accessibility = t.Accessibilities.Select(w => new TripDescription
                         {
                             Id = w.Id,
                             Description = w.Description
                         }),
-                        Restrictions = t.Restrictions.Select(w => new
+                        Restrictions = t.Restrictions.Select(w => new TripDescription
                         {
                             Id = w.Id,
                             Description = w.Description
                         }),
-                    }).ToListAsync(cancellationToken);
+                    }).FirstOrDefaultAsync(cancellationToken);
 
-                var paginatedList = new PaginatedList<GetTripsDto>
-                {
-                    Items = Trips,
-                    TotalCount = totalCount,
-                    PageNumber = pageNumber,
-                    PageSize = pageSize,
-                    TotalPages = totalPages
-                };
+               
 
                 return ResponseDto<object>.Success(new ResultDto()
                 {
-                    Message = "All Trips",
-                    Result = new
-                    {
-                        paginatedList,
-                        allTrips
-                    }
+                    Message = "Trip",
+                    Result = Trip
                 });
             }
         }

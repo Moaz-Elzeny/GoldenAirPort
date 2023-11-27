@@ -72,24 +72,24 @@ namespace GoldenAirport.Application.TripRegistrations.Queries
                             AdultPassportNo = c.PassportNo,
                             DateOfBirth = c.DateOfBirth,
                         }).ToList(),
-                        WhyVisit = t.Trip.WhyVisits.Select(w => new
+                        WhyVisit = t.Trip.WhyVisits.Select(w => new TripDescription
                         {
                             Id = w.Id,
                             Description = w.Description,
 
                         }),
 
-                        WhatIsIncluded = t.Trip.WhatAreIncluded.Select(w => new
+                        WhatIsIncluded = t.Trip.WhatAreIncluded.Select(w => new TripDescription
                         {
                             Id = w.Id,
                             Description = w.Description
                         }),
-                        Accessibility = t.Trip.Accessibilities.Select(w => new
+                        Accessibility = t.Trip.Accessibilities.Select(w => new TripDescription
                         {
                             Id = w.Id,
                             Description = w.Description
                         }),
-                        Restrictions = t.Trip.Restrictions.Select(w => new
+                        Restrictions = t.Trip.Restrictions.Select(w => new TripDescription
                         {
                             Id = w.Id,
                             Description = w.Description

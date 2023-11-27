@@ -71,8 +71,7 @@ namespace GoldenAirport.Application.Trips.Queries
                         Id = t.Id,
                         StartingDate = t.StartingDate.Date,
                         EndingDate = t.EndingDate,
-                        //Guests = t.Guests,
-                        //RemainingGuests = t.RemainingGuests,
+                        
                         AdultPrice = t.Price,
                         ChildPrice = t.ChildPrice,
                         TripHours = t.TripHours.ToString(@"hh\:mm"),
@@ -87,28 +86,7 @@ namespace GoldenAirport.Application.Trips.Queries
                             Id = c.CityId,
                             CityName = CultureInfo.CurrentCulture.TwoLetterISOLanguageName == "ar" ? c.Cities.NameAr : c.Cities.NameEn
                         }),
-                        WhyVisit = t.WhyVisits.Select(w => new
-                        {
-                            Id = w.Id,
-                            Description = w.Description,
-
-                        }),
-
-                        WhatIsIncluded = t.WhatAreIncluded.Select(w => new
-                        {
-                            Id = w.Id,
-                            Description = w.Description
-                        }),
-                        Accessibility = t.Accessibilities.Select(w => new
-                        {
-                            Id = w.Id,
-                            Description = w.Description
-                        }),
-                        Restrictions = t.Restrictions.Select(w => new
-                        {
-                            Id = w.Id,
-                            Description = w.Description
-                        }),
+                       
                     }).ToListAsync(cancellationToken);
 
                 var paginatedList = new PaginatedList<GetTripsDto>

@@ -30,7 +30,6 @@ namespace GoldenAirport.Application.Packagess.Queries
             var pageSize = 10;
 
             var query = _dbContext.Packages
-                .Include(p => p.ToCity)                
                 .AsQueryable();
 
             var allPackages = await query.CountAsync(cancellationToken);
@@ -69,7 +68,6 @@ namespace GoldenAirport.Application.Packagess.Queries
                     EndingDate = p.EndingDate,
                     AdultPrice = p.Price,
                     ChildPrice = p.ChildPrice,   
-                    AboutExploreTour = p.AboutExploreTour,
                     IsRefundable = p.IsRefundable,
                     FromCity = new FromCityDto
                     {
@@ -81,12 +79,7 @@ namespace GoldenAirport.Application.Packagess.Queries
                     {
                         Id = p.ToCityId,
                         CityName = CultureInfo.CurrentCulture.TwoLetterISOLanguageName == "ar" ? p.ToCity.NameAr : p.ToCity.NameEn
-                    },
-                    PackagePlan = p.PackagePlans.Select(pp => new
-                    {
-                        Id = pp.Id,
-                        Description = pp.Description
-                    })
+                    },                   
                 }).ToListAsync(cancellationToken);
 
             var paginatedList = new PaginatedList<GetPackagesDto>
@@ -100,7 +93,7 @@ namespace GoldenAirport.Application.Packagess.Queries
 
             return ResponseDto<object>.Success(new ResultDto()
             {
-                Message = "All package",
+                Message = "All packages",
                 Result = new { paginatedList , allPackages }
             });
         }
