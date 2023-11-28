@@ -176,6 +176,13 @@ builder.Host.UseSerilog((context, configuration) => configuration.ReadFrom.Confi
 //var config = new ConfigurationBuilder().AddJsonFile("appsettings.json").Build();
 //Log.Logger = new LoggerConfiguration().ReadFrom.Configuration(config).CreateLogger();
 
+builder.Services.AddMvc().ConfigureApiBehaviorOptions(options =>
+{
+    options.InvalidModelStateResponseFactory = actionContext =>
+    {
+        return GoldenAirport.Common.CustomBadRequest.CustomErrorResponse(actionContext);
+    };
+}); 
 
 var app = builder.Build();
 

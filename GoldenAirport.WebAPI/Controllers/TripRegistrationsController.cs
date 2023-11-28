@@ -20,10 +20,11 @@ namespace GoldenAirport.WebAPI.Controllers
 
         [HttpGet("fetch")]
         public async Task<IActionResult> GetAllTrips
-            (int pageNumber)
+            (int pageNumber =1)
         {
             var query = new GetTripRegistrationQuery
             {
+                CurrentUserId = CurrentUserId,
                 PageNumber = pageNumber,
             };
             var result = await Mediator.Send(query);

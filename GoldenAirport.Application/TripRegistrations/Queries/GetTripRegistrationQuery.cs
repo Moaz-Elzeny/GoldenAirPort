@@ -10,7 +10,8 @@ namespace GoldenAirport.Application.TripRegistrations.Queries
 {
     public class GetTripRegistrationQuery : IRequest<ResponseDto<object>>
     {
-        public int PageNumber { get; set; } = 1;
+        public int PageNumber { get; set; }
+        public string? CurrentUserId { get; set; }
 
 
         public class GetTripRegistrationQueryHandler : IRequestHandler<GetTripRegistrationQuery, ResponseDto<object>>
@@ -31,6 +32,7 @@ namespace GoldenAirport.Application.TripRegistrations.Queries
                 var query = _dbContext.TripRegistrations
                     .Include(r => r.Adults)
                     .Include(c => c.Children)
+                    .Where(tr => tr.CreatedById == request.CurrentUserId)
                     .AsQueryable();
 
                 var totalCount = await query.CountAsync(cancellationToken);

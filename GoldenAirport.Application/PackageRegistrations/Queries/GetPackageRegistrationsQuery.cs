@@ -11,7 +11,8 @@ namespace GoldenAirport.Application.PackageRegistrations.Queries
 {
     public class GetPackageRegistrationsQuery : IRequest<ResponseDto<object>>
     {
-        public int PageNumber { get; set; } = 1;
+        public int PageNumber { get; set; }
+        public string? CurrentUserId { get; set; }
 
 
         public class GetPackageRegistrationsQueryHandler : IRequestHandler<GetPackageRegistrationsQuery, ResponseDto<object>>
@@ -32,6 +33,7 @@ namespace GoldenAirport.Application.PackageRegistrations.Queries
                 var query = _dbContext.PackageRegistrations
                     .Include(r => r.Adults)
                     .Include(c => c.Children)
+                    .Where(tp => tp.CreatedById == request.CurrentUserId)
                     .AsQueryable();
 
                 var totalCount = await query.CountAsync(cancellationToken);
