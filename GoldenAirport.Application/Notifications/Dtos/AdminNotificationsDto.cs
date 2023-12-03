@@ -2,6 +2,7 @@
 {
     public class AdminPackageNotificationsDto
     {
+        public int Id { get; set; }
         public string? TicketNumber { get; set; }
         public string? ProfilePicture { get; set; }
         public string? Name { get; set; }

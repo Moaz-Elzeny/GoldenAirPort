@@ -70,7 +70,7 @@ namespace GoldenAirport.WebAPI.Controllers
 
 
         [HttpPut("Update")]
-        public async Task<IActionResult> Update([FromHeader] int Id, [FromForm] UpdatePackageDto dto)
+        public async Task<IActionResult> Update(int Id, [FromForm] UpdatePackageDto dto)
         {
             var command = new EditPackageCommand
             {

@@ -51,7 +51,7 @@ namespace GoldenAirport.WebAPI.Controllers
         }
 
         [HttpPut("Update")]
-        public async Task<IActionResult> Update([FromHeader] int Id, EditPackageRegistrationDto dto)
+        public async Task<IActionResult> Update(int Id, EditPackageRegistrationDto dto)
         {
             var command = new EditPackageRegistrationCommand
             {

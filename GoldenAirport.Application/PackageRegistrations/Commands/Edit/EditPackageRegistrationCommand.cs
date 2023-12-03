@@ -57,7 +57,7 @@ namespace GoldenAirport.Application.PackageRegistrations.Commands.Edit
 
                     if (request.Adults.Count != null)
                     {
-
+                        _dbContext.Adults.RemoveRange(packageRegistration.Adults);
                         foreach (var item in request.Adults)
                         {
                             packageRegistration.Adults.Add(new Adult()
@@ -77,7 +77,7 @@ namespace GoldenAirport.Application.PackageRegistrations.Commands.Edit
                     //child
                     if (request.Children.Count != 0)
                     {
-
+                        _dbContext.Children.RemoveRange(packageRegistration.Children);
                         foreach (var item in request.Children)
                         {
                             packageRegistration.Children.Add(new Child()

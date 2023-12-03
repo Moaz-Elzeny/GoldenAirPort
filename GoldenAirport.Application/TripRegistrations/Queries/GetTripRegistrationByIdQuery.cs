@@ -27,6 +27,8 @@ namespace GoldenAirport.Application.TripRegistrations.Queries
 
                 var query = _dbContext.TripRegistrations
                     .Include(r => r.Adults)
+                    .Include(c => c.Children)
+                    .AsSplitQuery()
                     .AsQueryable();
 
                 var TitleValues = Enum.GetValues<Title>();
@@ -45,7 +47,7 @@ namespace GoldenAirport.Application.TripRegistrations.Queries
                         StartingDate = t.Trip.StartingDate.Date,
                         EndingDate = t.Trip.EndingDate.Date,
                         TripHours = t.Trip.TripHours.ToString(@"hh\:mm"),
-                        FromCities = new GetFromCityDto
+                        FromCity = new GetFromCityDto
                         {
                             Id = t.Trip.FromCityId,
                             CityName = CultureInfo.CurrentCulture.TwoLetterISOLanguageName == "ar" ? t.Trip.City.NameAr : t.Trip.City.NameEn,
@@ -58,12 +60,12 @@ namespace GoldenAirport.Application.TripRegistrations.Queries
                         Adults = t.Adults.Select(a => new AdultTripRegistrationDto
                         {
 
-                        Title =  a.Title,
-                        TitleValue = EnumHelper.GetEnumLocalizedDescription<Title>( a.Title),
-                        FirstName = a.FirstName,
-                        LastName = a.LastName,
-                        AdultPassportNo = a.PassportNo,
-                        DateOfBirth = a.DateOfBirth,
+                            Title = a.Title,
+                            TitleValue = EnumHelper.GetEnumLocalizedDescription<Title>(a.Title),
+                            FirstName = a.FirstName,
+                            LastName = a.LastName,
+                            AdultPassportNo = a.PassportNo,
+                            DateOfBirth = a.DateOfBirth,
                         }).ToList(),
                         Children = t.Children.Select(c => new ChildrenTripRegistrationDto
                         {

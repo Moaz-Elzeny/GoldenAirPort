@@ -1,4 +1,5 @@
 ﻿using GoldenAirport.Application.TripRegistrations.Dtos;
+using GoldenAirport.Application.Trips.Dtos;
 
 namespace GoldenAirport.Application.PackageRegistrations.Dtos
 {
@@ -20,6 +21,8 @@ namespace GoldenAirport.Application.PackageRegistrations.Dtos
         public string AboutExploreTour { get; set; }
         public int NumberOfAdults { get; set; }
         public int NumberOfChildren { get; set; }
+        public GetFromCityDto FromCity { get; set; }
+        public GetCitiesDto ToCity { get; set; }
         public List<AdultTripRegistrationDto> Adults { get; set; }
         public List<ChildrenTripRegistrationDto> Children { get; set; }
         public List<PackagePlanDto> PackagePlans { get; set; }

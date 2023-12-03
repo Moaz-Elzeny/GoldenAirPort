@@ -18,7 +18,7 @@ namespace GoldenAirport.Application.TripRegistrations.Dtos
         public decimal TotalAmount { get; set; }
         public string Email { get; set; }
         public string PhoneNumber { get; set; }
-        public GetFromCityDto FromCities { get; set; }
+        public GetFromCityDto FromCity { get; set; }
         public IEnumerable<GetCitiesDto> ToCities { get; set; }
         public List<AdultTripRegistrationDto> Adults { get; set; }
         public List<ChildrenTripRegistrationDto> Children { get; set; }

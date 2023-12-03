@@ -33,7 +33,7 @@ namespace GoldenAirport.WebAPI.Controllers
         }
 
         [HttpPut("Update")]
-        public async Task<IActionResult> Update([FromHeader]int Id, [FromBody]UpdateCountryDto dto )
+        public async Task<IActionResult> Update(int Id, [FromBody]UpdateCountryDto dto )
         {
             var editCountry = new EditCountryCommand
             { 
