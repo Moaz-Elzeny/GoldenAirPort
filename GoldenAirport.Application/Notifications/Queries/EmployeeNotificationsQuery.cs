@@ -29,12 +29,16 @@ namespace GoldenAirport.Application.Notifications.Queries
                         Image = n.Content,
 
                     }).ToListAsync();
-
+                var totalCount = Notifications.Count;
 
                 return ResponseDto<object>.Success(new ResultDto()
                 {
                     Message = "Notifications",
-                    Result = Notifications                 
+                    Result = new
+                    {
+                        Notifications,
+                        totalCount
+                    }
                 });
             }
         }

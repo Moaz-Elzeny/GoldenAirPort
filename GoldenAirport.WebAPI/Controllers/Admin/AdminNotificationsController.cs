@@ -45,7 +45,7 @@ namespace GoldenAirport.WebAPI.Controllers.Admin
 
 
         [HttpPut("ApproveTripRegistrationEditing")]
-        public async Task<IActionResult> ApproveTripRegistrationEditing([FromHeader] int Id, bool Approve = true)
+        public async Task<IActionResult> ApproveTripRegistrationEditing(int Id, bool Approve = true)
         {
             var command = new ApproveTripRegistrationEditingCommand
             {
@@ -59,7 +59,7 @@ namespace GoldenAirport.WebAPI.Controllers.Admin
         }
 
         [HttpPut("ApprovePackageRegistrationEditing")]
-        public async Task<IActionResult> ApprovePackageRegistrationEditing([FromHeader] int Id, bool Approve = true)
+        public async Task<IActionResult> ApprovePackageRegistrationEditing(int Id, bool Approve = true)
         {
             var command = new ApprovePackageRegistrationEditingCommand
             {

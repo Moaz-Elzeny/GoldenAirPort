@@ -28,7 +28,7 @@ var builder = WebApplication.CreateBuilder(args);
 
 if (!builder.Environment.IsDevelopment())
 {
-    builder.Environment.WebRootPath = "C:\\inetpub\\wwwroot\\GoldenAirport\\wwwroot\\";
+    builder.Environment.WebRootPath = "C:\\inetpub\\vhosts\\orialserversmanagement.online\\GoldenAirportAPIS.orialserversmanagement.online\\wwwroot\\";
 }
 
 // Add services to the container.

@@ -67,6 +67,7 @@ namespace GoldenAirport.Application.PackageRegistrations.Commands.Create
 
                 };
 
+
                 foreach (var item in request.Adult)
                 {
                     packageRegistration.Adults.Add(new Adult()
@@ -104,6 +105,10 @@ namespace GoldenAirport.Application.PackageRegistrations.Commands.Create
 
                 await _dbContext.SaveChangesAsync();
 
+                //if (request.UserType == UserType.Employee)
+                //{
+                //    var goal = _dbContext.DailyGoals.Where(d => d.Date == )
+                //}
 
                 return ResponseDto<object>.Success(new ResultDto()
                 {

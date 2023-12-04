@@ -22,7 +22,8 @@ namespace GoldenAirport.Application.Notifications.Queries
                 var tripsNotifications = await _dbContext.TripRegistrationsEditing
                     .Select(t => new AdminTripNotificationsDto
                     {
-                        Id = t.TripRegistrationId,
+                        Id = t.Id,  
+                        TripRegistrationId = t.TripRegistrationId,
                         TicketNumber = user.Where(c => c.Id == t.CreatedById).Select(a => a.Id).FirstOrDefault(),
                         ProfilePicture = user.Where(c => c.Id == t.CreatedById).Select(a => a.ProfilePicture).FirstOrDefault(),
                         Name = user.Where(c => c.Id == t.CreatedById).Select(a => a.FirstName +" " + a.LastName).FirstOrDefault(),                       
@@ -36,7 +37,8 @@ namespace GoldenAirport.Application.Notifications.Queries
                 var packagesNotifications = await _dbContext.PackageRegistrationsEditing
                     .Select(t => new AdminPackageNotificationsDto
                     {
-                        Id = t.PackageRegistrationId,
+                        Id = t.Id,
+                        PackageRegistrationId = t.PackageRegistrationId,
                         TicketNumber = user.Where(c => c.Id == t.CreatedById).Select(a => a.Id).FirstOrDefault(),
                         ProfilePicture = user.Where(c => c.Id == t.CreatedById).Select(a => a.ProfilePicture).FirstOrDefault(),
                         Name = _dbContext.AppUsers.Where(c => c.Id == t.CreatedById).Select(a => a.FirstName +" "+ a.LastName).FirstOrDefault(),                       

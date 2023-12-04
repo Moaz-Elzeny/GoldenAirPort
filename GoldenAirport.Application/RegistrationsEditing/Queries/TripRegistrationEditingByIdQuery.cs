@@ -3,6 +3,9 @@ using GoldenAirport.Application.Helpers.DTOs;
 using GoldenAirport.Application.Helpers;
 using GoldenAirport.Application.TripRegistrations.Dtos;
 using GoldenAirport.Domain.Enums;
+using GoldenAirport.Application.RegistrationsEditing.DTOs;
+using GoldenAirport.Application.Trips.Dtos;
+using System.Globalization;
 
 namespace GoldenAirport.Application.RegistrationsEditing.Queries
 {
@@ -24,11 +27,13 @@ namespace GoldenAirport.Application.RegistrationsEditing.Queries
 
                 var query = _dbContext.TripRegistrationsEditing
                     .Include(r => r.AdultsEditing)
+                    .Include(c => c.ChildrenEditing)
+                    .AsSplitQuery()
                     .AsQueryable();
 
                 var tripRegistrations = await query
                     .Where(t => t.Id == request.Id)
-                    .Select(t => new
+                    .Select(t => new TripRegistrationEditingByIdDto
                     {
                         Id = t.Id,
                         TripRegistrationId = t.TripRegistrationId,
@@ -40,6 +45,16 @@ namespace GoldenAirport.Application.RegistrationsEditing.Queries
                         TripHours = t.TripRegistration.Trip.TripHours.ToString(@"hh\:mm"),
                         Email = t.Email,
                         PhoneNumber = t.PhoneNumber,
+                        FromCity = new GetFromCityDto
+                        {
+                            Id = t.TripRegistration.Trip.FromCityId,
+                            CityName = CultureInfo.CurrentCulture.TwoLetterISOLanguageName == "ar" ? t.TripRegistration.Trip.City.NameAr : t.TripRegistration.Trip.City.NameEn,
+                        },
+                        ToCities = t.TripRegistration.Trip.ToCity.Select(c => new GetCitiesDto
+                        {
+                            Id = c.CityId,
+                            CityName = CultureInfo.CurrentCulture.TwoLetterISOLanguageName == "ar" ? c.Cities.NameAr : c.Cities.NameEn
+                        }),
                         Adults = t.AdultsEditing.Select(a => new AdultTripRegistrationDto
                         {
 
@@ -57,24 +72,24 @@ namespace GoldenAirport.Application.RegistrationsEditing.Queries
                             AdultPassportNo = c.PassportNo,
                             DateOfBirth = c.DateOfBirth,
                         }).ToList(),
-                        WhyVisit = t.TripRegistration.Trip.WhyVisits.Select(w => new
+                        WhyVisit = t.TripRegistration.Trip.WhyVisits.Select(w => new TripDescription
                         {
                             Id = w.Id,
                             Description = w.Description,
 
                         }),
 
-                        WhatIsIncluded = t.TripRegistration.Trip.WhatAreIncluded.Select(w => new
+                        WhatIsIncluded = t.TripRegistration.Trip.WhatAreIncluded.Select(w => new TripDescription
                         {
                             Id = w.Id,
                             Description = w.Description
                         }),
-                        Accessibility = t.TripRegistration.Trip.Accessibilities.Select(w => new
+                        Accessibility = t.TripRegistration.Trip.Accessibilities.Select(w => new TripDescription
                         {
                             Id = w.Id,
                             Description = w.Description
                         }),
-                        Restrictions = t.TripRegistration.Trip.Restrictions.Select(w => new
+                        Restrictions = t.TripRegistration.Trip.Restrictions.Select(w => new TripDescription
                         {
                             Id = w.Id,
                             Description = w.Description

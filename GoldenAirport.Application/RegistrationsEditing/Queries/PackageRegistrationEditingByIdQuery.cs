@@ -2,8 +2,11 @@
 using GoldenAirport.Application.Helpers;
 using GoldenAirport.Application.Helpers.DTOs;
 using GoldenAirport.Application.PackageRegistrations.Dtos;
+using GoldenAirport.Application.RegistrationsEditing.DTOs;
 using GoldenAirport.Application.TripRegistrations.Dtos;
+using GoldenAirport.Application.Trips.Dtos;
 using GoldenAirport.Domain.Enums;
+using System.Globalization;
 
 namespace GoldenAirport.Application.RegistrationsEditing.Queries
 {
@@ -25,11 +28,13 @@ namespace GoldenAirport.Application.RegistrationsEditing.Queries
 
                 var query = _dbContext.PackageRegistrationsEditing
                     .Include(r => r.AdultsEditing)
+                    .Include(c => c.ChildrenEditing)
+                    .AsSplitQuery()
                     .AsQueryable();
 
                 var packageRegistrations = await query
                     .Where(t => t.Id == request.Id)
-                    .Select(t => new 
+                    .Select(t => new PackageRegistrationEditingByIdDto
                     {
                         Id = t.Id,
                         PackageRegistrationId = t.PackageRegistrationId,
@@ -41,7 +46,7 @@ namespace GoldenAirport.Application.RegistrationsEditing.Queries
                         Day = t.PackageRegistration.Package.EndingDate.DayOfYear - t.PackageRegistration.Package.StartingDate.DayOfYear,
                         Night = (t.PackageRegistration.Package.EndingDate.DayOfYear - t.PackageRegistration.Package.StartingDate.DayOfYear) - 1,
                         TaxesAndFees = t.PackageRegistration.Taxes + t.PackageRegistration.EmployeeFees + t.PackageRegistration.AdminFees,
-                        TotalAmount = (int)((t.PackageRegistration.AdultCost * t.PackageRegistration.Adults.Count()) + 
+                        TotalAmount = (int)((t.PackageRegistration.AdultCost * t.PackageRegistration.Adults.Count()) +
                         (t.PackageRegistration.ChildCost * t.PackageRegistration.Children.Count()) + 
                         t.PackageRegistration.AdminFees + t.PackageRegistration.EmployeeFees + t.PackageRegistration.Taxes),
                         Email = t.Email,
@@ -49,6 +54,16 @@ namespace GoldenAirport.Application.RegistrationsEditing.Queries
                         AboutExploreTour = t.PackageRegistration.Package.AboutExploreTour,
                         NumberOfAdults = t.PackageRegistration.Adults.Count(),
                         NumberOfChildren = t.PackageRegistration.Children.Count(),
+                        FromCity = new GetFromCityDto
+                        {
+                            Id = t.PackageRegistration.Package.FromCityId,
+                            CityName = CultureInfo.CurrentCulture.TwoLetterISOLanguageName == "ar" ? t.PackageRegistration.Package.City.NameAr : t.PackageRegistration.Package.City.NameEn,
+                        },
+                        ToCity = new GetCitiesDto
+                        {
+                            Id = t.PackageRegistration.Package.ToCityId.Value,
+                            CityName = CultureInfo.CurrentCulture.TwoLetterISOLanguageName == "ar" ? t.PackageRegistration.Package.ToCity.NameAr : t.PackageRegistration.Package.ToCity.NameEn
+                        },
                         Adults = t.AdultsEditing.Select(a => new AdultTripRegistrationDto
                         {
 
