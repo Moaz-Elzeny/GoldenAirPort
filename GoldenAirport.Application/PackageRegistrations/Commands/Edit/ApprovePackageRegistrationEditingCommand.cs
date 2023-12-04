@@ -91,7 +91,7 @@ namespace GoldenAirport.Application.PackageRegistrations.Commands.Edit
                         Title = "The package modification request has been approved",
                         Date = DateTime.Now,
                         Content = "",
-                        AppUserId = request.CurrentUserId
+                        AppUserId = packageRegistrationEditing.CreatedById
                     };
                     await _dbContext.Notifications.AddAsync(Notification);
 

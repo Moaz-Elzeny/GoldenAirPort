@@ -19,11 +19,10 @@ namespace GoldenAirport.Application.Employees.Queries
             {
                 //var query = await _dbContext.Employees.Where(e => e.Id == request.EmployeeId).FirstOrDefaultAsync();
 
-                var dailyGoal = await _dbContext.DailyGoals.Where(e => e.Employee.AppUserId == request.EmployeeId)
+                var dailyGoal = await _dbContext.Balances.Where(e => e.AppUserId == request.EmployeeId)
                     .Select(x => new
                     {
 
-                        Target = x.Target,
 
                     }).ToListAsync(cancellationToken);
 

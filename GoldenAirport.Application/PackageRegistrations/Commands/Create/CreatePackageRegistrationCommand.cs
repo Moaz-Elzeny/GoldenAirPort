@@ -105,10 +105,33 @@ namespace GoldenAirport.Application.PackageRegistrations.Commands.Create
 
                 await _dbContext.SaveChangesAsync();
 
-                //if (request.UserType == UserType.Employee)
-                //{
-                //    var goal = _dbContext.DailyGoals.Where(d => d.Date == )
-                //}
+                if (request.UserType == UserType.Employee)
+                {
+
+
+
+                    var goal = _dbContext.DailyGoals.Where(d => d.Date.DayOfYear == DateTime.Now.DayOfYear && d.Employee.AppUserId == request.CurrentUserId).FirstOrDefault();
+
+                    if (goal != null)
+                    {
+                        goal.Goal = goal.Goal + (adultPrice * request.Adult.Count()) + (childPrice * request.Child.Count());
+                        goal.ModificationDate = DateTime.Now;
+                        goal.ModifiedById = request.CurrentUserId;
+                    }
+                    else
+                    {
+                        var newGoal = new DailyGoal
+                        {
+                            Goal = (adultPrice * request.Adult.Count()) + (childPrice * request.Child.Count()),
+                            Date = DateTime.Now,
+                            EmployeeId = employee.Id,
+                            CreatedById = request.CurrentUserId,
+                            CreationDate = DateTime.Now,
+                        };
+                        await _dbContext.DailyGoals.AddAsync(newGoal);
+                    }
+                    await _dbContext.SaveChangesAsync(cancellationToken);
+                }
 
                 return ResponseDto<object>.Success(new ResultDto()
                 {

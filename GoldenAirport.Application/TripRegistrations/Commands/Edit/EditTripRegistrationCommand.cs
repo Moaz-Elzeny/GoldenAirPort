@@ -1,6 +1,6 @@
 ﻿using GoldenAirport.Application.Common.Models;
 using GoldenAirport.Application.Helpers.DTOs;
-using GoldenAirport.Application.RegistrationsEditing.Commands;
+using GoldenAirport.Application.RegistrationsEditing.Commands.Edit;
 using GoldenAirport.Application.TripRegistrations.Dtos;
 using GoldenAirport.Domain.Entities;
 using GoldenAirport.Domain.Enums;

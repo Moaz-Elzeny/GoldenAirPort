@@ -3,7 +3,7 @@ using GoldenAirport.Application.Helpers.DTOs;
 using GoldenAirport.Application.TripRegistrations.Dtos;
 using GoldenAirport.Domain.Entities;
 
-namespace GoldenAirport.Application.RegistrationsEditing.Commands
+namespace GoldenAirport.Application.RegistrationsEditing.Commands.Edit
 {
     public class TripRegistrationEditingCommand : IRequest<ResponseDto<object>>
     {
@@ -60,7 +60,7 @@ namespace GoldenAirport.Application.RegistrationsEditing.Commands
                 }
 
                 //child
-                if (request.Children.Count != 0 )
+                if (request.Children.Count != 0)
                 {
 
                     foreach (var item in request.Children)

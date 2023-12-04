@@ -93,7 +93,7 @@ namespace GoldenAirport.Application.TripRegistrations.Commands.Edit
                         Title = "The trip modification request has been approved",
                         Date = DateTime.Now,
                         Content = "",
-                        AppUserId = request.CurrentUserId
+                        AppUserId = TripRegistrationEditing.CreatedById
                     };
                     await _dbContext.Notifications.AddAsync(Notification);
 

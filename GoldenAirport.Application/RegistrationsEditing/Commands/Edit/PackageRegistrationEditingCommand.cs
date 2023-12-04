@@ -3,7 +3,7 @@ using GoldenAirport.Application.Helpers.DTOs;
 using GoldenAirport.Application.TripRegistrations.Dtos;
 using GoldenAirport.Domain.Entities;
 
-namespace GoldenAirport.Application.RegistrationsEditing.Commands
+namespace GoldenAirport.Application.RegistrationsEditing.Commands.Edit
 {
     public class PackageRegistrationEditingCommand : IRequest<ResponseDto<object>>
     {
@@ -29,15 +29,15 @@ namespace GoldenAirport.Application.RegistrationsEditing.Commands
 
                 var packageRegistration = new PackageRegistrationEditing
                 {
-                Email = request.Email,
-                PhoneNumber = request.PhoneNumber,
-                PackageRegistrationId = request.PackageRegistrationId,
-                CreatedById = request.CurrentUserId,
-                CreationDate = DateTime.Now
+                    Email = request.Email,
+                    PhoneNumber = request.PhoneNumber,
+                    PackageRegistrationId = request.PackageRegistrationId,
+                    CreatedById = request.CurrentUserId,
+                    CreationDate = DateTime.Now
 
                 };
 
-                 _dbContext.PackageRegistrationsEditing.Add(packageRegistration); 
+                _dbContext.PackageRegistrationsEditing.Add(packageRegistration);
 
 
 
@@ -64,7 +64,7 @@ namespace GoldenAirport.Application.RegistrationsEditing.Commands
                 //child
                 if (request.Children.Count != 0)
                 {
-                     _dbContext.ChildrenEditing.RemoveRange();
+                    _dbContext.ChildrenEditing.RemoveRange();
                     foreach (var item in request.Children)
                     {
                         packageRegistration.ChildrenEditing.Add(new ChildEditing()
@@ -84,7 +84,7 @@ namespace GoldenAirport.Application.RegistrationsEditing.Commands
                 return ResponseDto<object>.Success(new ResultDto()
                 {
                     Message = "The request for amendment from the admin is being followed up",
-                    Result =  packageRegistration.Id
+                    Result = packageRegistration.Id
                 });
             }
         }
