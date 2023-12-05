@@ -1,5 +1,4 @@
-﻿using GoldenAirport.Application.AdminDetails.DTOs;
-using GoldenAirport.Application.Chat.Dtos;
+﻿using GoldenAirport.Application.Chat.Dtos;
 using GoldenAirport.Application.Common.Models;
 using GoldenAirport.Application.Helpers.DTOs;
 
@@ -74,10 +73,7 @@ namespace GoldenAirport.Application.Chat.Queries
                 return ResponseDto<object>.Success(new ResultDto()
                 {
                     Message = "All chats",
-                    Result = new
-                    {
-                        chatDtos
-                    }
+                    Result = chatDtos
                 });
             }
         }

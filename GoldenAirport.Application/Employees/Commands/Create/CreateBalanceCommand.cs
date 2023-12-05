@@ -33,6 +33,8 @@ namespace GoldenAirport.Application.Employees.Commands.Create
                 //balance.BalanceAmount = request.AddBalance.Value + balance.BalanceAmount;
                 //balance.ModificationDate = DateTime.Now;
                 //balance.ModifiedById = request.CurrentUserId;
+
+                var employee = await _dbContext.Employees.Where(id => id.AppUserId == request.EmployeeId).FirstOrDefaultAsync();
                 
                 var balanceHistory = new Balance
                 {
@@ -42,17 +44,30 @@ namespace GoldenAirport.Application.Employees.Commands.Create
                     CreatedById = request.CurrentUserId
                 };
 
+                var Statement = new Statement
+                {
+                    EmployeeId =employee.Id,
+                    CreationDate = DateTime.Now,
+                    CreatedById = request.CurrentUserId
+                };
+
                 if (request.AddBalance == 0)
                 {
                     balanceHistory.BalanceAmount = (decimal)request.RebateBalance * -1;
-
+                    Statement.Amount = (decimal)request.RebateBalance * -1;
+                    Statement.Service = "Balance Deduction";
                 }
                 else if(request.RebateBalance == 0)            {
 
                     balanceHistory.BalanceAmount = (decimal)request.AddBalance ;
+                    Statement.Amount = (decimal)request.AddBalance;
+                    Statement.Service = "Add Balance";
+
                 }
 
                 _dbContext.Balances.Add(balanceHistory);
+
+                _dbContext.Statements.Add(Statement);
 
                 await _dbContext.SaveChangesAsync(cancellationToken);
 

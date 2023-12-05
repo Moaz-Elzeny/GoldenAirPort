@@ -19,8 +19,6 @@ namespace GoldenAirport.Application.Chat.Queries
 
             public async Task<ResponseDto<object>> Handle(GetChatMessageQuery request, CancellationToken cancellationToken)
             {
-                //var user = await _dbcontext.AppUsers.FindAsync(request.UserId, cancellationToken) ?? throw new NotFoundException("User not found");
-                //var chatName = $"{user.FirstName} {user.LastName}" ;
                 var chatMessage = await _dbcontext.ChatMessages
                     .Include(c => c.Chat)
                     .Where(c => c.ChatId == request.ChatId)
@@ -35,7 +33,6 @@ namespace GoldenAirport.Application.Chat.Queries
                         CreationDate = m.CreationDate,
                     }).ToListAsync(cancellationToken);
 
-                //var chatName = $"{chatMessage.c.FirstName} {user.LastName}";
 
                 var result = new ChatMessageDto
                 {
@@ -48,10 +45,7 @@ namespace GoldenAirport.Application.Chat.Queries
                 return ResponseDto<object>.Success(new ResultDto()
                 {
                     Message = "Message",
-                    Result = new
-                    {
-                        result
-                    }
+                    Result = result
                 });
             }
         }

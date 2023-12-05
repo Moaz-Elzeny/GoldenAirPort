@@ -8,6 +8,7 @@ namespace GoldenAirport.Domain.Entities
         public decimal ServiceFees { get; set; }
         public int AgentCode { get; set; }
         public DateTime LastLogin { get; set; }
+        public decimal Target { get; set; }
 
         public string AppUserId { get; set; }
         public virtual AppUser AppUser { get; set; }

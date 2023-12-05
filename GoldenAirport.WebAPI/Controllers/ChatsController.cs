@@ -43,7 +43,6 @@ namespace GoldenAirport.WebAPI.Controllers
             {
                 Content = dto.Content,
                 ChatId = dto.ChatId,
-                //SenderId = senderId,
                 MediaPath = dto.MediaFile,
                 MessageTypeId = dto.MessageType,
                 AdminId = dto.AdminId,

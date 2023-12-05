@@ -12,7 +12,7 @@ namespace GoldenAirport.Application.Chat.Command
 {
     public class SendMessagCommand : IRequest<ResponseDto<object>>
     {
-        public int? ChatId { get; set; } 
+        public int? ChatId { get; set; }
         public string? Content { get; set; }
         //public string SenderId { get; set; }
         public IFormFile? MediaPath { get; set; }
@@ -36,16 +36,18 @@ namespace GoldenAirport.Application.Chat.Command
 
             public async Task<ResponseDto<object>> Handle(SendMessagCommand request, CancellationToken cancellationToken)
             {
-                var chat = await _dbContext.Chats.FindAsync(request.ChatId, cancellationToken);
+                var user = _dbContext.AppUsers.Where(a => a.Id == request.CurrentUserId).FirstOrDefault();
 
+                var chat = await _dbContext.Chats.FindAsync(request.ChatId, cancellationToken);
+                
                 if (chat == null)
                 {
-                   var newChat = await _mediator.Send(new CreateChatCommand
-                   {
-                       AdminId = request.AdminId,
-                       EmployeeId = request.EmployeeId,
-                       CurrentUserId = request.CurrentUserId,
-                   });
+                    var newChat = await _mediator.Send(new CreateChatCommand
+                    {
+                        AdminId = user.UserType != UserType.SuperAdmin ? request.AdminId : request.CurrentUserId,
+                        EmployeeId = user.UserType != UserType.Employee ?  request.EmployeeId : request.CurrentUserId,
+                        CurrentUserId = request.CurrentUserId,
+                    });
 
 
                     var messages = new ChatMessage
@@ -86,9 +88,7 @@ namespace GoldenAirport.Application.Chat.Command
                         {
                             ChatId = messages.ChatId.ToString()
                         }
-                    }
-                );
-
+                    });
                 }
 
                 var message = new ChatMessage
@@ -107,10 +107,10 @@ namespace GoldenAirport.Application.Chat.Command
                         message.Content = request.Content;
                         break;
                     case MessageType.Image:
-                        message.MediaPath = await FileHelper.SaveImageAsync(request.MediaPath, _environment); 
+                        message.MediaPath = await FileHelper.SaveImageAsync(request.MediaPath, _environment);
                         break;
                     case MessageType.Video:
-                        message.MediaPath =  FileHelper.SaveVideo(request.MediaPath, _environment);
+                        message.MediaPath = FileHelper.SaveVideo(request.MediaPath, _environment);
                         break;
                     case MessageType.Audio:
                         message.MediaPath = await FileHelper.SaveAudioAsync(request.MediaPath, _environment);
@@ -125,10 +125,7 @@ namespace GoldenAirport.Application.Chat.Command
                 return ResponseDto<object>.Success(new ResultDto()
                 {
                     Message = "Sent Successfully",
-                    Result = new
-                    {
-                        chat
-                    }
+                    Result = chat
                 });
             }
         }

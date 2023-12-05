@@ -1,5 +1,6 @@
-﻿using GoldenAirport.Application.Employees.Dtos;
+﻿using GoldenAirport.Application.Employees.Queries;
 using Microsoft.AspNetCore.Mvc;
+using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
 
 namespace GoldenAirport.WebAPI.Controllers
 {
@@ -10,10 +11,12 @@ namespace GoldenAirport.WebAPI.Controllers
         public StatementsController() { }
 
         [HttpGet("fetch")] 
-        public async Task<IActionResult> GetStatement(string Id)
+        public async Task<IActionResult> GetStatement(string EmployeeId , int PageNumber = 1)
         {
-            var dto = new  GetStatementDto();
-            return Ok(dto);
+            var query = new GetStatementQuery{PageNumber = PageNumber , EmployeeId = EmployeeId};
+            var result = await Mediator.Send(query);
+
+            return !result.IsSuccess ? BadRequest(result.Error) : Ok(result.Result);
         }
     }
 }

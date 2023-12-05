@@ -9,6 +9,8 @@ namespace GoldenAirport.Application.Employees.Queries
     {
         public int PageNumber { get; set; }
         public string? SearchKey { get; set; }
+        public DateTime? DateFrom { get; set; }
+        public DateTime? DateTo { get; set; }
 
         public class GetAllEmployeeHandler : IRequestHandler<GetAllEmployeeQuery, ResponseDto<object>>
         {
@@ -35,6 +37,18 @@ namespace GoldenAirport.Application.Employees.Queries
                         e.AppUser.PhoneNumber.Contains(request.SearchKey)
                     );
                 }
+
+
+                if (request.DateFrom != null)
+                {
+                    query = query.Where(t => t.CreationDate <= request.DateFrom);
+                }
+
+                if (request.DateFrom != null)
+                {
+                    query = query.Where(t => t.CreationDate >= request.DateTo);
+                }
+
 
                 var totalCount = await query.CountAsync(cancellationToken);
 

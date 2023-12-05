@@ -28,7 +28,7 @@ namespace GoldenAirport.Application.TripRegistrations.Commands.Create
 
             public async Task<ResponseDto<object>> Handle(CreateTripRegistrationCommand request, CancellationToken cancellationToken)
             {
-                var trip = _dbContext.Trips.Where(t => t.Id == request.TripId).FirstOrDefault();
+                var trip = _dbContext.Trips.Where(t => t.Id == request.TripId && t.RemainingGuests != t.Guests).FirstOrDefault() ?? throw new Exception("There is no trip");
 
                 var userDetails = new Domain.Entities.AdminDetails();
                 var employee = new Employee();
@@ -130,6 +130,16 @@ namespace GoldenAirport.Application.TripRegistrations.Commands.Create
                         };
                         await _dbContext.DailyGoals.AddAsync(newGoal);
                     }
+                    var Statement = new Statement
+                    {
+                        EmployeeId = employee.Id,
+                        Amount = ((adultPrice * request.Adult.Count()) + (childPrice * request.Child.Count())) * -1,
+                        Service = "Trip",
+                        CreationDate = DateTime.Now,
+                        CreatedById = request.CurrentUserId
+                    };
+                    await _dbContext.Statements.AddAsync(Statement);
+
                     await _dbContext.SaveChangesAsync(cancellationToken);
                 }
 

@@ -28,8 +28,7 @@ namespace GoldenAirport.Application.PackageRegistrations.Commands.Create
 
             public async Task<ResponseDto<object>> Handle(CreatePackageRegistrationCommand request, CancellationToken cancellationToken)
             {
-                var package = _dbContext.Packages.Where(t => t.Id == request.PackageId).AsQueryable().FirstOrDefault();
-
+                var package = _dbContext.Packages.Where(t => t.Id == request.PackageId && t.RemainingGuests != t.Guests).AsQueryable().FirstOrDefault() ?? throw new Exception("There is no package");
 
 
                 var userDetails = new Domain.Entities.AdminDetails();
@@ -130,6 +129,17 @@ namespace GoldenAirport.Application.PackageRegistrations.Commands.Create
                         };
                         await _dbContext.DailyGoals.AddAsync(newGoal);
                     }
+
+                    var Statement = new Statement
+                    {
+                        EmployeeId = employee.Id,
+                        Amount = ((adultPrice * request.Adult.Count()) + (childPrice * request.Child.Count())) * -1,
+                        Service = "Packages",
+                        CreationDate = DateTime.Now,
+                        CreatedById = request.CurrentUserId
+                    };
+                    await _dbContext.Statements.AddAsync(Statement);
+
                     await _dbContext.SaveChangesAsync(cancellationToken);
                 }
 

@@ -34,12 +34,8 @@ namespace GoldenAirport.Application.Chat.Command
                 return ResponseDto<object>.Success(new ResultDto()
                 {
                     Message = "Created Successfully!",
-                    Result = new
-                    {
-                        chat.Id
-                    }
-                }
-);
+                    Result = chat.Id
+                });
             }
         }
     }

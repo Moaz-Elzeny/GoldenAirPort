@@ -20,6 +20,7 @@ namespace GoldenAirport.Application.Employees.Queries
                 var home = await _dbContext.Employees.Where(a => a.AppUserId == request.UserId)
                     .Select(d => new
                     {
+                        ProfilePicture = d.AppUser.ProfilePicture,
                         Name = $"{d.AppUser.FirstName} {d.AppUser.LastName}",
                         AgentCode = d.AgentCode,
                         lastLogin = d.LastLogin,
@@ -29,7 +30,7 @@ namespace GoldenAirport.Application.Employees.Queries
                         {
                             g.Goal,
                             g.Target
-                        })
+                        }).Sum(g => g.Goal)
 
                     }).ToListAsync();
 
