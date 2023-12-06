@@ -1,6 +1,4 @@
-﻿using GoldenAirport.Domain.Enums;
-
-namespace GoldenAirport.Domain.Entities
+﻿namespace GoldenAirport.Domain.Entities
 {
     public class Trip : BaseEntity
     {
@@ -8,7 +6,11 @@ namespace GoldenAirport.Domain.Entities
         {
             ToCity = new HashSet<CityTrip>();
             TripRegistrations = new HashSet<TripRegistration>();
-        
+            PaymentOptionTrips = new HashSet<PaymentOptionTrip>();
+            WhyVisits  =new HashSet<WhyVisit>();
+            WhatAreIncluded = new HashSet<WhatIsIncluded>();
+            Restrictions = new HashSet<Restriction>();
+            Accessibilities = new HashSet<Accessibility>();
         }   
         public int Id { get; set; }
         public DateTime StartingDate { get; set; }
@@ -19,14 +21,12 @@ namespace GoldenAirport.Domain.Entities
         public int Guests { get; set; }
         public int RemainingGuests { get; set; }
         public TimeSpan TripHours { get; set;}
-        //public paymentMethod PaymentMethod { get; set; }
 
         public int FromCityId { get; set; }
         public virtual City City { get; set; }
 
         public virtual ICollection<CityTrip> ToCity { get; set; }
         public virtual ICollection<TripRegistration> TripRegistrations { get; set; }
-        //public virtual ICollection<TripRegistrationEditing> TripRegistrationsEditing { get; set; }
         public virtual ICollection<PaymentOptionTrip> PaymentOptionTrips { get; set; }
         public virtual ICollection<WhyVisit> WhyVisits { get; set; }
         public virtual ICollection<WhatIsIncluded> WhatAreIncluded { get; set; }

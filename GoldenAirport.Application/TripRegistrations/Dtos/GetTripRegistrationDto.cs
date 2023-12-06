@@ -10,10 +10,10 @@ namespace GoldenAirport.Application.TripRegistrations.Dtos
         public DateTime EndingDate { get; set; }
         public string TripHours { get; set; }
         public bool IsRefundable { get; set; }
+        public bool RegistrationDeleteing { get; set; }
         public decimal TotalAmount { get; set; }
         public GetFromCityDto FromCities { get; set; }
         public IEnumerable<GetCitiesDto> ToCities { get; set; }
-        
     }
     
 }

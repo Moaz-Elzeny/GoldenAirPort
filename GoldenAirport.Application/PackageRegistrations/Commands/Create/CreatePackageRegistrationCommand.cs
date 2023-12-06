@@ -113,6 +113,7 @@ namespace GoldenAirport.Application.PackageRegistrations.Commands.Create
 
                     if (goal != null)
                     {
+                        goal.Target = (employee.Target + goal.Target) / 2;
                         goal.Goal = goal.Goal + (adultPrice * request.Adult.Count()) + (childPrice * request.Child.Count());
                         goal.ModificationDate = DateTime.Now;
                         goal.ModifiedById = request.CurrentUserId;
@@ -121,6 +122,7 @@ namespace GoldenAirport.Application.PackageRegistrations.Commands.Create
                     {
                         var newGoal = new DailyGoal
                         {
+                            Target = employee.Target,
                             Goal = (adultPrice * request.Adult.Count()) + (childPrice * request.Child.Count()),
                             Date = DateTime.Now,
                             EmployeeId = employee.Id,

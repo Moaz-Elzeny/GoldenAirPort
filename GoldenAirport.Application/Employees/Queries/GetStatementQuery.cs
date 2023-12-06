@@ -34,12 +34,12 @@ namespace GoldenAirport.Application.Employees.Queries
 
                 if (request.DateFrom != null)
                 {
-                    query = query.Where(t => t.CreationDate <= request.DateFrom);
+                    query = query.Where(t => t.CreationDate >= request.DateFrom);
                 }
 
-                if (request.DateFrom != null)
+                if (request.DateTo != null)
                 {
-                    query = query.Where(t => t.CreationDate >= request.DateTo);
+                    query = query.Where(t => t.CreationDate <= request.DateTo);
                 }
 
 

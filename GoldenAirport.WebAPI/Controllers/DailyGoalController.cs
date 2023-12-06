@@ -13,11 +13,13 @@ namespace GoldenAirport.WebAPI.Controllers
 
 
         [HttpGet("fetch")]
-        public async Task<IActionResult> GetDailyGoal(string Id, int PageNumber = 1)
+        public async Task<IActionResult> GetDailyGoal(string Id, DateTime? DateFrom, DateTime? DateTo,  int PageNumber = 1)
         {
             var query = new GetDailyGoalQuery 
             {
                 EmployeeId = Id,
+                DateFrom = DateFrom,
+                DateTo = DateTo,
                 PageNumber = PageNumber
             };
             var result = await Mediator.Send(query);

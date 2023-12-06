@@ -1,6 +1,7 @@
 ﻿using GoldenAirport.Application.Employees.Queries;
 using Microsoft.AspNetCore.Mvc;
 using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace GoldenAirport.WebAPI.Controllers
 {
@@ -11,9 +12,9 @@ namespace GoldenAirport.WebAPI.Controllers
         public StatementsController() { }
 
         [HttpGet("fetch")] 
-        public async Task<IActionResult> GetStatement(string EmployeeId , int PageNumber = 1)
+        public async Task<IActionResult> GetStatement(string EmployeeId , DateTime? DateFrom, DateTime? DateTo, int PageNumber = 1)
         {
-            var query = new GetStatementQuery{PageNumber = PageNumber , EmployeeId = EmployeeId};
+            var query = new GetStatementQuery{PageNumber = PageNumber , EmployeeId = EmployeeId,  DateFrom = DateFrom, DateTo = DateTo };
             var result = await Mediator.Send(query);
 
             return !result.IsSuccess ? BadRequest(result.Error) : Ok(result.Result);

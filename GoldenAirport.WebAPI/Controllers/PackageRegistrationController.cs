@@ -70,7 +70,7 @@ namespace GoldenAirport.WebAPI.Controllers
         [HttpDelete("Delete")]
         public async Task<IActionResult> Delete(int Id)
         {
-            var deleteTripRegistration = new DeletePackageRegistrationCommand { Id = Id };
+            var deleteTripRegistration = new DeletePackageRegistrationCommand { Id = Id , CurrentUserId = CurrentUserId};
             var result = await Mediator.Send(deleteTripRegistration);
 
             return !result.IsSuccess ? BadRequest(result.Error) : Ok(result.Result);

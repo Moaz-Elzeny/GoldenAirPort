@@ -1,7 +1,7 @@
-﻿using GoldenAirport.Application.AdminDetails.DTOs;
-using GoldenAirport.Application.Common.Models;
+﻿using GoldenAirport.Application.Common.Models;
 using GoldenAirport.Application.Helpers.DTOs;
 using GoldenAirport.Domain.Entities;
+using GoldenAirport.Domain.Enums;
 using SendGrid.Helpers.Errors.Model;
 
 namespace GoldenAirport.Application.TripRegistrations.Commands.Delete
@@ -22,11 +22,27 @@ namespace GoldenAirport.Application.TripRegistrations.Commands.Delete
 
             public async Task<ResponseDto<object>> Handle(DeleteTripRegistrationCommand request, CancellationToken cancellationToken)
             {
+                var user = _dbContext.AppUsers.Where(a => a.Id == request.CurrentUserId).FirstOrDefault();
+
                 var trip = await _dbContext.TripRegistrations.FindAsync(request.Id) ?? throw new NotFoundException("Trip Registration not found.");
 
-                trip.Deleted = true;
-                trip.ModificationDate = DateTime.Now;
-                trip.ModifiedById = request.CurrentUserId;
+                if (user.UserType == UserType.SuperAdmin)
+                {
+                    trip.Deleted = true;
+                    trip.ModificationDate = DateTime.Now;
+                    trip.ModifiedById = request.CurrentUserId;
+                }
+                else
+                {
+                    var tripRegistrationDeleting = new TripRegistrationDeleting
+                    {
+                        TripRegistrationId = request.Id,
+                        CreatedById = request.CurrentUserId,
+                        CreationDate = DateTime.Now,
+                    };
+                    await _dbContext.TripRegistrationsDeleting.AddAsync(tripRegistrationDeleting);
+                    trip.RegistrationDeleteing = true;
+                }
 
                 await _dbContext.SaveChangesAsync(cancellationToken);
 

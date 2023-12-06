@@ -48,6 +48,7 @@ namespace GoldenAirport.Application.TripRegistrations.Queries
                         EndingDate = t.Trip.EndingDate,                                              
                         TripHours = t.Trip.TripHours.ToString(@"hh\:mm"),
                         IsRefundable = t.Trip.IsRefundable,
+                        RegistrationDeleteing = t.RegistrationDeleteing,
                         TotalAmount = t.TotalAmount,
                         FromCities = new GetFromCityDto
                         {

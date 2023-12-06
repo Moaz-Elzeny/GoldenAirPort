@@ -17,6 +17,7 @@ namespace GoldenAirport.Domain.Entities
         public decimal? Taxes { get; set; }
         public string Email { get; set; }
         public string PhoneNumber { get; set; }
+        public bool RegistrationDeleteing { get; set; }
 
         public int PackageId { get; set; }
         public virtual Package Package { get; set; }

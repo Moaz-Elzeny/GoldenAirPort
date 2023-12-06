@@ -4,6 +4,7 @@ using GoldenAirport.Infrastructure.Presistence;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace GoldenAirport.Infrastructure.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20231206082028_addTargetToEmployee")]
+    partial class addTargetToEmployee
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -1192,9 +1195,6 @@ namespace GoldenAirport.Infrastructure.Migrations
                         .HasMaxLength(20)
                         .HasColumnType("nvarchar(20)");
 
-                    b.Property<bool>("RegistrationDeleteing")
-                        .HasColumnType("bit");
-
                     b.Property<decimal?>("Taxes")
                         .HasColumnType("decimal(18,2)");
 
@@ -1205,46 +1205,6 @@ namespace GoldenAirport.Infrastructure.Migrations
                     b.HasIndex("PackageId");
 
                     b.ToTable("PackageRegistrations", (string)null);
-                });
-
-            modelBuilder.Entity("GoldenAirport.Domain.Entities.PackageRegistrationDeleting", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<string>("CreatedById")
-                        .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
-
-                    b.Property<DateTime>("CreationDate")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("DATETIME")
-                        .HasDefaultValueSql("GETDATE()");
-
-                    b.Property<bool>("Deleted")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("bit")
-                        .HasDefaultValue(false);
-
-                    b.Property<DateTime?>("ModificationDate")
-                        .HasColumnType("DATETIME");
-
-                    b.Property<string>("ModifiedById")
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
-
-                    b.Property<int>("PackageRegistrationId")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("PackageRegistrationId");
-
-                    b.ToTable("PackageRegistrationsDeleting", (string)null);
                 });
 
             modelBuilder.Entity("GoldenAirport.Domain.Entities.PackageRegistrationEditing", b =>
@@ -1603,9 +1563,6 @@ namespace GoldenAirport.Infrastructure.Migrations
                         .HasMaxLength(20)
                         .HasColumnType("nvarchar(20)");
 
-                    b.Property<bool>("RegistrationDeleteing")
-                        .HasColumnType("bit");
-
                     b.Property<decimal?>("Taxes")
                         .HasColumnType("decimal(18,2)");
 
@@ -1622,46 +1579,6 @@ namespace GoldenAirport.Infrastructure.Migrations
                     b.HasIndex("TripId");
 
                     b.ToTable("TripRegistration", (string)null);
-                });
-
-            modelBuilder.Entity("GoldenAirport.Domain.Entities.TripRegistrationDeleting", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<string>("CreatedById")
-                        .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
-
-                    b.Property<DateTime>("CreationDate")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("DATETIME")
-                        .HasDefaultValueSql("GETDATE()");
-
-                    b.Property<bool>("Deleted")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("bit")
-                        .HasDefaultValue(false);
-
-                    b.Property<DateTime?>("ModificationDate")
-                        .HasColumnType("DATETIME");
-
-                    b.Property<string>("ModifiedById")
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
-
-                    b.Property<int>("TripRegistrationId")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("TripRegistrationId");
-
-                    b.ToTable("TripRegistrationsDeleting", (string)null);
                 });
 
             modelBuilder.Entity("GoldenAirport.Domain.Entities.TripRegistrationEditing", b =>
@@ -2165,17 +2082,6 @@ namespace GoldenAirport.Infrastructure.Migrations
                     b.Navigation("Package");
                 });
 
-            modelBuilder.Entity("GoldenAirport.Domain.Entities.PackageRegistrationDeleting", b =>
-                {
-                    b.HasOne("GoldenAirport.Domain.Entities.PackageRegistration", "PackageRegistration")
-                        .WithMany()
-                        .HasForeignKey("PackageRegistrationId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("PackageRegistration");
-                });
-
             modelBuilder.Entity("GoldenAirport.Domain.Entities.PackageRegistrationEditing", b =>
                 {
                     b.HasOne("GoldenAirport.Domain.Entities.PackageRegistration", "PackageRegistration")
@@ -2292,17 +2198,6 @@ namespace GoldenAirport.Infrastructure.Migrations
                     b.Navigation("AppUser");
 
                     b.Navigation("Trip");
-                });
-
-            modelBuilder.Entity("GoldenAirport.Domain.Entities.TripRegistrationDeleting", b =>
-                {
-                    b.HasOne("GoldenAirport.Domain.Entities.TripRegistration", "TripRegistration")
-                        .WithMany()
-                        .HasForeignKey("TripRegistrationId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("TripRegistration");
                 });
 
             modelBuilder.Entity("GoldenAirport.Domain.Entities.TripRegistrationEditing", b =>

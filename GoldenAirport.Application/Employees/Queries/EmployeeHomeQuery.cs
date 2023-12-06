@@ -25,12 +25,12 @@ namespace GoldenAirport.Application.Employees.Queries
                         AgentCode = d.AgentCode,
                         lastLogin = d.LastLogin,
                         Balance = d.AppUser.Balances.Sum(a => a.BalanceAmount),
-                        DailyGoal = d.DailyGoals.
+                        DailyGoal = d.DailyGoals.OrderByDescending(d => d.Date).
                         Select(g => new
                         {
-                            g.Goal,
-                            g.Target
-                        }).Sum(g => g.Goal)
+                            DailyGoal =  g.Goal,
+                            Target = g.Employee.Target,
+                        }).FirstOrDefault()
 
                     }).ToListAsync();
 

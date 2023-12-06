@@ -19,14 +19,15 @@ namespace GoldenAirport.Application.Notifications.Queries
             public async Task<ResponseDto<object>> Handle(AdminNotificationsQuery request, CancellationToken cancellationToken)
             {
                 var user = _dbContext.AppUsers.AsQueryable();
+
                 var tripsNotifications = await _dbContext.TripRegistrationsEditing
                     .Select(t => new AdminTripNotificationsDto
                     {
-                        Id = t.Id,  
+                        Id = t.Id,
                         TripRegistrationId = t.TripRegistrationId,
                         TicketNumber = user.Where(c => c.Id == t.CreatedById).Select(a => a.Id).FirstOrDefault(),
                         ProfilePicture = user.Where(c => c.Id == t.CreatedById).Select(a => a.ProfilePicture).FirstOrDefault(),
-                        Name = user.Where(c => c.Id == t.CreatedById).Select(a => a.FirstName +" " + a.LastName).FirstOrDefault(),                       
+                        Name = user.Where(c => c.Id == t.CreatedById).Select(a => a.FirstName + " " + a.LastName).FirstOrDefault(),
                         Date = t.CreationDate,
                         Content = "Trip modification request has been send",
                         FromCity = CultureInfo.CurrentCulture.TwoLetterISOLanguageName == "ar" ? t.TripRegistration.Trip.City.NameAr : t.TripRegistration.Trip.City.NameEn,
@@ -34,14 +35,14 @@ namespace GoldenAirport.Application.Notifications.Queries
                         PhoneNumber = t.PhoneNumber,
                     }).ToListAsync();
 
-                var packagesNotifications = await _dbContext.PackageRegistrationsEditing
+                var EditingpackagesNotifications = await _dbContext.PackageRegistrationsEditing
                     .Select(t => new AdminPackageNotificationsDto
                     {
                         Id = t.Id,
                         PackageRegistrationId = t.PackageRegistrationId,
                         TicketNumber = user.Where(c => c.Id == t.CreatedById).Select(a => a.Id).FirstOrDefault(),
                         ProfilePicture = user.Where(c => c.Id == t.CreatedById).Select(a => a.ProfilePicture).FirstOrDefault(),
-                        Name = _dbContext.AppUsers.Where(c => c.Id == t.CreatedById).Select(a => a.FirstName +" "+ a.LastName).FirstOrDefault(),                       
+                        Name = _dbContext.AppUsers.Where(c => c.Id == t.CreatedById).Select(a => a.FirstName + " " + a.LastName).FirstOrDefault(),
                         Date = t.CreationDate,
                         Content = "package modification request has been send",
                         FromCity = CultureInfo.CurrentCulture.TwoLetterISOLanguageName == "ar" ? t.PackageRegistration.Package.City.NameAr : t.PackageRegistration.Package.City.NameEn,
@@ -49,7 +50,37 @@ namespace GoldenAirport.Application.Notifications.Queries
                         PhoneNumber = t.PhoneNumber,
                     }).ToListAsync();
 
-                var totalCount = packagesNotifications.Count + tripsNotifications.Count;
+                var DeletinpackagesNotifications = await _dbContext.TripRegistrationsDeleting
+                    .Select(t => new AdminTripNotificationsDto
+                    {
+                        Id = t.Id,
+                        TripRegistrationId = t.TripRegistrationId,
+                        TicketNumber = user.Where(c => c.Id == t.CreatedById).Select(a => a.Id).FirstOrDefault(),
+                        ProfilePicture = user.Where(c => c.Id == t.CreatedById).Select(a => a.ProfilePicture).FirstOrDefault(),
+                        Name = _dbContext.AppUsers.Where(c => c.Id == t.CreatedById).Select(a => a.FirstName + " " + a.LastName).FirstOrDefault(),
+                        Date = t.CreationDate,
+                        Content = "package Deletion request has been send",
+                        FromCity = CultureInfo.CurrentCulture.TwoLetterISOLanguageName == "ar" ? t.TripRegistration.Trip.City.NameAr : t.TripRegistration.Trip.City.NameEn,
+                        ToCity = CultureInfo.CurrentCulture.TwoLetterISOLanguageName == "ar" ? t.TripRegistration.Trip.ToCity.Select(d => d.Cities.NameAr).ToList() : t.TripRegistration.Trip.ToCity.Select(d => d.Cities.NameEn).ToList(),
+                        PhoneNumber = t.TripRegistration.PhoneNumber,
+                    }).ToListAsync();
+
+                var DeletingpackagesNotifications = await _dbContext.PackageRegistrationsDeleting
+                    .Select(t => new AdminPackageNotificationsDto
+                    {
+                        Id = t.Id,
+                        PackageRegistrationId = t.PackageRegistrationId,
+                        TicketNumber = user.Where(c => c.Id == t.CreatedById).Select(a => a.Id).FirstOrDefault(),
+                        ProfilePicture = user.Where(c => c.Id == t.CreatedById).Select(a => a.ProfilePicture).FirstOrDefault(),
+                        Name = _dbContext.AppUsers.Where(c => c.Id == t.CreatedById).Select(a => a.FirstName + " " + a.LastName).FirstOrDefault(),
+                        Date = t.CreationDate,
+                        Content = "package Deletion request has been send",
+                        FromCity = CultureInfo.CurrentCulture.TwoLetterISOLanguageName == "ar" ? t.PackageRegistration.Package.City.NameAr : t.PackageRegistration.Package.City.NameEn,
+                        ToCity = CultureInfo.CurrentCulture.TwoLetterISOLanguageName == "ar" ? t.PackageRegistration.Package.ToCity.NameAr : t.PackageRegistration.Package.ToCity.NameEn,
+                        PhoneNumber = t.PackageRegistration.PhoneNumber,
+                    }).ToListAsync();
+
+                var totalCount = EditingpackagesNotifications.Count + tripsNotifications.Count + DeletinpackagesNotifications.Count + DeletingpackagesNotifications.Count;
 
                 return ResponseDto<object>.Success(new ResultDto()
                 {
@@ -57,7 +88,9 @@ namespace GoldenAirport.Application.Notifications.Queries
                     Result = new
                     {
                         tripsNotifications,
-                        packagesNotifications,
+                        EditingpackagesNotifications,
+                        DeletinpackagesNotifications,
+                        DeletingpackagesNotifications,
                         totalCount
 
                     }

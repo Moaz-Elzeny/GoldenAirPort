@@ -21,36 +21,33 @@ namespace GoldenAirport.Application.Employees.Commands.Edit.Actions
 
             public async Task<ResponseDto<object>> Handle(EditDailyGoalCommand request, CancellationToken cancellationToken)
             {
-                var dailyGoal = await _dbContext.DailyGoals.Where(e => e.Employee.AppUserId == request.EmployeeId).FirstOrDefaultAsync(cancellationToken);
+                var dailyGoal = await _dbContext.Employees.Where(e => e.AppUserId == request.EmployeeId).FirstOrDefaultAsync(cancellationToken);
                 if (dailyGoal == null)
                 {
-                    var goal = new DailyGoal
-                    {
-                        EmployeeId = request.EmployeeId,
-                        Target = request.Target.Value, 
-                        Date = DateTime.Now,
-                        Goal = 0,
-                        CreatedById = request.CurrentUserId,
-                        CreationDate = DateTime.Now,
-                    };
-                    _dbContext.DailyGoals.Add(goal);
-                    await _dbContext.SaveChangesAsync(cancellationToken);
+                    //var goal = new DailyGoal
+                    //{
+                    //    EmployeeId = request.EmployeeId,
+                    //    Target = request.Target.Value,
+                    //    Date = DateTime.Now,
+                    //    Goal = 0,
+                    //    CreatedById = request.CurrentUserId,
+                    //    CreationDate = DateTime.Now,
+                    //};
+                    //_dbContext.DailyGoals.Add(goal);
+                    //await _dbContext.SaveChangesAsync(cancellationToken);
 
-                    return ResponseDto<object>.Success(new ResultDto()
+                    return ResponseDto<object>.Failure(new ErrorDto()
                     {
-                        Message = "Updated Successfully",
-                        Result = new
-                        {
-                            Id = goal.Id
-                        }
+                        Message = "Employee Not Found!",
+                        Code = 101
                     });
                 }
                 else
                 {
-                    if (DateTime.Now - dailyGoal.Date >= TimeSpan.FromHours(12))
-                    {
-                        dailyGoal.Date = DateTime.Now;
-                    }
+                    //if (DateTime.Now - dailyGoal.Date >= TimeSpan.FromHours(12))
+                    //{
+                    //    dailyGoal.Date = DateTime.Now;
+                    //}
                     dailyGoal.Target = request.Target ?? dailyGoal.Target;
                     dailyGoal.ModificationDate = DateTime.Now;
                     dailyGoal.ModifiedById = request.CurrentUserId;
@@ -59,14 +56,11 @@ namespace GoldenAirport.Application.Employees.Commands.Edit.Actions
                     return ResponseDto<object>.Success(new ResultDto()
                     {
                         Message = "Updated Successfully",
-                        Result = new
-                        {
-                            Id = dailyGoal.Id
-                        }
+                        Result = dailyGoal.Id
                     });
                 }
 
-                
+
             }
         }
     }

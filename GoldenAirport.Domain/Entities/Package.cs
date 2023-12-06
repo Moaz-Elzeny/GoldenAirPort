@@ -1,12 +1,12 @@
-﻿using GoldenAirport.Domain.Enums;
-
-namespace GoldenAirport.Domain.Entities
+﻿namespace GoldenAirport.Domain.Entities
 {
     public class Package : BaseEntity
     {
         public Package() 
         {
-
+            PackagePlans = new HashSet<PackagePlan>();
+            PackageRegistrations = new HashSet<PackageRegistration>();
+            PaymentOptionPackages = new HashSet<PaymentOptionPackage>();
         }
         public int Id { get; set; }
         public string Name { get; set; }
@@ -26,7 +26,6 @@ namespace GoldenAirport.Domain.Entities
 
         public virtual ICollection<PackagePlan> PackagePlans { get; set; }
         public virtual ICollection<PackageRegistration> PackageRegistrations { get; set; }
-        //public virtual ICollection<PackageRegistrationEditing> PackageRegistrationsEditing { get; set; }
         public virtual ICollection<PaymentOptionPackage> PaymentOptionPackages { get; set; }
 
 

@@ -30,12 +30,12 @@ namespace GoldenAirport.Application.Employees.Queries
 
                 if (request.DateFrom != null)
                 {
-                    query = query.Where(t => t.Date <= request.DateFrom);
+                    query = query.Where(t => t.Date >= request.DateFrom);
                 }
                 
-                if (request.DateFrom != null)
+                if (request.DateTo != null)
                 {
-                    query = query.Where(t => t.Date >= request.DateTo);
+                    query = query.Where(t => t.Date <= request.DateTo);
                 }
 
                 var dailyGoal = await query.Where(e => e.Employee.AppUserId == request.EmployeeId)
@@ -43,7 +43,6 @@ namespace GoldenAirport.Application.Employees.Queries
                     .Take(pageSize)
                     .Select(x => new
                     {
-                        //Name = x.Employee.AppUser.FirstName + " " + x.Employee.AppUser.LastName,
                         Target = x.Target,
                         Date = x.Date,
                         Goale = x.Goal

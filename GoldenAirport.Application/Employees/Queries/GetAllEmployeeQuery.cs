@@ -41,12 +41,12 @@ namespace GoldenAirport.Application.Employees.Queries
 
                 if (request.DateFrom != null)
                 {
-                    query = query.Where(t => t.CreationDate <= request.DateFrom);
+                    query = query.Where(t => t.LastLogin >= request.DateFrom);
                 }
 
-                if (request.DateFrom != null)
+                if (request.DateTo != null)
                 {
-                    query = query.Where(t => t.CreationDate >= request.DateTo);
+                    query = query.Where(t => t.LastLogin <= request.DateTo);
                 }
 
 
@@ -68,15 +68,12 @@ namespace GoldenAirport.Application.Employees.Queries
                         LastName = x.AppUser.LastName,
                         PhoneNumber = x.AppUser.PhoneNumber,
                         UserType = x.AppUser.UserType,
-                        //ServiceFees = x.AppUser.ServiceFees,
                         ProfilePicture = x.AppUser.ProfilePicture.ToString(),
                         IsActive = x.Active,
                         AgentCode = x.AgentCode,
                         Balance = x.AppUser.Balances.Sum(s=>s.BalanceAmount),
                         DailyGoal = x.DailyGoals.Select(d => d.Goal).FirstOrDefault(),
-                        ServiceFees = x.ServiceFees,
-                        //Date = x.Date,
-                        //PaymentMethod = x.PaymentMethod,
+                        ServiceFees = x.ServiceFees,                        
                         LastLogin = x.LastLogin,
                     }).ToListAsync(cancellationToken);
 

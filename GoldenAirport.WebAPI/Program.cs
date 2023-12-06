@@ -23,12 +23,13 @@ using Microsoft.OpenApi.Models;
 using Serilog;
 using System.Globalization;
 using System.Text;
+using System.Text.Json.Serialization;
 
 var builder = WebApplication.CreateBuilder(args);
 
 if (!builder.Environment.IsDevelopment())
 {
-    builder.Environment.WebRootPath = "C:\\inetpub\\vhosts\\orialserversmanagement.online\\GoldenAirportAPIS.orialserversmanagement.online\\wwwroot\\";
+    builder.Environment.WebRootPath = "C:\\inetpub\\wwwroot\\GoldenAirport\\wwwroot\\";
 }
 
 // Add services to the container.
@@ -109,6 +110,12 @@ builder.Services.Configure<RequestLocalizationOptions>(options =>
     options.SupportedUICultures = supportedCultures;
 });
 
+//Ignore Cycles
+builder.Services.AddControllers().AddJsonOptions(options =>
+{
+    options.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles;
+    options.JsonSerializerOptions.WriteIndented = true;
+});
 
 //Add Mediator Services
 builder.Services.AddDbContext<IApplicationDbContext, ApplicationDbContext>();

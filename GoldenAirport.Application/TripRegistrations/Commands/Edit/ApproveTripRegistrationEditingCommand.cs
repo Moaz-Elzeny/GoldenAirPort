@@ -102,10 +102,7 @@ namespace GoldenAirport.Application.TripRegistrations.Commands.Edit
                     return ResponseDto<object>.Success(new ResultDto()
                     {
                         Message = "Updated Successfully!",
-                        Result = new
-                        {
-                            result = TripRegistration.Id
-                        }
+                        Result = TripRegistration.Id
                     });
                 }
 
@@ -114,10 +111,7 @@ namespace GoldenAirport.Application.TripRegistrations.Commands.Edit
                 return ResponseDto<object>.Success(new ResultDto()
                 {
                     Message = "Updated Unacceptable!",
-                    Result = new
-                    {
-                        result = TripRegistration.Id
-                    }
+                    Result = TripRegistration.Id
                 });
             }
         }

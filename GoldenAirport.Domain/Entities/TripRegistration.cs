@@ -19,6 +19,8 @@ namespace GoldenAirport.Domain.Entities
         public decimal TotalAmount { get; set; }
         public string Email { get; set; }
         public string PhoneNumber { get; set; }
+        public bool RegistrationDeleteing { get; set; }
+
         public int TripId { get; set; }
         public virtual Trip Trip { get; set; }
 
@@ -27,6 +29,5 @@ namespace GoldenAirport.Domain.Entities
 
         public virtual ICollection<Adult> Adults { get; set; }
         public virtual ICollection<Child> Children { get; set; }
-        //public virtual ICollection<EmployeeTripRegistration> EmployeeTripRegistrations { get; set; }
     }
 }

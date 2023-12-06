@@ -22,6 +22,7 @@ namespace GoldenAirport.Application.Interfaces
         DbSet<CityTrip> CityTrips { get; set; }
         DbSet<TripRegistration> TripRegistrations { get; set; }
         DbSet<TripRegistrationEditing> TripRegistrationsEditing { get; set; }
+        DbSet<TripRegistrationDeleting> TripRegistrationsDeleting { get; set; }
         DbSet<AdultEditing> AdultsEditing { get; set; }
         DbSet<Adult> Adults { get; set; }
         DbSet<Child> Children { get; set; }
@@ -34,6 +35,7 @@ namespace GoldenAirport.Application.Interfaces
         DbSet<PackagePlan> PackagePlans { get; set; }
         DbSet<PackageRegistration> PackageRegistrations { get; set; }
         DbSet<PackageRegistrationEditing> PackageRegistrationsEditing { get; set; }
+        DbSet<PackageRegistrationDeleting> PackageRegistrationsDeleting { get; set; }
         DbSet<PaymentOption> PaymentOptions { get; set; }
         DbSet<PaymentOptionTrip> PaymentOptionTrips { get; set; }
         DbSet<PaymentOptionPackage> PaymentOptionPackages { get; set; }
