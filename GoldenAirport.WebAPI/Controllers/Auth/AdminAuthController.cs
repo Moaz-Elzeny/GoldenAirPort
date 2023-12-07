@@ -23,20 +23,6 @@ namespace GoldenAirport.WebAPI.Controllers.Auth
             _userManager = userManager;
         }
 
-        //[HttpGet("profile")]
-        //public async Task<IActionResult> GetMyProfile()
-        //{
-        //    var query = new GetMyProfileQuery
-        //    {
-        //        CurrentUserId = CurrentUserId
-        //    };
-
-        //    var result = await Mediator.Send(query);
-
-
-        //    return result.Error != null ? BadRequest(result.Error) : Ok(result.Result);
-        //}
-
         [HttpPost("login")]
         public async Task<IActionResult> Login(LoginQuery query)
         {

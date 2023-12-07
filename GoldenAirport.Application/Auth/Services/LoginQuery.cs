@@ -33,7 +33,7 @@ namespace GoldenAirport.Application.Users.Queries.Login
            
         {
             var user = await _userManager.FindByEmailAsync(request.UserName);
-            if (user == null)
+            if (user == null || user.UserType != Domain.Enums.UserType.SuperAdmin)
             {
                 return ResponseDto<object>.Failure(new ErrorDto()
                 {

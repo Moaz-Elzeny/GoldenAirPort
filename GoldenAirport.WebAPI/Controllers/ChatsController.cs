@@ -31,6 +31,14 @@ namespace GoldenAirport.WebAPI.Controllers
             return !result.IsSuccess ? BadRequest(result.Error) : Ok(result.Result);
         }
 
+        [HttpPost("GetChatId")]
+        public async Task<IActionResult> GetChatId([FromForm] CreateChatCommand command)
+        {
+            command.CurrentUserId = CurrentUserId;
+            var result = await Mediator.Send(command);
+            return !result.IsSuccess ? BadRequest(result.Error) : Ok(result.Result);
+        }
+
         [HttpPost("SendMessage")]
         public async Task<IActionResult> SendMessage([FromForm]SendMessageDto dto)
         {
@@ -39,14 +47,12 @@ namespace GoldenAirport.WebAPI.Controllers
             {
                 return Unauthorized();
             }
-            var command = new SendMessagCommand
+            var command = new SendMessageCommand
             {
                 Content = dto.Content,
                 ChatId = dto.ChatId,
                 MediaPath = dto.MediaFile,
-                MessageTypeId = dto.MessageType,
-                AdminId = dto.AdminId,
-                EmployeeId = dto.EmployeeId,
+                MessageTypeId = dto.MessageType,                
                 CurrentUserId = CurrentUserId
             };
 

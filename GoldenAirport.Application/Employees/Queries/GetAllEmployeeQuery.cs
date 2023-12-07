@@ -27,6 +27,7 @@ namespace GoldenAirport.Application.Employees.Queries
                 var pageSize = 10;
 
                 var query = _dbContext.Employees
+                    .Where(a => !a.AppUser.Deleted)
                 .AsQueryable();
 
                 if (!string.IsNullOrEmpty(request.SearchKey))

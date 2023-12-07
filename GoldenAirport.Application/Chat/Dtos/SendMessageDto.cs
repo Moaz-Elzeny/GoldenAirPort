@@ -9,7 +9,6 @@ namespace GoldenAirport.Application.Chat.Dtos
         public int? ChatId { get; set; }
         public IFormFile? MediaFile { get; set; }
         public MessageType MessageType { get; set; }
-        public string? AdminId { get; set; }
-        public string? EmployeeId { get; set; }
+       
     }
 }
