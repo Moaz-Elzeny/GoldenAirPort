@@ -41,6 +41,7 @@ namespace GoldenAirport.Application.PackageRegistrations.Queries
                 var totalPages = (int)Math.Ceiling((double)totalCount / pageSize);
                 var TitleValues = Enum.GetValues<Title>();
                 var PackageRegistrations = await query
+                    .OrderByDescending(d => d.CreationDate)
                     .Select(t => new GetPackageRegistrationDto
                     {
                         Id = t.Id,

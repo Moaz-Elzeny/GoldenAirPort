@@ -63,14 +63,6 @@ namespace GoldenAirport.WebAPI.Controllers.Admin
                 UserType = dto.UserType,
                 ProfilePicture = dto.ProfilePicture,
                 CurrentUserId = CurrentUserId
-                //UserName = dto.UserName,
-                //NewPassword = dto.NewPassword,
-                //CurrentPassword = dto.CurrentPassword,
-                //ServiceFees = dto.ServiceFees,
-                //TaxValue = dto.TaxValue,
-                //BookingTime = dto.BookingTime,
-                //PrivacyPolicyAndTerms = dto.PrivacyPolicyAndTerms,
-                //Active = dto.Active,
             };
             var validationResults = await new EditUserCommandValidator().ValidateAsync(command);
 
