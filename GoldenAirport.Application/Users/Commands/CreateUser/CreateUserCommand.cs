@@ -18,7 +18,6 @@ namespace GoldenAirport.Application.Users.Commands.CreateUser
 {
     public class CreateUserCommand : IRequest<ResponseDto<object>>
     {
-        //public string UserName { get; set; }
         public string Email { get; set; }
         public string Password { get; set; }
         public string ConfirmPassword { get; set; }
@@ -28,10 +27,7 @@ namespace GoldenAirport.Application.Users.Commands.CreateUser
         public UserType UserType { get; set; }
         public IFormFile ProfilePicture { get; set; }
         public string? CurrentUserId { get; set; }
-        //public decimal ServiceFees { get; set; }
-        //public int? TaxValue { get; set; }
-        //public int BookingTime { get; set; }
-        //public string? PrivacyPolicyAndTerms { get; set; }
+        
         public class CreateUserCommandHandler : IRequestHandler<CreateUserCommand, ResponseDto<object>>
         {
             private readonly UserManager<AppUser> _userManager;
@@ -58,10 +54,7 @@ namespace GoldenAirport.Application.Users.Commands.CreateUser
                     CreatedById = request.CurrentUserId,
                     CreationDate = DateTime.Now,
                     PhoneNumber = request.PhoneNumber,
-                    //ServiceFees = request.ServiceFees,
-                    //TaxValue = (byte)request.TaxValue,
-                    //BookingTime = (byte)request.BookingTime,
-                    //PrivacyPolicyAndTerms = request.PrivacyPolicyAndTerms,
+                    
                 };
 
                 if (request.ProfilePicture != null)
