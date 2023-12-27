@@ -25,7 +25,7 @@ namespace GoldenAirport.WebAPI.Controllers
         }
 
         [HttpPost("Create")]
-        public async Task<IActionResult> Create([FromBody]CreateCountryCommand command)
+        public async Task<IActionResult> Create([FromForm]CreateCountryCommand command)
         {
             command.CurrentUserId = CurrentUserId;
             var result = await Mediator.Send(command);
@@ -33,13 +33,15 @@ namespace GoldenAirport.WebAPI.Controllers
         }
 
         [HttpPut("Update")]
-        public async Task<IActionResult> Update(int Id, [FromBody]UpdateCountryDto dto )
+        public async Task<IActionResult> Update(int Id, [FromForm]UpdateCountryDto dto )
         {
             var editCountry = new EditCountryCommand
             { 
                 Id= Id,
                 NameAr = dto.NameAr,
                 NameEn = dto.NameEn,
+                Code = dto.Code,
+                Icon = dto.Icon,
                 CurrentUserId = CurrentUserId
             }; 
 

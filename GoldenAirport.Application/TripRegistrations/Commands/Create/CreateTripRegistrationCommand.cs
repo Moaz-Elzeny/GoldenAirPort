@@ -15,7 +15,7 @@ namespace GoldenAirport.Application.TripRegistrations.Commands.Create
         public string? CurrentUserId { get; set; }
 
         public List<AdultDto> Adult { get; set; }
-        public List<ChildDto> Child { get; set; }
+        public List<ChildDto>? Child { get; set; }
 
         public class CreateTripRegistrationHandler : IRequestHandler<CreateTripRegistrationCommand, ResponseDto<object>>
         {

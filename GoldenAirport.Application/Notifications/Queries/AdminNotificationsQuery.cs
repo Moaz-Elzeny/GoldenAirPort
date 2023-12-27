@@ -21,6 +21,7 @@ namespace GoldenAirport.Application.Notifications.Queries
                 var user = _dbContext.AppUsers.AsQueryable();
 
                 var tripsNotifications = await _dbContext.TripRegistrationsEditing
+                    .OrderByDescending(d => d.CreationDate)
                     .Select(t => new AdminTripNotificationsDto
                     {
                         Id = t.Id,
@@ -50,7 +51,7 @@ namespace GoldenAirport.Application.Notifications.Queries
                         PhoneNumber = t.PhoneNumber,
                     }).ToListAsync();
 
-                var DeletinpackagesNotifications = await _dbContext.TripRegistrationsDeleting
+                var DeletinTripsNotifications = await _dbContext.TripRegistrationsDeleting
                     .Select(t => new AdminTripNotificationsDto
                     {
                         Id = t.Id,
@@ -59,7 +60,7 @@ namespace GoldenAirport.Application.Notifications.Queries
                         ProfilePicture = user.Where(c => c.Id == t.CreatedById).Select(a => a.ProfilePicture).FirstOrDefault(),
                         Name = _dbContext.AppUsers.Where(c => c.Id == t.CreatedById).Select(a => a.FirstName + " " + a.LastName).FirstOrDefault(),
                         Date = t.CreationDate,
-                        Content = "package Deletion request has been send",
+                        Content = "Trip Deletion request has been send",
                         FromCity = CultureInfo.CurrentCulture.TwoLetterISOLanguageName == "ar" ? t.TripRegistration.Trip.City.NameAr : t.TripRegistration.Trip.City.NameEn,
                         ToCity = CultureInfo.CurrentCulture.TwoLetterISOLanguageName == "ar" ? t.TripRegistration.Trip.ToCity.Select(d => d.Cities.NameAr).ToList() : t.TripRegistration.Trip.ToCity.Select(d => d.Cities.NameEn).ToList(),
                         PhoneNumber = t.TripRegistration.PhoneNumber,
@@ -80,7 +81,7 @@ namespace GoldenAirport.Application.Notifications.Queries
                         PhoneNumber = t.PackageRegistration.PhoneNumber,
                     }).ToListAsync();
 
-                var totalCount = EditingpackagesNotifications.Count + tripsNotifications.Count + DeletinpackagesNotifications.Count + DeletingpackagesNotifications.Count;
+                var totalCount = EditingpackagesNotifications.Count + tripsNotifications.Count + DeletinTripsNotifications.Count + DeletingpackagesNotifications.Count;
 
                 return ResponseDto<object>.Success(new ResultDto()
                 {
@@ -89,7 +90,7 @@ namespace GoldenAirport.Application.Notifications.Queries
                     {
                         tripsNotifications,
                         EditingpackagesNotifications,
-                        DeletinpackagesNotifications,
+                        DeletinTripsNotifications,
                         DeletingpackagesNotifications,
                         totalCount
 

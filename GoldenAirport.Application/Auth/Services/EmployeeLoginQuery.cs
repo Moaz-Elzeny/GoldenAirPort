@@ -75,7 +75,7 @@ namespace GoldenAirport.Application.Users.Queries.Login
                     var e = await _context.Employees.Where(e => e.AppUserId == user.Id).FirstOrDefaultAsync();
                     if (e != null)
                     {
-                        e.LastLogin = DateTime.UtcNow;
+                        e.LastLogin = DateTime.UtcNow.AddHours(2);
                     }
                     await _userManager.UpdateAsync(user);
                     await _context.SaveChangesAsync(cancellationToken);

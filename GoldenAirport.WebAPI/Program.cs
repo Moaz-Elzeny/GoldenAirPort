@@ -1,4 +1,5 @@
 using GoldenAirport.Application.Auth.Services;
+using GoldenAirport.Application.Filters;
 using GoldenAirport.Application.Helpers;
 using GoldenAirport.Application.Infrastructure;
 using GoldenAirport.Application.Interfaces;
@@ -11,6 +12,7 @@ using Hedaya.Application.Auth.Abstractions;
 using Hedaya.Application.Auth.Services;
 using MediatR;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Localization;
@@ -63,6 +65,9 @@ builder.Services.AddIdentityCore<AppUser>(options => options.SignIn.RequireConfi
                 .AddEntityFrameworkStores<ApplicationDbContext>()
                 .AddTokenProvider<DataProtectorTokenProvider<AppUser>>(TokenOptions.DefaultProvider);
 
+//Permissions 
+builder.Services.AddSingleton<IAuthorizationPolicyProvider, PermissionPolicyProvider>();
+builder.Services.AddScoped<IAuthorizationHandler, PermissionAuthorizationHandler>();
 
 builder.Services.AddCors(options =>
 {
@@ -73,6 +78,7 @@ builder.Services.AddCors(options =>
                .AllowAnyHeader();
     });
 });
+
 
 builder.Services.ConfigureApplicationCookie(o =>
 {

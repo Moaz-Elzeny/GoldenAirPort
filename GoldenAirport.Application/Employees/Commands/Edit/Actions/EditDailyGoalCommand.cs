@@ -1,6 +1,5 @@
 ﻿using GoldenAirport.Application.Common.Models;
 using GoldenAirport.Application.Helpers.DTOs;
-using GoldenAirport.Domain.Entities;
 
 namespace GoldenAirport.Application.Employees.Commands.Edit.Actions
 {
@@ -24,18 +23,6 @@ namespace GoldenAirport.Application.Employees.Commands.Edit.Actions
                 var dailyGoal = await _dbContext.Employees.Where(e => e.AppUserId == request.EmployeeId).FirstOrDefaultAsync(cancellationToken);
                 if (dailyGoal == null)
                 {
-                    //var goal = new DailyGoal
-                    //{
-                    //    EmployeeId = request.EmployeeId,
-                    //    Target = request.Target.Value,
-                    //    Date = DateTime.Now,
-                    //    Goal = 0,
-                    //    CreatedById = request.CurrentUserId,
-                    //    CreationDate = DateTime.Now,
-                    //};
-                    //_dbContext.DailyGoals.Add(goal);
-                    //await _dbContext.SaveChangesAsync(cancellationToken);
-
                     return ResponseDto<object>.Failure(new ErrorDto()
                     {
                         Message = "Employee Not Found!",

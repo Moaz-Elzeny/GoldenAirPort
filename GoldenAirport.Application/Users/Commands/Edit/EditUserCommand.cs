@@ -59,14 +59,6 @@ namespace GoldenAirport.Application.Users.Commands.EditUser
                 if (request.LastName != null)
                     user.LastName = request.LastName;
 
-                // if (request.BookingTime != null)
-                //    user.BookingTime = (byte)request.BookingTime;
-
-                //  if (request.TaxValue != null)
-                //    user.TaxValue = (byte)request.TaxValue;
-
-                //user.ServiceFees = request.ServiceFees ?? user.ServiceFees;
-                //user.PrivacyPolicyAndTerms = request.PrivacyPolicyAndTerms ?? user.PrivacyPolicyAndTerms;
                 user.UserType = request.UserType ?? user.UserType;
                 user.PhoneNumber = request.PhoneNumber ?? user.PhoneNumber;
                 user.ModificationDate = DateTime.Now;
@@ -81,15 +73,6 @@ namespace GoldenAirport.Application.Users.Commands.EditUser
                     user.ProfilePicture = await FileHelper.SaveImageAsync(request.ProfilePicture, _environment);
                 }
 
-                //if (request.CurrentPassword != null)
-                //{
-                //    var x = await _userManager.ChangePasswordAsync(user, request.CurrentPassword, request.NewPassword);
-
-                //    if (!x.Succeeded)
-                //    {
-                //        return ResponseDto<object>.Failure(new ErrorDto() { Message = $"Password is Wrong .. Please return password {request.CurrentUserId}", Code = 101 });
-                //    }
-                //}
                 var result = await _userManager.UpdateAsync(user);
 
                 if (result.Succeeded)
