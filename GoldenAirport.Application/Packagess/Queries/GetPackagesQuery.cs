@@ -39,7 +39,7 @@ namespace GoldenAirport.Application.Packagess.Queries
                 query = query.Where(p => p.FromCityId == request.FromCity);
             }
 
-            if (request.ToCity != null )
+            if (request.ToCity != null)
             {
                 query = query.Where(p => p.ToCityId == request.ToCity);
             }
@@ -60,6 +60,7 @@ namespace GoldenAirport.Application.Packagess.Queries
             var totalPages = (int)Math.Ceiling((double)totalCount / pageSize);
 
             var packages = await query
+                .OrderByDescending(d => d.CreationDate)
                 .Select(p => new GetPackagesDto
                 {
                     Id = p.Id,
@@ -67,19 +68,19 @@ namespace GoldenAirport.Application.Packagess.Queries
                     StartingDate = p.StartingDate.Date,
                     EndingDate = p.EndingDate,
                     AdultPrice = p.Price,
-                    ChildPrice = p.ChildPrice,   
+                    ChildPrice = p.ChildPrice,
                     IsRefundable = p.IsRefundable,
                     FromCity = new FromCityDto
                     {
 
-                    Id = p.FromCityId,
-                    CityName = CultureInfo.CurrentCulture.TwoLetterISOLanguageName == "ar" ? p.City.NameAr : p.City.NameEn,
+                        Id = p.FromCityId,
+                        CityName = CultureInfo.CurrentCulture.TwoLetterISOLanguageName == "ar" ? p.City.NameAr : p.City.NameEn,
                     },
-                    ToCity =  new GetPackegeCitiesDto
+                    ToCity = new GetPackegeCitiesDto
                     {
                         Id = p.ToCityId,
                         CityName = CultureInfo.CurrentCulture.TwoLetterISOLanguageName == "ar" ? p.ToCity.NameAr : p.ToCity.NameEn
-                    },                   
+                    },
                 }).ToListAsync(cancellationToken);
 
             var paginatedList = new PaginatedList<GetPackagesDto>
@@ -94,7 +95,7 @@ namespace GoldenAirport.Application.Packagess.Queries
             return ResponseDto<object>.Success(new ResultDto()
             {
                 Message = "All packages",
-                Result = new { paginatedList , allPackages }
+                Result = new { paginatedList, allPackages }
             });
         }
     }

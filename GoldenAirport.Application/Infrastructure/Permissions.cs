@@ -6,7 +6,7 @@
         {
             return new List<string>()
          {
-             $"Permissions.{module}.Actions",
+             $"{module}",
              //$"Permissions.{module}.Create",
              //$"Permissions.{module}.Edit",
              //$"Permissions.{module}.Delete"
@@ -42,7 +42,7 @@
         }
         public static class Trips
         {
-            public const string Actions = "Permissions.Trips.Actions";
+            public const string Actions = "Permissions.Trips";
             //public const string Create = "Permissions.Trips.Create";
             //public const string Edit = "Permissions.Trips.Edit";
             //public const string Delete = "Permissions.Trips.Delete";

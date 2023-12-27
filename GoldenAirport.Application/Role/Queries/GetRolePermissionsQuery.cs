@@ -32,8 +32,8 @@ namespace GoldenAirport.Application.Role.Queries
 
                 var allPermissions = allClaims.Select(p => new
                 {
-                    Module = p.Split('.')[1],
-                    Permission = p.Split('.')[2],
+                    Module = p.Split(),
+                    Permission = p.Split(),
                     IsSelected = roleClaims.Any(c => c.Value == p)
                 }).ToList();
 

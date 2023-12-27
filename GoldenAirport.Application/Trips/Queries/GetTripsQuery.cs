@@ -66,6 +66,7 @@ namespace GoldenAirport.Application.Trips.Queries
                 var totalPages = (int)Math.Ceiling((double)totalCount / pageSize);
 
                 var Trips = await query
+                    .OrderByDescending(d => d.CreationDate)
                     .Select(t => new GetTripsDto
                     {
                         Id = t.Id,

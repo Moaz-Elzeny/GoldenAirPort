@@ -31,7 +31,7 @@ var builder = WebApplication.CreateBuilder(args);
 
 if (!builder.Environment.IsDevelopment())
 {
-    builder.Environment.WebRootPath = "C:\\inetpub\\wwwroot\\GoldenAirport\\wwwroot\\";
+    builder.Environment.WebRootPath = "C:\\Inetpub\\vhosts\\orialserversmanagement.online\\GoldenAirportAPIS.orialserversmanagement.online\\wwwroot\\";
 }
 
 // Add services to the container.
@@ -66,8 +66,8 @@ builder.Services.AddIdentityCore<AppUser>(options => options.SignIn.RequireConfi
                 .AddTokenProvider<DataProtectorTokenProvider<AppUser>>(TokenOptions.DefaultProvider);
 
 //Permissions 
-builder.Services.AddSingleton<IAuthorizationPolicyProvider, PermissionPolicyProvider>();
-builder.Services.AddScoped<IAuthorizationHandler, PermissionAuthorizationHandler>();
+//builder.Services.AddSingleton<IAuthorizationPolicyProvider, PermissionPolicyProvider>();
+//builder.Services.AddScoped<IAuthorizationHandler, PermissionAuthorizationHandler>();
 
 builder.Services.AddCors(options =>
 {
