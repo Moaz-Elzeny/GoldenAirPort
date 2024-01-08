@@ -41,7 +41,7 @@ namespace GoldenAirport.Application.Chat.Queries
                         {
                             ChatId = chat.Id,
                             UserId = chat.EmployeeId,
-                            FirstName = chat.Employee.FirstName??string.Empty,
+                            FirstName = chat.Employee.FirstName ?? string.Empty,
                             LastName = chat.Employee.LastName ?? string.Empty,
                             Email = chat.Employee.Email ?? string.Empty,
                             ProfilePicture = chat.Employee.ProfilePicture ?? string.Empty,

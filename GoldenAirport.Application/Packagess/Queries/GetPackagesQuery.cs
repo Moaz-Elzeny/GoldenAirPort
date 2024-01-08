@@ -46,7 +46,10 @@ namespace GoldenAirport.Application.Packagess.Queries
 
             if (request.StartingOn != null)
             {
-                query = query.Where(p => p.StartingDate == request.StartingOn);
+                if (request.StartingOn > DateTime.Now)
+                    query = query.Where(t => t.StartingDate == request.StartingOn);
+                else
+                    throw new Exception("Please enter a valid date");
             }
 
 

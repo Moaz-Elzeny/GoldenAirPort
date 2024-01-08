@@ -28,7 +28,7 @@ namespace GoldenAirport.Application.PackageRegistrations.Commands.Create
 
             public async Task<ResponseDto<object>> Handle(CreatePackageRegistrationCommand request, CancellationToken cancellationToken)
             {
-                var package = _dbContext.Packages.Where(t => t.Id == request.PackageId && t.RemainingGuests != t.Guests).AsQueryable().FirstOrDefault() ?? throw new Exception("There is no package");
+                var package = _dbContext.Packages.Where(t => t.Id == request.PackageId && t.RemainingGuests != t.Guests).AsQueryable().FirstOrDefault() ?? throw new Exception("The package is full");
 
 
                 var userDetails = new Domain.Entities.AdminDetails();
@@ -75,7 +75,7 @@ namespace GoldenAirport.Application.PackageRegistrations.Commands.Create
                         FirstName = item.FirstName,
                         LastName = item.LastName,
                         PassportNo = item.PassportNo,
-                        DateOfBirth = DateTime.Now,
+                        DateOfBirth = item.DateOfBirth.Value,
                         CreatedById = request.CurrentUserId,
                         CreationDate = DateTime.Now,
                     });
@@ -88,7 +88,7 @@ namespace GoldenAirport.Application.PackageRegistrations.Commands.Create
                         FirstName = item.FirstName,
                         LastName = item.LastName,
                         PassportNo = item.PassportNo,
-                        DateOfBirth = DateTime.Now,
+                        DateOfBirth = item.DateOfBirth.Value,
                         CreatedById = request.CurrentUserId,
                         CreationDate = DateTime.Now,
                     });

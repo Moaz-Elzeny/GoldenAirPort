@@ -64,7 +64,7 @@ namespace GoldenAirport.Application.TripRegistrations.Commands.Edit
                                 FirstName = item.FirstName,
                                 LastName = item.LastName,
                                 PassportNo = item.PassportNo,
-                                DateOfBirth = DateTime.Now,
+                                DateOfBirth = item.DateOfBirth.Value,
                                 CreatedById = request.CurrentUserId,
                                 CreationDate = DateTime.Now,
                             });
@@ -83,7 +83,7 @@ namespace GoldenAirport.Application.TripRegistrations.Commands.Edit
                                 FirstName = item.FirstName,
                                 LastName = item.LastName,
                                 PassportNo = item.PassportNo,
-                                DateOfBirth = DateTime.Now,
+                                DateOfBirth = item.DateOfBirth.Value,
                                 CreatedById = request.CurrentUserId,
                                 CreationDate = DateTime.Now,
                             });

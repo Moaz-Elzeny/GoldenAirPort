@@ -104,7 +104,7 @@ namespace GoldenAirport.Application.Users.Commands.CreateUser
                 }
                 else
                 {
-                    return ResponseDto<object>.Failure(new ErrorDto() { Message = $"Failed to create user {user.Id}", Code = 101 });
+                    return ResponseDto<object>.Failure(new ErrorDto() { Message = $"Failed to create user!", Code = 101 });
 
                 }
             }

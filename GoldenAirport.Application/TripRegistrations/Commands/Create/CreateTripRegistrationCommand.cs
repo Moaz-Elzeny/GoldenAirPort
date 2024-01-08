@@ -28,7 +28,7 @@ namespace GoldenAirport.Application.TripRegistrations.Commands.Create
 
             public async Task<ResponseDto<object>> Handle(CreateTripRegistrationCommand request, CancellationToken cancellationToken)
             {
-                var trip = _dbContext.Trips.Where(t => t.Id == request.TripId && t.RemainingGuests != t.Guests).FirstOrDefault() ?? throw new Exception("There is no trip");
+                var trip = _dbContext.Trips.Where(t => t.Id == request.TripId && t.RemainingGuests != t.Guests).FirstOrDefault() ?? throw new Exception("The trip is full");
 
                 var userDetails = new Domain.Entities.AdminDetails();
                 var employee = new Employee();
@@ -66,8 +66,7 @@ namespace GoldenAirport.Application.TripRegistrations.Commands.Create
                     TotalAmount = (adultPrice * request.Adult.Count) + (childPrice * request.Child.Count) + userServiceFees + employeeServiceFees + Taxes,
                     CreatedById = request.CurrentUserId,
                     CreationDate = DateTime.Now,
-                    //OtherFees = request.OtherFees,
-
+                    
                 };
 
                 foreach (var item in request.Adult)
@@ -78,7 +77,7 @@ namespace GoldenAirport.Application.TripRegistrations.Commands.Create
                         FirstName = item.FirstName,
                         LastName = item.LastName,
                         PassportNo = item.PassportNo,
-                        DateOfBirth = DateTime.Now,
+                        DateOfBirth = item.DateOfBirth.Value,
                         CreatedById = request.CurrentUserId,
                         CreationDate = DateTime.Now,
                     });
@@ -91,7 +90,7 @@ namespace GoldenAirport.Application.TripRegistrations.Commands.Create
                         FirstName = item.FirstName,
                         LastName = item.LastName,
                         PassportNo = item.PassportNo,
-                        DateOfBirth = DateTime.Now,
+                        DateOfBirth = item.DateOfBirth.Value,
                         CreatedById = request.CurrentUserId,
                         CreationDate = DateTime.Now,
                     });

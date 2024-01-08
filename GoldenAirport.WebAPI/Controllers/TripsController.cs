@@ -1,11 +1,8 @@
-﻿using GoldenAirport.Application.Infrastructure;
-using GoldenAirport.Application.TripRegistrations.Queries;
-using GoldenAirport.Application.Trips.Commands.Create;
+﻿using GoldenAirport.Application.Trips.Commands.Create;
 using GoldenAirport.Application.Trips.Commands.Delete;
 using GoldenAirport.Application.Trips.Commands.Edit;
 using GoldenAirport.Application.Trips.Dtos;
 using GoldenAirport.Application.Trips.Queries;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace GoldenAirport.WebAPI.Controllers

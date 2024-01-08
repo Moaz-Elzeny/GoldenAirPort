@@ -36,9 +36,6 @@ namespace GoldenAirport.Application.Trips.Queries
 
                 var allTrips = await query.CountAsync(cancellationToken);
 
-                //var ra = _dbContext.TripRegistrations.Select(r => r.Id);
-                //var ad = _dbContext.Adults.Where(a => ra.Contains(a.TripRegistrationId.Value)).Select(a => a.Id);
-
                 if (request.FromCity != null)
                 {
                     query = query.Where(t => t.FromCityId == request.FromCity);
@@ -51,13 +48,15 @@ namespace GoldenAirport.Application.Trips.Queries
 
                 if (request.StartingOn != null)
                 {
-                    query = query.Where(t => t.StartingDate == request.StartingOn);
+                    if (request.StartingOn > DateTime.Now)
+                        query = query.Where(t => t.StartingDate == request.StartingOn);
+                    else
+                        throw new Exception("Please enter a valid date");
                 }
 
                 if (request.Guests != null)
                 {
                     var guests = _dbContext.Trips.Where(g => g.RemainingGuests >= request.Guests).Select(t => t.Guests).ToList();
-                    //var x = guests.Count() - ad.Count();
                     query = query.Where(r => guests.Contains(r.Guests));
                 }
 
@@ -71,8 +70,7 @@ namespace GoldenAirport.Application.Trips.Queries
                     {
                         Id = t.Id,
                         StartingDate = t.StartingDate.Date,
-                        EndingDate = t.EndingDate,
-                        
+                        EndingDate = t.EndingDate,                        
                         AdultPrice = t.Price,
                         ChildPrice = t.ChildPrice,
                         TripHours = t.TripHours.ToString(@"hh\:mm"),

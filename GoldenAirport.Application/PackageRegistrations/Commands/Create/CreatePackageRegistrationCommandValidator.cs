@@ -1,11 +1,11 @@
 ﻿using FluentValidation;
 
-namespace GoldenAirport.Application.TripRegistrations.Commands.Create
+namespace GoldenAirport.Application.PackageRegistrations.Commands.Create
 {
-    public class CreateTripRegistrationCommandValidator : AbstractValidator<CreateTripRegistrationCommand>
+    public class CreatePackageRegistrationCommandValidator : AbstractValidator<CreatePackageRegistrationCommand>
     {
-        public CreateTripRegistrationCommandValidator()
-        {         
+        public CreatePackageRegistrationCommandValidator()
+        {
             RuleFor(t => t.Email)
                 .EmailAddress()
                 .WithMessage("Please Enter Email");
@@ -15,9 +15,9 @@ namespace GoldenAirport.Application.TripRegistrations.Commands.Create
                .WithMessage("Please Enter Phone Number")
                .Length(11).WithMessage("Please enter an Egyptian number");
 
-            RuleFor(t => t.TripId)
+            RuleFor(t => t.PackageId)
                .NotEmpty()
-               .WithMessage("Please Enter Trip");
+               .WithMessage("Please Enter Package");
         }
     }
 }

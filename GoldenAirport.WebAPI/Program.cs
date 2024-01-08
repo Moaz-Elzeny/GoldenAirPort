@@ -1,9 +1,7 @@
 using GoldenAirport.Application.Auth.Services;
-using GoldenAirport.Application.Filters;
 using GoldenAirport.Application.Helpers;
 using GoldenAirport.Application.Infrastructure;
 using GoldenAirport.Application.Interfaces;
-using GoldenAirport.Application.Users.Queries.Login;
 using GoldenAirport.Domain.Entities.Auth;
 using GoldenAirport.Infrastructure.Presistence;
 using GoldenAirport.WebAPI.Middlewares;
@@ -12,7 +10,6 @@ using Hedaya.Application.Auth.Abstractions;
 using Hedaya.Application.Auth.Services;
 using MediatR;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Localization;
