@@ -3,6 +3,8 @@ using GoldenAirport.Application.Cities.Commands.Delete;
 using GoldenAirport.Application.Cities.Commands.Edit;
 using GoldenAirport.Application.Cities.Dtos;
 using GoldenAirport.Application.Cities.Queries;
+using GoldenAirport.Application.Flights.Commands;
+using GoldenAirport.Application.Flights.ThirdParty;
 using Microsoft.AspNetCore.Mvc;
 
 namespace GoldenAirport.WebAPI.Controllers
@@ -62,6 +64,22 @@ namespace GoldenAirport.WebAPI.Controllers
             var deleteCity = new DeleteCityCommand { Id = Id };
             var result = await Mediator.Send(deleteCity);
 
+            return !result.IsSuccess ? BadRequest(result.Error) : Ok(result.Result);
+        }
+
+        [HttpGet("fetchFlight")]
+        public async Task<IActionResult> Flights()
+        {
+            var query = new CreateFlightCommand();
+            var result = await Mediator.Send(query);
+            return !result.IsSuccess ? BadRequest(result.Error) : Ok(result.Result);
+        }
+
+        [HttpGet("BookingFlight")]
+        public async Task<IActionResult> BookingFlight()
+        {
+            var query = new BookingFlightCommand();
+            var result = await Mediator.Send(query);
             return !result.IsSuccess ? BadRequest(result.Error) : Ok(result.Result);
         }
     }

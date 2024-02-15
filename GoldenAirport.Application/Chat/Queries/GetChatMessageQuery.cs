@@ -1,7 +1,6 @@
 ﻿using GoldenAirport.Application.Chat.Dtos;
 using GoldenAirport.Application.Common.Models;
 using GoldenAirport.Application.Helpers.DTOs;
-using SendGrid.Helpers.Errors.Model;
 
 namespace GoldenAirport.Application.Chat.Queries
 {
@@ -31,6 +30,7 @@ namespace GoldenAirport.Application.Chat.Queries
                         SenderId = m.SenderId,
                         SenderName = m.Sender.FirstName+" "+m.Sender.LastName,
                         CreationDate = m.CreationDate,
+                        MessageTypeId = m.MessageTypeId
                     }).ToListAsync(cancellationToken);
 
 
