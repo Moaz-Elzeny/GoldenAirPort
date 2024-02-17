@@ -1,4 +1,4 @@
-﻿namespace GoldenAirport.Application.Flights.DTOs.Error
+﻿namespace GoldenAirport.Application.Flights.ThirdParty.Dtos.Error
 {
     // Root myDeserializedClass = JsonConvert.DeserializeObject<Root>(myJsonResponse);
     public class AdditionalMessage

@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace GoldenAirport.Application.Flights.DTOs.ShopeDto
+namespace GoldenAirport.Application.Flights.ThirdParty.Dtos.ShopeDto
 {
     // Root myDeserializedClass = JsonConvert.DeserializeObject<Root>(myJsonResponse);
     public class Allowance
@@ -259,7 +259,7 @@ namespace GoldenAirport.Application.Flights.DTOs.ShopeDto
         public Fare fare { get; set; }
     }
 
-    public class ResponseDto
+    public class ShoppingResponseDto
     {
         public GroupedItineraryResponse groupedItineraryResponse { get; set; }
     }

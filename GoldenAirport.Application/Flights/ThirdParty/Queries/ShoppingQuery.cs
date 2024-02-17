@@ -1,17 +1,17 @@
 ﻿using GoldenAirport.Application.Common.Models;
-using GoldenAirport.Application.Flights.DTOs.Error;
-using GoldenAirport.Application.Flights.DTOs.ShopeDto;
+using GoldenAirport.Application.Flights.ThirdParty.Dtos.Error;
+using GoldenAirport.Application.Flights.ThirdParty.Dtos.ShopeDto;
 using GoldenAirport.Application.Helpers;
 using Newtonsoft.Json;
 using System.Net;
 
-namespace GoldenAirport.Application.Flights.ThirdParty
+namespace GoldenAirport.Application.Flights.ThirdParty.Queries
 {
     public class ShoppingQuery
     {
-       public ResponseThirdPartyDto<dynamic> Default()
+        public ResponseThirdPartyDto<dynamic> Default()
         {
-            var RequstData = new RequestDto();
+            var RequstData = new ShoppingRequestDto();
             RequstData.OTA_AirLowFareSearchRQ.Version = "4";
             RequstData.OTA_AirLowFareSearchRQ.POS = new POS()
             {
@@ -175,7 +175,7 @@ namespace GoldenAirport.Application.Flights.ThirdParty
             string responseText = readers.ReadToEnd();
             if (responce.StatusCode == HttpStatusCode.OK)
             {
-                ResponseDto response = JsonConvert.DeserializeObject<ResponseDto>(responseText);
+                ShoppingResponseDto response = JsonConvert.DeserializeObject<ShoppingResponseDto>(responseText);
                 return ResponseThirdPartyDto<dynamic>.Success(response);
             }
             else if (responce.StatusCode == HttpStatusCode.Unauthorized)

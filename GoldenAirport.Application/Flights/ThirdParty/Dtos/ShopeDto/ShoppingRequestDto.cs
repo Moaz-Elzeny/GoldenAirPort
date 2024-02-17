@@ -1,6 +1,6 @@
 ﻿using Newtonsoft.Json;
 
-namespace GoldenAirport.Application.Flights.DTOs.ShopeDto
+namespace GoldenAirport.Application.Flights.ThirdParty.Dtos.ShopeDto
 {
     // Root myDeserializedClass = JsonConvert.DeserializeObject<Root>(myJsonResponse);
     public class AirTravelerAvail
@@ -111,7 +111,7 @@ namespace GoldenAirport.Application.Flights.DTOs.ShopeDto
         public string Name { get; set; }
     }
 
-    public class RequestDto
+    public class ShoppingRequestDto
     {
         public OTAAirLowFareSearchRQ OTA_AirLowFareSearchRQ = new OTAAirLowFareSearchRQ();
         public string ConvertToJson()

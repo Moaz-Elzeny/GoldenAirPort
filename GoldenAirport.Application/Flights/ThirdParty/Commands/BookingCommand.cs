@@ -1,11 +1,12 @@
-﻿using GoldenAirport.Application.Common.Models;
+﻿using Azure;
+using GoldenAirport.Application.Common.Models;
 using GoldenAirport.Application.Flights.DTOs.BookingDto;
-using GoldenAirport.Application.Flights.DTOs.Error;
+using GoldenAirport.Application.Flights.ThirdParty.Dtos.Error;
 using GoldenAirport.Application.Helpers;
 using Newtonsoft.Json;
 using System.Net;
 
-namespace GoldenAirport.Application.Flights.ThirdParty
+namespace GoldenAirport.Application.Flights.ThirdParty.Commands
 {
     public class BookingCommand
     {
@@ -337,27 +338,27 @@ namespace GoldenAirport.Application.Flights.ThirdParty
 @"    }" + "\n" +
 @"}";
             //var bodyData = RequstData.ConvertToJson();
-            var responce = HttpWebResponseHelper.Post(HttpMethod.Post, Enviroment.rest_endpoint + EnumHelper.GetEnumDescription(Enviroment.Endpoints.create), body, new Dictionary<string, string>()
+            var response = HttpWebResponseHelper.Post(HttpMethod.Post, Enviroment.rest_endpoint + EnumHelper.GetEnumDescription(Enviroment.Endpoints.create), body, new Dictionary<string, string>()
                 {
                      { "Authorization", "Bearer T1RLAQLQgrRGkqbkQ+14aqk1WW7hX0KVRFuX9ucg6hOOH9ahGhBqhxb6Xy0lhMvfQG0vjT4SAADQTsAANvCx45JiIzGaVf+r40VSDCPWfBOB0RcGYjWNGS1ddRxpfwv/R44rzoaQHPiCdZ5jkV7yCPZjd/ig8N6ydPyaTZVffBjOASqyGuI1faEb3Kk7pChgfY9e1KjHFrt9hUxZkKvZEsRKvNHCCA8DVfAroAOaMHIZ1gQUMQWxISEvPz+HHrtjtJtw11AMrJLFo+zk5XLqT+wPmq9d2d2hHWQUxBw8JD4QgbL7DzFHoGDap/VGpckuGR6WSe3APMYkXFaRT6lV+/pDlMxIZW27IA**" }
                 });
-            StreamReader readers = new(responce.GetResponseStream());
+            StreamReader readers = new(response.GetResponseStream());
             string responseText = readers.ReadToEnd();
-            if (responce.StatusCode == HttpStatusCode.OK)
+            if (response.StatusCode == HttpStatusCode.OK)
             {
                 //ResponseDto response = JsonConvert.DeserializeObject<ResponseDto>(responseText);
-                return ResponseThirdPartyDto<dynamic>.Success(responce);//response.groupedItineraryResponse.legDescs
+                return ResponseThirdPartyDto<dynamic>.Success(response);//response.groupedItineraryResponse.legDescs
             }
-            else if (responce.StatusCode == HttpStatusCode.Unauthorized)
+            else if (response.StatusCode == HttpStatusCode.Unauthorized)
             {
                 ///  اعمل التوكن تاني لمره وحده بس
-                ErrorDTO response = JsonConvert.DeserializeObject<ErrorDTO>(responseText);
-                return ResponseThirdPartyDto<dynamic>.Failure(response);
+                ErrorDTO responseError = JsonConvert.DeserializeObject<ErrorDTO>(responseText);
+                return ResponseThirdPartyDto<dynamic>.Failure(responseError);
             }
             else
             {
-                ErrorDTO response = JsonConvert.DeserializeObject<ErrorDTO>(responseText);
-                return ResponseThirdPartyDto<dynamic>.Failure(response);
+                ErrorDTO responseError = JsonConvert.DeserializeObject<ErrorDTO>(responseText);
+                return ResponseThirdPartyDto<dynamic>.Failure(responseError);
             }
         }
     }

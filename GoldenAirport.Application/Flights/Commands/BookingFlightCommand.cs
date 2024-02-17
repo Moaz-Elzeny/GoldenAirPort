@@ -1,5 +1,5 @@
 ﻿using GoldenAirport.Application.Common.Models;
-using GoldenAirport.Application.Flights.ThirdParty;
+using GoldenAirport.Application.Flights.ThirdParty.Commands;
 using GoldenAirport.Application.Helpers.DTOs;
 
 namespace GoldenAirport.Application.Flights.Commands
@@ -17,7 +17,7 @@ namespace GoldenAirport.Application.Flights.Commands
                 if (!responseDto.IsSuccess)
                     return ResponseDto<object>.Failure(new ErrorDto()
                     {
-                        Message = "Error from Thirdy Party",
+                        Message = "Error from Third Party",
                         Detilse = responseDto.Result,
                     });
 
