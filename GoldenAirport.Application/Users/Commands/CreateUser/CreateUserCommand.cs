@@ -54,18 +54,7 @@ namespace GoldenAirport.Application.Users.Commands.CreateUser
                     CreationDate = DateTime.Now,
                     PhoneNumber = request.PhoneNumber,
 
-                    //TaxValue = (byte)request.TaxValue,
-                    //BookingTime = (byte)request.BookingTime,
-                    //PrivacyPolicyAndTerms = request.PrivacyPolicyAndTerms,
-                    //TaxValue = (byte)request.TaxValue,
-                    //BookingTime = (byte)request.BookingTime,
-                    //PrivacyPolicyAndTerms = request.PrivacyPolicyAndTerms,
-                    //TaxValue = (byte)request.TaxValue,
-                    //BookingTime = (byte)request.BookingTime,
-                    //PrivacyPolicyAndTerms = request.PrivacyPolicyAndTerms,
-                    //TaxValue = (byte)request.TaxValue,
-                    //BookingTime = (byte)request.BookingTime,
-                    //PrivacyPolicyAndTerms = request.PrivacyPolicyAndTerms,
+                  
                 };
 
                 if (request.ProfilePicture != null)
