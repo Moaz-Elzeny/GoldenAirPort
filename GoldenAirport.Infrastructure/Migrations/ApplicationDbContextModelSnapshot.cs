@@ -41,7 +41,7 @@ namespace GoldenAirport.Infrastructure.Migrations
 
                     b.HasIndex("TripId");
 
-                    b.ToTable("Accessibilities");
+                    b.ToTable("Accessibilities", (string)null);
                 });
 
             modelBuilder.Entity("GoldenAirport.Domain.Entities.AdminDetails", b =>
@@ -224,7 +224,7 @@ namespace GoldenAirport.Infrastructure.Migrations
 
                     b.HasIndex("TripRegistrationEditingId");
 
-                    b.ToTable("AdultsEditing");
+                    b.ToTable("AdultsEditing", (string)null);
                 });
 
             modelBuilder.Entity("GoldenAirport.Domain.Entities.Auth.AppUser", b =>
@@ -616,7 +616,7 @@ namespace GoldenAirport.Infrastructure.Migrations
 
                     b.HasIndex("TripRegistrationEditingId");
 
-                    b.ToTable("ChildrenEditing");
+                    b.ToTable("ChildrenEditing", (string)null);
                 });
 
             modelBuilder.Entity("GoldenAirport.Domain.Entities.City", b =>
@@ -1126,7 +1126,7 @@ namespace GoldenAirport.Infrastructure.Migrations
 
                     b.HasIndex("PackageId");
 
-                    b.ToTable("PackagePlans");
+                    b.ToTable("PackagePlans", (string)null);
                 });
 
             modelBuilder.Entity("GoldenAirport.Domain.Entities.PackageRegistration", b =>
@@ -1323,7 +1323,7 @@ namespace GoldenAirport.Infrastructure.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("PaymentOptions");
+                    b.ToTable("PaymentOptions", (string)null);
                 });
 
             modelBuilder.Entity("GoldenAirport.Domain.Entities.PaymentOptionEmployee", b =>
@@ -1350,7 +1350,7 @@ namespace GoldenAirport.Infrastructure.Migrations
 
                     b.HasIndex("PaymentOptionId");
 
-                    b.ToTable("paymentOptionEmployee");
+                    b.ToTable("paymentOptionEmployee", (string)null);
                 });
 
             modelBuilder.Entity("GoldenAirport.Domain.Entities.PaymentOptionPackage", b =>
@@ -1373,7 +1373,7 @@ namespace GoldenAirport.Infrastructure.Migrations
 
                     b.HasIndex("PaymentOptionId");
 
-                    b.ToTable("PaymentOptionPackages");
+                    b.ToTable("PaymentOptionPackages", (string)null);
                 });
 
             modelBuilder.Entity("GoldenAirport.Domain.Entities.PaymentOptionTrip", b =>
@@ -1396,7 +1396,7 @@ namespace GoldenAirport.Infrastructure.Migrations
 
                     b.HasIndex("TripId");
 
-                    b.ToTable("PaymentOptionTrips");
+                    b.ToTable("PaymentOptionTrips", (string)null);
                 });
 
             modelBuilder.Entity("GoldenAirport.Domain.Entities.Restriction", b =>
@@ -1418,7 +1418,7 @@ namespace GoldenAirport.Infrastructure.Migrations
 
                     b.HasIndex("TripId");
 
-                    b.ToTable("Restrictions");
+                    b.ToTable("Restrictions", (string)null);
                 });
 
             modelBuilder.Entity("GoldenAirport.Domain.Entities.Statement", b =>
@@ -1738,7 +1738,7 @@ namespace GoldenAirport.Infrastructure.Migrations
 
                     b.HasIndex("TripId");
 
-                    b.ToTable("WhatAreIncluded");
+                    b.ToTable("WhatAreIncluded", (string)null);
                 });
 
             modelBuilder.Entity("GoldenAirport.Domain.Entities.WhyVisit", b =>
@@ -1760,7 +1760,7 @@ namespace GoldenAirport.Infrastructure.Migrations
 
                     b.HasIndex("TripId");
 
-                    b.ToTable("WhyVisits");
+                    b.ToTable("WhyVisits", (string)null);
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>

@@ -24,7 +24,7 @@ namespace GoldenAirport.Application.Users.Commands.CreateUser
         public string ConfirmPassword { get; set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }
-        public string PhoneNumber { get; set; }        
+        public string PhoneNumber { get; set; }
         public UserType UserType { get; set; }
         public IFormFile ProfilePicture { get; set; }
         public string? CurrentUserId { get; set; }
@@ -58,10 +58,7 @@ namespace GoldenAirport.Application.Users.Commands.CreateUser
                     CreatedById = request.CurrentUserId,
                     CreationDate = DateTime.Now,
                     PhoneNumber = request.PhoneNumber,
-                    //ServiceFees = request.ServiceFees,
-                    //TaxValue = (byte)request.TaxValue,
-                    //BookingTime = (byte)request.BookingTime,
-                    //PrivacyPolicyAndTerms = request.PrivacyPolicyAndTerms,
+
                 };
 
                 if (request.ProfilePicture != null)
@@ -83,21 +80,24 @@ namespace GoldenAirport.Application.Users.Commands.CreateUser
                     var Token = new UserTokenDto { UserId = userId, Token = token };
 
 
-                if (request.UserType == UserType.Employee) 
-                {
-                    var CreateEmployee = new Employee
+                    if (request.UserType == UserType.Employee)
                     {
-                        Id = Guid.NewGuid().ToString(),
-                        AppUserId = user.Id,
-                        CreatedById = request.CurrentUserId,
-                        CreationDate = DateTime.Now,
-                        Active = true
+                        var CreateEmployee = new Employee
+                        {
+                            Id = Guid.NewGuid().ToString(),
+                            AppUserId = user.Id,
+                            CreatedById = request.CurrentUserId,
+                            CreationDate = DateTime.Now,
+                            Active = true
 
-                    };
+                        };
 
-                    _dbContext.Employees.Add(CreateEmployee);
-                    await _dbContext.SaveChangesAsync(cancellationToken);
-                }
+                        var verificationCode = new Random().Next(1000, 9999).ToString();
+                        CreateEmployee.AgentCode = int.Parse(verificationCode);
+
+                        _dbContext.Employees.Add(CreateEmployee);
+                        await _dbContext.SaveChangesAsync(cancellationToken);
+                    }
 
 
                     return ResponseDto<object>.Success(new ResultDto()
