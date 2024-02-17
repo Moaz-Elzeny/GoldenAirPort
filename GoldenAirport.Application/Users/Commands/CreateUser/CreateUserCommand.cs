@@ -8,7 +8,6 @@ using GoldenAirport.Domain.Enums;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
@@ -18,7 +17,6 @@ namespace GoldenAirport.Application.Users.Commands.CreateUser
 {
     public class CreateUserCommand : IRequest<ResponseDto<object>>
     {
-        //public string UserName { get; set; }
         public string Email { get; set; }
         public string Password { get; set; }
         public string ConfirmPassword { get; set; }
@@ -28,10 +26,7 @@ namespace GoldenAirport.Application.Users.Commands.CreateUser
         public UserType UserType { get; set; }
         public IFormFile ProfilePicture { get; set; }
         public string? CurrentUserId { get; set; }
-        //public decimal ServiceFees { get; set; }
-        //public int? TaxValue { get; set; }
-        //public int BookingTime { get; set; }
-        //public string? PrivacyPolicyAndTerms { get; set; }
+        
         public class CreateUserCommandHandler : IRequestHandler<CreateUserCommand, ResponseDto<object>>
         {
             private readonly UserManager<AppUser> _userManager;
@@ -59,6 +54,18 @@ namespace GoldenAirport.Application.Users.Commands.CreateUser
                     CreationDate = DateTime.Now,
                     PhoneNumber = request.PhoneNumber,
 
+                    //TaxValue = (byte)request.TaxValue,
+                    //BookingTime = (byte)request.BookingTime,
+                    //PrivacyPolicyAndTerms = request.PrivacyPolicyAndTerms,
+                    //TaxValue = (byte)request.TaxValue,
+                    //BookingTime = (byte)request.BookingTime,
+                    //PrivacyPolicyAndTerms = request.PrivacyPolicyAndTerms,
+                    //TaxValue = (byte)request.TaxValue,
+                    //BookingTime = (byte)request.BookingTime,
+                    //PrivacyPolicyAndTerms = request.PrivacyPolicyAndTerms,
+                    //TaxValue = (byte)request.TaxValue,
+                    //BookingTime = (byte)request.BookingTime,
+                    //PrivacyPolicyAndTerms = request.PrivacyPolicyAndTerms,
                 };
 
                 if (request.ProfilePicture != null)
@@ -112,7 +119,7 @@ namespace GoldenAirport.Application.Users.Commands.CreateUser
                 }
                 else
                 {
-                    return ResponseDto<object>.Failure(new ErrorDto() { Message = $"Failed to create user {user.Id}", Code = 101 });
+                    return ResponseDto<object>.Failure(new ErrorDto() { Message = $"Failed to create user!", Code = 101 });
 
                 }
             }

@@ -20,6 +20,7 @@ namespace GoldenAirport.Application.Chat.Queries
             public async Task<ResponseDto<object>> Handle(GetAllChatsQuery request, CancellationToken cancellationToken)
             {
                 var chats = await _dbContext.Chats
+                    .Where(a => !a.Employee.Deleted)
                     .Include(c => c.ChatMessages)
                     .Include(e => e.Employee)
                     .ToListAsync();
@@ -40,10 +41,10 @@ namespace GoldenAirport.Application.Chat.Queries
                         {
                             ChatId = chat.Id,
                             UserId = chat.EmployeeId,
-                            FirstName = chat.Employee.FirstName,
-                            LastName = chat.Employee.LastName,
-                            Email = chat.Employee.Email,
-                            ProfilePicture = chat.Employee.ProfilePicture,
+                            FirstName = chat.Employee.FirstName ?? string.Empty,
+                            LastName = chat.Employee.LastName ?? string.Empty,
+                            Email = chat.Employee.Email ?? string.Empty,
+                            ProfilePicture = chat.Employee.ProfilePicture ?? string.Empty,
                             LastMessage = lastMessage.Content ?? string.Empty,
                             LastMessageDate = chat.CreationDate
                         };

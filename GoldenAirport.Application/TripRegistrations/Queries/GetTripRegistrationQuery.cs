@@ -40,6 +40,7 @@ namespace GoldenAirport.Application.TripRegistrations.Queries
                 var totalPages = (int)Math.Ceiling((double)totalCount / pageSize);
                 var TitleValues = Enum.GetValues<Title>();
                 var TripRegistrations = await query
+                    .OrderByDescending(d => d.CreationDate)
                     .Select(t => new GetTripRegistrationDto
                     {
                         Id = t.Id,

@@ -23,7 +23,7 @@ namespace GoldenAirport.Application.Employees.Queries
                     .Select(x => new
                     {
                         
-                        Target = x.Target,
+                        Target = x.Employee.Target,
                         
                     }).ToListAsync(cancellationToken);
 

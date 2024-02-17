@@ -37,6 +37,8 @@ namespace GoldenAirport.Application.Countries.Queries
                         Id = c.Id,
                         NameAr = c.NameAr,
                         NameEn = c.NameEn,
+                        Code = c.Code,
+                        Icon = c.Icon,
                     }).ToListAsync(cancellationToken);
 
                 var paginatedList = new PaginatedList<GetCountriesDto>

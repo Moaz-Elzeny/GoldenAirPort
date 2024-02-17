@@ -1,4 +1,6 @@
-﻿namespace GoldenAirport.Application.Chat.Dtos
+﻿using GoldenAirport.Domain.Enums;
+
+namespace GoldenAirport.Application.Chat.Dtos
 {
     public class ChatMessageDto
     {
@@ -14,6 +16,6 @@
         public string SenderName { get; set; }
         public string MediaPath { get; set; }
         public DateTime CreationDate { get; set; }
-
+        public MessageType MessageTypeId { get; set; }
     }
 }

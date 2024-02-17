@@ -3,7 +3,6 @@ using GoldenAirport.Application.PackageRegistrations.Commands.Delete;
 using GoldenAirport.Application.PackageRegistrations.Commands.Edit;
 using GoldenAirport.Application.PackageRegistrations.Dtos;
 using GoldenAirport.Application.PackageRegistrations.Queries;
-using GoldenAirport.Application.TripRegistrations.Commands.Delete;
 using Microsoft.AspNetCore.Mvc;
 
 namespace GoldenAirport.WebAPI.Controllers
@@ -43,7 +42,13 @@ namespace GoldenAirport.WebAPI.Controllers
         public async Task<IActionResult> Create(CreatePackageRegistrationCommand command)
         {
             command.CurrentUserId = CurrentUserId;
-            
+            var validationResults = await new CreatePackageRegistrationCommandValidator().ValidateAsync(command);
+
+            if (!validationResults.IsValid)
+            {
+                return BadRequest(validationResults.Errors);
+            }
+
             var result = await Mediator.Send(command);
 
             return !result.IsSuccess ? BadRequest(result.Error) : Ok(result.Result);
@@ -70,7 +75,7 @@ namespace GoldenAirport.WebAPI.Controllers
         [HttpDelete("Delete")]
         public async Task<IActionResult> Delete(int Id)
         {
-            var deleteTripRegistration = new DeletePackageRegistrationCommand { Id = Id , CurrentUserId = CurrentUserId};
+            var deleteTripRegistration = new DeletePackageRegistrationCommand { Id = Id, CurrentUserId = CurrentUserId };
             var result = await Mediator.Send(deleteTripRegistration);
 
             return !result.IsSuccess ? BadRequest(result.Error) : Ok(result.Result);

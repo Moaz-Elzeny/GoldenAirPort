@@ -5,15 +5,7 @@ namespace GoldenAirport.Application.TripRegistrations.Commands.Create
     public class CreateTripRegistrationCommandValidator : AbstractValidator<CreateTripRegistrationCommand>
     {
         public CreateTripRegistrationCommandValidator()
-        {
-            //RuleFor(t => t.AdminFees)
-            //    .NotEmpty()
-            //    .WithMessage("Please Enter The Package Cost");
-
-            //RuleFor(t => t.TaxesAndFees)
-            //   .NotEmpty()
-            //   .WithMessage("Please Enter Taxes And Fees");
-
+        {         
             RuleFor(t => t.Email)
                 .EmailAddress()
                 .WithMessage("Please Enter Email");
@@ -21,11 +13,11 @@ namespace GoldenAirport.Application.TripRegistrations.Commands.Create
             RuleFor(t => t.PhoneNumber)
                .NotEmpty()
                .WithMessage("Please Enter Phone Number")
-               .MaximumLength(15).WithMessage("Maximum Length for Phone Number is: 15");
+               .Length(11).WithMessage("Please enter an Egyptian number");
 
             RuleFor(t => t.TripId)
                .NotEmpty()
-               .WithMessage("Please Enter Trip Id");
+               .WithMessage("Please Enter Trip");
         }
     }
 }

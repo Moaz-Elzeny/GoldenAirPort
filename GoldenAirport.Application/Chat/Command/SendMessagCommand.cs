@@ -37,57 +37,6 @@ namespace GoldenAirport.Application.Chat.Command
 
                 var chat = await _dbContext.Chats.FindAsync(request.ChatId, cancellationToken);
                 
-                //if (chat == null)
-                //{
-                //    var newChat = await _mediator.Send(new CreateChatCommand
-                //    {
-                //        AdminId = user.UserType != UserType.SuperAdmin ? request.AdminId : request.CurrentUserId,
-                //        EmployeeId = user.UserType != UserType.Employee ?  request.EmployeeId : request.CurrentUserId,
-                //        CurrentUserId = request.CurrentUserId,
-                //    });
-
-
-                //    var messages = new ChatMessage
-                //    {
-                //        ChatId = (int?)newChat.Result.Result,
-                //        Content = request.Content,
-                //        SenderId = request.CurrentUserId,
-                //        MessageTypeId = request.MessageTypeId,
-                //        CreationDate = DateTime.Now,
-                //        CreatedById = request.CurrentUserId
-                //    };
-
-                //    switch (request.MessageTypeId)
-                //    {
-                //        case MessageType.Text:
-                //            messages.Content = request.Content;
-                //            break;
-                //        case MessageType.Image:
-                //            messages.MediaPath = await FileHelper.SaveImageAsync(request.MediaPath, _environment);
-                //            break;
-                //        case MessageType.Video:
-                //            messages.MediaPath = FileHelper.SaveVideo(request.MediaPath, _environment);
-                //            break;
-                //        case MessageType.Audio:
-                //            messages.MediaPath = await FileHelper.SaveAudioAsync(request.MediaPath, _environment);
-                //            break;
-                //        default:
-                //            break;
-                //    }
-
-                //    await _dbContext.ChatMessages.AddAsync(messages, cancellationToken);
-                //    await _dbContext.SaveChangesAsync(cancellationToken);
-
-                //    return ResponseDto<object>.Success(new ResultDto()
-                //    {
-                //        Message = "Sent Successfully",
-                //        Result = new
-                //        {
-                //            ChatId = messages.ChatId.ToString()
-                //        }
-                //    });
-                //}
-
                 var message = new ChatMessage
                 {
                     ChatId = request.ChatId,

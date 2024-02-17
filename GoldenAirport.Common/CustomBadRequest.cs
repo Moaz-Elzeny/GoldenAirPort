@@ -17,7 +17,7 @@ namespace GoldenAirport.Common
                     DetailsResponse detailsResponse = new DetailsResponse() { Key = key };
                     foreach (var error in errors)
                     {
-                        detailsResponse.Value += error.ErrorMessage + " ";
+                        detailsResponse.Value += $"Invalid value for {key}. ";
                     }
                     ErrorResponse.details.Add(detailsResponse);
 

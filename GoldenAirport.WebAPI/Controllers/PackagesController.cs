@@ -16,7 +16,7 @@ namespace GoldenAirport.WebAPI.Controllers
         {
         }
 
-        [HttpGet("AllPackages")]
+        [HttpGet("fetch")]
         public async Task<IActionResult> GetAllPackages
             ([FromQuery] int pageNumber,
             int? FromCity,

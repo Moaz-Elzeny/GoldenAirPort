@@ -58,6 +58,7 @@ namespace GoldenAirport.Application.Employees.Queries
 
 
                 var employees = await query
+                    .OrderByDescending(d => d.CreationDate)
                     .Skip(skip)
                     .Take(pageSize)
                     .Select(x => new GetAllEmployeeDto

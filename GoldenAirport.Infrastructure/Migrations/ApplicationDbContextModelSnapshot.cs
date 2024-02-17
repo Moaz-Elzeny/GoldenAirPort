@@ -847,10 +847,9 @@ namespace GoldenAirport.Infrastructure.Migrations
                         .HasColumnType("bit")
                         .HasDefaultValue(true);
 
-                    b.Property<string>("Code")
-                        .IsRequired()
+                    b.Property<byte>("Code")
                         .HasMaxLength(5)
-                        .HasColumnType("nvarchar(5)");
+                        .HasColumnType("tinyint");
 
                     b.Property<string>("CreatedById")
                         .IsRequired()
@@ -866,6 +865,10 @@ namespace GoldenAirport.Infrastructure.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("bit")
                         .HasDefaultValue(false);
+
+                    b.Property<string>("Icon")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime?>("ModificationDate")
                         .HasColumnType("DATETIME");

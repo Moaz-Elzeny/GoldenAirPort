@@ -1,5 +1,4 @@
-﻿using GoldenAirport.Application.TripRegistrations.Queries;
-using GoldenAirport.Application.Trips.Commands.Create;
+﻿using GoldenAirport.Application.Trips.Commands.Create;
 using GoldenAirport.Application.Trips.Commands.Delete;
 using GoldenAirport.Application.Trips.Commands.Edit;
 using GoldenAirport.Application.Trips.Dtos;
@@ -16,21 +15,20 @@ namespace GoldenAirport.WebAPI.Controllers
         public TripsController()
         {
         }
-
+        //[Authorize(Permissions.Trips.Actions)]
         [HttpGet("fetch")]
         public async Task<IActionResult> GetAllTrips
             ([FromQuery] int pageNumber,
             int? FromCity,
             [FromQuery] List<int>? ToCity,
             [FromQuery] DateTime? StartingOn,
-            int? Guests
-            )
+            int? Guests)
         {
             var query = new GetTripsQuery
-            { 
-                PageNumber = pageNumber, 
-                FromCity = FromCity, 
-                ToCity = ToCity, 
+            {
+                PageNumber = pageNumber,
+                FromCity = FromCity,
+                ToCity = ToCity,
                 StartingOn = StartingOn,
                 Guests = Guests
             };
@@ -38,7 +36,7 @@ namespace GoldenAirport.WebAPI.Controllers
             return !result.IsSuccess ? BadRequest(result.Error) : Ok(result.Result);
         }
 
-
+        //[Authorize(Permissions.Trips.Actions)]
         [HttpGet("fetch1")]
         public async Task<IActionResult> GetTripById
             (int id)
@@ -51,9 +49,9 @@ namespace GoldenAirport.WebAPI.Controllers
             return !result.IsSuccess ? BadRequest(result.Error) : Ok(result.Result);
         }
 
-
+        //[Authorize(Permissions.Trips.Actions)]
         [HttpPost("Create")]
-        public async Task<IActionResult> Create([FromForm]CreateTripCommand command)
+        public async Task<IActionResult> Create([FromForm] CreateTripCommand command)
         {
             command.CurrentUserId = CurrentUserId;
             var validationResults = await new CreateTripCommandValidator().ValidateAsync(command);
@@ -69,6 +67,7 @@ namespace GoldenAirport.WebAPI.Controllers
 
         }
 
+        //[Authorize(Permissions.Trips.Actions)]
         [HttpPut("Update")]
         public async Task<IActionResult> Update(int Id, [FromForm] UpdateTripDto dto)
         {
@@ -99,6 +98,7 @@ namespace GoldenAirport.WebAPI.Controllers
             return !result.IsSuccess ? BadRequest(result.Error) : Ok(result.Result);
         }
 
+        //[Authorize(Permissions.Trips.Actions)]
         [HttpDelete("Delete")]
         public async Task<IActionResult> Delete(int Id)
         {
@@ -107,12 +107,12 @@ namespace GoldenAirport.WebAPI.Controllers
 
             return !result.IsSuccess ? BadRequest(result.Error) : Ok(result.Result);
         }
-        
+
         [HttpDelete("DeleteActions")]
         public async Task<IActionResult> DeleteActions(int TripId, int? WhyVisitId, int? WhatIncludedId, int? AccessibilityId, int? RestrictionId)
         {
-            var deleteTripActions = new DeleteActionsInTripCommand 
-            { 
+            var deleteTripActions = new DeleteActionsInTripCommand
+            {
                 TripId = TripId,
                 WhyVisitId = WhyVisitId,
                 WhatIncludedId = WhatIncludedId,

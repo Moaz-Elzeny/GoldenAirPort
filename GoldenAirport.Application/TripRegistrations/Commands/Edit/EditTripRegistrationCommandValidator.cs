@@ -1,5 +1,4 @@
 ﻿using FluentValidation;
-using GoldenAirport.Application.Trips.Commands.Edit;
 
 namespace GoldenAirport.Application.TripRegistrations.Commands.Edit
 {

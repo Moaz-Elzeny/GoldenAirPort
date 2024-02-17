@@ -58,28 +58,6 @@ namespace GoldenAirport.Application.Packagess.Commands.Edit
                 package.ModifiedById = request.CurrentUserId;
                 package.ModificationDate = DateTime.Now;
 
-                //if (request.ToCityId != null)
-                //{
-                //    var oldCityPackages = _dbContext.CityPackages.Where(c => c.PackageId == package.Id);
-                //    _dbContext.CityPackages.RemoveRange(oldCityPackages);
-
-                //    foreach (var toCityId in request.ToCitiesIds)
-                //    {
-                //        var newCity = await _dbContext.Cities.FindAsync(toCityId, cancellationToken) ?? throw new NotFoundException("City not found.");
-                //        if (newCity != null)
-                //        {
-                //            var newCityPackage = new CityPackage
-                //            {
-                //                PackageId = package.Id,
-                //                CityId = toCityId,
-                //                CreatedById = request.CurrentUserId,
-                //                CreationDate = DateTime.Now
-                //            };
-                //            _dbContext.CityPackages.Add(newCityPackage);
-                //        }
-                //    }
-                //}
-
                 await _dbContext.SaveChangesAsync(cancellationToken);
                 return ResponseDto<object>.Success(new ResultDto()
                 {

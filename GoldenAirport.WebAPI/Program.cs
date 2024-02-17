@@ -2,7 +2,6 @@ using GoldenAirport.Application.Auth.Services;
 using GoldenAirport.Application.Helpers;
 using GoldenAirport.Application.Infrastructure;
 using GoldenAirport.Application.Interfaces;
-using GoldenAirport.Application.Users.Queries.Login;
 using GoldenAirport.Domain.Entities.Auth;
 using GoldenAirport.Infrastructure.Presistence;
 using GoldenAirport.WebAPI.Middlewares;
@@ -29,7 +28,7 @@ var builder = WebApplication.CreateBuilder(args);
 
 if (!builder.Environment.IsDevelopment())
 {
-    builder.Environment.WebRootPath = "C:\\inetpub\\wwwroot\\GoldenAirport\\wwwroot\\";
+    builder.Environment.WebRootPath = "C:\\Inetpub\\vhosts\\orialserversmanagement.online\\GoldenAirportAPIS.orialserversmanagement.online\\wwwroot\\";
 }
 
 // Add services to the container.
@@ -63,6 +62,9 @@ builder.Services.AddIdentityCore<AppUser>(options => options.SignIn.RequireConfi
                 .AddEntityFrameworkStores<ApplicationDbContext>()
                 .AddTokenProvider<DataProtectorTokenProvider<AppUser>>(TokenOptions.DefaultProvider);
 
+//Permissions 
+//builder.Services.AddSingleton<IAuthorizationPolicyProvider, PermissionPolicyProvider>();
+//builder.Services.AddScoped<IAuthorizationHandler, PermissionAuthorizationHandler>();
 
 builder.Services.AddCors(options =>
 {
@@ -73,6 +75,7 @@ builder.Services.AddCors(options =>
                .AllowAnyHeader();
     });
 });
+
 
 builder.Services.ConfigureApplicationCookie(o =>
 {

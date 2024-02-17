@@ -1,7 +1,6 @@
 ﻿using GoldenAirport.Application.Chat.Command;
 using GoldenAirport.Application.Chat.Dtos;
 using GoldenAirport.Application.Chat.Queries;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace GoldenAirport.WebAPI.Controllers

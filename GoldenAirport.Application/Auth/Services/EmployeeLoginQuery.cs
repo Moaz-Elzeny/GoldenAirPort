@@ -49,8 +49,8 @@ namespace GoldenAirport.Application.Users.Queries.Login
                 });
 
             }
-            var agentCode = await _context.Employees.Where(a => a.AgentCode == request.AgentCode && a.AppUser.Email == user.Email).FirstOrDefaultAsync();
-            if (agentCode == null)
+            var employee = await _context.Employees.Where(a => a.AgentCode == request.AgentCode && a.AppUser.Email == user.Email && a.Active).FirstOrDefaultAsync();
+            if (employee == null)
             {
                 return ResponseDto<object>.Failure(new ErrorDto()
                 {
@@ -75,7 +75,7 @@ namespace GoldenAirport.Application.Users.Queries.Login
                     var e = await _context.Employees.Where(e => e.AppUserId == user.Id).FirstOrDefaultAsync();
                     if (e != null)
                     {
-                        e.LastLogin = DateTime.Now;
+                        e.LastLogin = DateTime.UtcNow.AddHours(2);
                     }
                     await _userManager.UpdateAsync(user);
                     await _context.SaveChangesAsync(cancellationToken);

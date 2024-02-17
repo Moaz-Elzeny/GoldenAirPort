@@ -1,10 +1,8 @@
-﻿using GoldenAirport.Application.PackageRegistrations.Commands.Edit;
-using GoldenAirport.Application.TripRegistrations.Commands.Create;
+﻿using GoldenAirport.Application.TripRegistrations.Commands.Create;
 using GoldenAirport.Application.TripRegistrations.Commands.Delete;
 using GoldenAirport.Application.TripRegistrations.Commands.Edit;
 using GoldenAirport.Application.TripRegistrations.Dtos;
 using GoldenAirport.Application.TripRegistrations.Queries;
-using GoldenAirport.Domain.Entities;
 using Microsoft.AspNetCore.Mvc;
 
 namespace GoldenAirport.WebAPI.Controllers
@@ -43,18 +41,6 @@ namespace GoldenAirport.WebAPI.Controllers
             return !result.IsSuccess ? BadRequest(result.Error) : Ok(result.Result);
         }
         
-        //[HttpGet("GetAdult")]
-        //public async Task<IActionResult> GetAdult
-        //    (int TripRegistrationId)
-        //{
-        //    var query = new GetAdultQuery
-        //    {
-        //        TripRegistrationId = TripRegistrationId
-        //    };
-        //    var result = await Mediator.Send(query);
-        //    return !result.IsSuccess ? BadRequest(result.Error) : Ok(result.Result);
-        //}
-
         [HttpPost("Create")]
         public async Task<IActionResult> Create( CreateTripRegistrationCommand command)
         {

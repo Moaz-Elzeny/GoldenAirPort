@@ -44,6 +44,7 @@ namespace GoldenAirport.Application.Employees.Queries
 
 
                 var Statements = await query.Where(e => e.Employee.AppUserId == request.EmployeeId)
+                    .OrderByDescending(d => d.CreationDate)
                     .Skip(skip)
                     .Take(pageSize)
                     .Select(x => new GetStatementDto
