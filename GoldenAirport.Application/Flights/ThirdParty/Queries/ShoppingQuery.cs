@@ -167,27 +167,27 @@ namespace GoldenAirport.Application.Flights.ThirdParty.Queries
             };
 
             var bodyData = RequstData.ConvertToJson();
-            var responce = HttpWebResponseHelper.Post(HttpMethod.Post, Enviroment.rest_endpoint + EnumHelper.GetEnumDescription(Enviroment.Endpoints.shop), bodyData, new Dictionary<string, string>()
+            var response = HttpWebResponseHelper.Post(HttpMethod.Post, Enviroment.rest_endpoint + EnumHelper.GetEnumDescription(Enviroment.Endpoints.shop), bodyData, new Dictionary<string, string>()
                 {
                      { "Authorization", "Bearer T1RLAQLQgrRGkqbkQ+14aqk1WW7hX0KVRFuX9ucg6hOOH9ahGhBqhxb6Xy0lhMvfQG0vjT4SAADQTsAANvCx45JiIzGaVf+r40VSDCPWfBOB0RcGYjWNGS1ddRxpfwv/R44rzoaQHPiCdZ5jkV7yCPZjd/ig8N6ydPyaTZVffBjOASqyGuI1faEb3Kk7pChgfY9e1KjHFrt9hUxZkKvZEsRKvNHCCA8DVfAroAOaMHIZ1gQUMQWxISEvPz+HHrtjtJtw11AMrJLFo+zk5XLqT+wPmq9d2d2hHWQUxBw8JD4QgbL7DzFHoGDap/VGpckuGR6WSe3APMYkXFaRT6lV+/pDlMxIZW27IA**" }
                 });
-            StreamReader readers = new(responce.GetResponseStream());
+            StreamReader readers = new(response.GetResponseStream());
             string responseText = readers.ReadToEnd();
-            if (responce.StatusCode == HttpStatusCode.OK)
+            if (response.StatusCode == HttpStatusCode.OK)
             {
-                ShoppingResponseDto response = JsonConvert.DeserializeObject<ShoppingResponseDto>(responseText);
-                return ResponseThirdPartyDto<dynamic>.Success(response);
+                ShoppingResponseDto resulte = JsonConvert.DeserializeObject<ShoppingResponseDto>(responseText);
+                return ResponseThirdPartyDto<dynamic>.Success(resulte);
             }
-            else if (responce.StatusCode == HttpStatusCode.Unauthorized)
+            else if (response.StatusCode == HttpStatusCode.Unauthorized)
             {
                 ///  اعمل التوكن تاني لمره وحده بس
-                ErrorDTO response = JsonConvert.DeserializeObject<ErrorDTO>(responseText);
-                return ResponseThirdPartyDto<dynamic>.Failure(response);
+                ErrorDTO responseError = JsonConvert.DeserializeObject<ErrorDTO>(responseText);
+                return ResponseThirdPartyDto<dynamic>.Failure(responseError);
             }
             else
             {
-                ErrorDTO response = JsonConvert.DeserializeObject<ErrorDTO>(responseText);
-                return ResponseThirdPartyDto<dynamic>.Failure(response);
+                ErrorDTO responseError = JsonConvert.DeserializeObject<ErrorDTO>(responseText);
+                return ResponseThirdPartyDto<dynamic>.Failure(responseError);
             }
         }
     }

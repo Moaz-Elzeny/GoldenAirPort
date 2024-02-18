@@ -1,7 +1,8 @@
-﻿using Azure;
-using GoldenAirport.Application.Common.Models;
+﻿using GoldenAirport.Application.Common.Models;
 using GoldenAirport.Application.Flights.DTOs.BookingDto;
+using GoldenAirport.Application.Flights.ThirdParty.Dtos.BookingDto;
 using GoldenAirport.Application.Flights.ThirdParty.Dtos.Error;
+using GoldenAirport.Application.Flights.ThirdParty.Dtos.ShopeDto;
 using GoldenAirport.Application.Helpers;
 using Newtonsoft.Json;
 using System.Net;
@@ -12,6 +13,67 @@ namespace GoldenAirport.Application.Flights.ThirdParty.Commands
     {
         public ResponseThirdPartyDto<dynamic> DOCSAndDK()
         {
+            var RequstData = new BookingRequestDto();
+
+            RequstData.CreatePassengerNameRecordRQ.haltOnAirPriceError = true;
+            RequstData.CreatePassengerNameRecordRQ.targetCity = "M9DL";
+            RequstData.CreatePassengerNameRecordRQ.AirBook = new Dtos.BookingDto.AirBook()
+            {
+                HaltOnStatus = new List<HaltOnStatus>
+                {
+                    new HaltOnStatus
+                    {
+                        Code = "HL"
+                    },
+
+                    new HaltOnStatus
+                    {
+                        Code = "HN"
+                    },
+                    
+                    new HaltOnStatus
+                    {
+                        Code = "KK"
+                    },
+                    
+                    new HaltOnStatus
+                    {
+                        Code = "LL"
+                    },
+                    
+                    new HaltOnStatus
+                    {
+                        Code = "NN"
+                    },
+                    
+                    new HaltOnStatus
+                    {
+                        Code = "NO"
+                    },
+                    
+                    new HaltOnStatus
+                    {
+                        Code = "UC"
+                    },
+                    
+                    new HaltOnStatus
+                    {
+                        Code = "US"
+                    },
+                    
+                    new HaltOnStatus
+                    {
+                        Code = "UN"
+                    },
+                },
+                RedisplayReservation = new RedisplayReservation()
+                {
+                    NumAttempts = 5,
+                    waitInterval = 1000,
+                    WaitInterval
+                }
+            };
+
             var body = @"{" + "\n" +
 @"    ""CreatePassengerNameRecordRQ"": {" + "\n" +
 @"        ""haltOnAirPriceError"": true," + "\n" +
@@ -346,8 +408,9 @@ namespace GoldenAirport.Application.Flights.ThirdParty.Commands
             string responseText = readers.ReadToEnd();
             if (response.StatusCode == HttpStatusCode.OK)
             {
-                //ResponseDto response = JsonConvert.DeserializeObject<ResponseDto>(responseText);
-                return ResponseThirdPartyDto<dynamic>.Success(response);//response.groupedItineraryResponse.legDescs
+                //JsonSerializerSettings jsonSelectSettings = new JsonSerializerSettings() { NullValueHandling = NullValueHandling.Ignore };
+                BookingResponseDto resulte = JsonConvert.DeserializeObject<BookingResponseDto>(responseText);
+                return ResponseThirdPartyDto<dynamic>.Success(resulte);
             }
             else if (response.StatusCode == HttpStatusCode.Unauthorized)
             {

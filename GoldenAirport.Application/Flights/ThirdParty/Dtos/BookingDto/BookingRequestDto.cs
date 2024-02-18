@@ -1,8 +1,5 @@
 ﻿namespace GoldenAirport.Application.Flights.ThirdParty.Dtos.BookingDto
 {
-    public class BookingRequestDto
-    {
-    }
     // Root myDeserializedClass = JsonConvert.DeserializeObject<Root>(myJsonResponse);
     public class AcceptablePriceIncrease
     {
@@ -212,7 +209,7 @@
         public bool Option { get; set; }
     }
 
-    public class Root
+    public class BookingRequestDto
     {
         public CreatePassengerNameRecordRQ CreatePassengerNameRecordRQ { get; set; }
     }

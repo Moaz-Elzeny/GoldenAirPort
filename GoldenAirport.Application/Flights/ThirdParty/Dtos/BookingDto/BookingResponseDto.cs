@@ -1,971 +1,1817 @@
-﻿namespace GoldenAirport.Application.Flights.DTOs.BookingDto
+﻿
+using System;
+using System.Collections.Generic;
+
+using System.Globalization;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Converters;
+
+namespace GoldenAirport.Application.Flights.DTOs.BookingDto
 {
-    public class BookingResponseDto
-    {
-    }
-    // Root myDeserializedClass = JsonConvert.DeserializeObject<Root>(myJsonResponse);
-    public class Air
-    {
-        public int sequence { get; set; }
-        public int segmentAssociationId { get; set; }
-        public string DepartureAirport { get; set; }
-        public string ArrivalAirport { get; set; }
-        public string ArrivalTerminalName { get; set; }
-        public string ArrivalTerminalCode { get; set; }
-        public string EquipmentType { get; set; }
-        public string MarketingAirlineCode { get; set; }
-        public string MarketingFlightNumber { get; set; }
-        public string MarketingClassOfService { get; set; }
-        public Cabin Cabin { get; set; }
-        public List<string> MealCode { get; set; }
-        public int ElapsedTime { get; set; }
-        public int AirMilesFlown { get; set; }
-        public bool FunnelFlight { get; set; }
-        public bool ChangeOfGauge { get; set; }
-        public DisclosureCarrier DisclosureCarrier { get; set; }
-        public string AirlineRefId { get; set; }
-        public bool Eticket { get; set; }
-        public DateTime DepartureDateTime { get; set; }
-        public DateTime ArrivalDateTime { get; set; }
-        public string FlightNumber { get; set; }
-        public string ClassOfService { get; set; }
-        public string ActionCode { get; set; }
-        public int NumberInParty { get; set; }
-        public bool inboundConnection { get; set; }
-        public bool outboundConnection { get; set; }
-        public bool ScheduleChangeIndicator { get; set; }
-        public DateTime SegmentBookedDate { get; set; }
-    }
-
-    public class AirBook
-    {
-        public OriginDestinationOption OriginDestinationOption { get; set; }
-    }
-
-    public class AirItineraryPricingInfo
-    {
-        public string SolutionSequenceNmbr { get; set; }
-        public List<BaggageProvision> BaggageProvisions { get; set; }
-        public FareCalculation FareCalculation { get; set; }
-        public List<FareCalculationBreakdown> FareCalculationBreakdown { get; set; }
-        public ItinTotalFare ItinTotalFare { get; set; }
-        public PassengerTypeQuantity PassengerTypeQuantity { get; set; }
-        public List<PTCFareBreakdown> PTC_FareBreakdown { get; set; }
-    }
-
-    public class Airline
-    {
-        public string Code { get; set; }
-    }
-
-    public class AirPrice
-    {
-        public PriceComparison PriceComparison { get; set; }
-        public PriceQuote PriceQuote { get; set; }
-    }
-
-    public class AirSegment
-    {
-        public string CarrierCode { get; set; }
-        public string FlightNumber { get; set; }
-        public string DepartureDate { get; set; }
-        public string BoardPoint { get; set; }
-        public string OffPoint { get; set; }
-        public string ClassOfService { get; set; }
-        public string BookingStatus { get; set; }
-    }
-
-    public class AncillaryService
-    {
-        public string SubGroupCode { get; set; }
-        public string Text { get; set; }
-    }
-
-    public class ApplicationResults
-    {
-        public string status { get; set; }
-        public List<Success> Success { get; set; }
-        public List<Warning> Warning { get; set; }
-    }
-
-    public class Associations
-    {
-        public List<CarrierCode> CarrierCode { get; set; }
-        public string CountForSegmentAssociatedID { get; set; }
-        public List<DepartureDate> DepartureDate { get; set; }
-        public List<DestinationLocation> DestinationLocation { get; set; }
-        public List<FlightNumber> FlightNumber { get; set; }
-        public List<OriginLocation> OriginLocation { get; set; }
-        public List<PNRSegment> PNR_Segment { get; set; }
-        public List<ResBookDesigCode> ResBookDesigCode { get; set; }
-        public List<StatusCode> StatusCode { get; set; }
-    }
-
-    public class BaggageAllowance
-    {
-        public string Number { get; set; }
-    }
-
-    public class BaggageInfo
-    {
-        public List<SubCodeProperty> SubCodeProperties { get; set; }
-        public NonUSDOTDisclosure NonUS_DOT_Disclosure { get; set; }
-    }
-
-    public class BaggageProvision
-    {
-        public string RPH { get; set; }
-        public Associations Associations { get; set; }
-        public string CarrierWhoseBaggageProvisionsApply { get; set; }
-        public string NumPiecesBDI { get; set; }
-        public List<string> NumPiecesITR { get; set; }
-        public string ProvisionType { get; set; }
-        public SubCodeInfo SubCodeInfo { get; set; }
-        public string Commissionable { get; set; }
-        public string FeeApplicationIndicator { get; set; }
-        public string FeeNotGuaranteedIndicator { get; set; }
-        public PassengerType PassengerType { get; set; }
-        public PriceInformation PriceInformation { get; set; }
-        public string RefundReissue { get; set; }
-        public WeightLimit WeightLimit { get; set; }
-    }
-
-    public class Base
-    {
-        public string Amount { get; set; }
-        public string CurrencyCode { get; set; }
-    }
-
-    public class BaseFare
-    {
-        public string Amount { get; set; }
-        public string CurrencyCode { get; set; }
-    }
-
-    public class Branch
-    {
-        public string PCC { get; set; }
-        public string FirstJointCarrier { get; set; }
-    }
-
-    public class Cabin
-    {
-        public string Code { get; set; }
-        public string SabreCode { get; set; }
-        public string Name { get; set; }
-        public string ShortName { get; set; }
-        public string Lang { get; set; }
-        public string code { get; set; }
-        public string sabreCode { get; set; }
-        public string name { get; set; }
-        public string shortName { get; set; }
-        public string lang { get; set; }
-    }
-
-    public class CarrierCode
-    {
-        public int RPH { get; set; }
-        public string content { get; set; }
-    }
-
-    public class Construction
-    {
-        public string Amount { get; set; }
-        public string CurrencyCode { get; set; }
-        public string RateOfExchange { get; set; }
-    }
-
-    public class ContactNumber
-    {
-        public string LocationCode { get; set; }
-        public string Phone { get; set; }
-        public string RPH { get; set; }
-        public string Id { get; set; }
-    }
-
-    public class ContactNumbers
-    {
-        public List<ContactNumber> ContactNumber { get; set; }
-    }
-
-    public class CreatePassengerNameRecordRS
-    {
-        public ApplicationResults ApplicationResults { get; set; }
-        public ItineraryRef ItineraryRef { get; set; }
-        public AirBook AirBook { get; set; }
-        public List<AirPrice> AirPrice { get; set; }
-        public TravelItineraryRead TravelItineraryRead { get; set; }
-    }
-
-    public class CustomerInfo
-    {
-        public ContactNumbers ContactNumbers { get; set; }
-        public List<PersonName> PersonName { get; set; }
-    }
-
-    public class Dates
-    {
-        public string DepartureDateTime { get; set; }
-        public string ArrivalDateTime { get; set; }
-    }
-
-    public class Departure
-    {
-        public string CityCode { get; set; }
-        public string AirportCode { get; set; }
-        public string AirlineCode { get; set; }
-        public string GenericInd { get; set; }
-        public string ArrivalCityCode { get; set; }
-        public string ArrivalAirportCode { get; set; }
-    }
-
-    public class DepartureDate
-    {
-        public int RPH { get; set; }
-        public string content { get; set; }
-    }
-
-    public class DescriptionOne
-    {
-        public string Code { get; set; }
-        public string Text { get; set; }
-    }
-
-    public class DescriptionTwo
-    {
-        public string Code { get; set; }
-        public string Text { get; set; }
-    }
-
-    public class DestinationLocation
-    {
-        public string LocationCode { get; set; }
-        public int RPH { get; set; }
-        public string Terminal { get; set; }
-        public string TerminalCode { get; set; }
-    }
-
-    public class DisclosureCarrier
-    {
-        public string Code { get; set; }
-        public bool DOT { get; set; }
-        public string Banner { get; set; }
-    }
-
-    public class Email
-    {
-        public string Id { get; set; }
-        public string Comment { get; set; }
-        public string Type { get; set; }
-        public string content { get; set; }
-        public string comment { get; set; }
-        public string type { get; set; }
-        public string Address { get; set; }
-    }
-
-    public class Endorsement
-    {
-        public string type { get; set; }
-        public string Text { get; set; }
-    }
-
-    public class Endorsements
-    {
-        public List<string> Text { get; set; }
-        public List<Endorsement> Endorsement { get; set; }
-    }
-
-    public class Equipment
-    {
-        public string AirEquipType { get; set; }
-    }
-
-    public class Equiv
-    {
-        public string Amount { get; set; }
-        public string CurrencyCode { get; set; }
-    }
-
-    public class EquivFare
-    {
-        public string Amount { get; set; }
-        public string CurrencyCode { get; set; }
-    }
-
-    public class FareBasis
-    {
-        public string Code { get; set; }
-        public string FareAmount { get; set; }
-        public string FarePassengerType { get; set; }
-        public string FareType { get; set; }
-        public string FilingCarrier { get; set; }
-        public string GlobalInd { get; set; }
-        public string TripTypeInd { get; set; }
-        public string Market { get; set; }
-        public string Cabin { get; set; }
-    }
-
-    public class FareCalculation
-    {
-        public string Text { get; set; }
-    }
-
-    public class FareCalculationBreakdown
-    {
-        public Branch Branch { get; set; }
-        public Departure Departure { get; set; }
-        public FareBasis FareBasis { get; set; }
-        public string FreeBaggageAllowance { get; set; }
-        public List<string> RuleCategoryIndicator { get; set; }
-    }
-
-    public class FareComponent
-    {
-        public string FareBasisCode { get; set; }
-        public string FareDirectionality { get; set; }
-        public string Amount { get; set; }
-        public string TicketDesignator { get; set; }
-        public string GoverningCarrier { get; set; }
-        public string FareComponentNumber { get; set; }
-        public Location Location { get; set; }
-        public Dates Dates { get; set; }
-        public FlightSegmentNumbers FlightSegmentNumbers { get; set; }
-    }
-
-    public class FlightNumber
-    {
-        public int RPH { get; set; }
-        public string content { get; set; }
-    }
-
-    public class FlightSegment
-    {
-        public string ArrivalDateTime { get; set; }
-        public string DepartureDateTime { get; set; }
-        public bool eTicket { get; set; }
-        public string FlightNumber { get; set; }
-        public string NumberInParty { get; set; }
-        public string ResBookDesigCode { get; set; }
-        public string Status { get; set; }
-        public DestinationLocation DestinationLocation { get; set; }
-        public MarketingAirline MarketingAirline { get; set; }
-        public OriginLocation OriginLocation { get; set; }
-        public string ConnectionInd { get; set; }
-        public string SegmentNumber { get; set; }
-        public BaggageAllowance BaggageAllowance { get; set; }
-        public FareBasis FareBasis { get; set; }
-        public ValidityDates ValidityDates { get; set; }
-        public string AirMilesFlown { get; set; }
-        public string DayOfWeekInd { get; set; }
-        public DateTime SegmentBookedDate { get; set; }
-        public string ElapsedTime { get; set; }
-        public bool SmokingAllowed { get; set; }
-        public bool SpecialMeal { get; set; }
-        public string StopQuantity { get; set; }
-        public bool IsPast { get; set; }
-        public bool CodeShare { get; set; }
-        public string Id { get; set; }
-        public Equipment Equipment { get; set; }
-        public List<Meal> Meal { get; set; }
-        public List<OperatingAirline> OperatingAirline { get; set; }
-        public OperatingAirlinePricing OperatingAirlinePricing { get; set; }
-        public DisclosureCarrier DisclosureCarrier { get; set; }
-        public SupplierRef SupplierRef { get; set; }
-        public string UpdatedArrivalTime { get; set; }
-        public string UpdatedDepartureTime { get; set; }
-        public Cabin Cabin { get; set; }
-    }
-
-    public class FlightSegmentNumbers
-    {
-        public List<string> FlightSegmentNumber { get; set; }
-    }
-
-    public class HeaderInformation
-    {
-        public string SolutionSequenceNmbr { get; set; }
-        public string DepartureDate { get; set; }
-        public List<string> Text { get; set; }
-        public ValidatingCarrier ValidatingCarrier { get; set; }
-    }
+  
+   
 
-    public class Item
+    public partial class BookingResponseDto
     {
-        public string RPH { get; set; }
-        public List<FlightSegment> FlightSegment { get; set; }
-        public Product Product { get; set; }
-    }
+        [JsonProperty("CreatePassengerNameRecordRS")]
+        public CreatePassengerNameRecordRs CreatePassengerNameRecordRs { get; set; }
 
-    public class ItineraryInfo
-    {
-        public ItineraryPricing ItineraryPricing { get; set; }
-        public ReservationItems ReservationItems { get; set; }
-        public List<Ticketing> Ticketing { get; set; }
-    }
-
-    public class ItineraryPricing
-    {
-        public List<PriceQuote> PriceQuote { get; set; }
-        public PriceQuoteTotals PriceQuoteTotals { get; set; }
-    }
-
-    public class ItineraryRef
-    {
-        public string ID { get; set; }
-        public bool AirExtras { get; set; }
-        public string InhibitCode { get; set; }
-        public string PartitionID { get; set; }
-        public string PrimeHostID { get; set; }
-        public List<string> Header { get; set; }
-        public Source Source { get; set; }
-    }
-
-    public class ItinTotalFare
-    {
-        public string NonRefundableInd { get; set; }
-        public BaggageInfo BaggageInfo { get; set; }
-        public BaseFare BaseFare { get; set; }
-        public Construction Construction { get; set; }
-        public Endorsements Endorsements { get; set; }
-        public EquivFare EquivFare { get; set; }
-        public Taxes Taxes { get; set; }
-        public TotalFare TotalFare { get; set; }
-        public Warnings Warnings { get; set; }
-        public Totals Totals { get; set; }
-    }
-
-    public class Link
-    {
-        public string rel { get; set; }
-        public string href { get; set; }
-    }
-
-    public class Location
-    {
-        public string Origin { get; set; }
-        public string Destination { get; set; }
-    }
-
-    public class MarketingAirline
-    {
-        public string Code { get; set; }
-        public string FlightNumber { get; set; }
-        public string ResBookDesigCode { get; set; }
-        public string Banner { get; set; }
-    }
-
-    public class MaximumSize
-    {
-        public string Units { get; set; }
-        public string content { get; set; }
-    }
-
-    public class MaximumSizeInAlternate
-    {
-        public string Units { get; set; }
-        public string content { get; set; }
-    }
-
-    public class MaximumWeight
-    {
-        public string Units { get; set; }
-        public string content { get; set; }
-    }
-
-    public class MaximumWeightInAlternate
-    {
-        public string Units { get; set; }
-        public string content { get; set; }
-    }
-
-    public class Meal
-    {
-        public string Code { get; set; }
-    }
-
-    public class Message
-    {
-        public string code { get; set; }
-        public string content { get; set; }
-    }
-
-    public class MiscInformation
-    {
-        public BaggageInfo BaggageInfo { get; set; }
-        public List<HeaderInformation> HeaderInformation { get; set; }
-        public List<SolutionInformation> SolutionInformation { get; set; }
-        public List<ValidatingCarrier> ValidatingCarrier { get; set; }
-        public List<SignatureLine> SignatureLine { get; set; }
-    }
-
-    public class NameAssociation
-    {
-        public string LastName { get; set; }
-        public string FirstName { get; set; }
-        public int ReferenceId { get; set; }
-        public string NameRefNumber { get; set; }
-    }
-
-    public class NonUSDOTDisclosure
-    {
-        public List<string> Text { get; set; }
-    }
-
-    public class OpenReservationElement
-    {
-        public string id { get; set; }
-        public string type { get; set; }
-        public string elementId { get; set; }
-        public ServiceRequest ServiceRequest { get; set; }
-        public List<NameAssociation> NameAssociation { get; set; }
-        public List<SegmentAssociation> SegmentAssociation { get; set; }
-        public Email Email { get; set; }
-    }
-
-    public class OpenReservationElements
-    {
-        public List<OpenReservationElement> OpenReservationElement { get; set; }
-    }
-
-    public class OperatingAirline
-    {
-        public string Code { get; set; }
-        public string FlightNumber { get; set; }
-        public string ResBookDesigCode { get; set; }
-        public string Banner { get; set; }
-    }
-
-    public class OperatingAirlinePricing
-    {
-        public string Code { get; set; }
-    }
-
-    public class OriginDestinationOption
-    {
-        public List<FlightSegment> FlightSegment { get; set; }
-    }
-
-    public class OriginLocation
-    {
-        public string LocationCode { get; set; }
-        public int RPH { get; set; }
-    }
-
-    public class PassengerContactEmail
-    {
-        public string Email { get; set; }
-        public string Language { get; set; }
-    }
-
-    public class PassengerContactMobilePhone
-    {
-        public string PhoneNumber { get; set; }
-        public string Language { get; set; }
-    }
-
-    public class PassengerDatum
-    {
-        public string NameNumber { get; set; }
-        public string content { get; set; }
-    }
-
-    public class PassengerInfo
-    {
-        public string PassengerType { get; set; }
-        public List<PassengerDatum> PassengerData { get; set; }
-    }
-
-    public class PassengerType
-    {
-        public string Code { get; set; }
-    }
-
-    public class PassengerTypeQuantity
-    {
-        public string Code { get; set; }
-        public string Quantity { get; set; }
-    }
-
-    public class PersonName
-    {
-        public string WithInfant { get; set; }
-        public string NameNumber { get; set; }
-        public string RPH { get; set; }
-        public string elementId { get; set; }
-        public List<Email> Email { get; set; }
-        public string GivenName { get; set; }
-        public string Surname { get; set; }
-        public string content { get; set; }
-    }
-
-    public class PNRSegment
-    {
-        public int RPH { get; set; }
-        public string content { get; set; }
-    }
-
-    public class PriceComparison
-    {
-        public string AmountReturned { get; set; }
-        public string AmountSpecified { get; set; }
-    }
-
-    public class PricedItinerary
-    {
-        public string AlternativePricing { get; set; }
-        public string CurrencyCode { get; set; }
-        public bool MultiTicket { get; set; }
-        public string TotalAmount { get; set; }
-        public List<AirItineraryPricingInfo> AirItineraryPricingInfo { get; set; }
-        public bool DisplayOnly { get; set; }
-        public string InputMessage { get; set; }
-        public string RPH { get; set; }
-        public string StatusCode { get; set; }
-        public bool TaxExempt { get; set; }
-        public string ValidatingCarrier { get; set; }
-        public string StoredDateTime { get; set; }
-    }
-
-    public class PriceInformation
-    {
-        public Base Base { get; set; }
-        public Equiv Equiv { get; set; }
-        public string Total { get; set; }
-    }
-
-    public class PriceQuote
-    {
-        public MiscInformation MiscInformation { get; set; }
-        public PricedItinerary PricedItinerary { get; set; }
-        public string RPH { get; set; }
-        public ResponseHeader ResponseHeader { get; set; }
-        public PriceQuotePlus PriceQuotePlus { get; set; }
-    }
-
-    public class PriceQuotePlus
-    {
-        public string DomesticIntlInd { get; set; }
-        public string PricingStatus { get; set; }
-        public bool VerifyFareCalc { get; set; }
-        public bool ItineraryChanged { get; set; }
-        public bool ManualFare { get; set; }
-        public bool NegotiatedFare { get; set; }
-        public string SystemIndicator { get; set; }
-        public bool NUCSuppresion { get; set; }
-        public bool SubjToGovtApproval { get; set; }
-        public string IT_BT_Fare { get; set; }
-        public bool DisplayOnly { get; set; }
-        public string DiscountAmount { get; set; }
-        public PassengerInfo PassengerInfo { get; set; }
-        public TicketingInstructionsInfo TicketingInstructionsInfo { get; set; }
-    }
-
-    public class PriceQuoteTotals
-    {
-        public BaseFare BaseFare { get; set; }
-        public EquivFare EquivFare { get; set; }
-        public Taxes Taxes { get; set; }
-        public TotalFare TotalFare { get; set; }
-    }
-
-    public class Product
-    {
-        public ProductDetails ProductDetails { get; set; }
-    }
-
-    public class ProductDetails
-    {
-        public string productCategory { get; set; }
-        public ProductName ProductName { get; set; }
-        public Air Air { get; set; }
-    }
-
-    public class ProductName
-    {
-        public string type { get; set; }
-        public string content { get; set; }
-    }
-
-    public class PTCFareBreakdown
-    {
-        public string Cabin { get; set; }
-        public FareBasis FareBasis { get; set; }
-        public string FreeBaggageAllowance { get; set; }
-        public Endorsements Endorsements { get; set; }
-        public FareCalculation FareCalculation { get; set; }
-        public string FareSource { get; set; }
-        public List<FlightSegment> FlightSegment { get; set; }
-        public List<FareComponent> FareComponent { get; set; }
-    }
-
-    public class ResBookDesigCode
-    {
-        public int RPH { get; set; }
-        public string content { get; set; }
-    }
-
-    public class ReservationItems
-    {
-        public List<Item> Item { get; set; }
-    }
-
-    public class ResponseHeader
-    {
-        public List<string> Text { get; set; }
-    }
-
-    public class Root
-    {
-        public CreatePassengerNameRecordRS CreatePassengerNameRecordRS { get; set; }
+        [JsonProperty("Links")]
         public List<Link> Links { get; set; }
     }
 
-    public class SegmentAssociation
+    public partial class CreatePassengerNameRecordRs
     {
-        public string Id { get; set; }
-        public string SegmentAssociationId { get; set; }
-        public AirSegment AirSegment { get; set; }
+        [JsonProperty("ApplicationResults")]
+        public ApplicationResults ApplicationResults { get; set; }
+
+        [JsonProperty("ItineraryRef")]
+        public Ref ItineraryRef { get; set; }
+
+        [JsonProperty("AirBook")]
+        public AirBook AirBook { get; set; }
+
+        [JsonProperty("AirPrice")]
+        public List<AirPrice> AirPrice { get; set; }
+
+        [JsonProperty("TravelItineraryRead")]
+        public TravelItineraryRead TravelItineraryRead { get; set; }
     }
 
-    public class Service
+    public partial class AirBook
     {
-        public string SSR_Code { get; set; }
-        public string SSR_Type { get; set; }
-        public Airline Airline { get; set; }
-        public List<PersonName> PersonName { get; set; }
-        public List<string> Text { get; set; }
+        [JsonProperty("OriginDestinationOption")]
+        public OriginDestinationOption OriginDestinationOption { get; set; }
     }
 
-    public class ServiceRequest
+    public partial class OriginDestinationOption
     {
-        public string actionCode { get; set; }
-        public string airlineCode { get; set; }
-        public string code { get; set; }
-        public string serviceCount { get; set; }
-        public string serviceType { get; set; }
-        public string ssrType { get; set; }
-        public string FreeText { get; set; }
-        public string FullText { get; set; }
-        public TravelDocument TravelDocument { get; set; }
-        public PassengerContactMobilePhone PassengerContactMobilePhone { get; set; }
-        public PassengerContactEmail PassengerContactEmail { get; set; }
-        public string Comment { get; set; }
+        [JsonProperty("FlightSegment")]
+        public List<OriginDestinationOptionFlightSegment> FlightSegment { get; set; }
     }
 
-    public class SignatureLine
+    public partial class OriginDestinationOptionFlightSegment
     {
-        public string ExpirationDateTime { get; set; }
-        public string Source { get; set; }
+        [JsonProperty("ArrivalDateTime")]
+        public string ArrivalDateTime { get; set; }
+
+        [JsonProperty("DepartureDateTime")]
+        public string DepartureDateTime { get; set; }
+
+        [JsonProperty("eTicket")]
+        public bool ETicket { get; set; }
+
+        [JsonProperty("FlightNumber")]
+        public string FlightNumber { get; set; }
+
+        [JsonProperty("NumberInParty")]
+        public string NumberInParty { get; set; }
+
+        [JsonProperty("ResBookDesigCode")]
+        public string ResBookDesigCode { get; set; }
+
+        [JsonProperty("Status")]
         public string Status { get; set; }
-        public string Text { get; set; }
+
+        [JsonProperty("DestinationLocation")]
+        public FlightSegmentDestinationLocation DestinationLocation { get; set; }
+
+        [JsonProperty("MarketingAirline")]
+        public MarketingAirline MarketingAirline { get; set; }
+
+        [JsonProperty("OriginLocation")]
+        public FlightSegmentDestinationLocation OriginLocation { get; set; }
     }
 
-    public class SizeWeightInfo
+    public partial class FlightSegmentDestinationLocation
     {
-        public MaximumSizeInAlternate MaximumSizeInAlternate { get; set; }
-        public MaximumSize MaximumSize { get; set; }
-        public MaximumWeightInAlternate MaximumWeightInAlternate { get; set; }
-        public MaximumWeight MaximumWeight { get; set; }
+        [JsonProperty("LocationCode")]
+        public string LocationCode { get; set; }
     }
 
-    public class SolutionInformation
+    public partial class MarketingAirline
     {
-        public string SolutionSequenceNmbr { get; set; }
-        public string BaseFareCurrencyCode { get; set; }
-        public string CurrencyCode { get; set; }
-        public string GrandTotalBaseFareAmount { get; set; }
-        public string GrandTotalEquivFareAmount { get; set; }
-        public string GrandTotalTaxes { get; set; }
-        public string RequiresRebook { get; set; }
-        public string TicketNumber { get; set; }
-        public string TotalAmount { get; set; }
+        [JsonProperty("Code")]
+        public string Code { get; set; }
+
+        [JsonProperty("FlightNumber")]
+        public string FlightNumber { get; set; }
     }
 
-    public class Source
+    public partial class AirPrice
     {
-        public string AAA_PseudoCityCode { get; set; }
-        public string CreateDateTime { get; set; }
-        public string CreationAgent { get; set; }
-        public string HomePseudoCityCode { get; set; }
-        public string PseudoCityCode { get; set; }
-        public string ReceivedFrom { get; set; }
-        public string LastUpdateDateTime { get; set; }
-        public string SequenceNumber { get; set; }
+        [JsonProperty("PriceComparison")]
+        public PriceComparison PriceComparison { get; set; }
+
+        [JsonProperty("PriceQuote")]
+        public AirPricePriceQuote PriceQuote { get; set; }
     }
 
-    public class SpecialServiceInfo
+    public partial class PriceComparison
     {
-        public string RPH { get; set; }
-        public string Type { get; set; }
-        public string Id { get; set; }
-        public Service Service { get; set; }
+        [JsonProperty("AmountReturned")]
+        public string AmountReturned { get; set; }
+
+        [JsonProperty("AmountSpecified")]
+        public string AmountSpecified { get; set; }
     }
 
-    public class StatusCode
+    public partial class AirPricePriceQuote
     {
-        public int RPH { get; set; }
-        public string content { get; set; }
+        [JsonProperty("MiscInformation")]
+        public PurpleMiscInformation MiscInformation { get; set; }
+
+        [JsonProperty("PricedItinerary")]
+        public PurplePricedItinerary PricedItinerary { get; set; }
     }
 
-    public class SubCodeForAllowance
+    public partial class PurpleMiscInformation
     {
-        public int RPH { get; set; }
-        public string content { get; set; }
+        [JsonProperty("BaggageInfo")]
+        public MiscInformationBaggageInfo BaggageInfo { get; set; }
+
+        [JsonProperty("HeaderInformation")]
+        public List<HeaderInformation> HeaderInformation { get; set; }
+
+        [JsonProperty("SolutionInformation")]
+        public List<SolutionInformation> SolutionInformation { get; set; }
+
+        [JsonProperty("ValidatingCarrier")]
+        public List<ValidatingCarrier> ValidatingCarrier { get; set; }
     }
 
-    public class SubCodeInfo
+    public partial class MiscInformationBaggageInfo
     {
-        public List<SubCodeForAllowance> SubCodeForAllowance { get; set; }
-        public string SubCodeForChargesOthers { get; set; }
+        [JsonProperty("SubCodeProperties")]
+        public List<SubCodeProperty> SubCodeProperties { get; set; }
     }
 
-    public class SubCodeProperty
+    public partial class SubCodeProperty
     {
-        public int SolutionSequenceNmbr { get; set; }
-        public int RPH { get; set; }
+        [JsonProperty("SolutionSequenceNmbr")]
+        public long SolutionSequenceNmbr { get; set; }
+
+        [JsonProperty("RPH")]
+        public long Rph { get; set; }
+
+        [JsonProperty("AncillaryFeeGroupCode")]
         public string AncillaryFeeGroupCode { get; set; }
+
+        [JsonProperty("CommercialNameofBaggageItemType")]
         public string CommercialNameofBaggageItemType { get; set; }
-        public string EMD_Type { get; set; }
+
+        [JsonProperty("EMD_Type")]
+        public string EmdType { get; set; }
+
+        [JsonProperty("ExtendedSubCodeKey")]
         public string ExtendedSubCodeKey { get; set; }
-        public DescriptionOne DescriptionOne { get; set; }
-        public DescriptionTwo DescriptionTwo { get; set; }
-        public string RFIC { get; set; }
+
+        [JsonProperty("DescriptionOne", NullValueHandling = NullValueHandling.Ignore)]
+        public Description DescriptionOne { get; set; }
+
+        [JsonProperty("DescriptionTwo", NullValueHandling = NullValueHandling.Ignore)]
+        public Description DescriptionTwo { get; set; }
+
+        [JsonProperty("RFIC", NullValueHandling = NullValueHandling.Ignore)]
+        public string Rfic { get; set; }
+
+        [JsonProperty("SizeWeightInfo", NullValueHandling = NullValueHandling.Ignore)]
         public SizeWeightInfo SizeWeightInfo { get; set; }
+
+        [JsonProperty("BookingMethod", NullValueHandling = NullValueHandling.Ignore)]
         public string BookingMethod { get; set; }
-        public string SSR_Code { get; set; }
+
+        [JsonProperty("SSR_Code", NullValueHandling = NullValueHandling.Ignore)]
+        public string SsrCode { get; set; }
+
+        [JsonProperty("AncillaryService", NullValueHandling = NullValueHandling.Ignore)]
         public AncillaryService AncillaryService { get; set; }
     }
 
-    public class Success
+    public partial class AncillaryService
     {
-        public DateTime timeStamp { get; set; }
+        [JsonProperty("SubGroupCode")]
+        public string SubGroupCode { get; set; }
+
+        [JsonProperty("Text")]
+        public string Text { get; set; }
     }
 
-    public class SupplierRef
+    public partial class Description
     {
-        public string ID { get; set; }
-    }
-
-    public class SystemSpecificResult
-    {
-        public List<Message> Message { get; set; }
-    }
-
-    public class Tax
-    {
-        public string Amount { get; set; }
-        public string TaxCode { get; set; }
-        public string TaxName { get; set; }
-        public string TicketingTaxCode { get; set; }
-    }
-
-    public class TaxBreakdownCode
-    {
-        public bool TaxPaid { get; set; }
-        public string content { get; set; }
-    }
-
-    public class Taxes
-    {
-        public string TotalAmount { get; set; }
-        public List<Tax> Tax { get; set; }
-        public List<TaxBreakdownCode> TaxBreakdownCode { get; set; }
-    }
-
-    public class Ticket
-    {
-        public string Type { get; set; }
-        public string CarrierCode { get; set; }
-        public string ValidatingCarrierType { get; set; }
-    }
-
-    public class Ticketing
-    {
-        public string RPH { get; set; }
-        public string TicketTimeLimit { get; set; }
-    }
-
-    public class TicketingInstructionsInfo
-    {
-    }
-
-    public class TotalFare
-    {
-        public string Amount { get; set; }
-        public string CurrencyCode { get; set; }
-    }
-
-    public class Totals
-    {
-        public BaseFare BaseFare { get; set; }
-        public EquivFare EquivFare { get; set; }
-        public Taxes Taxes { get; set; }
-        public TotalFare TotalFare { get; set; }
-    }
-
-    public class TravelDocument
-    {
-        public string Type { get; set; }
-        public string DocumentIssueCountry { get; set; }
-        public string DocumentNumber { get; set; }
-        public string DocumentNationalityCountry { get; set; }
-        public string DocumentExpirationDate { get; set; }
-        public string DateOfBirth { get; set; }
-        public string Gender { get; set; }
-        public string LastName { get; set; }
-        public string FirstName { get; set; }
-        public bool Infant { get; set; }
-        public bool PrimaryDocHolderInd { get; set; }
-        public bool HasDocumentData { get; set; }
-    }
-
-    public class TravelItinerary
-    {
-        public CustomerInfo CustomerInfo { get; set; }
-        public ItineraryInfo ItineraryInfo { get; set; }
-        public ItineraryRef ItineraryRef { get; set; }
-        public List<SpecialServiceInfo> SpecialServiceInfo { get; set; }
-        public OpenReservationElements OpenReservationElements { get; set; }
-    }
-
-    public class TravelItineraryRead
-    {
-        public TravelItinerary TravelItinerary { get; set; }
-    }
-
-    public class ValidatingCarrier
-    {
+        [JsonProperty("Code")]
         public string Code { get; set; }
-        public bool NewValidatingProcess { get; set; }
+
+        [JsonProperty("Text")]
+        public string Text { get; set; }
+    }
+
+    public partial class SizeWeightInfo
+    {
+        [JsonProperty("MaximumSizeInAlternate")]
+        public MaximumSize MaximumSizeInAlternate { get; set; }
+
+        [JsonProperty("MaximumSize")]
+        public MaximumSize MaximumSize { get; set; }
+
+        [JsonProperty("MaximumWeightInAlternate")]
+        public MaximumSize MaximumWeightInAlternate { get; set; }
+
+        [JsonProperty("MaximumWeight")]
+        public MaximumSize MaximumWeight { get; set; }
+    }
+
+    public partial class MaximumSize
+    {
+        [JsonProperty("Units")]
+        public string Units { get; set; }
+
+        [JsonProperty("content")]
+        public string Content { get; set; }
+    }
+
+    public partial class HeaderInformation
+    {
+        [JsonProperty("SolutionSequenceNmbr")]
         public string SolutionSequenceNmbr { get; set; }
+
+        [JsonProperty("DepartureDate")]
+        public string DepartureDate { get; set; }
+
+        [JsonProperty("Text")]
+        public List<string> Text { get; set; }
+
+        [JsonProperty("ValidatingCarrier")]
+        public Airline ValidatingCarrier { get; set; }
+    }
+
+    public partial class Airline
+    {
+        [JsonProperty("Code")]
+        public string Code { get; set; }
+    }
+
+    public partial class SolutionInformation
+    {
+        [JsonProperty("SolutionSequenceNmbr")]
+        public string SolutionSequenceNmbr { get; set; }
+
+        [JsonProperty("BaseFareCurrencyCode")]
+        public string BaseFareCurrencyCode { get; set; }
+
+        [JsonProperty("CurrencyCode")]
+        public string CurrencyCode { get; set; }
+
+        [JsonProperty("GrandTotalBaseFareAmount")]
+        public string GrandTotalBaseFareAmount { get; set; }
+
+        [JsonProperty("GrandTotalEquivFareAmount")]
+        public string GrandTotalEquivFareAmount { get; set; }
+
+        [JsonProperty("GrandTotalTaxes")]
+        public string GrandTotalTaxes { get; set; }
+
+        [JsonProperty("RequiresRebook")]
+        public string RequiresRebook { get; set; }
+
+        [JsonProperty("TicketNumber")]
+        public string TicketNumber { get; set; }
+
+        [JsonProperty("TotalAmount")]
+        public string TotalAmount { get; set; }
+    }
+
+    public partial class ValidatingCarrier
+    {
+        [JsonProperty("NewValidatingProcess")]
+        public bool NewValidatingProcess { get; set; }
+
+        [JsonProperty("SolutionSequenceNmbr")]
+        public string SolutionSequenceNmbr { get; set; }
+
+        [JsonProperty("SettlementMethod")]
         public string SettlementMethod { get; set; }
+
+        [JsonProperty("Ticket")]
         public List<Ticket> Ticket { get; set; }
     }
 
-    public class ValidityDates
+    public partial class Ticket
     {
-        public string NotValidAfter { get; set; }
-        public string NotValidBefore { get; set; }
+        [JsonProperty("Type")]
+        public string Type { get; set; }
+
+        [JsonProperty("CarrierCode")]
+        public string CarrierCode { get; set; }
+
+        [JsonProperty("ValidatingCarrierType")]
+        public string ValidatingCarrierType { get; set; }
     }
 
-    public class Warning
+    public partial class PurplePricedItinerary
     {
-        public string type { get; set; }
-        public DateTime timeStamp { get; set; }
-        public List<SystemSpecificResult> SystemSpecificResults { get; set; }
+        [JsonProperty("AlternativePricing")]
+        public string AlternativePricing { get; set; }
+
+        [JsonProperty("CurrencyCode")]
+        public string CurrencyCode { get; set; }
+
+        [JsonProperty("MultiTicket")]
+        public bool MultiTicket { get; set; }
+
+        [JsonProperty("TotalAmount")]
+        public string TotalAmount { get; set; }
+
+        [JsonProperty("AirItineraryPricingInfo")]
+        public List<AirItineraryPricingInfoElement> AirItineraryPricingInfo { get; set; }
+    }
+
+    public partial class AirItineraryPricingInfoElement
+    {
+        [JsonProperty("SolutionSequenceNmbr")]
+        public string SolutionSequenceNmbr { get; set; }
+
+        [JsonProperty("BaggageProvisions")]
+        public List<BaggageProvision> BaggageProvisions { get; set; }
+
+        [JsonProperty("FareCalculation")]
+        public FareCalculation FareCalculation { get; set; }
+
+        [JsonProperty("FareCalculationBreakdown")]
+        public List<FareCalculationBreakdown> FareCalculationBreakdown { get; set; }
+
+        [JsonProperty("ItinTotalFare")]
+        public PurpleItinTotalFare ItinTotalFare { get; set; }
+
+        [JsonProperty("PassengerTypeQuantity")]
+        public PassengerTypeQuantity PassengerTypeQuantity { get; set; }
+
+        [JsonProperty("PTC_FareBreakdown")]
+        public List<PurplePtcFareBreakdown> PtcFareBreakdown { get; set; }
+    }
+
+    public partial class BaggageProvision
+    {
+        [JsonProperty("RPH")]
+        public string Rph { get; set; }
+
+        [JsonProperty("Associations")]
+        public Associations Associations { get; set; }
+
+        [JsonProperty("CarrierWhoseBaggageProvisionsApply")]
+        public string CarrierWhoseBaggageProvisionsApply { get; set; }
+
+        [JsonProperty("NumPiecesBDI", NullValueHandling = NullValueHandling.Ignore)]
+        public string NumPiecesBdi { get; set; }
+
+        [JsonProperty("NumPiecesITR", NullValueHandling = NullValueHandling.Ignore)]
+        public List<string> NumPiecesItr { get; set; }
+
+        [JsonProperty("ProvisionType")]
+        public string ProvisionType { get; set; }
+
+        [JsonProperty("SubCodeInfo")]
+        public SubCodeInfo SubCodeInfo { get; set; }
+
+        [JsonProperty("Commissionable", NullValueHandling = NullValueHandling.Ignore)]
+        public string Commissionable { get; set; }
+
+        [JsonProperty("FeeApplicationIndicator", NullValueHandling = NullValueHandling.Ignore)]
+        public string FeeApplicationIndicator { get; set; }
+
+        [JsonProperty("FeeNotGuaranteedIndicator", NullValueHandling = NullValueHandling.Ignore)]
+        public string FeeNotGuaranteedIndicator { get; set; }
+
+        [JsonProperty("PassengerType", NullValueHandling = NullValueHandling.Ignore)]
+        public Airline PassengerType { get; set; }
+
+        [JsonProperty("PriceInformation", NullValueHandling = NullValueHandling.Ignore)]
+        public PriceInformation PriceInformation { get; set; }
+
+        [JsonProperty("RefundReissue", NullValueHandling = NullValueHandling.Ignore)]
+        public string RefundReissue { get; set; }
+
+        [JsonProperty("WeightLimit", NullValueHandling = NullValueHandling.Ignore)]
+        public MaximumSize WeightLimit { get; set; }
+    }
+
+    public partial class Associations
+    {
+        [JsonProperty("CarrierCode")]
+        public List<CarrierCode> CarrierCode { get; set; }
+
+        [JsonProperty("CountForSegmentAssociatedID")]
+        public string CountForSegmentAssociatedId { get; set; }
+
+        [JsonProperty("DepartureDate")]
+        public List<CarrierCode> DepartureDate { get; set; }
+
+        [JsonProperty("DestinationLocation")]
+        public List<DestinationLocationElement> DestinationLocation { get; set; }
+
+        [JsonProperty("FlightNumber")]
+        public List<CarrierCode> FlightNumber { get; set; }
+
+        [JsonProperty("OriginLocation")]
+        public List<DestinationLocationElement> OriginLocation { get; set; }
+
+        [JsonProperty("PNR_Segment")]
+        public List<CarrierCode> PnrSegment { get; set; }
+
+        [JsonProperty("ResBookDesigCode")]
+        public List<CarrierCode> ResBookDesigCode { get; set; }
+
+        [JsonProperty("StatusCode")]
+        public List<CarrierCode> StatusCode { get; set; }
+    }
+
+    public partial class CarrierCode
+    {
+        [JsonProperty("RPH")]
+        public long Rph { get; set; }
+
+        [JsonProperty("content")]
+        public string Content { get; set; }
+    }
+
+    public partial class DestinationLocationElement
+    {
+        [JsonProperty("LocationCode")]
+        public string LocationCode { get; set; }
+
+        [JsonProperty("RPH")]
+        public long Rph { get; set; }
+    }
+
+    public partial class PriceInformation
+    {
+        [JsonProperty("Base")]
+        public BaseClass Base { get; set; }
+
+        [JsonProperty("Equiv")]
+        public BaseClass Equiv { get; set; }
+
+        [JsonProperty("Total")]
+        public string Total { get; set; }
+    }
+
+    public partial class BaseClass
+    {
+        [JsonProperty("Amount")]
+        public string Amount { get; set; }
+
+        [JsonProperty("CurrencyCode")]
+        public string CurrencyCode { get; set; }
+    }
+
+    public partial class SubCodeInfo
+    {
+        [JsonProperty("SubCodeForAllowance", NullValueHandling = NullValueHandling.Ignore)]
+        public List<CarrierCode> SubCodeForAllowance { get; set; }
+
+        [JsonProperty("SubCodeForChargesOthers")]
+        public string SubCodeForChargesOthers { get; set; }
+    }
+
+    public partial class FareCalculation
+    {
+        [JsonProperty("Text")]
+        public string Text { get; set; }
+    }
+
+    public partial class FareCalculationBreakdown
+    {
+        [JsonProperty("Branch")]
+        public Branch Branch { get; set; }
+
+        [JsonProperty("Departure")]
+        public Departure Departure { get; set; }
+
+        [JsonProperty("FareBasis")]
+        public FareCalculationBreakdownFareBasis FareBasis { get; set; }
+
+        [JsonProperty("FreeBaggageAllowance")]
+        public string FreeBaggageAllowance { get; set; }
+
+        [JsonProperty("RuleCategoryIndicator")]
+        public List<string> RuleCategoryIndicator { get; set; }
+    }
+
+    public partial class Branch
+    {
+        [JsonProperty("PCC")]
+        public string Pcc { get; set; }
+
+        [JsonProperty("FirstJointCarrier")]
+        public string FirstJointCarrier { get; set; }
+    }
+
+    public partial class Departure
+    {
+        [JsonProperty("CityCode")]
+        public string CityCode { get; set; }
+
+        [JsonProperty("AirportCode")]
+        public string AirportCode { get; set; }
+
+        [JsonProperty("AirlineCode")]
+        public string AirlineCode { get; set; }
+
+        [JsonProperty("GenericInd")]
+        public string GenericInd { get; set; }
+
+        [JsonProperty("ArrivalCityCode")]
+        public string ArrivalCityCode { get; set; }
+
+        [JsonProperty("ArrivalAirportCode")]
+        public string ArrivalAirportCode { get; set; }
+    }
+
+    public partial class FareCalculationBreakdownFareBasis
+    {
+        [JsonProperty("Code")]
+        public string Code { get; set; }
+
+        [JsonProperty("FareAmount")]
+        public string FareAmount { get; set; }
+
+        [JsonProperty("FarePassengerType")]
+        public string FarePassengerType { get; set; }
+
+        [JsonProperty("FareType")]
+        public string FareType { get; set; }
+
+        [JsonProperty("FilingCarrier")]
+        public string FilingCarrier { get; set; }
+
+        [JsonProperty("GlobalInd")]
+        public string GlobalInd { get; set; }
+
+        [JsonProperty("TripTypeInd")]
+        public string TripTypeInd { get; set; }
+
+        [JsonProperty("Market")]
+        public string Market { get; set; }
+
+        [JsonProperty("Cabin")]
+        public string Cabin { get; set; }
+    }
+
+    public partial class PurpleItinTotalFare
+    {
+        [JsonProperty("NonRefundableInd")]
+        public string NonRefundableInd { get; set; }
+
+        [JsonProperty("BaggageInfo")]
+        public ItinTotalFareBaggageInfo BaggageInfo { get; set; }
+
+        [JsonProperty("BaseFare")]
+        public BaseClass BaseFare { get; set; }
+
+        [JsonProperty("Construction")]
+        public Construction Construction { get; set; }
+
+        [JsonProperty("Endorsements")]
+        public ResponseHeader Endorsements { get; set; }
+
+        [JsonProperty("EquivFare")]
+        public BaseClass EquivFare { get; set; }
+
+        [JsonProperty("Taxes")]
+        public PurpleTaxes Taxes { get; set; }
+
+        [JsonProperty("TotalFare")]
+        public BaseClass TotalFare { get; set; }
+
+        [JsonProperty("Warnings")]
+        public Warnings Warnings { get; set; }
+    }
+
+    public partial class ItinTotalFareBaggageInfo
+    {
+        [JsonProperty("NonUS_DOT_Disclosure")]
+        public ResponseHeader NonUsDotDisclosure { get; set; }
+    }
+
+    public partial class ResponseHeader
+    {
+        [JsonProperty("Text")]
+        public List<string> Text { get; set; }
+    }
+
+    public partial class Construction
+    {
+        [JsonProperty("Amount")]
+        public string Amount { get; set; }
+
+        [JsonProperty("CurrencyCode")]
+        public string CurrencyCode { get; set; }
+
+        [JsonProperty("RateOfExchange")]
+        public string RateOfExchange { get; set; }
+    }
+
+    public partial class PurpleTaxes
+    {
+        [JsonProperty("TotalAmount")]
+        public string TotalAmount { get; set; }
+
+        [JsonProperty("Tax")]
+        public List<TaxElement> Tax { get; set; }
+    }
+
+    public partial class TaxElement
+    {
+        [JsonProperty("Amount")]
+        public string Amount { get; set; }
+
+        [JsonProperty("TaxCode")]
+        public string TaxCode { get; set; }
+
+        [JsonProperty("TaxName")]
+        public string TaxName { get; set; }
+
+        [JsonProperty("TicketingTaxCode")]
+        public string TicketingTaxCode { get; set; }
+    }
+
+    public partial class Warnings
+    {
+        [JsonProperty("Warning")]
+        public List<WarningsWarning> Warning { get; set; }
+    }
+
+    public partial class WarningsWarning
+    {
+        [JsonProperty("ShortText")]
         public string ShortText { get; set; }
     }
 
-    public class Warnings
+    public partial class PassengerTypeQuantity
     {
-        public List<Warning> Warning { get; set; }
+        [JsonProperty("Code")]
+        public string Code { get; set; }
+
+        [JsonProperty("Quantity")]
+        public string Quantity { get; set; }
     }
 
-    public class WeightLimit
+    public partial class PurplePtcFareBreakdown
     {
-        public string Units { get; set; }
-        public string content { get; set; }
+        [JsonProperty("Cabin")]
+        public string Cabin { get; set; }
+
+        [JsonProperty("FareBasis")]
+        public PtcFareBreakdownFareBasis FareBasis { get; set; }
+
+        [JsonProperty("FreeBaggageAllowance")]
+        public string FreeBaggageAllowance { get; set; }
     }
 
+    public partial class PtcFareBreakdownFareBasis
+    {
+        [JsonProperty("Code")]
+        public string Code { get; set; }
 
+        [JsonProperty("FareAmount")]
+        public string FareAmount { get; set; }
+
+        [JsonProperty("FarePassengerType")]
+        public string FarePassengerType { get; set; }
+
+        [JsonProperty("FareType")]
+        public string FareType { get; set; }
+
+        [JsonProperty("FilingCarrier")]
+        public string FilingCarrier { get; set; }
+
+        [JsonProperty("GlobalInd")]
+        public string GlobalInd { get; set; }
+
+        [JsonProperty("Market")]
+        public string Market { get; set; }
+    }
+
+    public partial class ApplicationResults
+    {
+        [JsonProperty("status")]
+        public string Status { get; set; }
+
+        [JsonProperty("Success")]
+        public List<Success> Success { get; set; }
+
+        [JsonProperty("Warning")]
+        public List<ApplicationResultsWarning> Warning { get; set; }
+    }
+
+    public partial class Success
+    {
+        [JsonProperty("timeStamp")]
+        public string TimeStamp { get; set; }
+    }
+
+    public partial class ApplicationResultsWarning
+    {
+        [JsonProperty("type")]
+        public string Type { get; set; }
+
+        [JsonProperty("timeStamp")]
+        public string TimeStamp { get; set; }
+
+        [JsonProperty("SystemSpecificResults")]
+        public List<SystemSpecificResult> SystemSpecificResults { get; set; }
+    }
+
+    public partial class SystemSpecificResult
+    {
+        [JsonProperty("Message")]
+        public List<Message> Message { get; set; }
+    }
+
+    public partial class Message
+    {
+        [JsonProperty("code")]
+        public string Code { get; set; }
+
+        [JsonProperty("content")]
+        public string Content { get; set; }
+    }
+
+    public partial class Ref
+    {
+        [JsonProperty("ID")]
+        public string Id { get; set; }
+    }
+
+    public partial class TravelItineraryRead
+    {
+        [JsonProperty("TravelItinerary")]
+        public TravelItinerary TravelItinerary { get; set; }
+    }
+
+    public partial class TravelItinerary
+    {
+        [JsonProperty("CustomerInfo")]
+        public CustomerInfo CustomerInfo { get; set; }
+
+        [JsonProperty("ItineraryInfo")]
+        public ItineraryInfo ItineraryInfo { get; set; }
+
+        [JsonProperty("ItineraryRef")]
+        public ItineraryRef ItineraryRef { get; set; }
+
+        [JsonProperty("SpecialServiceInfo")]
+        public List<SpecialServiceInfo> SpecialServiceInfo { get; set; }
+
+        [JsonProperty("OpenReservationElements")]
+        public OpenReservationElements OpenReservationElements { get; set; }
+    }
+
+    public partial class CustomerInfo
+    {
+        [JsonProperty("ContactNumbers")]
+        public ContactNumbers ContactNumbers { get; set; }
+
+        [JsonProperty("PersonName")]
+        public List<PersonName> PersonName { get; set; }
+    }
+
+    public partial class ContactNumbers
+    {
+        [JsonProperty("ContactNumber")]
+        public List<ContactNumber> ContactNumber { get; set; }
+    }
+
+    public partial class ContactNumber
+    {
+        [JsonProperty("LocationCode")]
+        public string LocationCode { get; set; }
+
+        [JsonProperty("Phone")]
+        public string Phone { get; set; }
+
+        [JsonProperty("RPH")]
+        public string Rph { get; set; }
+
+        [JsonProperty("Id")]
+        public string Id { get; set; }
+    }
+
+    public partial class PersonName
+    {
+        [JsonProperty("WithInfant")]
+        public string WithInfant { get; set; }
+
+        [JsonProperty("NameNumber")]
+        public string NameNumber { get; set; }
+
+        [JsonProperty("RPH")]
+        public string Rph { get; set; }
+
+        [JsonProperty("elementId")]
+        public string ElementId { get; set; }
+
+        [JsonProperty("Email")]
+        public List<EmailElement> Email { get; set; }
+
+        [JsonProperty("GivenName")]
+        public string GivenName { get; set; }
+
+        [JsonProperty("Surname")]
+        public string Surname { get; set; }
+    }
+
+    public partial class EmailElement
+    {
+        [JsonProperty("Id")]
+        public string Id { get; set; }
+
+        [JsonProperty("Comment")]
+        public string Comment { get; set; }
+
+        [JsonProperty("Type")]
+        public string Type { get; set; }
+
+        [JsonProperty("content")]
+        public string Content { get; set; }
+    }
+
+    public partial class ItineraryInfo
+    {
+        [JsonProperty("ItineraryPricing")]
+        public ItineraryPricing ItineraryPricing { get; set; }
+
+        [JsonProperty("ReservationItems")]
+        public ReservationItems ReservationItems { get; set; }
+
+        [JsonProperty("Ticketing")]
+        public List<Ticketing> Ticketing { get; set; }
+    }
+
+    public partial class ItineraryPricing
+    {
+        [JsonProperty("PriceQuote")]
+        public List<PriceQuoteElement> PriceQuote { get; set; }
+
+        [JsonProperty("PriceQuoteTotals")]
+        public Totals PriceQuoteTotals { get; set; }
+    }
+
+    public partial class PriceQuoteElement
+    {
+        [JsonProperty("RPH")]
+        public string Rph { get; set; }
+
+        [JsonProperty("MiscInformation")]
+        public FluffyMiscInformation MiscInformation { get; set; }
+
+        [JsonProperty("PricedItinerary")]
+        public List<PricedItineraryElement> PricedItinerary { get; set; }
+
+        [JsonProperty("ResponseHeader")]
+        public ResponseHeader ResponseHeader { get; set; }
+
+        [JsonProperty("PriceQuotePlus")]
+        public PriceQuotePlus PriceQuotePlus { get; set; }
+    }
+
+    public partial class FluffyMiscInformation
+    {
+        [JsonProperty("SignatureLine")]
+        public List<SignatureLine> SignatureLine { get; set; }
+    }
+
+    public partial class SignatureLine
+    {
+        [JsonProperty("ExpirationDateTime")]
+        public string ExpirationDateTime { get; set; }
+
+        [JsonProperty("Source")]
+        public string Source { get; set; }
+
+        [JsonProperty("Status")]
+        public string Status { get; set; }
+
+        [JsonProperty("Text")]
+        public string Text { get; set; }
+    }
+
+    public partial class PriceQuotePlus
+    {
+        [JsonProperty("DomesticIntlInd")]
+        public string DomesticIntlInd { get; set; }
+
+        [JsonProperty("PricingStatus")]
+        public string PricingStatus { get; set; }
+
+        [JsonProperty("VerifyFareCalc")]
+        public bool VerifyFareCalc { get; set; }
+
+        [JsonProperty("ItineraryChanged")]
+        public bool ItineraryChanged { get; set; }
+
+        [JsonProperty("ManualFare")]
+        public bool ManualFare { get; set; }
+
+        [JsonProperty("NegotiatedFare")]
+        public bool NegotiatedFare { get; set; }
+
+        [JsonProperty("SystemIndicator")]
+        public string SystemIndicator { get; set; }
+
+        [JsonProperty("NUCSuppresion")]
+        public bool NucSuppresion { get; set; }
+
+        [JsonProperty("SubjToGovtApproval")]
+        public bool SubjToGovtApproval { get; set; }
+
+        [JsonProperty("IT_BT_Fare")]
+        public string ItBtFare { get; set; }
+
+        [JsonProperty("DisplayOnly")]
+        public bool DisplayOnly { get; set; }
+
+        [JsonProperty("DiscountAmount")]
+        public string DiscountAmount { get; set; }
+
+        [JsonProperty("PassengerInfo")]
+        public PassengerInfo PassengerInfo { get; set; }
+
+        [JsonProperty("TicketingInstructionsInfo")]
+        public TicketingInstructionsInfo TicketingInstructionsInfo { get; set; }
+    }
+
+    public partial class PassengerInfo
+    {
+        [JsonProperty("PassengerType")]
+        public string PassengerType { get; set; }
+
+        [JsonProperty("PassengerData")]
+        public List<PassengerDatumElement> PassengerData { get; set; }
+    }
+
+    public partial class PassengerDatumElement
+    {
+        [JsonProperty("NameNumber")]
+        public string NameNumber { get; set; }
+
+        [JsonProperty("content")]
+        public string Content { get; set; }
+    }
+
+    public partial class TicketingInstructionsInfo
+    {
+    }
+
+    public partial class PricedItineraryElement
+    {
+        [JsonProperty("DisplayOnly")]
+        public bool DisplayOnly { get; set; }
+
+        [JsonProperty("InputMessage")]
+        public string InputMessage { get; set; }
+
+        [JsonProperty("RPH")]
+        public string Rph { get; set; }
+
+        [JsonProperty("StatusCode")]
+        public string StatusCode { get; set; }
+
+        [JsonProperty("TaxExempt")]
+        public bool TaxExempt { get; set; }
+
+        [JsonProperty("ValidatingCarrier")]
+        public string ValidatingCarrier { get; set; }
+
+        [JsonProperty("StoredDateTime")]
+        public string StoredDateTime { get; set; }
+
+        [JsonProperty("AirItineraryPricingInfo")]
+        public PurpleAirItineraryPricingInfo AirItineraryPricingInfo { get; set; }
+    }
+
+    public partial class PurpleAirItineraryPricingInfo
+    {
+        [JsonProperty("ItinTotalFare")]
+        public List<ItinTotalFareElement> ItinTotalFare { get; set; }
+
+        [JsonProperty("PassengerTypeQuantity")]
+        public List<PassengerTypeQuantity> PassengerTypeQuantity { get; set; }
+
+        [JsonProperty("PTC_FareBreakdown")]
+        public List<FluffyPtcFareBreakdown> PtcFareBreakdown { get; set; }
+    }
+
+    public partial class ItinTotalFareElement
+    {
+        [JsonProperty("BaseFare")]
+        public BaseClass BaseFare { get; set; }
+
+        [JsonProperty("EquivFare")]
+        public BaseClass EquivFare { get; set; }
+
+        [JsonProperty("Taxes")]
+        public FluffyTaxes Taxes { get; set; }
+
+        [JsonProperty("TotalFare")]
+        public BaseClass TotalFare { get; set; }
+
+        [JsonProperty("Totals")]
+        public Totals Totals { get; set; }
+    }
+
+    public partial class FluffyTaxes
+    {
+        [JsonProperty("Tax")]
+        public PurpleTax Tax { get; set; }
+
+        [JsonProperty("TaxBreakdownCode")]
+        public List<TaxBreakdownCode> TaxBreakdownCode { get; set; }
+    }
+
+    public partial class PurpleTax
+    {
+        [JsonProperty("Amount")]
+        public string Amount { get; set; }
+
+        [JsonProperty("TaxCode")]
+        public string TaxCode { get; set; }
+    }
+
+    public partial class TaxBreakdownCode
+    {
+        [JsonProperty("TaxPaid")]
+        public bool TaxPaid { get; set; }
+
+        [JsonProperty("content")]
+        public string Content { get; set; }
+    }
+
+    public partial class Totals
+    {
+        [JsonProperty("BaseFare")]
+        public TaxClass BaseFare { get; set; }
+
+        [JsonProperty("EquivFare")]
+        public TaxClass EquivFare { get; set; }
+
+        [JsonProperty("Taxes")]
+        public PriceQuoteTotalsTaxes Taxes { get; set; }
+
+        [JsonProperty("TotalFare")]
+        public TaxClass TotalFare { get; set; }
+    }
+
+    public partial class TaxClass
+    {
+        [JsonProperty("Amount")]
+        public string Amount { get; set; }
+    }
+
+    public partial class PriceQuoteTotalsTaxes
+    {
+        [JsonProperty("Tax")]
+        public TaxClass Tax { get; set; }
+    }
+
+    public partial class FluffyPtcFareBreakdown
+    {
+        [JsonProperty("Endorsements")]
+        public Endorsements Endorsements { get; set; }
+
+        [JsonProperty("FareBasis")]
+        public List<Airline> FareBasis { get; set; }
+
+        [JsonProperty("FareCalculation")]
+        public ResponseHeader FareCalculation { get; set; }
+
+        [JsonProperty("FareSource")]
+        public string FareSource { get; set; }
+
+        [JsonProperty("FlightSegment")]
+        public List<PtcFareBreakdownFlightSegment> FlightSegment { get; set; }
+
+        [JsonProperty("FareComponent")]
+        public List<FareComponent> FareComponent { get; set; }
+    }
+
+    public partial class Endorsements
+    {
+        [JsonProperty("Endorsement")]
+        public List<Endorsement> Endorsement { get; set; }
+    }
+
+    public partial class Endorsement
+    {
+        [JsonProperty("type")]
+        public string Type { get; set; }
+
+        [JsonProperty("Text")]
+        public string Text { get; set; }
+    }
+
+    public partial class FareComponent
+    {
+        [JsonProperty("FareBasisCode")]
+        public string FareBasisCode { get; set; }
+
+        [JsonProperty("FareDirectionality")]
+        public string FareDirectionality { get; set; }
+
+        [JsonProperty("Amount")]
+        public string Amount { get; set; }
+
+        [JsonProperty("TicketDesignator")]
+        public string TicketDesignator { get; set; }
+
+        [JsonProperty("GoverningCarrier")]
+        public string GoverningCarrier { get; set; }
+
+        [JsonProperty("FareComponentNumber")]
+        public string FareComponentNumber { get; set; }
+
+        [JsonProperty("Location")]
+        public Location Location { get; set; }
+
+        [JsonProperty("Dates")]
+        public Dates Dates { get; set; }
+
+        [JsonProperty("FlightSegmentNumbers")]
+        public FlightSegmentNumbers FlightSegmentNumbers { get; set; }
+    }
+
+    public partial class Dates
+    {
+        [JsonProperty("DepartureDateTime")]
+        public string DepartureDateTime { get; set; }
+
+        [JsonProperty("ArrivalDateTime")]
+        public string ArrivalDateTime { get; set; }
+    }
+
+    public partial class FlightSegmentNumbers
+    {
+        [JsonProperty("FlightSegmentNumber")]
+        public List<string> FlightSegmentNumber { get; set; }
+    }
+
+    public partial class Location
+    {
+        [JsonProperty("Origin")]
+        public string Origin { get; set; }
+
+        [JsonProperty("Destination")]
+        public string Destination { get; set; }
+    }
+
+    public partial class PtcFareBreakdownFlightSegment
+    {
+        [JsonProperty("ConnectionInd", NullValueHandling = NullValueHandling.Ignore)]
+        public string ConnectionInd { get; set; }
+
+        [JsonProperty("DepartureDateTime", NullValueHandling = NullValueHandling.Ignore)]
+        public string DepartureDateTime { get; set; }
+
+        [JsonProperty("FlightNumber", NullValueHandling = NullValueHandling.Ignore)]
+        public string FlightNumber { get; set; }
+
+        [JsonProperty("ResBookDesigCode", NullValueHandling = NullValueHandling.Ignore)]
+        public string ResBookDesigCode { get; set; }
+
+        [JsonProperty("SegmentNumber", NullValueHandling = NullValueHandling.Ignore)]
+        public string SegmentNumber { get; set; }
+
+        [JsonProperty("Status", NullValueHandling = NullValueHandling.Ignore)]
+        public string Status { get; set; }
+
+        [JsonProperty("BaggageAllowance", NullValueHandling = NullValueHandling.Ignore)]
+        public BaggageAllowance BaggageAllowance { get; set; }
+
+        [JsonProperty("FareBasis", NullValueHandling = NullValueHandling.Ignore)]
+        public Airline FareBasis { get; set; }
+
+        [JsonProperty("MarketingAirline", NullValueHandling = NullValueHandling.Ignore)]
+        public MarketingAirline MarketingAirline { get; set; }
+
+        [JsonProperty("OriginLocation")]
+        public FlightSegmentDestinationLocation OriginLocation { get; set; }
+
+        [JsonProperty("ValidityDates", NullValueHandling = NullValueHandling.Ignore)]
+        public ValidityDates ValidityDates { get; set; }
+    }
+
+    public partial class BaggageAllowance
+    {
+        [JsonProperty("Number")]
+        public string Number { get; set; }
+    }
+
+    public partial class ValidityDates
+    {
+        [JsonProperty("NotValidAfter")]
+        public string NotValidAfter { get; set; }
+
+        [JsonProperty("NotValidBefore")]
+        public string NotValidBefore { get; set; }
+    }
+
+    public partial class ReservationItems
+    {
+        [JsonProperty("Item")]
+        public List<Item> Item { get; set; }
+    }
+
+    public partial class Item
+    {
+        [JsonProperty("RPH")]
+        public string Rph { get; set; }
+
+        [JsonProperty("FlightSegment")]
+        public List<ItemFlightSegment> FlightSegment { get; set; }
+
+        [JsonProperty("Product")]
+        public Product Product { get; set; }
+    }
+
+    public partial class ItemFlightSegment
+    {
+        [JsonProperty("AirMilesFlown")]
+        public string AirMilesFlown { get; set; }
+
+        [JsonProperty("ArrivalDateTime")]
+        public string ArrivalDateTime { get; set; }
+
+        [JsonProperty("DayOfWeekInd")]
+        public string DayOfWeekInd { get; set; }
+
+        [JsonProperty("DepartureDateTime")]
+        public string DepartureDateTime { get; set; }
+
+        [JsonProperty("SegmentBookedDate")]
+        public string SegmentBookedDate { get; set; }
+
+        [JsonProperty("ElapsedTime")]
+        public string ElapsedTime { get; set; }
+
+        [JsonProperty("eTicket")]
+        public bool ETicket { get; set; }
+
+        [JsonProperty("FlightNumber")]
+        public string FlightNumber { get; set; }
+
+        [JsonProperty("NumberInParty")]
+        public string NumberInParty { get; set; }
+
+        [JsonProperty("ResBookDesigCode")]
+        public string ResBookDesigCode { get; set; }
+
+        [JsonProperty("SegmentNumber")]
+        public string SegmentNumber { get; set; }
+
+        [JsonProperty("SmokingAllowed")]
+        public bool SmokingAllowed { get; set; }
+
+        [JsonProperty("SpecialMeal")]
+        public bool SpecialMeal { get; set; }
+
+        [JsonProperty("Status")]
+        public string Status { get; set; }
+
+        [JsonProperty("StopQuantity")]
+        public string StopQuantity { get; set; }
+
+        [JsonProperty("IsPast")]
+        public bool IsPast { get; set; }
+
+        [JsonProperty("CodeShare")]
+        public bool CodeShare { get; set; }
+
+        [JsonProperty("Id")]
+        public string Id { get; set; }
+
+        [JsonProperty("DestinationLocation")]
+        public DestinationLocation DestinationLocation { get; set; }
+
+        [JsonProperty("Equipment")]
+        public Equipment Equipment { get; set; }
+
+        [JsonProperty("MarketingAirline")]
+        public TingAirline MarketingAirline { get; set; }
+
+        [JsonProperty("Meal")]
+        public List<Airline> Meal { get; set; }
+
+        [JsonProperty("OperatingAirline")]
+        public List<TingAirline> OperatingAirline { get; set; }
+
+        [JsonProperty("OperatingAirlinePricing")]
+        public Airline OperatingAirlinePricing { get; set; }
+
+        [JsonProperty("DisclosureCarrier")]
+        public DisclosureCarrier DisclosureCarrier { get; set; }
+
+        [JsonProperty("OriginLocation")]
+        public FlightSegmentDestinationLocation OriginLocation { get; set; }
+
+        [JsonProperty("SupplierRef")]
+        public Ref SupplierRef { get; set; }
+
+        [JsonProperty("UpdatedArrivalTime")]
+        public string UpdatedArrivalTime { get; set; }
+
+        [JsonProperty("UpdatedDepartureTime")]
+        public string UpdatedDepartureTime { get; set; }
+
+        [JsonProperty("Cabin")]
+        public FlightSegmentCabin Cabin { get; set; }
+    }
+
+    public partial class FlightSegmentCabin
+    {
+        [JsonProperty("Code")]
+        public string Code { get; set; }
+
+        [JsonProperty("SabreCode")]
+        public string SabreCode { get; set; }
+
+        [JsonProperty("Name")]
+        public string Name { get; set; }
+
+        [JsonProperty("ShortName")]
+        public string ShortName { get; set; }
+
+        [JsonProperty("Lang")]
+        public string Lang { get; set; }
+    }
+
+    public partial class DestinationLocation
+    {
+        [JsonProperty("LocationCode")]
+        public string LocationCode { get; set; }
+
+        [JsonProperty("Terminal")]
+        public string Terminal { get; set; }
+
+        [JsonProperty("TerminalCode")]
+        public string TerminalCode { get; set; }
+    }
+
+    public partial class DisclosureCarrier
+    {
+        [JsonProperty("Code")]
+        public string Code { get; set; }
+
+        [JsonProperty("DOT")]
+        public bool Dot { get; set; }
+
+        [JsonProperty("Banner")]
+        public string Banner { get; set; }
+    }
+
+    public partial class Equipment
+    {
+        [JsonProperty("AirEquipType")]
+        public string AirEquipType { get; set; }
+    }
+
+    public partial class TingAirline
+    {
+        [JsonProperty("Code")]
+        public string Code { get; set; }
+
+        [JsonProperty("FlightNumber")]
+        public string FlightNumber { get; set; }
+
+        [JsonProperty("ResBookDesigCode")]
+        public string ResBookDesigCode { get; set; }
+
+        [JsonProperty("Banner")]
+        public string Banner { get; set; }
+    }
+
+    public partial class Product
+    {
+        [JsonProperty("ProductDetails")]
+        public ProductDetails ProductDetails { get; set; }
+    }
+
+    public partial class ProductDetails
+    {
+        [JsonProperty("productCategory")]
+        public string ProductCategory { get; set; }
+
+        [JsonProperty("ProductName")]
+        public ProductName ProductName { get; set; }
+
+        [JsonProperty("Air")]
+        public Air Air { get; set; }
+    }
+
+    public partial class Air
+    {
+        [JsonProperty("sequence")]
+        public long Sequence { get; set; }
+
+        [JsonProperty("segmentAssociationId")]
+        public long SegmentAssociationId { get; set; }
+
+        [JsonProperty("DepartureAirport")]
+        public string DepartureAirport { get; set; }
+
+        [JsonProperty("ArrivalAirport")]
+        public string ArrivalAirport { get; set; }
+
+        [JsonProperty("ArrivalTerminalName")]
+        public string ArrivalTerminalName { get; set; }
+
+        [JsonProperty("ArrivalTerminalCode")]
+        public string ArrivalTerminalCode { get; set; }
+
+        [JsonProperty("EquipmentType")]
+        public string EquipmentType { get; set; }
+
+        [JsonProperty("MarketingAirlineCode")]
+        public string MarketingAirlineCode { get; set; }
+
+        [JsonProperty("MarketingFlightNumber")]
+        public string MarketingFlightNumber { get; set; }
+
+        [JsonProperty("MarketingClassOfService")]
+        public string MarketingClassOfService { get; set; }
+
+        [JsonProperty("Cabin")]
+        public AirCabin Cabin { get; set; }
+
+        [JsonProperty("MealCode")]
+        public List<string> MealCode { get; set; }
+
+        [JsonProperty("ElapsedTime")]
+        public long ElapsedTime { get; set; }
+
+        [JsonProperty("AirMilesFlown")]
+        public long AirMilesFlown { get; set; }
+
+        [JsonProperty("FunnelFlight")]
+        public bool FunnelFlight { get; set; }
+
+        [JsonProperty("ChangeOfGauge")]
+        public bool ChangeOfGauge { get; set; }
+
+        [JsonProperty("DisclosureCarrier")]
+        public DisclosureCarrier DisclosureCarrier { get; set; }
+
+        [JsonProperty("AirlineRefId")]
+        public string AirlineRefId { get; set; }
+
+        [JsonProperty("Eticket")]
+        public bool Eticket { get; set; }
+
+        [JsonProperty("DepartureDateTime")]
+        public string DepartureDateTime { get; set; }
+
+        [JsonProperty("ArrivalDateTime")]
+        public string ArrivalDateTime { get; set; }
+
+        [JsonProperty("FlightNumber")]
+        public string FlightNumber { get; set; }
+
+        [JsonProperty("ClassOfService")]
+        public string ClassOfService { get; set; }
+
+        [JsonProperty("ActionCode")]
+        public string ActionCode { get; set; }
+
+        [JsonProperty("NumberInParty")]
+        public long NumberInParty { get; set; }
+
+        [JsonProperty("inboundConnection")]
+        public bool InboundConnection { get; set; }
+
+        [JsonProperty("outboundConnection")]
+        public bool OutboundConnection { get; set; }
+
+        [JsonProperty("ScheduleChangeIndicator")]
+        public bool ScheduleChangeIndicator { get; set; }
+
+        [JsonProperty("SegmentBookedDate")]
+        public string SegmentBookedDate { get; set; }
+    }
+
+    public partial class AirCabin
+    {
+        [JsonProperty("code")]
+        public string Code { get; set; }
+
+        [JsonProperty("sabreCode")]
+        public string SabreCode { get; set; }
+
+        [JsonProperty("name")]
+        public string Name { get; set; }
+
+        [JsonProperty("shortName")]
+        public string ShortName { get; set; }
+
+        [JsonProperty("lang")]
+        public string Lang { get; set; }
+    }
+
+    public partial class ProductName
+    {
+        [JsonProperty("type")]
+        public string Type { get; set; }
+
+        [JsonProperty("content")]
+        public string Content { get; set; }
+    }
+
+    public partial class Ticketing
+    {
+        [JsonProperty("RPH")]
+        public string Rph { get; set; }
+
+        [JsonProperty("TicketTimeLimit")]
+        public string TicketTimeLimit { get; set; }
+    }
+
+    public partial class ItineraryRef
+    {
+        [JsonProperty("AirExtras")]
+        public bool AirExtras { get; set; }
+
+        [JsonProperty("ID")]
+        public string Id { get; set; }
+
+        [JsonProperty("InhibitCode")]
+        public string InhibitCode { get; set; }
+
+        [JsonProperty("PartitionID")]
+        public string PartitionId { get; set; }
+
+        [JsonProperty("PrimeHostID")]
+        public string PrimeHostId { get; set; }
+
+        [JsonProperty("Header")]
+        public List<string> Header { get; set; }
+
+        [JsonProperty("Source")]
+        public Source Source { get; set; }
+    }
+
+    public partial class Source
+    {
+        [JsonProperty("AAA_PseudoCityCode")]
+        public string AaaPseudoCityCode { get; set; }
+
+        [JsonProperty("CreateDateTime")]
+        public string CreateDateTime { get; set; }
+
+        [JsonProperty("CreationAgent")]
+        public string CreationAgent { get; set; }
+
+        [JsonProperty("HomePseudoCityCode")]
+        public string HomePseudoCityCode { get; set; }
+
+        [JsonProperty("PseudoCityCode")]
+        public string PseudoCityCode { get; set; }
+
+        [JsonProperty("ReceivedFrom")]
+        public string ReceivedFrom { get; set; }
+
+        [JsonProperty("LastUpdateDateTime")]
+        public string LastUpdateDateTime { get; set; }
+
+        [JsonProperty("SequenceNumber")]
+        public string SequenceNumber { get; set; }
+    }
+
+    public partial class OpenReservationElements
+    {
+        [JsonProperty("OpenReservationElement")]
+        public List<OpenReservationElement> OpenReservationElement { get; set; }
+    }
+
+    public partial class OpenReservationElement
+    {
+        [JsonProperty("id")]
+        public string Id { get; set; }
+
+        [JsonProperty("type")]
+        public string Type { get; set; }
+
+        [JsonProperty("elementId")]
+        public string ElementId { get; set; }
+
+        [JsonProperty("ServiceRequest", NullValueHandling = NullValueHandling.Ignore)]
+        public ServiceRequest ServiceRequest { get; set; }
+
+        [JsonProperty("NameAssociation", NullValueHandling = NullValueHandling.Ignore)]
+        public List<NameAssociation> NameAssociation { get; set; }
+
+        [JsonProperty("SegmentAssociation", NullValueHandling = NullValueHandling.Ignore)]
+        public List<SegmentAssociation> SegmentAssociation { get; set; }
+
+        [JsonProperty("Email", NullValueHandling = NullValueHandling.Ignore)]
+        public OpenReservationElementEmail Email { get; set; }
+    }
+
+    public partial class OpenReservationElementEmail
+    {
+        [JsonProperty("comment")]
+        public string Comment { get; set; }
+
+        [JsonProperty("type")]
+        public string Type { get; set; }
+
+        [JsonProperty("Address")]
+        public string Address { get; set; }
+    }
+
+    public partial class NameAssociation
+    {
+        [JsonProperty("LastName")]
+        public string LastName { get; set; }
+
+        [JsonProperty("FirstName")]
+        public string FirstName { get; set; }
+
+        [JsonProperty("ReferenceId")]
+        public long ReferenceId { get; set; }
+
+        [JsonProperty("NameRefNumber")]
+        public string NameRefNumber { get; set; }
+    }
+
+    public partial class SegmentAssociation
+    {
+        [JsonProperty("Id")]
+        public string Id { get; set; }
+
+        [JsonProperty("SegmentAssociationId")]
+        public string SegmentAssociationId { get; set; }
+
+        [JsonProperty("AirSegment")]
+        public AirSegment AirSegment { get; set; }
+    }
+
+    public partial class AirSegment
+    {
+        [JsonProperty("CarrierCode")]
+        public string CarrierCode { get; set; }
+
+        [JsonProperty("FlightNumber")]
+        public string FlightNumber { get; set; }
+
+        [JsonProperty("DepartureDate")]
+        public string DepartureDate { get; set; }
+
+        [JsonProperty("BoardPoint")]
+        public string BoardPoint { get; set; }
+
+        [JsonProperty("OffPoint")]
+        public string OffPoint { get; set; }
+
+        [JsonProperty("ClassOfService")]
+        public string ClassOfService { get; set; }
+
+        [JsonProperty("BookingStatus")]
+        public string BookingStatus { get; set; }
+    }
+
+    public partial class ServiceRequest
+    {
+        [JsonProperty("actionCode", NullValueHandling = NullValueHandling.Ignore)]
+        public string ActionCode { get; set; }
+
+        [JsonProperty("airlineCode")]
+        public string AirlineCode { get; set; }
+
+        [JsonProperty("code")]
+        public string Code { get; set; }
+
+        [JsonProperty("serviceCount", NullValueHandling = NullValueHandling.Ignore)]
+        public string ServiceCount { get; set; }
+
+        [JsonProperty("serviceType")]
+        public string ServiceType { get; set; }
+
+        [JsonProperty("ssrType")]
+        public string SsrType { get; set; }
+
+        [JsonProperty("FreeText")]
+        public string FreeText { get; set; }
+
+        [JsonProperty("FullText")]
+        public string FullText { get; set; }
+
+        [JsonProperty("TravelDocument", NullValueHandling = NullValueHandling.Ignore)]
+        public TravelDocument TravelDocument { get; set; }
+
+        [JsonProperty("PassengerContactMobilePhone", NullValueHandling = NullValueHandling.Ignore)]
+        public PassengerContactMobilePhone PassengerContactMobilePhone { get; set; }
+
+        [JsonProperty("PassengerContactEmail", NullValueHandling = NullValueHandling.Ignore)]
+        public PassengerContactEmail PassengerContactEmail { get; set; }
+
+        [JsonProperty("Comment", NullValueHandling = NullValueHandling.Ignore)]
+        public string Comment { get; set; }
+    }
+
+    public partial class PassengerContactEmail
+    {
+        [JsonProperty("Email")]
+        public string Email { get; set; }
+
+        [JsonProperty("Language")]
+        public string Language { get; set; }
+    }
+
+    public partial class PassengerContactMobilePhone
+    {
+        [JsonProperty("PhoneNumber")]
+        public string PhoneNumber { get; set; }
+
+        [JsonProperty("Language", NullValueHandling = NullValueHandling.Ignore)]
+        public string Language { get; set; }
+    }
+
+    public partial class TravelDocument
+    {
+        [JsonProperty("Type")]
+        public string Type { get; set; }
+
+        [JsonProperty("DocumentIssueCountry", NullValueHandling = NullValueHandling.Ignore)]
+        public string DocumentIssueCountry { get; set; }
+
+        [JsonProperty("DocumentNumber", NullValueHandling = NullValueHandling.Ignore)]
+        public string DocumentNumber { get; set; }
+
+        [JsonProperty("DocumentNationalityCountry", NullValueHandling = NullValueHandling.Ignore)]
+        public string DocumentNationalityCountry { get; set; }
+
+        [JsonProperty("DocumentExpirationDate", NullValueHandling = NullValueHandling.Ignore)]
+        public string DocumentExpirationDate { get; set; }
+
+        [JsonProperty("DateOfBirth")]
+        public string DateOfBirth { get; set; }
+
+        [JsonProperty("Gender")]
+        public string Gender { get; set; }
+
+        [JsonProperty("LastName")]
+        public string LastName { get; set; }
+
+        [JsonProperty("FirstName")]
+        public string FirstName { get; set; }
+
+        [JsonProperty("Infant")]
+        public bool Infant { get; set; }
+
+        [JsonProperty("PrimaryDocHolderInd", NullValueHandling = NullValueHandling.Ignore)]
+        public bool? PrimaryDocHolderInd { get; set; }
+
+        [JsonProperty("HasDocumentData")]
+        public bool HasDocumentData { get; set; }
+    }
+
+    public partial class SpecialServiceInfo
+    {
+        [JsonProperty("RPH")]
+        public string Rph { get; set; }
+
+        [JsonProperty("Type")]
+        public string Type { get; set; }
+
+        [JsonProperty("Id")]
+        public string Id { get; set; }
+
+        [JsonProperty("Service")]
+        public Service Service { get; set; }
+    }
+
+    public partial class Service
+    {
+        [JsonProperty("SSR_Code")]
+        public string SsrCode { get; set; }
+
+        [JsonProperty("SSR_Type", NullValueHandling = NullValueHandling.Ignore)]
+        public string SsrType { get; set; }
+
+        [JsonProperty("Airline")]
+        public Airline Airline { get; set; }
+
+        [JsonProperty("PersonName", NullValueHandling = NullValueHandling.Ignore)]
+        public List<PassengerDatumElement> PersonName { get; set; }
+
+        [JsonProperty("Text")]
+        public List<string> Text { get; set; }
+    }
+
+    public partial class Link
+    {
+        [JsonProperty("rel")]
+        public string Rel { get; set; }
+
+        [JsonProperty("href")]
+        public Uri Href { get; set; }
+    }
 }

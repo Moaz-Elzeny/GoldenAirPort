@@ -10,6 +10,11 @@ namespace GoldenAirport.Application.Flights.Commands
         {
             public async Task<ResponseDto<object>> Handle(BookingFlightCommand request, CancellationToken cancellationToken)
             {
+
+                RevalidateCommand revalidateCommand = new RevalidateCommand();
+
+                var revalidateBooking = revalidateCommand.M_mode();
+
                 BookingCommand bookingCommand = new BookingCommand();
 
                 ResponseThirdPartyDto<dynamic> responseDto = bookingCommand.DOCSAndDK();
@@ -24,7 +29,7 @@ namespace GoldenAirport.Application.Flights.Commands
                 return ResponseDto<object>.Success(new ResultDto()
                 {
                     Message = "Success",
-                    Result = responseDto.Result.groupedItineraryResponse.legDescs,
+                    Result = responseDto.Result.Links,
 
                 });
 

@@ -1,5 +1,6 @@
 ﻿using GoldenAirport.Application.Common.Models;
 using GoldenAirport.Application.Flights.ThirdParty.Dtos.Error;
+using GoldenAirport.Application.Flights.ThirdParty.Dtos.RevalidateDto;
 using GoldenAirport.Application.Helpers;
 using Newtonsoft.Json;
 using System.Net;
@@ -140,8 +141,8 @@ namespace GoldenAirport.Application.Flights.ThirdParty.Commands
             string responseText = readers.ReadToEnd();
             if (response.StatusCode == HttpStatusCode.OK)
             {
-                //ResponseDto response = JsonConvert.DeserializeObject<ResponseDto>(responseText);
-                return ResponseThirdPartyDto<dynamic>.Success(response);//response.groupedItineraryResponse.legDescs
+                RevalidateResponseDto resulte = JsonConvert.DeserializeObject<RevalidateResponseDto>(responseText);
+                return ResponseThirdPartyDto<dynamic>.Success(resulte);//response.groupedItineraryResponse.legDescs
             }
             else if (response.StatusCode == HttpStatusCode.Unauthorized)
             {
