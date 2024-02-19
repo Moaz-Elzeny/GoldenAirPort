@@ -1,6 +1,7 @@
 ﻿using GoldenAirport.Application.Common.Models;
 using GoldenAirport.Application.Flights.ThirdParty.Dtos.Error;
 using GoldenAirport.Application.Flights.ThirdParty.Dtos.RevalidateDto;
+using GoldenAirport.Application.Flights.ThirdParty.Dtos.ShopeDto;
 using GoldenAirport.Application.Helpers;
 using Newtonsoft.Json;
 using System.Net;
@@ -142,13 +143,21 @@ namespace GoldenAirport.Application.Flights.ThirdParty.Commands
             if (response.StatusCode == HttpStatusCode.OK)
             {
                 RevalidateResponseDto resulte = JsonConvert.DeserializeObject<RevalidateResponseDto>(responseText);
-                return ResponseThirdPartyDto<dynamic>.Success(resulte);//response.groupedItineraryResponse.legDescs
+                return ResponseThirdPartyDto<dynamic>.Success(resulte);
             }
             else if (response.StatusCode == HttpStatusCode.Unauthorized)
             {
-                ///  اعمل التوكن تاني لمره وحده بس
-                ErrorDTO responseError = JsonConvert.DeserializeObject<ErrorDTO>(responseText);
-                return ResponseThirdPartyDto<dynamic>.Failure(responseError);
+                var tokenCreateCommand = new TokenCreateCommand();
+                var result = tokenCreateCommand.RQ();
+                response = HttpWebResponseHelper.Post(HttpMethod.Post, Enviroment.rest_endpoint + EnumHelper.GetEnumDescription(Enviroment.Endpoints.revalidate), body, new Dictionary<string, string>()
+                {
+                    { "Authorization", $"Bearer {result.Result}" }
+                });
+                readers = new(response.GetResponseStream());
+                responseText = readers.ReadToEnd();
+
+                ShoppingResponseDto resulte = JsonConvert.DeserializeObject<ShoppingResponseDto>(responseText);
+                return ResponseThirdPartyDto<dynamic>.Success(resulte);
             }
             else
             {

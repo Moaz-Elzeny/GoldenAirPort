@@ -56,16 +56,11 @@ namespace GoldenAirport.Application.Employees.Commands.Create
                 };
                 var result = await _mediator.Send(CreateUser, cancellationToken);
 
-                //var random = new Random();
-                //int randomNumber = random.Next();
-
                 //Create the employee
                 var CreateEmployee = new Employee
                 {
                     Id = Guid.NewGuid().ToString(),
-                    AppUserId = result.Result.Message,
-                    //AgentCode = randomNumber,
-                    //ServiceFees = request.ServiceFees,
+                    AppUserId = result.Result.Message,                    
                     CreatedById = request.CurrentUserId,
                     CreationDate = DateTime.Now,
                     Active = true

@@ -1,10 +1,13 @@
-﻿namespace GoldenAirport.Application.Flights.ThirdParty.Dtos.BookingDto
+﻿using Newtonsoft.Json;
+
+namespace GoldenAirport.Application.Flights.ThirdParty.Dtos.BookingDto
 {
+
     // Root myDeserializedClass = JsonConvert.DeserializeObject<Root>(myJsonResponse);
     public class AcceptablePriceIncrease
     {
-        public bool HaltOnNonAcceptablePrice { get; set; }
-        public int Amount { get; set; }
+        public bool? HaltOnNonAcceptablePrice { get; set; }
+        public int? Amount { get; set; }
     }
 
     public class Address
@@ -21,7 +24,7 @@
     {
         public string SegmentNumber { get; set; }
         public Document Document { get; set; }
-        public PersonName PersonName { get; set; }
+        public PersonName1 PersonName { get; set; }
     }
 
     public class AgencyInfo
@@ -51,7 +54,7 @@
 
     public class ARUNK
     {
-        public bool priorPricing { get; set; }
+        public bool? priorPricing { get; set; }
     }
 
     public class ContactNumber
@@ -68,7 +71,7 @@
 
     public class CreatePassengerNameRecordRQ
     {
-        public bool haltOnAirPriceError { get; set; }
+        public bool? haltOnAirPriceError { get; set; }
         public string targetCity { get; set; }
         public AirBook AirBook { get; set; }
         public List<AirPrice> AirPrice { get; set; }
@@ -100,7 +103,7 @@
 
     public class Email
     {
-        public string NameNumber { get; set; }
+        public string? NameNumber { get; set; }
         public string Address { get; set; }
         public string Type { get; set; }
     }
@@ -161,19 +164,40 @@
         public string Surname { get; set; }
         public string PassengerType { get; set; }
         public bool? Infant { get; set; }
+        //public string DateOfBirth { get; set; }
+        //public string Gender { get; set; }
+    }
+    
+    public class PersonName1
+    {
+        public string NameNumber { get; set; }
+        public string GivenName { get; set; }
+        public string Surname { get; set; }
+        //public string PassengerType { get; set; }
+        //public bool? Infant { get; set; }
         public string DateOfBirth { get; set; }
         public string Gender { get; set; }
+    }
+     public class PersonName2
+    {
+        public string NameNumber { get; set; }
+        //public string GivenName { get; set; }
+        //public string Surname { get; set; }
+        //public string PassengerType { get; set; }
+        //public bool? Infant { get; set; }
+        //public string DateOfBirth { get; set; }
+        //public string Gender { get; set; }
     }
 
     public class PostBookingHKValidation
     {
-        public int waitInterval { get; set; }
-        public int numAttempts { get; set; }
+        public int? waitInterval { get; set; }
+        public int? numAttempts { get; set; }
     }
 
     public class PostProcessing
     {
-        public RedisplayReservation RedisplayReservation { get; set; }
+        public RedisplayReservation1 RedisplayReservation { get; set; }
         public ARUNK ARUNK { get; set; }
         public EndTransaction EndTransaction { get; set; }
         public PostBookingHKValidation PostBookingHKValidation { get; set; }
@@ -182,13 +206,13 @@
 
     public class PriceComparison
     {
-        public double AmountSpecified { get; set; }
+        public double? AmountSpecified { get; set; }
         public AcceptablePriceIncrease AcceptablePriceIncrease { get; set; }
     }
 
     public class PriceRequestInformation
     {
-        public bool Retain { get; set; }
+        public bool? Retain { get; set; }
         public OptionalQualifiers OptionalQualifiers { get; set; }
     }
 
@@ -199,34 +223,45 @@
 
     public class RedisplayReservation
     {
-        public int NumAttempts { get; set; }
-        public int WaitInterval { get; set; }
-        public int waitInterval { get; set; }
+        public int? NumAttempts { get; set; }
+        public int? WaitInterval { get; set; }
+        //public int? waitInterval { get; set; }
+    }
+     public class RedisplayReservation1
+    {
+        //public int? NumAttempts { get; set; }
+        //public int? WaitInterval { get; set; }
+        public int? waitInterval { get; set; }
     }
 
     public class RetryRebook
     {
-        public bool Option { get; set; }
+        public bool? Option { get; set; }
     }
 
     public class BookingRequestDto
     {
-        public CreatePassengerNameRecordRQ CreatePassengerNameRecordRQ { get; set; }
+        public CreatePassengerNameRecordRQ CreatePassengerNameRecordRQ = new CreatePassengerNameRecordRQ();
+        public string ConvertToJson()
+        {
+            return JsonConvert.SerializeObject(this);
+            //Root myDeserializedClass = JsonConvert.DeserializeObject<Root>(myJsonResponse);
+        }
     }
 
     public class SecureFlight
     {
         public string SegmentNumber { get; set; }
-        public PersonName PersonName { get; set; }
+        public PersonName1 PersonName { get; set; }
     }
 
     public class Service
     {
         public string SSR_Code { get; set; }
-        public PersonName PersonName { get; set; }
+        public PersonName2? PersonName { get; set; }
         public string Text { get; set; }
         public VendorPrefs VendorPrefs { get; set; }
-        public string SegmentNumber { get; set; }
+        public string? SegmentNumber { get; set; }
     }
 
     public class Source
@@ -274,9 +309,8 @@
 
     public class WaitForAirlineRecLoc
     {
-        public int waitInterval { get; set; }
-        public int numAttempts { get; set; }
+        public int? waitInterval { get; set; }
+        public int? numAttempts { get; set; }
     }
-
 
 }

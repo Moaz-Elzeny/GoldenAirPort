@@ -67,21 +67,6 @@ namespace GoldenAirport.WebAPI.Controllers
             return !result.IsSuccess ? BadRequest(result.Error) : Ok(result.Result);
         }
 
-        [HttpGet("fetchFlight")]
-        public async Task<IActionResult> Flights()
-        {
-            var query = new CreateFlightCommand();
-            var result = await Mediator.Send(query);
-            return !result.IsSuccess ? BadRequest(result.Error) : Ok(result.Result);
-        }
-
-        [HttpGet("BookingFlight")]
-        public async Task<IActionResult> BookingFlight()
-        {
-            var query = new BookingFlightCommand();
-            var result = await Mediator.Send(query);
-            return !result.IsSuccess ? BadRequest(result.Error) : Ok(result.Result);
-        }
     }
 }
 

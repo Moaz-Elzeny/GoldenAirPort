@@ -1,4 +1,5 @@
 ﻿using GoldenAirport.Application.Common.Models;
+using GoldenAirport.Application.Flights.ThirdParty.Commands;
 using GoldenAirport.Application.Flights.ThirdParty.Dtos.Error;
 using GoldenAirport.Application.Flights.ThirdParty.Dtos.ShopeDto;
 using GoldenAirport.Application.Helpers;
@@ -9,6 +10,7 @@ namespace GoldenAirport.Application.Flights.ThirdParty.Queries
 {
     public class ShoppingQuery
     {
+
         public ResponseThirdPartyDto<dynamic> Default()
         {
             var RequstData = new ShoppingRequestDto();
@@ -166,10 +168,11 @@ namespace GoldenAirport.Application.Flights.ThirdParty.Queries
                 }
             };
 
+
             var bodyData = RequstData.ConvertToJson();
             var response = HttpWebResponseHelper.Post(HttpMethod.Post, Enviroment.rest_endpoint + EnumHelper.GetEnumDescription(Enviroment.Endpoints.shop), bodyData, new Dictionary<string, string>()
                 {
-                     { "Authorization", "Bearer T1RLAQLQgrRGkqbkQ+14aqk1WW7hX0KVRFuX9ucg6hOOH9ahGhBqhxb6Xy0lhMvfQG0vjT4SAADQTsAANvCx45JiIzGaVf+r40VSDCPWfBOB0RcGYjWNGS1ddRxpfwv/R44rzoaQHPiCdZ5jkV7yCPZjd/ig8N6ydPyaTZVffBjOASqyGuI1faEb3Kk7pChgfY9e1KjHFrt9hUxZkKvZEsRKvNHCCA8DVfAroAOaMHIZ1gQUMQWxISEvPz+HHrtjtJtw11AMrJLFo+zk5XLqT+wPmq9d2d2hHWQUxBw8JD4QgbL7DzFHoGDap/VGpckuGR6WSe3APMYkXFaRT6lV+/pDlMxIZW27IA**" }
+                     { "Authorization", "Bearer T1RLAQKRtGkBV4h4nmclbxuZeE1LQ41ma5avQQrUBm6UA3Ke/xA6fchgh6MZvI5jTl6/Rjs3AADQcts7/1m6j4VH5+/csa5gPXRnRL9N3NMZoTW5lxd1iggZkOaZvF+SPEd+m8NWDuF4dS1T36WkgNyumjGvnRD79qeOym11HJWYtmHxk1MAH7p1KDfWe2cyXAzr9JSyFyO9gpsNGkOY94mDGkbp2JH23qGa8s2bIGT4AOhQGLY3dPonn3cvCOKdsxLFZiDqHbX0lA0ScskT0bBJisLX0OIhrczJiRgnKt/Za7rqJKiG/SgMHkTkTRuKdCrTDZagTHagLn/68kSGC1VnUskcphIR1Q**" }
                 });
             StreamReader readers = new(response.GetResponseStream());
             string responseText = readers.ReadToEnd();
@@ -180,9 +183,17 @@ namespace GoldenAirport.Application.Flights.ThirdParty.Queries
             }
             else if (response.StatusCode == HttpStatusCode.Unauthorized)
             {
-                ///  اعمل التوكن تاني لمره وحده بس
-                ErrorDTO responseError = JsonConvert.DeserializeObject<ErrorDTO>(responseText);
-                return ResponseThirdPartyDto<dynamic>.Failure(responseError);
+                var tokenCreateCommand = new TokenCreateCommand();
+                var result = tokenCreateCommand.RQ();
+                response = HttpWebResponseHelper.Post(HttpMethod.Post, Enviroment.rest_endpoint + EnumHelper.GetEnumDescription(Enviroment.Endpoints.shop), bodyData, new Dictionary<string, string>()
+                {
+                    { "Authorization", $"Bearer {result.Result}" }
+                });
+                 readers = new(response.GetResponseStream());
+                responseText = readers.ReadToEnd();
+               
+                ShoppingResponseDto resulte = JsonConvert.DeserializeObject<ShoppingResponseDto>(responseText);
+                return ResponseThirdPartyDto<dynamic>.Success(resulte);
             }
             else
             {
@@ -190,5 +201,8 @@ namespace GoldenAirport.Application.Flights.ThirdParty.Queries
                 return ResponseThirdPartyDto<dynamic>.Failure(responseError);
             }
         }
+        
+
+       
     }
 }

@@ -1,14 +1,10 @@
 ﻿using GoldenAirport.Application.Common.Models;
 using GoldenAirport.Application.Flights.ThirdParty.Dtos.Error;
-using GoldenAirport.Application.Flights.ThirdParty.Dtos.TokenDto;
 using GoldenAirport.Application.Helpers;
 using Newtonsoft.Json;
 using System.Data;
-using System.IO;
 using System.Net;
 using System.Xml;
-using System.Xml.Linq;
-using System.Xml.Serialization;
 
 namespace GoldenAirport.Application.Flights.ThirdParty.Commands
 {
