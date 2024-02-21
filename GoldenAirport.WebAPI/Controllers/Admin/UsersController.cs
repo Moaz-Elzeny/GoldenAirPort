@@ -62,6 +62,7 @@ namespace GoldenAirport.WebAPI.Controllers.Admin
                 PhoneNumber = dto.PhoneNumber,
                 UserType = dto.UserType,
                 ProfilePicture = dto.ProfilePicture,
+                CountryId = dto.CountryId,
                 CurrentUserId = CurrentUserId
             };
             var validationResults = await new EditUserCommandValidator().ValidateAsync(command);

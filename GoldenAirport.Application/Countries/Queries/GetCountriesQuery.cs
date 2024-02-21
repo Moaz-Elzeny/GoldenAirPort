@@ -1,5 +1,4 @@
-﻿using GoldenAirport.Application.AdminDetails.DTOs;
-using GoldenAirport.Application.Common.Models;
+﻿using GoldenAirport.Application.Common.Models;
 using GoldenAirport.Application.Countries.Dtos;
 using GoldenAirport.Application.Helpers;
 using GoldenAirport.Application.Helpers.DTOs;

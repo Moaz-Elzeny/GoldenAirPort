@@ -57,7 +57,7 @@ namespace GoldenAirport.Application.Employees.Commands.Edit
 
                     return ResponseDto<object>.Success(new ResultDto()
                     {
-                        Message = "Updated Successfully",
+                        Message = "Updated Successfully ✔️",
                         Result = new
                         {
                             employee

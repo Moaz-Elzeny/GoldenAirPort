@@ -29,14 +29,10 @@ namespace GoldenAirport.Application.Users.Queries
                 UserName = user.UserName,
                 Email = user.Email,
                 FirstName = user.FirstName,
-                LastName = user.LastName,
-                //ServiceFees = user.ServiceFees,
-                //TaxValue = user.TaxValue,
-                //BookingTime = user.BookingTime,
+                LastName = user.LastName,                
                 UserType = user.UserType,
-                ProfilePicture = user.ProfilePicture,
-                //PrivacyPolicyAndTerms = user.PrivacyPolicyAndTerms,
-
+                ProfilePicture = user.ProfilePicture, 
+                CountryId = user.CountryId
             }).ToList();
 
             return ResponseDto<object>.Success(new ResultDto()

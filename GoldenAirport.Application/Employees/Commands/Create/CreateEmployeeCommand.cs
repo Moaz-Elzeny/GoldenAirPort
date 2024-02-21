@@ -17,12 +17,8 @@ namespace GoldenAirport.Application.Employees.Commands.Create
         public string LastName { get; set; }
         public string PhoneNumber { get; set; }
         public IFormFile ProfilePicture { get; set; }
-
+        public int CountryId { get; set; }
         public string? CurrentUserId { get; set; }
-        //public decimal ServiceFees { get; set; }
-        //public int AgentCode { get; set; }
-        //public DateTime Date { get; set; }
-        //public paymentMethod PaymentMethod { get; set; }
         public class CreateEmployeeHandler : IRequestHandler<CreateEmployeeCommand, ResponseDto<object>>
         {
             private readonly IApplicationDbContext _dbContext;
@@ -36,10 +32,6 @@ namespace GoldenAirport.Application.Employees.Commands.Create
 
             public async Task<ResponseDto<object>> Handle(CreateEmployeeCommand request, CancellationToken cancellationToken)
             {
-                //var user = await _dbContext.AppUsers
-                //    .Where(u => u.Id == request.AppUserId && u.UserType == Domain.Enums.UserType.Employee)
-                //    .FirstOrDefaultAsync() ?? throw new Exception("Employee Not Found");
-
                 //Create user for the employee
                 var CreateUser = new CreateUserCommand()
                 {
@@ -49,7 +41,7 @@ namespace GoldenAirport.Application.Employees.Commands.Create
                     LastName = request.LastName,
                     PhoneNumber = request.PhoneNumber,
                     UserType = Domain.Enums.UserType.Employee,
-                    
+                    CountryId = request.CountryId,
                     ProfilePicture = request.ProfilePicture,
                     CurrentUserId = request.CurrentUserId,
 
@@ -73,7 +65,7 @@ namespace GoldenAirport.Application.Employees.Commands.Create
                 
                 return ResponseDto<object>.Success(new ResultDto()
                 {
-                    Message = "Created Successfully",
+                    Message = "Created Successfully ✔️",
                     Result = new
                     {
                         Employee = CreateEmployee.Id

@@ -43,7 +43,7 @@ namespace GoldenAirport.Application.TripRegistrations.Commands.Create
 
                 return ResponseDto<object>.Success(new ResultDto()
                 {
-                    Message = "Created Successfully!",
+                    Message = "Created Successfully ✔️",
                     Result = new
                     {
                         adult = adult.Id

@@ -70,7 +70,7 @@ namespace GoldenAirport.Application.Chat.Command
 
                 return ResponseDto<object>.Success(new ResultDto()
                 {
-                    Message = "Sent Successfully",
+                    Message = "Sent Successfully ✔️",
                     Result = chat.Id
                 });
             }

@@ -99,7 +99,7 @@ namespace GoldenAirport.Application.PackageRegistrations.Commands.Edit
 
                     return ResponseDto<object>.Success(new ResultDto()
                     {
-                        Message = "Updated Successfully!",
+                        Message = "Updated Successfully ✔️",
                         Result = new
                         {
                             result = PackageRegistration.Id

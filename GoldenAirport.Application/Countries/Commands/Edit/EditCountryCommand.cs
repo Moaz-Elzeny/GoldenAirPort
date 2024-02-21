@@ -12,7 +12,7 @@ namespace GoldenAirport.Application.Countries.Commands.Edit
         public int Id { get; set; }
         public string? NameAr { get; set; }
         public string? NameEn { get; set; }
-        public byte? Code { get; set; }
+        public int? Code { get; set; }
         public IFormFile? Icon { get; set; }
         public string? CurrentUserId { get; set; }
 
@@ -29,7 +29,7 @@ namespace GoldenAirport.Application.Countries.Commands.Edit
 
             public async Task<ResponseDto<object>> Handle(EditCountryCommand request, CancellationToken cancellationToken)
             {
-                var country = await _dbContext.Countries.FindAsync(request.Id) ?? throw new NotFoundException("Employee not found.");
+                var country = await _dbContext.Countries.FindAsync(request.Id) ?? throw new NotFoundException("Country not found.");
                 
                 if(request.NameAr != null)
                 {
@@ -39,6 +39,11 @@ namespace GoldenAirport.Application.Countries.Commands.Edit
                 if(request.NameEn != null)
                 {
                     country.NameEn = request.NameEn;
+                }
+
+                if (request.Code != null)
+                {
+                    country.Code = (short)request.Code;
                 }
 
                 if (request.Icon != null)
@@ -55,7 +60,7 @@ namespace GoldenAirport.Application.Countries.Commands.Edit
                 await _dbContext.SaveChangesAsync(cancellationToken);
                 return ResponseDto<object>.Success(new ResultDto()
                 {
-                    Message = "Updated Successfully",
+                    Message = "Updated Successfully ✔️",
                     Result = new
                     {
                         County = country.Id

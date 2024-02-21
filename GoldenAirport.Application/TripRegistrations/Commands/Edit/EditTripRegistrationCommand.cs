@@ -108,7 +108,7 @@ namespace GoldenAirport.Application.TripRegistrations.Commands.Edit
                 await _dbContext.SaveChangesAsync(cancellationToken);
                 return ResponseDto<object>.Success(new ResultDto()
                 {
-                    Message = "Updated Successfully!",
+                    Message = "Updated Successfully ✔️",
                     Result =  tripRegistration.Id
                 });
             }

@@ -38,7 +38,7 @@ namespace GoldenAirport.Application.Cities.Commands.Create
 
                 return ResponseDto<object>.Success(new ResultDto()
                 {
-                    Message = "Created Successfully!",
+                    Message = "Created Successfully ✔️",
                     Result = new
                     {
                         CityId = city.Id,

@@ -110,7 +110,7 @@ namespace GoldenAirport.Application.TripRegistrations.Commands.Edit
 
                 return ResponseDto<object>.Success(new ResultDto()
                 {
-                    Message = "Updated Unacceptable!",
+                    Message = "Updated Unacceptable ✔️",
                     Result = TripRegistration.Id
                 });
             }

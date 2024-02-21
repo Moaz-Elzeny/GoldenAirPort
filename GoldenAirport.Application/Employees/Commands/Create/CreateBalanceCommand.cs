@@ -22,18 +22,6 @@ namespace GoldenAirport.Application.Employees.Commands.Create
 
             public async Task<ResponseDto<object>> Handle(CreateBalanceCommand request, CancellationToken cancellationToken)
             {
-                //var balance = await _dbContext.Balances.Where(e => e.EmployeeId == request.EmployeeId).FirstOrDefaultAsync() ?? throw new Exception("Employee Not Found");
-                //var 
-                //if (request.AddBalance == 0)
-                //{
-                //    balance.BalanceAmount = request.RebateBalance.Value - balance.BalanceAmount;
-
-                //}
-
-                //balance.BalanceAmount = request.AddBalance.Value + balance.BalanceAmount;
-                //balance.ModificationDate = DateTime.Now;
-                //balance.ModifiedById = request.CurrentUserId;
-
                 var employee = await _dbContext.Employees.Where(id => id.AppUserId == request.EmployeeId).FirstOrDefaultAsync();
                 
                 var balanceHistory = new Balance
@@ -73,7 +61,7 @@ namespace GoldenAirport.Application.Employees.Commands.Create
 
                 return ResponseDto<object>.Success(new ResultDto()
                 {
-                    Message = "Created Successfully",
+                    Message = "Created Successfully ✔️",
                     Result = new
                     {
                         EmployeeId = balanceHistory.AppUserId,

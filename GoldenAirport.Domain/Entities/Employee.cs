@@ -12,10 +12,6 @@ namespace GoldenAirport.Domain.Entities
 
         public string AppUserId { get; set; }
         public virtual AppUser AppUser { get; set; }
-
-        //public int BalanceId { get; set; }
-        //public virtual Balance Balance { get; set; }
-
         public virtual ICollection<DailyGoal> DailyGoals { get; set; }
         public virtual ICollection<PaymentOptionEmployee> PaymentOptionEmployees { get; set; }
 

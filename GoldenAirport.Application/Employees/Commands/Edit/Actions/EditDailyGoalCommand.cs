@@ -42,7 +42,7 @@ namespace GoldenAirport.Application.Employees.Commands.Edit.Actions
 
                     return ResponseDto<object>.Success(new ResultDto()
                     {
-                        Message = "Updated Successfully",
+                        Message = "Updated Successfully ✔️",
                         Result = dailyGoal.Id
                     });
                 }

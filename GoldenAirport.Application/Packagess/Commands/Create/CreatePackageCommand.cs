@@ -17,7 +17,6 @@ namespace GoldenAirport.Application.Packagess.Commands.Create
         public string AboutExploreTour { get; set; }
         public List<string> PackagePlan { get; set; }
         public string? CurrentUserId { get; set; }
-        //public List<int> PaymentOptions { get; set; }
     }
 
     public class CreatePackageCommandHandler : IRequestHandler<CreatePackageCommand, ResponseDto<object>>
@@ -65,41 +64,10 @@ namespace GoldenAirport.Application.Packagess.Commands.Create
                 await _dbContext.SaveChangesAsync(cancellationToken);
             }
 
-            //var cityPackages = new List<CityPackage>();
-            //foreach (var cityId in request.ToCitiesIds)
-            //{
-            //   // var city = await _dbContext.Cities.FindAsync(cityId, cancellationToken) ?? throw new NotFoundException("City not found.");
-
-            //    cityPackages.Add(new CityPackage
-            //    {
-            //        CityId = cityId,
-            //        PackageId = package.Id,
-            //        CreatedById = request.CurrentUserId,
-            //        CreationDate = DateTime.Now,
-            //    });
-            //}
-
-            //await _dbContext.CityPackages.AddRangeAsync(cityPackages, cancellationToken);
-            //await _dbContext.SaveChangesAsync(cancellationToken);
-
-
-
-            //var paymentoptions = new List<PaymentOptionPackage>();
-            //foreach (var Option in request.PaymentOptions)
-            //{
-            //    paymentoptions.Add(new PaymentOptionPackage
-            //    {
-            //        PaymentOptionId = Option,
-            //        PackageId = package.Id
-            //    });
-            //}
-
-            //_dbContext.PaymentOptionPackages.AddRange(paymentoptions);
-            //await _dbContext.SaveChangesAsync(cancellationToken);
 
             return ResponseDto<object>.Success(new ResultDto()
             {
-                Message = "Created Successfully!",
+                Message = "Created Successfully ✔️",
                 Result = new
                 {
                     Package = package.Id

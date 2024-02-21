@@ -8,6 +8,7 @@
         public string Email { get; set; }
         public string PhoneNumber { get; set; }
         public int AgentCode { get; set; }
+        public int? CountryId { get; set; }
         public object Balance { get; internal set; }        
         public decimal Target { get; set; }
         public decimal ServiceFees { get; set; }

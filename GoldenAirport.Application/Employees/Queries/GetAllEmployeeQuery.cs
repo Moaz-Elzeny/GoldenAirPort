@@ -73,6 +73,7 @@ namespace GoldenAirport.Application.Employees.Queries
                         ProfilePicture = x.AppUser.ProfilePicture.ToString(),
                         IsActive = x.Active,
                         AgentCode = x.AgentCode,
+                        CountryCode = x.AppUser.Country.Code,
                         Balance = x.AppUser.Balances.Sum(s=>s.BalanceAmount),
                         DailyGoal = x.DailyGoals.Select(d => d.Goal).FirstOrDefault(),
                         ServiceFees = x.ServiceFees,                        

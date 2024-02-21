@@ -12,21 +12,15 @@ namespace GoldenAirport.Application.Users.Commands.EditUser
     public record EditUserCommand : IRequest<ResponseDto<object>>
     {
         public string UserId { get; init; }
-        //public string? UserName { get; init; }
         public string? Email { get; init; }
         public string? CurrentPassword { get; init; }
-        //public string? NewPassword { get; init; }
-        //public string? ConfirmNewPassword { get; init; }
         public string? FirstName { get; init; }
         public string? LastName { get; init; }
         public string? PhoneNumber { get; init; }
         public UserType? UserType { get; init; }
         public IFormFile? ProfilePicture { get; set; }
         public string? CurrentUserId { get; init; }
-        //public decimal? ServiceFees { get; init; }
-        //public int? TaxValue { get; set; }
-        //public int? BookingTime { get; set; }
-        //public string? PrivacyPolicyAndTerms { get; set; }
+        public int? CountryId { get; set; }
 
         public class EditUserCommandHandler : IRequestHandler<EditUserCommand, ResponseDto<object>>
         {
@@ -61,6 +55,7 @@ namespace GoldenAirport.Application.Users.Commands.EditUser
 
                 user.UserType = request.UserType ?? user.UserType;
                 user.PhoneNumber = request.PhoneNumber ?? user.PhoneNumber;
+                user.CountryId = request.CountryId ?? user.CountryId;
                 user.ModificationDate = DateTime.Now;
                 user.ModifiedById = request.CurrentUserId;
 
@@ -79,7 +74,7 @@ namespace GoldenAirport.Application.Users.Commands.EditUser
                 {
                     return ResponseDto<object>.Success(new ResultDto()
                     {
-                        Message = "Updated successfull!",
+                        Message = "Updated successfull ✔️",
                         Result = new
                         {
                             request.UserId

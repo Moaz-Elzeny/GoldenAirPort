@@ -29,6 +29,7 @@ namespace GoldenAirport.Application.Employees.Queries
                         Email = d.AppUser.Email,
                         PhoneNumber = d.AppUser.PhoneNumber,
                         AgentCode = d.AgentCode,
+                        CountryId = d.AppUser.CountryId,
                         Balance = d.AppUser.Balances.Sum(s => s.BalanceAmount),
                         Target = d.DailyGoals.Select(a => a.Target).FirstOrDefault(),
                         ServiceFees = d.ServiceFees,

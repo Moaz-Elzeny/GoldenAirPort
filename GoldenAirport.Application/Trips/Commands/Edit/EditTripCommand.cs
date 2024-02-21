@@ -83,27 +83,11 @@ namespace GoldenAirport.Application.Trips.Commands.Edit
                     }
                 }
 
-                //if (request.PaymentOptions != null)
-                //{
-                //    var oldPayments = _dbContext.PaymentOptionTrips.Where(c => c.TripId == trip.Id);
-                //    _dbContext.PaymentOptionTrips.RemoveRange(oldPayments);
-
-                //    var paymentOptions = new List<PaymentOptionTrip>();
-                //    foreach (var Option in request.PaymentOptions)
-                //    {
-                //        paymentOptions.Add(new PaymentOptionTrip
-                //        {
-                //            PaymentOptionId = Option,
-                //            TripId = trip.Id
-                //        });
-                //    }
-                //    _dbContext.PaymentOptionTrips.AddRange(paymentOptions);
-                //}
 
                 await _dbContext.SaveChangesAsync(cancellationToken);
                 return ResponseDto<object>.Success(new ResultDto()
                 {
-                    Message = "Updated Successfully!",
+                    Message = "Updated Successfully ✔️",
                     Result = new
                     {
                         result = trip.Id

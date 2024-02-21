@@ -19,7 +19,6 @@ namespace GoldenAirport.Application.Trips.Commands.Create
         public List<string> WhatAreIncluded { get; set; }
         public List<string> Accessibilitys { get; set; }
         public List<string> Restrictions { get; set; }
-        //public List<int> PaymentOptions { get; set; }
         public string IsRefundable { get; set; }
         public string? CurrentUserId { get; set; }
 
@@ -123,18 +122,6 @@ namespace GoldenAirport.Application.Trips.Commands.Create
                 _dbContext.Restrictions.AddRange(restrictions);
                 await _dbContext.SaveChangesAsync(cancellationToken);
 
-                //var paymentOptions = new List<PaymentOptionTrip>();
-                //foreach (var Option in request.PaymentOptions)
-                //{
-                //    paymentOptions.Add(new PaymentOptionTrip
-                //    {
-                //        PaymentOptionId = Option,
-                //        TripId = trip.Id
-                //    });
-                //}
-
-                //_dbContext.PaymentOptionTrips.AddRange(paymentOptions);
-                //await _dbContext.SaveChangesAsync(cancellationToken);
 
                 var TripRegistration = new TripRegistration
                 {
@@ -145,7 +132,7 @@ namespace GoldenAirport.Application.Trips.Commands.Create
 
                 return ResponseDto<object>.Success(new ResultDto()
                 {
-                    Message = "Created Successfully!",
+                    Message = "Created Successfully ✔️",
                     Result = new
                     {
                         result = trip.Id

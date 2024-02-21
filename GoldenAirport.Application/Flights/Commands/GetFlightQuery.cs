@@ -46,7 +46,7 @@ namespace GoldenAirport.Application.Flights.Commands
 
                 return ResponseDto<object>.Success(new ResultDto()
                 {
-                    Message = "Success",
+                    Message = "Success ✔️",
                     Result = flightList,
 
                 });
