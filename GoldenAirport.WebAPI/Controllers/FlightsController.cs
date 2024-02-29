@@ -9,9 +9,8 @@ namespace GoldenAirport.WebAPI.Controllers
     {
 
         [HttpGet("fetchFlight")]
-        public async Task<IActionResult> Flights()
+        public async Task<IActionResult> Flights([FromQuery]GetFlightQuery query)
         {
-            var query = new GetFlightQuery();
             var result = await Mediator.Send(query);
             return !result.IsSuccess ? BadRequest(result.Error) : Ok(result.Result);
         }

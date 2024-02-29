@@ -14,10 +14,11 @@ namespace GoldenAirport.WebAPI.Controllers
         public PackageRegistrationController() { }
 
         [HttpGet("fetch")]
-        public async Task<IActionResult> GetAllTrips(int pageNumber = 1)
+        public async Task<IActionResult> GetAllTrips(string? userId, int pageNumber = 1)
         {
             var query = new GetPackageRegistrationsQuery
             {
+                UserId = userId,
                 CurrentUserId = CurrentUserId,
                 PageNumber = pageNumber,
             };
