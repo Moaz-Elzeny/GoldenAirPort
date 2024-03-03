@@ -49,6 +49,7 @@ namespace GoldenAirport.Application.Interfaces
         //DbSet<BalanceHistory> BalanceHistories { get; set; }
         DbSet<Domain.Entities.AdminDetails> AdminDetails { get; set; }
         DbSet<Statement> Statements { get; set; }
+        DbSet<Airport> Airports { get; set; }
         #endregion
 
 

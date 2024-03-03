@@ -56,6 +56,7 @@ namespace GoldenAirport.Infrastructure.Presistence
         public DbSet<Balance> Balances { get; set; }
         public DbSet<AdminDetails> AdminDetails { get; set; }
         public DbSet<Statement> Statements { get; set; }
+        public DbSet<Airport> Airports { get; set; }
 
         #endregion
         public override DatabaseFacade Database => base.Database;

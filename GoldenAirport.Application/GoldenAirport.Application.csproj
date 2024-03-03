@@ -29,6 +29,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="Boards\Queries\" />
     <Folder Include="Logs\Commands\" />
     <Folder Include="Notifications\Commands\" />
     <Folder Include="RegistrationsEditing\Commands\Delete\" />

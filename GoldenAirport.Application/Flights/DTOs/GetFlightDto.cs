@@ -4,8 +4,8 @@
     {
         public string FromCity { get; set; }
         public string ToCity { get; set; }
-        public string TakeOffDate { get; set; }
-        public string DateOfArrival { get; set; }
+        public DateTime TakeOffDate { get; set; }
+        public DateTime DateOfArrival { get; set; }
         public string FlightHours { get; set;}
         public string FlightPrice { get; set;}
         public string FlightPriceLessThanTwoYears { get; set;}

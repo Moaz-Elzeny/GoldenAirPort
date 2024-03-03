@@ -86,7 +86,7 @@ namespace GoldenAirport.Application.TripRegistrations.Queries
 
                 return ResponseDto<object>.Success(new ResultDto()
                 {
-                    Message = "All TripRegistration ",
+                    Message = "All TripRegistration ✔️",
                     Result =  paginatedList
                     
                 });

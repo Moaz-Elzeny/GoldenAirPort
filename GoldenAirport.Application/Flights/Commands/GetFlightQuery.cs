@@ -1,6 +1,7 @@
 ﻿using GoldenAirport.Application.Common.Models;
 using GoldenAirport.Application.Flights.DTOs;
 using GoldenAirport.Application.Flights.ThirdParty.Queries;
+using GoldenAirport.Application.Helpers;
 using GoldenAirport.Application.Helpers.DTOs;
 
 namespace GoldenAirport.Application.Flights.Commands
@@ -8,28 +9,33 @@ namespace GoldenAirport.Application.Flights.Commands
     public class GetFlightQuery : IRequest<ResponseDto<object>>
     {
         public int PageNumber { get; set; } = 1;
-        public FlightTypeDto FlightType { get; set; }
+        public FlightTypeDto? FlightType { get; set; }
         public int? FromCity { get; set; }
         public List<int>? ToCity { get; set; }
-        public DateTime? StartingOn { get; set; }
+        public DateTime? DepartFrom { get; set; }
+        public DateTime? DepartTo { get; set; }
         public int? Passenger { get; set; }
-        public bool DirectFlight { get; set; }
-        public int TravelClass { get; set; }
+        public bool? DirectFlight { get; set; }
+        public int? TravelClass { get; set; }
+        public int? FromPrice { get; set; }
+        public int? ToPrice { get; set; }
+        public List<string>? DepartureAirports { get; set; }
+        public List<string>? ArrivalAirports  { get; set; }
         public class CreateFlightCommandHandler : IRequestHandler<GetFlightQuery, ResponseDto<object>>
         {
             public async Task<ResponseDto<object>> Handle(GetFlightQuery request, CancellationToken cancellationToken)
             {
-                 ShoppingQuery shoppingQuery = new ShoppingQuery();
+                var shoppingQuery = new ShoppingQuery();
 
 
-                List<GetFlightDto> flightList = new List<GetFlightDto>();
+                var flightList = new List<GetFlightDto>();
 
-                GetFlightDto flight = new GetFlightDto
+                var flight = new GetFlightDto
                 {
                     FromCity = "Cairo",
                     ToCity = "Geda",
-                    TakeOffDate = "20/3/2024",
-                    DateOfArrival = "5:00:00",
+                    TakeOffDate = DateTime.Now,
+                    DateOfArrival = DateTime.Now,
                     FlightHours = "2:30:00",
                     FlightPrice = "15000",
                     FlightPriceLessThanTwoYears = "10000",
@@ -47,8 +53,8 @@ namespace GoldenAirport.Application.Flights.Commands
                 {
                     FromCity = "Geda",
                     ToCity = "Cairo",
-                    TakeOffDate = "30/30/2024",
-                    DateOfArrival = "8:00:00",
+                    TakeOffDate = DateTime.Now,
+                    DateOfArrival = DateTime.Now,
                     FlightHours = "2:30:00",
                     FlightPrice = "15000",
                     FlightPriceLessThanTwoYears = "10000",
@@ -96,10 +102,32 @@ namespace GoldenAirport.Application.Flights.Commands
                 //        Detilse = response.Result,
                 //    });
 
+                var allFlights = 20;
+
+                var pageNumber = request.PageNumber <= 0 ? 1 : request.PageNumber;
+                var pageSize = 10;
+
+                var totalCount = 19;
+
+                var totalPages = (int)Math.Ceiling((double)totalCount / pageSize);
+
+                var paginatedList = new PaginatedList<GetFlightDto>
+                {
+                    Items = flightList,
+                    TotalCount = totalCount,
+                    PageNumber = pageNumber,
+                    PageSize = pageSize,
+                    TotalPages = totalPages
+                };
+
                 return ResponseDto<object>.Success(new ResultDto()
                 {
                     Message = "Success ✔️",
-                    Result = flightList,
+                    Result = new
+                    {
+                        paginatedList,
+                        allFlights
+                    }
 
                 });
             }
