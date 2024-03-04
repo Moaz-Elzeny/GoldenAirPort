@@ -19,8 +19,9 @@ namespace GoldenAirport.WebAPI.Controllers
         }
 
         [HttpGet("Airports")]
-        public async Task<IActionResult> GetAirports([FromQuery] GetAirportsQuery command)
+        public async Task<IActionResult> GetAirports()
         {
+            var command = new GetAirportsQuery();
             var result = await Mediator.Send(command);
             return !result.IsSuccess ? BadRequest(result.Error) : Ok(result.Result);
         }

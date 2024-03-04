@@ -19,8 +19,8 @@ namespace GoldenAirport.Application.Flights.Commands
         public int? TravelClass { get; set; }
         public int? FromPrice { get; set; }
         public int? ToPrice { get; set; }
-        public List<string>? DepartureAirports { get; set; }
-        public List<string>? ArrivalAirports  { get; set; }
+        public List<int>? DepartureAirports { get; set; }
+        public List<int>? ArrivalAirports  { get; set; }
         public class CreateFlightCommandHandler : IRequestHandler<GetFlightQuery, ResponseDto<object>>
         {
             public async Task<ResponseDto<object>> Handle(GetFlightQuery request, CancellationToken cancellationToken)
