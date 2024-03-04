@@ -1,4 +1,5 @@
 ﻿using GoldenAirport.Application.Boards.Commands;
+using GoldenAirport.Application.Boards.Queries;
 using Microsoft.AspNetCore.Mvc;
 
 namespace GoldenAirport.WebAPI.Controllers
@@ -13,6 +14,13 @@ namespace GoldenAirport.WebAPI.Controllers
         public async Task<IActionResult> CalculateStatisticsPerMonth([FromQuery]CalculateStatisticsPerMonthCommand command)
         {
             command.CurrentUserId = CurrentUserId;
+            var result = await Mediator.Send(command);
+            return !result.IsSuccess ? BadRequest(result.Error) : Ok(result.Result);
+        }
+
+        [HttpGet("Airports")]
+        public async Task<IActionResult> GetAirports([FromQuery] GetAirportsQuery command)
+        {
             var result = await Mediator.Send(command);
             return !result.IsSuccess ? BadRequest(result.Error) : Ok(result.Result);
         }
