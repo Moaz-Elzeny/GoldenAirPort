@@ -6,6 +6,8 @@ namespace GoldenAirport.Application.Boards.Commands
 {
     public class CalculateStatisticsPerMonthCommand : IRequest<ResponseDto<object>>
     {
+        public DateTime? StartDate { get; set; }
+        public DateTime? EndtDate { get; set; }
         public string? UserId { get; set; }
         public string? CurrentUserId { get; set; }
         public class CalculateStatisticsPerMonthCommandHandler : IRequestHandler<CalculateStatisticsPerMonthCommand, ResponseDto<object>>
@@ -19,19 +21,32 @@ namespace GoldenAirport.Application.Boards.Commands
 
             public async Task<ResponseDto<object>> Handle(CalculateStatisticsPerMonthCommand request, CancellationToken cancellationToken)
             {
-                var tripsPerMonth = _dbContext.TripRegistrations.AsQueryable();
-                var tripsCount = 0;
+                var trips = _dbContext.TripRegistrations.AsQueryable();
+                double tripsCount = 0.0;
                 var tripsPerMonths = new List<StatisticsPerMonthDto>();
 
-                var packagesPerMonth = _dbContext.PackageRegistrations.AsQueryable();
-                var packagesCount = 0;
+                var packages = _dbContext.PackageRegistrations.AsQueryable();
+                double packagesCount = 0.0;
                 var packagesPerMonths = new List<StatisticsPerMonthDto>();
 
-                var flightsCount = 18;
+                double flightsCount = 18.0;
+
+                if (request.StartDate != null)
+                {
+                    trips = trips.Where(d => d.CreationDate >= request.StartDate);
+                    packages = packages.Where(d => d.CreationDate >= request.StartDate);
+                }
+                
+                if (request.EndtDate != null)
+                {
+                    trips = trips.Where(d => d.CreationDate <= request.EndtDate);
+                    packages = packages.Where(d => d.CreationDate <= request.EndtDate);
+                }
+
 
                 if (request.UserId == null && request.CurrentUserId != null)
                 {
-                     tripsPerMonths = await tripsPerMonth
+                     tripsPerMonths = await trips
                         .Where(tr => tr.CreatedById == request.CurrentUserId)
                         .GroupBy(tr => tr.CreationDate.Month)
                         .Select(group => new StatisticsPerMonthDto
@@ -40,11 +55,11 @@ namespace GoldenAirport.Application.Boards.Commands
                             Count = group.Count()
                         })
                         .ToListAsync(cancellationToken);
-                    tripsPerMonth = tripsPerMonth.Where(tr => tr.CreatedById == request.CurrentUserId);
-                    tripsCount = await tripsPerMonth.CountAsync(cancellationToken);
+                    trips = trips.Where(tr => tr.CreatedById == request.CurrentUserId);
+                    tripsCount = await trips.CountAsync(cancellationToken);
 
 
-                    packagesPerMonths = await packagesPerMonth
+                    packagesPerMonths = await packages
                        .Where(tr => tr.CreatedById == request.CurrentUserId)
                        .GroupBy(tr => tr.CreationDate.Month)
                        .Select(group => new StatisticsPerMonthDto
@@ -53,14 +68,15 @@ namespace GoldenAirport.Application.Boards.Commands
                            Count = group.Count()
                        })
                        .ToListAsync(cancellationToken);
-                    packagesPerMonth = packagesPerMonth.Where(tr => tr.CreatedById == request.CurrentUserId);
-                    packagesCount = await packagesPerMonth.CountAsync(cancellationToken);
+                    packages = packages.Where(tr => tr.CreatedById == request.CurrentUserId);
+                    packagesCount = await packages.CountAsync(cancellationToken);
                 }
+
 
                 if (request.UserId != null && request.CurrentUserId != null)
                 {
 
-                    tripsPerMonths = await tripsPerMonth
+                    tripsPerMonths = await trips
                        .Where(tr => tr.CreatedById == request.UserId)
                        .GroupBy(tr => tr.CreationDate.Month)
                        .Select(group => new StatisticsPerMonthDto
@@ -70,10 +86,10 @@ namespace GoldenAirport.Application.Boards.Commands
                        })
                        .ToListAsync(cancellationToken);
 
-                    tripsPerMonth = tripsPerMonth.Where(tr => tr.CreatedById == request.UserId);
-                    tripsCount = await tripsPerMonth.CountAsync(cancellationToken);
+                    trips = trips.Where(tr => tr.CreatedById == request.UserId);
+                    tripsCount = await trips.CountAsync(cancellationToken);
 
-                    packagesPerMonths = await packagesPerMonth
+                    packagesPerMonths = await packages
                       .Where(tr => tr.CreatedById == request.UserId)
                       .GroupBy(tr => tr.CreationDate.Month)
                       .Select(group => new StatisticsPerMonthDto
@@ -82,9 +98,15 @@ namespace GoldenAirport.Application.Boards.Commands
                           Count = group.Count()
                       })
                       .ToListAsync(cancellationToken);
-                    packagesPerMonth = packagesPerMonth.Where(tr => tr.CreatedById == request.UserId);
-                    packagesCount = await packagesPerMonth.CountAsync(cancellationToken);
+                    packages = packages.Where(tr => tr.CreatedById == request.UserId);
+                    packagesCount = await packages.CountAsync(cancellationToken);
                 }
+
+                var TotalPercentage = flightsCount + tripsCount + packagesCount;
+
+                var flightsPercentage = Math.Round((flightsCount / TotalPercentage) * 100);
+                var tripsPercentage = Math.Round((tripsCount / TotalPercentage) * 100);
+                var packagesPercentage = Math.Round((packagesCount / TotalPercentage) * 100);
 
                 return ResponseDto<object>.Success(new ResultDto
                 {
@@ -92,10 +114,13 @@ namespace GoldenAirport.Application.Boards.Commands
                     Result = new
                     {
                         flightsCount,
+                        flightsPercentage,
                         tripsCount,
+                        tripsPercentage,
                         tripsPerMonths,
                         packagesCount,
-                        packagesPerMonths
+                        packagesPercentage,
+                        packagesPerMonths,
                     }
                 });
             }
