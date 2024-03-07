@@ -10,9 +10,9 @@ namespace GoldenAirport.WebAPI.Controllers
         public EmployeeNotificationsController() { }
 
         [HttpGet("fetch")]
-        public async Task<IActionResult> EmployeeNotifications()
+        public async Task<IActionResult> EmployeeNotifications(bool? Seen)
         {
-            var query = new EmployeeNotificationsQuery { CurrentUserId = CurrentUserId};
+            var query = new EmployeeNotificationsQuery { Seen = Seen, CurrentUserId = CurrentUserId};
 
             var result = await Mediator.Send(query);
             return !result.IsSuccess ? BadRequest(result.Error) : Ok(result.Result);

@@ -6,6 +6,7 @@ namespace GoldenAirport.Application.Notifications.Queries
 {
     public class EmployeeNotificationsQuery : IRequest<ResponseDto<object>>
     {
+        public bool? Seen { get; set; }
         public string? CurrentUserId { get; set; }
 
         public class EmployeeNotificationsQueryHandler : IRequestHandler<EmployeeNotificationsQuery, ResponseDto<object>>
@@ -19,7 +20,9 @@ namespace GoldenAirport.Application.Notifications.Queries
 
             public async Task<ResponseDto<object>> Handle(EmployeeNotificationsQuery request, CancellationToken cancellationToken)
             {
-                var Notifications = await _dbContext.Notifications.Where(e => e.AppUserId == request.CurrentUserId)
+                var query = _dbContext.Notifications.Where(e => e.AppUserId == request.CurrentUserId).AsQueryable();
+
+                var Notifications = await query
                     .Select(n => new EmployeeNotificationsDto
                     {
                         EmployeeId = n.AppUserId,
@@ -29,7 +32,18 @@ namespace GoldenAirport.Application.Notifications.Queries
                         Image = n.Content,
 
                     }).ToListAsync();
-                var totalCount = Notifications.Count;
+
+                if (request.Seen != null)
+                {
+                    foreach (var item in query)
+                    {
+                        item.Seen = request.Seen.Value;
+                    }
+
+                    await _dbContext.SaveChangesAsync(cancellationToken);
+                }
+
+                var totalCount = await query.Where(s => s.Seen == false).CountAsync();
 
                 return ResponseDto<object>.Success(new ResultDto()
                 {

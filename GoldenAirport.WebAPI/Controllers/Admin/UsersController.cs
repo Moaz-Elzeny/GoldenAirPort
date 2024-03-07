@@ -1,4 +1,5 @@
-﻿using GoldenAirport.Application.Users.Commands.CreateUser;
+﻿using GoldenAirport.Application.Helpers.DTOs;
+using GoldenAirport.Application.Users.Commands.CreateUser;
 using GoldenAirport.Application.Users.Commands.Delete;
 using GoldenAirport.Application.Users.Commands.EditUser;
 using GoldenAirport.Application.Users.DTOs;
@@ -40,7 +41,16 @@ namespace GoldenAirport.WebAPI.Controllers.Admin
 
             if (!validationResults.IsValid)
             {
-                return BadRequest(validationResults.Errors);
+                var errors = validationResults.Errors.Select(r => new { Key = r.PropertyName, Value = r.ErrorMessage }).ToList();
+
+                var response = new ErrorDto
+                {
+                    Code = 101,
+                    Message = "Invalid value for AboutExploreTour.",
+                    Detilse = errors.Select(e => new { Key = e.Key, Value = e.Value }).ToList()
+                };
+
+                return BadRequest(response);
             }
 
             var result = await Mediator.Send(command);
@@ -69,7 +79,16 @@ namespace GoldenAirport.WebAPI.Controllers.Admin
 
             if (!validationResults.IsValid)
             {
-                return BadRequest(validationResults.Errors);
+                var errors = validationResults.Errors.Select(r => new { Key = r.PropertyName, Value = r.ErrorMessage }).ToList();
+
+                var response = new ErrorDto
+                {
+                    Code = 101,
+                    Message = "Invalid value for AboutExploreTour.",
+                    Detilse = errors.Select(e => new { Key = e.Key, Value = e.Value }).ToList()
+                };
+
+                return BadRequest(response);
             }
 
             var result = await Mediator.Send(command);

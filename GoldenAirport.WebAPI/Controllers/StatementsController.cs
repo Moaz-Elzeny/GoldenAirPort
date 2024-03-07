@@ -1,7 +1,5 @@
 ﻿using GoldenAirport.Application.Employees.Queries;
 using Microsoft.AspNetCore.Mvc;
-using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
-using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace GoldenAirport.WebAPI.Controllers
 {

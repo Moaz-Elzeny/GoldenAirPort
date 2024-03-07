@@ -10,10 +10,12 @@ namespace GoldenAirport.Application.Flights.Commands
     {
         public int PageNumber { get; set; } = 1;
         public FlightTypeDto? FlightType { get; set; }
-        public int? FromCity { get; set; }
+        public List<int>? FromCity { get; set; }
         public List<int>? ToCity { get; set; }
-        public DateTime? DepartFrom { get; set; }
-        public DateTime? DepartTo { get; set; }
+        public List<DateTime>? DepartFrom { get; set; }
+        public List<DateTime>? DepartTo { get; set; }
+        public DateTime? ReturnFrom { get; set; }
+        public DateTime? ReturnTo { get; set; }
         public int? Passenger { get; set; }
         public bool? DirectFlight { get; set; }
         public int? TravelClass { get; set; }

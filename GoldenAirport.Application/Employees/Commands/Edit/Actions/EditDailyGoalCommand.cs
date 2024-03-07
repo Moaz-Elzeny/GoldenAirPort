@@ -20,8 +20,8 @@ namespace GoldenAirport.Application.Employees.Commands.Edit.Actions
 
             public async Task<ResponseDto<object>> Handle(EditDailyGoalCommand request, CancellationToken cancellationToken)
             {
-                var dailyGoal = await _dbContext.Employees.Where(e => e.AppUserId == request.EmployeeId).FirstOrDefaultAsync(cancellationToken);
-                if (dailyGoal == null)
+                var employee = await _dbContext.Employees.Where(e => e.AppUserId == request.EmployeeId).FirstOrDefaultAsync(cancellationToken);
+                if (employee == null)
                 {
                     return ResponseDto<object>.Failure(new ErrorDto()
                     {
@@ -35,15 +35,15 @@ namespace GoldenAirport.Application.Employees.Commands.Edit.Actions
                     //{
                     //    dailyGoal.Date = DateTime.Now;
                     //}
-                    dailyGoal.Target = request.Target ?? dailyGoal.Target;
-                    dailyGoal.ModificationDate = DateTime.Now;
-                    dailyGoal.ModifiedById = request.CurrentUserId;
+                     employee.Target = request.Target ?? employee.Target;
+                     employee.ModificationDate = DateTime.Now;
+                     employee.ModifiedById = request.CurrentUserId;
                     await _dbContext.SaveChangesAsync(cancellationToken);
 
                     return ResponseDto<object>.Success(new ResultDto()
                     {
                         Message = "Updated Successfully ✔️",
-                        Result = dailyGoal.Id
+                        Result = employee.Id
                     });
                 }
 

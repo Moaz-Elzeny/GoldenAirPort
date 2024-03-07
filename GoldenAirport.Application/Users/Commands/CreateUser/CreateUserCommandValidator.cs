@@ -11,10 +11,6 @@ namespace GoldenAirport.Application.Users.Commands.CreateUser
         {
             _userManager = userManager;
 
-            //RuleFor(x => x.UserName)
-            //     .NotEmpty().WithMessage("Username is required.")
-            //     .MustAsync(BeUniqueUserName).WithMessage("Username is already taken.");
-
             RuleFor(x => x.Email)
                 .NotEmpty().WithMessage("Email is required.")
                 .EmailAddress().WithMessage("Invalid email format.")
@@ -37,10 +33,6 @@ namespace GoldenAirport.Application.Users.Commands.CreateUser
 
             RuleFor(x => x.UserType)
                 .IsInEnum().WithMessage("Invalid user type value.");
-
-            //RuleFor(x => x.TaxValue).InclusiveBetween(0, 100);
-
-            //RuleFor(x => x.BookingTime).InclusiveBetween(0, 60);
 
         }
         private async Task<bool> BeUniqueUserName(string userName, CancellationToken cancellationToken)

@@ -13,5 +13,6 @@ namespace GoldenAirport.Application.Auth.DTOs
         public decimal ServiceFees { get; set; }
         public string ProfilePicture { get; set; }
         public UserType UserType { get; init; }
+        public int? CountryId { get; set; }
     }
 }

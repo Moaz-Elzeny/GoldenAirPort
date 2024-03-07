@@ -15,6 +15,7 @@ namespace GoldenAirport.Infrastructure.Presistence.Configurations
      
             builder.Property(n => n.Date).IsRequired();
             builder.Property(n => n.AppUserId).IsRequired();
+            builder.Property(a => a.Seen).HasDefaultValue(false);
 
             builder.HasOne(n => n.AppUser)
                 .WithMany(u => u.Notifications)

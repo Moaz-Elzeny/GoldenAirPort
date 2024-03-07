@@ -1,5 +1,4 @@
-﻿using GoldenAirport.Application.AdminDetails.DTOs;
-using GoldenAirport.Application.Auth.DTOs;
+﻿using GoldenAirport.Application.Auth.DTOs;
 using GoldenAirport.Application.Common.Models;
 using GoldenAirport.Application.Helpers.DTOs;
 using GoldenAirport.Domain.Entities.Auth;
@@ -45,6 +44,7 @@ namespace GoldenAirport.Application.Users.Queries.GetMyProfile
                 //ServiceFees = currentUser.ServiceFees,
                 UserType = currentUser.UserType,
                 ProfilePicture = currentUser.ProfilePicture,
+                CountryId = currentUser.CountryId
             };
 
             return ResponseDto<object>.Success(new ResultDto()
