@@ -18,6 +18,31 @@ namespace GoldenAirport.WebAPI.Controllers
             return !result.IsSuccess ? BadRequest(result.Error) : Ok(result.Result);
         }
 
+        
+        [HttpGet("GetChartsStatistics")]
+        public async Task<IActionResult> GetChartsStatistics([FromQuery] GetChartsStatisticsQuery query)
+        {
+            query.CurrentUserId = CurrentUserId;
+            var result = await Mediator.Send(query);
+            return !result.IsSuccess ? BadRequest(result.Error) : Ok(result.Result);
+        }
+        
+        [HttpGet("GetCountStatistics")]
+        public async Task<IActionResult> GetCountStatistics([FromQuery] GetCountStatisticsQuery query)
+        {
+            query.CurrentUserId = CurrentUserId;
+            var result = await Mediator.Send(query);
+            return !result.IsSuccess ? BadRequest(result.Error) : Ok(result.Result);
+        }
+        
+        [HttpGet("GetPercentageStatistics")]
+        public async Task<IActionResult> GetPercentageStatistics([FromQuery] GetPercentageStatisticsQuery query)
+        {
+            query.CurrentUserId = CurrentUserId;
+            var result = await Mediator.Send(query);
+            return !result.IsSuccess ? BadRequest(result.Error) : Ok(result.Result);
+        }
+
         [HttpGet("Airports")]
         public async Task<IActionResult> GetAirports()
         {
